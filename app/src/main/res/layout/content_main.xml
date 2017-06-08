@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:id="@+id/textViewResult"
+                android:id="@+id/resultOutput"
                 android:textSize="36sp"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"/>
@@ -48,25 +48,33 @@
                     android:text="7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button7"/>
+                    android:id="@+id/button7"
+                    android:tag="7"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button8"/>
+                    android:id="@+id/button8"
+                    android:tag="8"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button9"/>
+                    android:id="@+id/button9"
+                    android:tag="9"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="-"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonMinus"/>
+                    android:id="@+id/buttonMinus"
+                    android:tag="-"
+                    android:onClick="pressedOperator"/>
         </LinearLayout>
 
         <LinearLayout
@@ -78,25 +86,33 @@
                     android:text="4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button4"/>
+                    android:id="@+id/button4"
+                    android:tag="4"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button5"/>
+                    android:id="@+id/button5"
+                    android:tag="5"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button6"/>
+                    android:id="@+id/button6"
+                    android:tag="6"
+                    android:onClick="pressedDigit"/>
 
             <Button
                     android:text="+"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonPlus"/>
+                    android:id="@+id/buttonPlus"
+                    android:tag="+"
+                    android:onClick="pressedOperator"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,19 +134,25 @@
                             android:text="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/button1"/>
+                            android:id="@+id/button1"
+                            android:tag="1"
+                            android:onClick="pressedDigit"/>
 
                     <Button
                             android:text="2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/button2"/>
+                            android:id="@+id/button2"
+                            android:tag="2"
+                            android:onClick="pressedDigit"/>
 
                     <Button
                             android:text="3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/button3"/>
+                            android:id="@+id/button3"
+                            android:tag="3"
+                            android:onClick="pressedDigit"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -148,7 +170,9 @@
                             android:text="0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/button0"/>
+                            android:id="@+id/button0"
+                            android:tag="0"
+                            android:onClick="pressedDigit"/>
 
                     <Button
                             android:text=","
@@ -166,7 +190,9 @@
                         android:text="="
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/buttonResult"/>
+                        android:id="@+id/buttonResult"
+                        android:tag="="
+                        android:onClick="pressedOperator"/>
             </LinearLayout>
         </LinearLayout>
 
