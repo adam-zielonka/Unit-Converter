@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pressedDigit(View view) {
-        if(resultOutput.getText().toString().length() == 10)
-            return;
         if(isPressedOperator) {
             resultOutput.setText("");
             isPressedOperator = false;
@@ -56,10 +54,23 @@ public class MainActivity extends AppCompatActivity {
         resultOutput.append(view.getTag().toString());
     }
 
+    public void pressedComa(View view) {
+        resultOutput.append(".");
+    }
+
     public void pressedOperator(View view) {
         calculator.calculate(Double.parseDouble(resultOutput.getText().toString()),view.getTag().toString());
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultOutput.setText(numberFormat.format(calculator.getResult()));
+        resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+","").replaceAll(",","."));
         isPressedOperator = true;
+    }
+
+    public void pressedClearOutput(View view) {
+        resultOutput.setText("0");
+    }
+
+    public void pressedClearAll(View view) {
+        resultOutput.setText("0");
+        calculator.clear();
     }
 }

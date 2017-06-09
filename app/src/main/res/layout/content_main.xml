@@ -17,16 +17,21 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout">
 
-        <TextView
+        <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:ems="10"
                 android:id="@+id/resultOutput"
                 android:textSize="36sp"
+                android:text="0"
                 android:layout_gravity="end"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:enabled="true"
+                android:focusable="false"
+                android:selectAllOnFocus="false"/>
 
     </LinearLayout>
 
@@ -38,6 +43,43 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:text="CE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonClearAll"
+                    android:onClick="pressedClearAll"/>
+
+            <Button
+                    android:text="C"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonClearOutput"
+                    android:onClick="pressedClearOutput"/>
+
+            <Button
+                    android:text="/"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonDivide"
+                    android:tag="/"
+                    android:onClick="pressedOperator"/>
+
+            <Button
+                    android:text="*"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonMultiple"
+                    android:tag="*"
+                    android:onClick="pressedOperator"/>
+        </LinearLayout>
+
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -178,7 +220,8 @@
                             android:text=","
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/buttonComa"/>
+                            android:id="@+id/buttonComa"
+                            android:onClick="pressedComa"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -197,6 +240,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>
