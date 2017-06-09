@@ -59,7 +59,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pressedOperator(View view) {
-        calculator.calculate(Double.parseDouble(resultOutput.getText().toString()),view.getTag().toString());
+        try {
+            calculator.calculate(Double.parseDouble(resultOutput.getText().toString()),view.getTag().toString());
+        } catch (Exception e) {
+            calculator.calculate(0,view.getTag().toString());
+        }
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+","").replaceAll(",","."));
+        isPressedOperator = true;
+    }
+
+    public void pressedSingleOperator(View view) {
+        try {
+            calculator.singleCalculate(Double.parseDouble(resultOutput.getText().toString()),view.getTag().toString());
+        } catch (Exception e) {
+            calculator.singleCalculate(0,view.getTag().toString());
+        }
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+","").replaceAll(",","."));
         isPressedOperator = true;

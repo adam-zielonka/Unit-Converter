@@ -24,7 +24,14 @@ public class Calculator {
             case "-": lastNumber = lastNumber - number; break;
             case "*": lastNumber = lastNumber * number; break;
             case "/": lastNumber = lastNumber / number; break;
-            default: lastNumber = number; break;
+            case "=": lastNumber = number; break;
+        }
+        lastOperator = operator;
+    }
+
+    void singleCalculate(double number, String operator) {
+        switch (operator) {
+            case "+-": lastNumber = (-1) * number; break;
         }
         lastOperator = operator;
     }
