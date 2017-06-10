@@ -4,4 +4,13 @@
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="title_calculator_tab">Calculator</string>
     <string name="title_converter_tab">Converter</string>
+
+    <string-array name="spinnerItems">
+        <item>℃ ➙ ℉</item>
+        <item>℃ ➙ K</item>
+        <item>℉ ➙ ℃</item>
+        <item>℉ ➙ K</item>
+        <item>K ➙ ℃</item>
+        <item>K ➙ ℉</item>
+    </string-array>
 </resources>

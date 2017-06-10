@@ -5,8 +5,7 @@ class Calculator {
     private String lastOperator;
 
     Calculator() {
-        lastNumber = 0;
-        lastOperator = "=";
+        clear();
     }
 
     void clear() {

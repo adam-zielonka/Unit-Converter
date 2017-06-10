@@ -58,21 +58,21 @@
                     style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
-                    android:text="/"
+                    android:text="◀"
                     tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonDivide"
-                    android:tag="/"
+                    android:id="@+id/buttonDeleteLast"
+                    android:tag="◀"
                     style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
-                    android:text="*"
+                    android:text="/"
                     tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonMultiple"
-                    android:tag="*"
+                    android:id="@+id/buttonDivide"
+                    android:tag="/"
                     style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
@@ -110,12 +110,12 @@
                     style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
-                    android:text="-"
+                    android:text="*"
                     tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonMinus"
-                    android:tag="-"
+                    android:id="@+id/buttonMultiple"
+                    android:tag="*"
                     style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
@@ -152,6 +152,49 @@
                     style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
+                    android:text="-"
+                    tools:ignore="HardcodedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonMinus"
+                    android:tag="-"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:text="1"
+                    tools:ignore="HardcodedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button1"
+                    android:tag="1"
+                    android:textSize="14sp"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <Button
+                    android:text="2"
+                    tools:ignore="HardcodedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button2"
+                    android:tag="2"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <Button
+                    android:text="3"
+                    tools:ignore="HardcodedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button3"
+                    android:tag="3"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <Button
                     android:text="+"
                     tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
@@ -166,91 +209,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <LinearLayout
-                    android:orientation="vertical"
+            <Button
+                    android:text="±"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonPlusMinus"
+                    android:tag="+-"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+            <Button
+                    android:text="0"
+                    tools:ignore="HardcodedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button0"
+                    android:tag="0"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
-                    <Button
-                            android:text="1"
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/button1"
-                            android:tag="1"
-                            android:textSize="14sp"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
+            <Button
+                    android:text=","
+                    tools:ignore="HardcodedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonComa"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
-                    <Button
-                            android:text="2"
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/button2"
-                            android:tag="2"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
-
-                    <Button
-                            android:text="3"
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/button3"
-                            android:tag="3"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <Button
-                            android:text="+-"
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/buttonPlusMinus"
-                            android:tag="+-"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
-
-                    <Button
-                            android:text="0"
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/button0"
-                            android:tag="0"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
-
-                    <Button
-                            android:text=","
-                            tools:ignore="HardcodedText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/buttonComa"
-                            style="@style/Widget.AppCompat.Button.Colored"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
+            <Button
+                    android:text="="
+                    tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <Button
-                        android:text="="
-                        tools:ignore="HardcodedText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/buttonResult"
-                        android:tag="="
-                        style="@style/Widget.AppCompat.Button.Colored"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:id="@+id/buttonResult"
+                    android:tag="="
+                    style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -1,0 +1,250 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="zielonka.adam.calculator.CalculatorFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/resultOutput"
+                android:textSize="36sp"
+                android:text="0"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
+                android:enabled="true"
+                android:focusable="false"
+                android:selectAllOnFocus="false"
+                tools:ignore="HardcodedText"
+                android:inputType="text"/>
+
+        <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerConverter"
+                android:textSize="36sp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/spinnerItems"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/resultConverter"
+                android:textSize="36sp"
+                android:text="0"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
+                android:enabled="true"
+                android:focusable="false"
+                android:selectAllOnFocus="false"
+                tools:ignore="HardcodedText"
+                android:inputType="text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="61dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:text="7"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button7"
+                            android:tag="7"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="8"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button8"
+                            android:tag="8"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="9"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button9"
+                            android:tag="9"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:text="4"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button4"
+                            android:tag="4"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="5"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button5"
+                            android:tag="5"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="6"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button6"
+                            android:tag="6"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <Button
+                        android:text="C"
+                        tools:ignore="HardcodedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/buttonClearOutput"
+                        style="@style/Widget.AppCompat.Button.Colored"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:text="1"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button1"
+                            android:tag="1"
+                            android:textSize="14sp"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="2"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button2"
+                            android:tag="2"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="3"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button3"
+                            android:tag="3"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:text="±"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonPlusMinus"
+                            android:tag="+-"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text="0"
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button0"
+                            android:tag="0"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <Button
+                            android:text=","
+                            tools:ignore="HardcodedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonComa"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <Button
+                        android:text="◀"
+                        tools:ignore="HardcodedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/buttonDeleteLast"
+                        android:tag="◀"
+                        style="@style/Widget.AppCompat.Button.Colored"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

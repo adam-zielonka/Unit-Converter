@@ -39,10 +39,12 @@ public class TabbedActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 0) {
-                return CalculatorFragment.newInstance();
+            switch (position) {
+                case 1:
+                    return ConverterFragment.newInstance();
+                default:
+                    return CalculatorFragment.newInstance();
             }
-            return CalculatorFragment.newInstance();
         }
 
         @Override
