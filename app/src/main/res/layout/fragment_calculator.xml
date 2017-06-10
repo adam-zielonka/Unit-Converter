@@ -1,24 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_main"
-        tools:context="zielonka.adam.calculator.MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="zielonka.adam.calculator.CalculatorFragment">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout">
+            android:layout_height="wrap_content">
 
         <EditText
                 android:layout_width="match_parent"
@@ -31,7 +20,9 @@
                 android:textAlignment="textEnd"
                 android:enabled="true"
                 android:focusable="false"
-                android:selectAllOnFocus="false"/>
+                android:selectAllOnFocus="false"
+                tools:ignore="HardcodedText"
+                android:inputType="text"/>
 
     </LinearLayout>
 
@@ -40,6 +31,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="61dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
@@ -51,33 +43,37 @@
 
             <Button
                     android:text="CE"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonClearAll"
-                    android:onClick="pressedClearAll"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="C"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonClearOutput"
-                    android:onClick="pressedClearOutput"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="/"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonDivide"
                     android:tag="/"
-                    android:onClick="pressedOperator"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="*"
+                    tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonMultiple"
                     android:tag="*"
-                    android:onClick="pressedOperator"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
 
@@ -88,35 +84,39 @@
 
             <Button
                     android:text="7"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button7"
                     android:tag="7"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="8"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button8"
                     android:tag="8"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="9"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button9"
                     android:tag="9"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="-"
+                    tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonMinus"
                     android:tag="-"
-                    android:onClick="pressedOperator"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
         <LinearLayout
@@ -126,35 +126,39 @@
 
             <Button
                     android:text="4"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button4"
                     android:tag="4"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="5"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button5"
                     android:tag="5"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="6"
+                    tools:ignore="HardcodedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/button6"
                     android:tag="6"
-                    android:onClick="pressedDigit"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
             <Button
                     android:text="+"
+                    tools:ignore="HardcodedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonPlus"
                     android:tag="+"
-                    android:onClick="pressedOperator"/>
+                    style="@style/Widget.AppCompat.Button.Colored"/>
         </LinearLayout>
 
         <LinearLayout
@@ -174,27 +178,31 @@
 
                     <Button
                             android:text="1"
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/button1"
                             android:tag="1"
-                            android:onClick="pressedDigit"/>
+                            android:textSize="14sp"
+                            style="@style/Widget.AppCompat.Button.Colored"/>
 
                     <Button
                             android:text="2"
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/button2"
                             android:tag="2"
-                            android:onClick="pressedDigit"/>
+                            style="@style/Widget.AppCompat.Button.Colored"/>
 
                     <Button
                             android:text="3"
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/button3"
                             android:tag="3"
-                            android:onClick="pressedDigit"/>
+                            style="@style/Widget.AppCompat.Button.Colored"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -204,26 +212,29 @@
 
                     <Button
                             android:text="+-"
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/buttonPlusMinus"
                             android:tag="+-"
-                            android:onClick="pressedSingleOperator"/>
+                            style="@style/Widget.AppCompat.Button.Colored"/>
 
                     <Button
                             android:text="0"
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/button0"
                             android:tag="0"
-                            android:onClick="pressedDigit"/>
+                            style="@style/Widget.AppCompat.Button.Colored"/>
 
                     <Button
                             android:text=","
+                            tools:ignore="HardcodedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/buttonComa"
-                            android:onClick="pressedComa"/>
+                            style="@style/Widget.AppCompat.Button.Colored"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -233,11 +244,12 @@
 
                 <Button
                         android:text="="
+                        tools:ignore="HardcodedText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/buttonResult"
                         android:tag="="
-                        android:onClick="pressedOperator"/>
+                        style="@style/Widget.AppCompat.Button.Colored"/>
             </LinearLayout>
         </LinearLayout>
 

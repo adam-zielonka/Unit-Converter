@@ -1,6 +1,6 @@
 package zielonka.adam.calculator;
 
-public class Calculator {
+class Calculator {
     private double lastNumber;
     private String lastOperator;
 
@@ -9,7 +9,7 @@ public class Calculator {
         lastOperator = "=";
     }
 
-    public void clear() {
+    void clear() {
         lastNumber = 0;
         lastOperator = "=";
     }
