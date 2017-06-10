@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="zielonka.adam.calculator.CalculatorFragment">
+             tools:context="zielonka.adam.calculator.fragments.CalculatorFragment">
 
     <LinearLayout
             android:orientation="vertical"
@@ -18,11 +18,10 @@
                 android:text="0"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
-                android:enabled="true"
-                android:focusable="false"
-                android:selectAllOnFocus="false"
-                tools:ignore="HardcodedText"
-                android:inputType="text"/>
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:maxLines="1"
+                tools:ignore="HardcodedText"/>
 
     </LinearLayout>
 

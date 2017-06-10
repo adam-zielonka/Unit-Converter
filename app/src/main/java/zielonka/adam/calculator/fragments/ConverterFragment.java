@@ -1,21 +1,19 @@
-package zielonka.adam.calculator;
+package zielonka.adam.calculator.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import zielonka.adam.calculator.R;
+import zielonka.adam.calculator.classes.Converter;
 
 import java.text.NumberFormat;
 
-import static zielonka.adam.calculator.TabbedActivity.PACKAGE_NAME;
 
-
-public class ConverterFragment extends Fragment {
+public class ConverterFragment extends MyFragment {
 
     private TextView resultOutput;
     private TextView resultConverter;
@@ -26,7 +24,7 @@ public class ConverterFragment extends Fragment {
 
     }
 
-    static ConverterFragment newInstance() {
+    public static ConverterFragment newInstance() {
         return new ConverterFragment();
     }
 
@@ -65,15 +63,6 @@ public class ConverterFragment extends Fragment {
 
         });
         return view;
-    }
-
-    private void setListenerToButton(View view, View.OnClickListener mButtonClickListener, String buttonName) {
-        Button button = (Button) view.findViewById(getIdResourceByName("button"+buttonName));
-        button.setOnClickListener(mButtonClickListener);
-    }
-
-    private int getIdResourceByName(String aString) {
-        return getResources().getIdentifier(aString, "id", PACKAGE_NAME);
     }
 
     private void calculateAndPrintResult()

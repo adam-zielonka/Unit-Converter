@@ -1,15 +1,11 @@
-package zielonka.adam.calculator;
+package zielonka.adam.calculator.classes;
 
-import android.util.Log;
+public class Converter {
 
-import static android.content.ContentValues.TAG;
-
-class Converter {
-
-    Converter() {
+    public Converter() {
     }
 
-    double calculate(double number, String operator) {
+    public double calculate(double number, String operator) {
         switch (operator) {
             case "℃ ➙ ℉": return ((9.0/5.0)*number)+32.0;
             case "℉ ➙ ℃": return ((5.0/9.0)*(number-32.0));
@@ -21,7 +17,7 @@ class Converter {
         }
     }
 
-    double singleCalculate(double number, String operator) {
+    public double singleCalculate(double number, String operator) {
         switch (operator) {
             case "+-": return (-1) * number;
             default: return 0;

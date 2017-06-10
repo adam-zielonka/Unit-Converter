@@ -1,23 +1,23 @@
-package zielonka.adam.calculator;
+package zielonka.adam.calculator.classes;
 
-class Calculator {
+public class Calculator {
     private double lastNumber;
     private String lastOperator;
 
-    Calculator() {
+    public Calculator() {
         clear();
     }
 
-    void clear() {
+    public void clear() {
         lastNumber = 0;
         lastOperator = "=";
     }
 
-    double getResult() {
+    public double getResult() {
         return lastNumber;
     }
 
-    void calculate(double number, String operator) {
+    public void calculate(double number, String operator) {
         switch (lastOperator) {
             case "+": lastNumber = lastNumber + number; break;
             case "-": lastNumber = lastNumber - number; break;
@@ -28,7 +28,7 @@ class Calculator {
         lastOperator = operator;
     }
 
-    void singleCalculate(double number, String operator) {
+    public void singleCalculate(double number, String operator) {
         switch (operator) {
             case "+-": lastNumber = (-1) * number; break;
         }

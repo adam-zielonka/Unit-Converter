@@ -1,29 +1,27 @@
-package zielonka.adam.calculator;
+package zielonka.adam.calculator.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+import zielonka.adam.calculator.R;
+import zielonka.adam.calculator.classes.Calculator;
 
 import java.text.NumberFormat;
 
-import static zielonka.adam.calculator.TabbedActivity.PACKAGE_NAME;
 
-
-public class CalculatorFragment extends Fragment {
+public class CalculatorFragment extends MyFragment {
 
     private TextView resultOutput;
-    private Calculator calculator;
+    public Calculator calculator;
     private boolean isPressedOperator;
 
     public CalculatorFragment() {
 
     }
 
-    static CalculatorFragment newInstance() {
+    public static CalculatorFragment newInstance() {
         return new CalculatorFragment();
     }
 
@@ -57,15 +55,6 @@ public class CalculatorFragment extends Fragment {
 
         resultOutput = (TextView) view.findViewById(R.id.resultOutput);
         return view;
-    }
-
-    private void setListenerToButton(View view, View.OnClickListener mButtonClickListener, String buttonName) {
-        Button button = (Button) view.findViewById(getIdResourceByName("button"+buttonName));
-        button.setOnClickListener(mButtonClickListener);
-    }
-
-    private int getIdResourceByName(String aString) {
-        return getResources().getIdentifier(aString, "id", PACKAGE_NAME);
     }
 
     private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
@@ -133,9 +122,14 @@ public class CalculatorFragment extends Fragment {
 
     private View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
         public void onClick(View v) {
-            resultOutput.setText(resultOutput.getText().toString().substring(0,resultOutput.getText().toString().length() - 1));
-            if(resultOutput.getText().toString().isEmpty())
+            if (!isPressedOperator) {
+                resultOutput.setText(resultOutput.getText().toString().substring(0,resultOutput.getText().toString().length() - 1));
+                if(resultOutput.getText().toString().isEmpty())
+                    resultOutput.setText("0");
+            } else {
+                isPressedOperator = false;
                 resultOutput.setText("0");
+            }
         }
     };
 }
