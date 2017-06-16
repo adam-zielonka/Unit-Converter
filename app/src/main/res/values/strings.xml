@@ -6,13 +6,4 @@
     <string name="title_calculator_tab">Calculator</string>
     <string name="title_converter_tab">Converter</string>
     <string name="title_converter_temperature_tab">Temperature converter</string>
-
-    <string-array name="spinnerItems">
-        <item>℃ ➙ ℉</item>
-        <item>℃ ➙ K</item>
-        <item>℉ ➙ ℃</item>
-        <item>℉ ➙ K</item>
-        <item>K ➙ ℃</item>
-        <item>K ➙ ℉</item>
-    </string-array>
 </resources>

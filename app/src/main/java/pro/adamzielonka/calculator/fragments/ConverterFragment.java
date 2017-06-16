@@ -5,33 +5,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.classes.Converter;
 
 import java.text.NumberFormat;
+
+import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.calculator.classes.IConverter;
+import pro.adamzielonka.calculator.classes.TemperatureConverter;
 
 
 public class ConverterFragment extends MyFragment {
 
     private TextView resultOutput;
     private TextView resultConverter;
-    private Spinner spinnerConverter;
-    private Converter converter;
+    private Spinner spinnerFromConverter;
+    private Spinner spinnerToConverter;
+    private IConverter converter;
+    private int arrayItems;
 
     public ConverterFragment() {
-
     }
 
-    public static ConverterFragment newInstance() {
-        return new ConverterFragment();
+    public static ConverterFragment newInstance(int arrayItems, String converterName) {
+        ConverterFragment converterFragment = new ConverterFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("arrayItems", arrayItems);
+        args.putString("converterName", converterName);
+        converterFragment.setArguments(args);
+
+        return converterFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        converter = new Converter();
+        switch (getArguments().getString("converterName", "Temperature")) {
+            case "Temperature":
+                converter = new TemperatureConverter();
+        }
+        arrayItems = getArguments().getInt("arrayItems");
     }
 
     @Override
@@ -39,8 +54,8 @@ public class ConverterFragment extends MyFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_converter, container, false);
 
-        for(int i=0;i<10;i++) {
-            setListenerToButton(view, mButtonClickDigitListener, ""+i);
+        for (int i = 0; i < 10; i++) {
+            setListenerToButton(view, mButtonClickDigitListener, "" + i);
         }
 
         setListenerToButton(view, mButtonClickClearOutputListener, "ClearOutput");
@@ -50,38 +65,45 @@ public class ConverterFragment extends MyFragment {
 
         resultOutput = (TextView) view.findViewById(R.id.resultOutput);
         resultConverter = (TextView) view.findViewById(R.id.resultConverter);
-        spinnerConverter = (Spinner) view.findViewById(R.id.spinnerConverter);
-        spinnerConverter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                calculateAndPrintResult();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-
-        });
+        spinnerFromConverter = (Spinner) view.findViewById(R.id.spinnerFromConverter);
+        spinnerToConverter = (Spinner) view.findViewById(R.id.spinnerToConverter);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this.getContext(), arrayItems, R.layout.spinner_layout);
+        spinnerFromConverter.setAdapter(adapter);
+        spinnerToConverter.setAdapter(adapter);
+        spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
+        spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
+        spinnerToConverter.setSelection(1);
         return view;
     }
 
-    private void calculateAndPrintResult()
-    {
+    private AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            calculateAndPrintResult();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
+        }
+
+    };
+
+    private void calculateAndPrintResult() {
         double result;
         try {
-            result = converter.calculate(Double.parseDouble(resultOutput.getText().toString()),spinnerConverter.getSelectedItem().toString());
+            result = converter.calculate(Double.parseDouble(resultOutput.getText().toString()), spinnerFromConverter.getSelectedItem().toString(), spinnerToConverter.getSelectedItem().toString());
         } catch (Exception e) {
-            result = converter.calculate(0,spinnerConverter.getSelectedItem().toString());
+            result = converter.calculate(0, spinnerFromConverter.getSelectedItem().toString(), spinnerToConverter.getSelectedItem().toString());
         }
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultConverter.setText(numberFormat.format(result).replaceAll("\\s+","").replaceAll(",","."));
+        resultConverter.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
     }
 
     private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if(resultOutput.getText().toString().equals("0"))
+            if (resultOutput.getText().toString().equals("0"))
                 resultOutput.setText("");
-            if(resultOutput.getText().toString().equals("-0"))
+            if (resultOutput.getText().toString().equals("-0"))
                 resultOutput.setText("-");
             resultOutput.append(v.getTag().toString());
             calculateAndPrintResult();
@@ -90,7 +112,7 @@ public class ConverterFragment extends MyFragment {
 
     private View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if(!resultOutput.getText().toString().contains("."))
+            if (!resultOutput.getText().toString().contains("."))
                 resultOutput.append(".");
         }
     };
@@ -99,12 +121,12 @@ public class ConverterFragment extends MyFragment {
         public void onClick(View v) {
             double result;
             try {
-                result = converter.singleCalculate(Double.parseDouble(resultOutput.getText().toString()),v.getTag().toString());
+                result = converter.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
             } catch (Exception e) {
-                result = converter.singleCalculate(0,v.getTag().toString());
+                result = converter.singleCalculate(0, v.getTag().toString());
             }
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            resultOutput.setText(numberFormat.format(result).replaceAll("\\s+","").replaceAll(",","."));
+            resultOutput.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
             calculateAndPrintResult();
         }
     };
@@ -119,8 +141,8 @@ public class ConverterFragment extends MyFragment {
 
     private View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
         public void onClick(View v) {
-            resultOutput.setText(resultOutput.getText().toString().substring(0,resultOutput.getText().toString().length() - 1));
-            if(resultOutput.getText().toString().isEmpty())
+            resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
+            if (resultOutput.getText().toString().isEmpty())
                 resultOutput.setText("0");
             calculateAndPrintResult();
         }

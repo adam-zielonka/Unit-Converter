@@ -35,15 +35,32 @@
                 android:textSize="36sp"
                 tools:ignore="HardcodedText" />
 
-            <Spinner
-                android:id="@+id/spinnerConverter"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/spinnerItems"
-                android:textAlignment="textEnd"
-                android:textSize="36sp" />
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerFromConverter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="➙"
+                    android:textAlignment="center"
+                    android:textSize="36sp"
+                    tools:ignore="HardcodedText" />
+
+                <Spinner
+                    android:id="@+id/spinnerToConverter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/resultConverter"

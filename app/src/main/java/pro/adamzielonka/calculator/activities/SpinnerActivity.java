@@ -48,7 +48,7 @@ public class SpinnerActivity extends AppCompatActivity {
                 switch (position) {
                     case 1:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, ConverterFragment.newInstance())
+                                .replace(R.id.container, ConverterFragment.newInstance(R.array.temperatureItems,"Temperature"))
                                 .commit();
                         break;
                     default:

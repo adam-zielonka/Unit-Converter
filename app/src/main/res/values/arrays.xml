@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="temperatureItems">
+        <item>℃</item>
+        <item>℉</item>
+        <item>K</item>
+    </string-array>
+</resources>
