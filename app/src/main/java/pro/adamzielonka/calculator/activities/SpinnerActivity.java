@@ -40,6 +40,7 @@ public class SpinnerActivity extends AppCompatActivity {
                 new String[]{
                         getString(R.string.title_calculator_tab),
                         getString(R.string.title_converter_temperature_tab),
+                        getString(R.string.title_byte_converter_tab),
                 }));
 
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -49,6 +50,11 @@ public class SpinnerActivity extends AppCompatActivity {
                     case 1:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container, ConverterFragment.newInstance(R.array.temperatureItems,"Temperature"))
+                                .commit();
+                        break;
+                    case 2:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, ConverterFragment.newInstance(R.array.byteItmes,"Byte"))
                                 .commit();
                         break;
                     default:

@@ -6,4 +6,5 @@
     <string name="title_calculator_tab">Calculator</string>
     <string name="title_converter_tab">Converter</string>
     <string name="title_converter_temperature_tab">Temperature converter</string>
+    <string name="title_byte_converter_tab">Byte converter</string>
 </resources>

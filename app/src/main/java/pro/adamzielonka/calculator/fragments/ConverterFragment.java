@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.calculator.classes.ByteConverter;
 import pro.adamzielonka.calculator.classes.IConverter;
 import pro.adamzielonka.calculator.classes.TemperatureConverter;
 
@@ -45,6 +46,10 @@ public class ConverterFragment extends MyFragment {
         switch (getArguments().getString("converterName", "Temperature")) {
             case "Temperature":
                 converter = new TemperatureConverter();
+                break;
+            case "Byte":
+                converter = new ByteConverter();
+                break;
         }
         arrayItems = getArguments().getInt("arrayItems");
     }

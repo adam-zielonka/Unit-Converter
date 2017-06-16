@@ -4,4 +4,17 @@
         <item>℉</item>
         <item>K</item>
     </string-array>
+
+    <string-array name="byteItmes">
+        <item>b</item>
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+        <item>EB</item>
+        <item>ZB</item>
+        <item>YB</item>
+    </string-array>
 </resources>
