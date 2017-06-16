@@ -1,247 +1,249 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="pro.adamzielonka.calculator.fragments.CalculatorFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="pro.adamzielonka.calculator.fragments.CalculatorFragment">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
 
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/resultOutput"
-                android:textSize="36sp"
-                android:text="0"
-                android:layout_gravity="end"
-                android:textAlignment="textEnd"
-                android:inputType="none"
-                android:textIsSelectable="true"
-                android:maxLines="1"
-                tools:ignore="HardcodedText"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-            android:orientation="vertical"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="61dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/resultOutput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ems="10"
+                android:inputType="none"
+                android:maxLines="1"
+                android:text="0"
+                android:textAlignment="textEnd"
+                android:textIsSelectable="true"
+                android:textSize="36sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonClearAll"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CE"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonClearOutput"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonDeleteLast"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="◀"
+                android:text="◀"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonDivide"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:text="CE"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonClearAll"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="C"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonClearOutput"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="◀"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonDeleteLast"
-                    android:tag="◀"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="/"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonDivide"
-                    android:tag="/"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                android:layout_height="wrap_content"
+                android:tag="/"
+                android:text="/"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button7"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="7"
+                android:text="7"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button8"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="8"
+                android:text="8"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button9"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="9"
+                android:text="9"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonMultiple"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:text="7"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button7"
-                    android:tag="7"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="8"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button8"
-                    android:tag="8"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="9"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button9"
-                    android:tag="9"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="*"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonMultiple"
-                    android:tag="*"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                android:layout_height="wrap_content"
+                android:tag="*"
+                android:text="*"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button4"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="4"
+                android:text="4"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button5"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="5"
+                android:text="5"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button6"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="6"
+                android:text="6"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonMinus"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:text="4"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button4"
-                    android:tag="4"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="5"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button5"
-                    android:tag="5"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="6"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button6"
-                    android:tag="6"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="-"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonMinus"
-                    android:tag="-"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                android:layout_height="wrap_content"
+                android:tag="-"
+                android:text="-"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button1"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="1"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="2"
+                android:text="2"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button3"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="3"
+                android:text="3"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonPlus"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:text="1"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button1"
-                    android:tag="1"
-                    android:textSize="14sp"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="2"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button2"
-                    android:tag="2"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="3"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button3"
-                    android:tag="3"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="+"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonPlus"
-                    android:tag="+"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                android:layout_height="wrap_content"
+                android:tag="+"
+                android:text="+"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonPlusMinus"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="+-"
+                android:text="±"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/button0"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="0"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonComa"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=","
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/buttonResult"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:text="±"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonPlusMinus"
-                    android:tag="+-"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="0"
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button0"
-                    android:tag="0"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text=","
-                    tools:ignore="HardcodedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonComa"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
-
-            <Button
-                    android:text="="
-                    tools:ignore="HardcodedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/buttonResult"
-                    android:tag="="
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                android:layout_height="match_parent"
+                android:tag="="
+                android:text="="
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </LinearLayout>

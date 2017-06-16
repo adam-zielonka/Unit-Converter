@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 
-import static pro.adamzielonka.calculator.activities.TabbedActivity.PACKAGE_NAME;
+import static pro.adamzielonka.calculator.activities.SpinnerActivity.PACKAGE_NAME;
 
 abstract class MyFragment extends Fragment {
     void setListenerToButton(View view, View.OnClickListener mButtonClickListener, String buttonName) {
