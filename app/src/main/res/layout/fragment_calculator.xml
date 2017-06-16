@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="zielonka.adam.calculator.fragments.CalculatorFragment">
+             tools:context="pro.adamzielonka.calculator.fragments.CalculatorFragment">
 
     <LinearLayout
             android:orientation="vertical"

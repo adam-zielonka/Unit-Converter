@@ -1,4 +1,4 @@
-package zielonka.adam.calculator.activities;
+package pro.adamzielonka.calculator.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import zielonka.adam.calculator.R;
-import zielonka.adam.calculator.fragments.CalculatorFragment;
-import zielonka.adam.calculator.fragments.ConverterFragment;
+import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.calculator.fragments.CalculatorFragment;
+import pro.adamzielonka.calculator.fragments.ConverterFragment;
 
 public class TabbedActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package zielonka.adam.calculator;
+package pro.adamzielonka.calculator;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

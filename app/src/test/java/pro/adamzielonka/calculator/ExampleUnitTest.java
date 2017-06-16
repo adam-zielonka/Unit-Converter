@@ -1,4 +1,4 @@
-package zielonka.adam.calculator;
+package pro.adamzielonka.calculator;
 
 import org.junit.Test;
 

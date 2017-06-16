@@ -1,4 +1,4 @@
-package zielonka.adam.calculator.classes;
+package pro.adamzielonka.calculator.classes;
 
 public class Calculator {
     private double lastNumber;

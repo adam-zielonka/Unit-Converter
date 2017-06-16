@@ -1,12 +1,12 @@
-package zielonka.adam.calculator.fragments;
+package pro.adamzielonka.calculator.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import zielonka.adam.calculator.R;
-import zielonka.adam.calculator.classes.Calculator;
+import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.calculator.classes.Calculator;
 
 import java.text.NumberFormat;
 
