@@ -7,4 +7,10 @@
     <string name="title_converter_tab">Converter</string>
     <string name="title_converter_temperature_tab">Temperature converter</string>
     <string name="title_byte_converter_tab">Byte converter</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_calculators">Calculators</string>
+    <string name="nav_converters">Converters</string>
 </resources>

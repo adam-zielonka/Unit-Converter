@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/nav_calculators">
+        <menu>
+            <item
+                android:id="@+id/nav_calculator"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/title_calculator_tab" />
+        </menu>
+    </item>
+
+    <item android:title="@string/nav_converters">
+        <menu>
+            <item
+                android:id="@+id/nav_byte"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/title_byte_converter_tab" />
+            <item
+                android:id="@+id/nav_temperature"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/title_converter_temperature_tab" />
+        </menu>
+    </item>
+
+</menu>
