@@ -40,13 +40,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/buttonClearAll"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:text="CE"
                 tools:ignore="HardcodedText" />
 
@@ -55,6 +57,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:text="C"
                 tools:ignore="HardcodedText" />
 
@@ -63,6 +66,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="◀"
                 android:text="◀"
                 tools:ignore="HardcodedText" />
@@ -70,8 +74,9 @@
             <Button
                 android:id="@+id/buttonDivide"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="/"
                 android:text="/"
                 tools:ignore="HardcodedText" />
@@ -81,13 +86,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/button7"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="7"
                 android:text="7"
                 tools:ignore="HardcodedText" />
@@ -97,6 +104,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="8"
                 android:text="8"
                 tools:ignore="HardcodedText" />
@@ -106,6 +114,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="9"
                 android:text="9"
                 tools:ignore="HardcodedText" />
@@ -113,8 +122,9 @@
             <Button
                 android:id="@+id/buttonMultiple"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="*"
                 android:text="*"
                 tools:ignore="HardcodedText" />
@@ -123,13 +133,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/button4"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="4"
                 android:text="4"
                 tools:ignore="HardcodedText" />
@@ -139,6 +151,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="5"
                 android:text="5"
                 tools:ignore="HardcodedText" />
@@ -148,6 +161,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="6"
                 android:text="6"
                 tools:ignore="HardcodedText" />
@@ -155,8 +169,9 @@
             <Button
                 android:id="@+id/buttonMinus"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="-"
                 android:text="-"
                 tools:ignore="HardcodedText" />
@@ -165,13 +180,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/button1"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="1"
                 android:text="1"
                 android:textSize="14sp"
@@ -182,6 +199,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="2"
                 android:text="2"
                 tools:ignore="HardcodedText" />
@@ -191,6 +209,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="3"
                 android:text="3"
                 tools:ignore="HardcodedText" />
@@ -198,8 +217,9 @@
             <Button
                 android:id="@+id/buttonPlus"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="+"
                 android:text="+"
                 tools:ignore="HardcodedText" />
@@ -208,13 +228,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/buttonPlusMinus"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="+-"
                 android:text="±"
                 tools:ignore="HardcodedText" />
@@ -224,6 +246,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="0"
                 android:text="0"
                 tools:ignore="HardcodedText" />
@@ -233,14 +256,16 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:text=","
                 tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/buttonResult"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
                 android:tag="="
                 android:text="="
                 tools:ignore="HardcodedText" />

@@ -21,20 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/resultOutput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:ems="10"
-                android:inputType="none"
-                android:maxLines="1"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textIsSelectable="true"
-                android:textSize="36sp"
-                tools:ignore="HardcodedText" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,61 +29,72 @@
                 <Spinner
                     android:id="@+id/spinnerFromConverter"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/resultOutput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="➙"
-                    android:textAlignment="center"
-                    android:textSize="36sp"
+                    android:layout_gravity="end"
+                    android:ems="10"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textIsSelectable="true"
                     tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spinnerToConverter"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
+                <EditText
+                    android:id="@+id/resultConverter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:ems="10"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textIsSelectable="true"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/resultConverter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:ems="10"
-                android:inputType="none"
-                android:maxLines="1"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textIsSelectable="true"
-                android:textSize="36sp"
-                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="75"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="99">
 
                     <Button
                         android:id="@+id/button7"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="7"
                         android:text="7"
                         tools:ignore="HardcodedText" />
@@ -107,6 +104,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="8"
                         android:text="8"
                         tools:ignore="HardcodedText" />
@@ -116,6 +114,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="9"
                         android:text="9"
                         tools:ignore="HardcodedText" />
@@ -125,13 +124,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="99">
 
                     <Button
                         android:id="@+id/button4"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="4"
                         android:text="4"
                         tools:ignore="HardcodedText" />
@@ -141,6 +142,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="5"
                         android:text="5"
                         tools:ignore="HardcodedText" />
@@ -150,6 +152,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="6"
                         android:text="6"
                         tools:ignore="HardcodedText" />
@@ -158,8 +161,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="25"
                 android:orientation="vertical">
 
                 <Button
@@ -175,23 +179,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="75"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="99">
 
                     <Button
                         android:id="@+id/button1"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="1"
                         android:text="1"
                         android:textSize="14sp"
@@ -202,6 +210,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="2"
                         android:text="2"
                         tools:ignore="HardcodedText" />
@@ -211,6 +220,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="3"
                         android:text="3"
                         tools:ignore="HardcodedText" />
@@ -219,13 +229,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="99">
 
                     <Button
                         android:id="@+id/buttonPlusMinus"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="+-"
                         android:text="±"
                         tools:ignore="HardcodedText" />
@@ -235,6 +247,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:tag="0"
                         android:text="0"
                         tools:ignore="HardcodedText" />
@@ -244,14 +257,16 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="33"
                         android:text=","
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="25"
                 android:orientation="vertical">
 
                 <Button
