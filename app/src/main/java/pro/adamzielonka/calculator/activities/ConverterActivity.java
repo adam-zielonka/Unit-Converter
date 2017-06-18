@@ -1,9 +1,8 @@
-package pro.adamzielonka.calculator.fragments;
+package pro.adamzielonka.calculator.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -16,8 +15,7 @@ import pro.adamzielonka.calculator.classes.ByteConverter;
 import pro.adamzielonka.calculator.classes.IConverter;
 import pro.adamzielonka.calculator.classes.TemperatureConverter;
 
-
-public class ConverterFragment extends MyFragment {
+public class ConverterActivity extends BaseActivity {
 
     private TextView resultOutput;
     private TextView resultConverter;
@@ -26,59 +24,45 @@ public class ConverterFragment extends MyFragment {
     private IConverter converter;
     private int arrayItems;
 
-    public ConverterFragment() {
-    }
-
-    public static ConverterFragment newInstance(int arrayItems, String converterName) {
-        ConverterFragment converterFragment = new ConverterFragment();
-
-        Bundle args = new Bundle();
-        args.putInt("arrayItems", arrayItems);
-        args.putString("converterName", converterName);
-        converterFragment.setArguments(args);
-
-        return converterFragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (getArguments().getString("converterName", "Temperature")) {
+        setContentView(R.layout.activity_converter);
+
+        Intent intent = getIntent();
+
+        switch (intent.getStringExtra("converterName")) {
             case "Temperature":
                 converter = new TemperatureConverter();
+                arrayItems = R.array.temperatureItems;
+                setTitle(R.string.title_converter_temperature);
                 break;
             case "Byte":
                 converter = new ByteConverter();
+                arrayItems = R.array.byteItmes;
+                setTitle(R.string.title_converter_byte);
                 break;
         }
-        arrayItems = getArguments().getInt("arrayItems");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_converter, container, false);
 
         for (int i = 0; i < 10; i++) {
-            setListenerToButton(view, mButtonClickDigitListener, "" + i);
+            setListenerToButton(mButtonClickDigitListener, "" + i);
         }
 
-        setListenerToButton(view, mButtonClickClearOutputListener, "ClearOutput");
-        setListenerToButton(view, mButtonClickComaListener, "Coma");
-        setListenerToButton(view, mButtonClickSingleOperatorListener, "PlusMinus");
-        setListenerToButton(view, mButtonClickDeleteLastListener, "DeleteLast");
+        setListenerToButton(mButtonClickClearOutputListener, "ClearOutput");
+        setListenerToButton(mButtonClickComaListener, "Coma");
+        setListenerToButton(mButtonClickSingleOperatorListener, "PlusMinus");
+        setListenerToButton(mButtonClickDeleteLastListener, "DeleteLast");
 
-        resultOutput = (TextView) view.findViewById(R.id.resultOutput);
-        resultConverter = (TextView) view.findViewById(R.id.resultConverter);
-        spinnerFromConverter = (Spinner) view.findViewById(R.id.spinnerFromConverter);
-        spinnerToConverter = (Spinner) view.findViewById(R.id.spinnerToConverter);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this.getContext(), arrayItems, R.layout.spinner_layout);
+        resultOutput = (TextView) findViewById(R.id.resultOutput);
+        resultConverter = (TextView) findViewById(R.id.resultConverter);
+        spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
+        spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, arrayItems, R.layout.spinner_layout);
         spinnerFromConverter.setAdapter(adapter);
         spinnerToConverter.setAdapter(adapter);
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setSelection(1);
-        return view;
     }
 
     private AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
@@ -152,4 +136,5 @@ public class ConverterFragment extends MyFragment {
             calculateAndPrintResult();
         }
     };
+
 }
