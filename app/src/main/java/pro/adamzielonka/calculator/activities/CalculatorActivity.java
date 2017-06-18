@@ -1,14 +1,9 @@
 package pro.adamzielonka.calculator.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -32,17 +27,17 @@ public class CalculatorActivity extends BaseActivity {
         PACKAGE_NAME = getApplicationContext().getPackageName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-        
+
         calculator = new Calculator();
         isPressedOperator = false;
 
-        for(int i=0;i<10;i++) {
-            setListenerToButton(mButtonClickDigitListener, ""+i);
+        for (int i = 0; i < 10; i++) {
+            setListenerToButton(mButtonClickDigitListener, "" + i);
         }
 
-        String operators[] = {"Plus","Minus","Multiple","Divide","Result"};
+        String operators[] = {"Plus", "Minus", "Multiple", "Divide", "Result"};
 
-        for(String operator : operators) {
+        for (String operator : operators) {
             setListenerToButton(mButtonClickOperatorListener, operator);
         }
 
@@ -57,13 +52,13 @@ public class CalculatorActivity extends BaseActivity {
 
     private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if(isPressedOperator) {
+            if (isPressedOperator) {
                 resultOutput.setText("");
                 isPressedOperator = false;
             }
-            if(resultOutput.getText().toString().equals("0"))
+            if (resultOutput.getText().toString().equals("0"))
                 resultOutput.setText("");
-            if(resultOutput.getText().toString().equals("-0"))
+            if (resultOutput.getText().toString().equals("-0"))
                 resultOutput.setText("-");
             resultOutput.append(v.getTag().toString());
         }
@@ -71,10 +66,10 @@ public class CalculatorActivity extends BaseActivity {
 
     private View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if(isPressedOperator) {
+            if (isPressedOperator) {
                 resultOutput.setText("0.");
                 isPressedOperator = false;
-            } else if(!resultOutput.getText().toString().contains("."))
+            } else if (!resultOutput.getText().toString().contains("."))
                 resultOutput.append(".");
         }
     };
@@ -82,13 +77,13 @@ public class CalculatorActivity extends BaseActivity {
     private View.OnClickListener mButtonClickOperatorListener = new View.OnClickListener() {
         public void onClick(View v) {
             try {
-                calculator.calculate(Double.parseDouble(resultOutput.getText().toString()),v.getTag().toString());
+                calculator.calculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
             } catch (Exception e) {
-                calculator.calculate(0,v.getTag().toString());
+                calculator.calculate(0, v.getTag().toString());
                 calculator.clear();
             }
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+","").replaceAll(",","."));
+            resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+", "").replaceAll(",", "."));
             isPressedOperator = true;
         }
     };
@@ -96,12 +91,12 @@ public class CalculatorActivity extends BaseActivity {
     private View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
         public void onClick(View v) {
             try {
-                calculator.singleCalculate(Double.parseDouble(resultOutput.getText().toString()),v.getTag().toString());
+                calculator.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
             } catch (Exception e) {
-                calculator.singleCalculate(0,v.getTag().toString());
+                calculator.singleCalculate(0, v.getTag().toString());
             }
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+","").replaceAll(",","."));
+            resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+", "").replaceAll(",", "."));
         }
     };
 
@@ -121,8 +116,8 @@ public class CalculatorActivity extends BaseActivity {
     private View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (!isPressedOperator) {
-                resultOutput.setText(resultOutput.getText().toString().substring(0,resultOutput.getText().toString().length() - 1));
-                if(resultOutput.getText().toString().isEmpty())
+                resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
+                if (resultOutput.getText().toString().isEmpty())
                     resultOutput.setText("0");
             } else {
                 isPressedOperator = false;

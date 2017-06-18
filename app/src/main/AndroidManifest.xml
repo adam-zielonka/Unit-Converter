@@ -26,11 +26,6 @@
             android:label="@string/title_activity_base"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.SpinnerActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activities.ConverterActivity"
             android:label="@string/title_activity_converter"
             android:theme="@style/AppTheme.NoActionBar"></activity>

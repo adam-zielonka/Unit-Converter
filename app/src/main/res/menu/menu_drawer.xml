@@ -5,7 +5,7 @@
         <menu>
             <item
                 android:id="@+id/nav_calculator"
-                android:title="@string/title_calculator_tab" />
+                android:title="@string/title_calculator" />
         </menu>
     </item>
 
@@ -13,10 +13,10 @@
         <menu>
             <item
                 android:id="@+id/nav_byte"
-                android:title="@string/title_byte_converter_tab" />
+                android:title="@string/title_converter_byte" />
             <item
                 android:id="@+id/nav_temperature"
-                android:title="@string/title_converter_temperature_tab" />
+                android:title="@string/title_converter_temperature" />
         </menu>
     </item>
 

@@ -2,14 +2,9 @@ package pro.adamzielonka.calculator.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -31,7 +26,6 @@ public class ConverterActivity extends BaseActivity {
     private IConverter converter;
     private int arrayItems;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +43,12 @@ public class ConverterActivity extends BaseActivity {
             case "Temperature":
                 converter = new TemperatureConverter();
                 arrayItems = R.array.temperatureItems;
+                setTitle(R.string.title_converter_temperature);
                 break;
             case "Byte":
                 converter = new ByteConverter();
                 arrayItems = R.array.byteItmes;
+                setTitle(R.string.title_converter_byte);
                 break;
         }
 
