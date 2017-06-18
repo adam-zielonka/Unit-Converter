@@ -39,7 +39,7 @@ public class ConverterActivity extends BaseActivity {
                 break;
             case "Byte":
                 converter = new ByteConverter();
-                arrayItems = R.array.byteItmes;
+                arrayItems = R.array.byteItems;
                 setTitle(R.string.title_converter_byte);
                 break;
         }
@@ -65,7 +65,7 @@ public class ConverterActivity extends BaseActivity {
         spinnerToConverter.setSelection(1);
     }
 
-    private AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             calculateAndPrintResult();
@@ -88,7 +88,7 @@ public class ConverterActivity extends BaseActivity {
         resultConverter.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
     }
 
-    private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (resultOutput.getText().toString().equals("0"))
                 resultOutput.setText("");
@@ -99,14 +99,14 @@ public class ConverterActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (!resultOutput.getText().toString().contains("."))
                 resultOutput.append(".");
         }
     };
 
-    private View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
         public void onClick(View v) {
             double result;
             try {
@@ -120,7 +120,7 @@ public class ConverterActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickClearOutputListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickClearOutputListener = new View.OnClickListener() {
         public void onClick(View v) {
             resultOutput.setText("0");
             resultConverter.setText("0");
@@ -128,7 +128,7 @@ public class ConverterActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
         public void onClick(View v) {
             resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
             if (resultOutput.getText().toString().isEmpty())

@@ -5,7 +5,7 @@
         <item>K</item>
     </string-array>
 
-    <string-array name="byteItmes">
+    <string-array name="byteItems">
         <item>b</item>
         <item>B</item>
         <item>KB</item>

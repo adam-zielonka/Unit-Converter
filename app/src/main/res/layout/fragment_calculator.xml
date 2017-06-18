@@ -6,7 +6,29 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="pro.adamzielonka.calculator.fragments.CalculatorFragment">
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context="pro.adamzielonka.calculator.activities.CalculatorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/resultOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:ems="10"
+            android:inputType="none"
+            android:maxLines="1"
+            android:text="0"
+            android:textAlignment="textEnd"
+            android:textIsSelectable="true"
+            android:textSize="36sp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,27 +37,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/resultOutput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:ems="10"
-                android:inputType="none"
-                android:maxLines="1"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textIsSelectable="true"
-                android:textSize="36sp"
-                tools:ignore="HardcodedText" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

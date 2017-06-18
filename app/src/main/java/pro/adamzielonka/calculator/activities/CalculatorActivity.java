@@ -12,7 +12,7 @@ import pro.adamzielonka.calculator.classes.Calculator;
 public class CalculatorActivity extends BaseActivity {
 
     private TextView resultOutput;
-    public Calculator calculator;
+    private Calculator calculator;
     private boolean isPressedOperator;
 
     @Override
@@ -44,7 +44,7 @@ public class CalculatorActivity extends BaseActivity {
         resultOutput = (TextView) findViewById(R.id.resultOutput);
     }
 
-    private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (isPressedOperator) {
                 resultOutput.setText("");
@@ -58,7 +58,7 @@ public class CalculatorActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (isPressedOperator) {
                 resultOutput.setText("0.");
@@ -68,7 +68,7 @@ public class CalculatorActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickOperatorListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickOperatorListener = new View.OnClickListener() {
         public void onClick(View v) {
             try {
                 calculator.calculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
@@ -82,7 +82,7 @@ public class CalculatorActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
         public void onClick(View v) {
             try {
                 calculator.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
@@ -94,20 +94,20 @@ public class CalculatorActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener mButtonClickClearOutputListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickClearOutputListener = new View.OnClickListener() {
         public void onClick(View v) {
             resultOutput.setText("0");
         }
     };
 
-    private View.OnClickListener mButtonClickClearAllListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickClearAllListener = new View.OnClickListener() {
         public void onClick(View v) {
             resultOutput.setText("0");
             calculator.clear();
         }
     };
 
-    private View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
+    private final View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (!isPressedOperator) {
                 resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
