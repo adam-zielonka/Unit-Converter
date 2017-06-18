@@ -30,6 +30,9 @@ public class CalculatorActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         PACKAGE_NAME = getApplicationContext().getPackageName();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+        
         calculator = new Calculator();
         isPressedOperator = false;
 
@@ -50,9 +53,6 @@ public class CalculatorActivity extends BaseActivity {
         setListenerToButton(mButtonClickDeleteLastListener, "DeleteLast");
 
         resultOutput = (TextView) findViewById(R.id.resultOutput);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {

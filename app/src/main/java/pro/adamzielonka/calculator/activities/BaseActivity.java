@@ -61,11 +61,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 startActivity(calculator);
                 break;
             case R.id.nav_temperature:
-                Intent temp = new Intent(this.getBaseContext(), SpinnerActivity.class);
-                startActivity(temp);
+                Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                temperatureConverter.putExtra("converterName","Temperature");
+                startActivity(temperatureConverter);
                 break;
             case R.id.nav_byte:
-
+                Intent byteConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                byteConverter.putExtra("converterName","Byte");
+                startActivity(byteConverter);
                 break;
         }
 
