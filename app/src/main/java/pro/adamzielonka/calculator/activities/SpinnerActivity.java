@@ -3,6 +3,7 @@ package pro.adamzielonka.calculator.activities;
 import android.content.Context;
 import android.content.res.Resources.Theme;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.support.v7.widget.Toolbar;
@@ -71,6 +72,8 @@ public class SpinnerActivity extends BaseActivity {
         });
 
         PACKAGE_NAME = getApplicationContext().getPackageName();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
