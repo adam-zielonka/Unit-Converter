@@ -1,8 +1,6 @@
 package pro.adamzielonka.calculator.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,12 +19,8 @@ public class CalculatorActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.setNavigationItemSelectedListener(this);
+        setTitle(R.string.title_calculator);
 
         calculator = new Calculator();
         isPressedOperator = false;

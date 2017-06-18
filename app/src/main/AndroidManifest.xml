@@ -22,13 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.BaseActivity"
-            android:label="@string/title_activity_base"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activities.ConverterActivity"
             android:label="@string/title_activity_converter"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
