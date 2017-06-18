@@ -21,7 +21,7 @@ import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.fragments.CalculatorFragment;
 import pro.adamzielonka.calculator.fragments.ConverterFragment;
 
-public class SpinnerActivity extends AppCompatActivity {
+public class SpinnerActivity extends BaseActivity {
 
     public static String PACKAGE_NAME;
 
