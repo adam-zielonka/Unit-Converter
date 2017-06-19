@@ -2,7 +2,7 @@ package pro.adamzielonka.calculator.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import java.text.NumberFormat;
 
@@ -12,7 +12,7 @@ import pro.adamzielonka.calculator.calculators.Calculator;
 
 public class CalculatorActivity extends BaseActivity {
 
-    private TextView resultOutput;
+    private EditText resultOutput;
     private Calculator calculator;
     private boolean isPressedOperator;
 
@@ -42,7 +42,7 @@ public class CalculatorActivity extends BaseActivity {
         setListenerToButton(mButtonClickSingleOperatorListener, "PlusMinus");
         setListenerToButton(mButtonClickDeleteLastListener, "DeleteLast");
 
-        resultOutput = (TextView) findViewById(R.id.resultOutput);
+        resultOutput = (EditText) findViewById(R.id.resultOutput);
     }
 
     private final View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {

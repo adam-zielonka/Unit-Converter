@@ -5,21 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.text.NumberFormat;
 
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.converters.ByteConverter;
-import pro.adamzielonka.calculator.interfaces.IConverter;
 import pro.adamzielonka.calculator.converters.TemperatureConverter;
+import pro.adamzielonka.calculator.interfaces.IConverter;
 
 public class ConverterActivity extends BaseActivity {
 
-    private TextView resultOutput;
-    private TextView resultConverter;
+    private EditText resultOutput;
+    private EditText resultConverter;
     private Spinner spinnerFromConverter;
     private Spinner spinnerToConverter;
     private IConverter converter;
@@ -54,8 +54,12 @@ public class ConverterActivity extends BaseActivity {
         setListenerToButton(mButtonClickSingleOperatorListener, "PlusMinus");
         setListenerToButton(mButtonClickDeleteLastListener, "DeleteLast");
 
-        resultOutput = (TextView) findViewById(R.id.resultOutput);
-        resultConverter = (TextView) findViewById(R.id.resultConverter);
+        resultOutput = (EditText) findViewById(R.id.resultOutput);
+        resultConverter = (EditText) findViewById(R.id.resultConverter);
+
+        resultOutput.setOnFocusChangeListener(mResultOnClickListener);
+        resultConverter.setOnFocusChangeListener(mResultOnClickListener);
+
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, arrayItems, R.layout.spinner_layout);
@@ -64,6 +68,23 @@ public class ConverterActivity extends BaseActivity {
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setSelection(1);
+    }
+
+    private final View.OnFocusChangeListener mResultOnClickListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus) {
+                if (resultConverter.equals(v)) {
+                    swapResult();
+                }
+            }
+        }
+    };
+
+    private void swapResult() {
+        EditText resultTemp = resultOutput;
+        resultOutput = resultConverter;
+        resultConverter = resultTemp;
     }
 
     private final AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
