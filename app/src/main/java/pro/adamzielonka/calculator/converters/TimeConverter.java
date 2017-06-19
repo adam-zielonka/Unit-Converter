@@ -38,21 +38,22 @@ public class TimeConverter extends Converter {
         if (fromNumber < toNumber) {
             switch (from) {
                 case "y":
-                case "w":
                     result *= 52.14285714285714;
                     if (to.equals("w")) break;
-                case "d":
+                case "w":
                     result *= 7;
                     if (to.equals("d")) break;
-                case "h":
+                case "d":
                     result *= 24;
-                    if (to.equals("d")) break;
+                    if (to.equals("h")) break;
+                case "h":
+                    result *= 60;
+                    if (to.equals("m")) break;
                 case "m":
                     result *= 60;
-                    if (to.equals("d")) break;
+                    if (to.equals("s")) break;
                 case "s":
-                    result *= 60;
-                    if (to.equals("d")) break;
+
             }
         } else {
             switch (from) {

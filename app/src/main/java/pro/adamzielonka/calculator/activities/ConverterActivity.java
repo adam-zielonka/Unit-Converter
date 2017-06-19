@@ -26,7 +26,7 @@ public class ConverterActivity extends BaseActivity {
     private Spinner spinnerToConverter;
     private IConverter converter;
     private int arrayItems;
-    private UnitsAdapter unitsAdapter;
+    private int arrayUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class ConverterActivity extends BaseActivity {
             case "Temperature":
                 converter = new TemperatureConverter();
                 arrayItems = R.array.temperatureItems;
+                arrayUnits = R.array.temperatureUnits;
                 setTitle(R.string.title_converter_temperature);
                 mNavigationView.setCheckedItem(R.id.nav_temperature);
                 mItemId = R.id.nav_temperature;
@@ -46,6 +47,7 @@ public class ConverterActivity extends BaseActivity {
             case "Byte":
                 converter = new ByteConverter();
                 arrayItems = R.array.byteItems;
+                arrayUnits = R.array.byteUnits;
                 setTitle(R.string.title_converter_byte);
                 mNavigationView.setCheckedItem(R.id.nav_byte);
                 mItemId = R.id.nav_byte;
@@ -53,6 +55,7 @@ public class ConverterActivity extends BaseActivity {
             case "Time":
                 converter = new TimeConverter();
                 arrayItems = R.array.timeItems;
+                arrayUnits = R.array.timeUnits;
                 setTitle(R.string.title_converter_time);
                 mNavigationView.setCheckedItem(R.id.nav_time);
                 mItemId = R.id.nav_time;
@@ -66,13 +69,14 @@ public class ConverterActivity extends BaseActivity {
         resultConverter.setOnFocusChangeListener(mResultOnClickListener);
 
         Resources res = getResources();
-        unitsAdapter = new UnitsAdapter(res.getStringArray(arrayItems));
+        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), R.layout.units_layout, res.getStringArray(arrayItems), res.getStringArray(arrayUnits));
 
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
-//        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, arrayItems, R.layout.spinner_layout);
+
         spinnerFromConverter.setAdapter(unitsAdapter);
         spinnerToConverter.setAdapter(unitsAdapter);
+
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setSelection(1);
