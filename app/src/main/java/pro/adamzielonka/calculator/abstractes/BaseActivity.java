@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 break;
         }
 
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         return true;
     }
 }
