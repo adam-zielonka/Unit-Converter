@@ -20,6 +20,8 @@ public class Calculator {
     }
 
     public String getResult() {
+        if(prepareString(result).length() >= 15)
+            return prepareNumber(prepareString(result)) + " ";
         return prepareString(result);
     }
 

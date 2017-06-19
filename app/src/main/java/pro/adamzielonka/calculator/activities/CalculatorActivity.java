@@ -33,6 +33,8 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void onClickDigit(View v) {
+        int maxDigitCount = 15;
+        if(resultOutput.getText().length() >= maxDigitCount) return;
         if (isPressedOperator) {
             resultOutput.setText("");
             isPressedOperator = false;
