@@ -37,11 +37,13 @@ public class ConverterActivity extends BaseActivity {
                 converter = new TemperatureConverter();
                 arrayItems = R.array.temperatureItems;
                 setTitle(R.string.title_converter_temperature);
+                mNavigationView.setCheckedItem(R.id.nav_temperature);
                 break;
             case "Byte":
                 converter = new ByteConverter();
                 arrayItems = R.array.byteItems;
                 setTitle(R.string.title_converter_byte);
+                mNavigationView.setCheckedItem(R.id.nav_byte);
                 break;
         }
 

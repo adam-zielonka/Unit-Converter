@@ -20,6 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    protected NavigationView mNavigationView;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -34,8 +35,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override

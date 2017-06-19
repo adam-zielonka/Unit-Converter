@@ -22,6 +22,7 @@ public class CalculatorActivity extends BaseActivity {
         setContentView(R.layout.activity_calculator);
 
         setTitle(R.string.title_calculator);
+        mNavigationView.setCheckedItem(R.id.nav_calculator);
 
         calculator = new Calculator();
         isPressedOperator = false;

@@ -3,20 +3,24 @@
 
     <item android:title="@string/nav_calculators">
         <menu>
-            <item
-                android:id="@+id/nav_calculator"
-                android:title="@string/title_calculator" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_calculator"
+                    android:title="@string/title_calculator" />
+            </group>
         </menu>
     </item>
 
     <item android:title="@string/nav_converters">
         <menu>
-            <item
-                android:id="@+id/nav_byte"
-                android:title="@string/title_converter_byte" />
-            <item
-                android:id="@+id/nav_temperature"
-                android:title="@string/title_converter_temperature" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_byte"
+                    android:title="@string/title_converter_byte" />
+                <item
+                    android:id="@+id/nav_temperature"
+                    android:title="@string/title_converter_temperature" />
+            </group>
         </menu>
     </item>
 
