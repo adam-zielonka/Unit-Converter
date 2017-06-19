@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/fragment_converter" />
+    <include layout="@layout/content_converter" />
 
 </android.support.design.widget.CoordinatorLayout>

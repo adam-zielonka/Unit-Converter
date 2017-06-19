@@ -45,15 +45,6 @@ public class ConverterActivity extends BaseActivity {
                 break;
         }
 
-        for (int i = 0; i < 10; i++) {
-            setListenerToButton(mButtonClickDigitListener, "" + i);
-        }
-
-        setListenerToButton(mButtonClickClearOutputListener, "ClearOutput");
-        setListenerToButton(mButtonClickComaListener, "Coma");
-        setListenerToButton(mButtonClickSingleOperatorListener, "PlusMinus");
-        setListenerToButton(mButtonClickDeleteLastListener, "DeleteLast");
-
         resultOutput = (EditText) findViewById(R.id.resultOutput);
         resultConverter = (EditText) findViewById(R.id.resultConverter);
 
@@ -110,53 +101,43 @@ public class ConverterActivity extends BaseActivity {
         resultConverter.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
     }
 
-    private final View.OnClickListener mButtonClickDigitListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if (resultOutput.getText().toString().equals("0"))
-                resultOutput.setText("");
-            if (resultOutput.getText().toString().equals("-0"))
-                resultOutput.setText("-");
-            resultOutput.append(v.getTag().toString());
-            calculateAndPrintResult();
-        }
-    };
+    public void onClickDigit(View v) {
+        if (resultOutput.getText().toString().equals("0"))
+            resultOutput.setText("");
+        if (resultOutput.getText().toString().equals("-0"))
+            resultOutput.setText("-");
+        resultOutput.append(v.getTag().toString());
+        calculateAndPrintResult();
+    }
 
-    private final View.OnClickListener mButtonClickComaListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if (!resultOutput.getText().toString().contains("."))
-                resultOutput.append(".");
-        }
-    };
+    public void onClickComa(View v) {
+        if (!resultOutput.getText().toString().contains("."))
+            resultOutput.append(".");
+    }
 
-    private final View.OnClickListener mButtonClickSingleOperatorListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            double result;
-            try {
-                result = converter.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
-            } catch (Exception e) {
-                result = converter.singleCalculate(0, v.getTag().toString());
-            }
-            NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            resultOutput.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
-            calculateAndPrintResult();
+    public void onClickSingleOperator(View v) {
+        double result;
+        try {
+            result = converter.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
+        } catch (Exception e) {
+            result = converter.singleCalculate(0, v.getTag().toString());
         }
-    };
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        resultOutput.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
+        calculateAndPrintResult();
+    }
 
-    private final View.OnClickListener mButtonClickClearOutputListener = new View.OnClickListener() {
-        public void onClick(View v) {
+    public void onClickClearOutput(View v) {
+        resultOutput.setText("0");
+        resultConverter.setText("0");
+        calculateAndPrintResult();
+    }
+
+    public void onClickDeleteLast(View v) {
+        resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
+        if (resultOutput.getText().toString().isEmpty())
             resultOutput.setText("0");
-            resultConverter.setText("0");
-            calculateAndPrintResult();
-        }
-    };
-
-    private final View.OnClickListener mButtonClickDeleteLastListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
-            if (resultOutput.getText().toString().isEmpty())
-                resultOutput.setText("0");
-            calculateAndPrintResult();
-        }
-    };
+        calculateAndPrintResult();
+    }
 
 }

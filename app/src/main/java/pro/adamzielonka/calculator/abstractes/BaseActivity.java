@@ -10,8 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import pro.adamzielonka.calculator.R;
@@ -20,7 +18,6 @@ import pro.adamzielonka.calculator.activities.ConverterActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static String PACKAGE_NAME;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -37,18 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        PACKAGE_NAME = getApplicationContext().getPackageName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    protected void setListenerToButton(View.OnClickListener mButtonClickListener, String buttonName) {
-        Button button = (Button) findViewById(getIdResourceByName("button" + buttonName));
-        button.setOnClickListener(mButtonClickListener);
-    }
-
-    private int getIdResourceByName(String aString) {
-        return getResources().getIdentifier(aString, "id", PACKAGE_NAME);
     }
 
     @Override
