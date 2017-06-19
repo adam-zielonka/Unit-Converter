@@ -78,6 +78,10 @@ public class ConverterActivity extends BaseActivity {
         EditText resultTemp = resultOutput;
         resultOutput = resultConverter;
         resultConverter = resultTemp;
+
+        Spinner spinnerTemp = spinnerFromConverter;
+        spinnerFromConverter = spinnerToConverter;
+        spinnerToConverter = spinnerTemp;
     }
 
     private final AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
