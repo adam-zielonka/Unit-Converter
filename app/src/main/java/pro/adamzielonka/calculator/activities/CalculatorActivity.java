@@ -3,8 +3,7 @@ package pro.adamzielonka.calculator.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import java.text.NumberFormat;
+import android.widget.TextView;
 
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
@@ -13,6 +12,7 @@ import pro.adamzielonka.calculator.calculators.Calculator;
 public class CalculatorActivity extends BaseActivity {
 
     private EditText resultOutput;
+    private TextView calculatorMemory;
     private Calculator calculator;
     private boolean isPressedOperator;
 
@@ -29,6 +29,7 @@ public class CalculatorActivity extends BaseActivity {
         isPressedOperator = false;
 
         resultOutput = (EditText) findViewById(R.id.resultOutput);
+        calculatorMemory = (TextView) findViewById(R.id.calculatorMemory);
     }
 
     public void onClickDigit(View v) {
@@ -52,25 +53,15 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void onClickOperator(View v) {
-        try {
-            calculator.calculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
-        } catch (Exception e) {
-            calculator.calculate(0, v.getTag().toString());
-            calculator.clear();
-        }
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+", "").replaceAll(",", "."));
+        calculator.calculate(resultOutput.getText().toString(), v.getTag().toString());
+        resultOutput.setText(calculator.getResult());
+        calculatorMemory.setText(calculator.getMemory());
         isPressedOperator = true;
     }
 
     public void onClickSingleOperator(View v) {
-        try {
-            calculator.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
-        } catch (Exception e) {
-            calculator.singleCalculate(0, v.getTag().toString());
-        }
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultOutput.setText(numberFormat.format(calculator.getResult()).replaceAll("\\s+", "").replaceAll(",", "."));
+        resultOutput.setText(calculator.singleCalculate(resultOutput.getText().toString(), v.getTag().toString()));
+        calculatorMemory.setText(calculator.getMemory());
     }
 
     public void onClickClear(View v) {
@@ -79,6 +70,7 @@ public class CalculatorActivity extends BaseActivity {
 
     public void onClickClearAll(View v) {
         resultOutput.setText("0");
+        calculatorMemory.setText("");
         calculator.clear();
     }
 

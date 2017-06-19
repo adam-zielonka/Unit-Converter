@@ -20,6 +20,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/calculatorMemory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text=""
+                android:textAlignment="textEnd"
+                tools:ignore="HardcodedText" />
+
             <EditText
                 android:id="@+id/resultOutput"
                 android:layout_width="match_parent"
