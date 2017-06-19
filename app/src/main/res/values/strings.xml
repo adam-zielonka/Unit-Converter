@@ -13,4 +13,5 @@
     <string name="title_calculator">Calculator</string>
     <string name="title_converter_temperature">Temperature converter</string>
     <string name="title_converter_byte">Byte converter</string>
+    <string name="title_converter_time">Time converter</string>
 </resources>

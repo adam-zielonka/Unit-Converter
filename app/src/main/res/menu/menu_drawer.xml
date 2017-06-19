@@ -20,6 +20,9 @@
                 <item
                     android:id="@+id/nav_temperature"
                     android:title="@string/title_converter_temperature" />
+                <item
+                    android:id="@+id/nav_time"
+                    android:title="@string/title_converter_time" />
             </group>
         </menu>
     </item>

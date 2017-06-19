@@ -14,6 +14,7 @@ import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.converters.ByteConverter;
 import pro.adamzielonka.calculator.converters.TemperatureConverter;
+import pro.adamzielonka.calculator.converters.TimeConverter;
 import pro.adamzielonka.calculator.interfaces.IConverter;
 
 public class ConverterActivity extends BaseActivity {
@@ -46,6 +47,13 @@ public class ConverterActivity extends BaseActivity {
                 setTitle(R.string.title_converter_byte);
                 mNavigationView.setCheckedItem(R.id.nav_byte);
                 mItemId = R.id.nav_byte;
+                break;
+            case "Time":
+                converter = new TimeConverter();
+                arrayItems = R.array.timeItems;
+                setTitle(R.string.title_converter_time);
+                mNavigationView.setCheckedItem(R.id.nav_time);
+                mItemId = R.id.nav_time;
                 break;
         }
 

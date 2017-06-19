@@ -17,4 +17,13 @@
         <item>ZB</item>
         <item>YB</item>
     </string-array>
+
+    <string-array name="timeItems">
+        <item>y</item>
+        <item>w</item>
+        <item>d</item>
+        <item>h</item>
+        <item>m</item>
+        <item>s</item>
+    </string-array>
 </resources>

@@ -76,6 +76,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     byteConverter.putExtra("converterName", "Byte");
                     startActivity(byteConverter);
                     break;
+                case R.id.nav_time:
+                    Intent timeConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                    timeConverter.putExtra("converterName", "Time");
+                    startActivity(timeConverter);
+                    break;
             }
 
             mDrawerLayout.closeDrawer(GravityCompat.START);
