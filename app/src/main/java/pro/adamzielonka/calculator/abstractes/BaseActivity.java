@@ -21,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
+    protected int mItemId;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -59,24 +60,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.nav_calculator:
-                Intent calculator = new Intent(this.getBaseContext(), CalculatorActivity.class);
-                startActivity(calculator);
-                break;
-            case R.id.nav_temperature:
-                Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                temperatureConverter.putExtra("converterName", "Temperature");
-                startActivity(temperatureConverter);
-                break;
-            case R.id.nav_byte:
-                Intent byteConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                byteConverter.putExtra("converterName", "Byte");
-                startActivity(byteConverter);
-                break;
-        }
+        if (id != mItemId) {
+            switch (id) {
+                case R.id.nav_calculator:
+                    Intent calculator = new Intent(this.getBaseContext(), CalculatorActivity.class);
+                    startActivity(calculator);
+                    break;
+                case R.id.nav_temperature:
+                    Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                    temperatureConverter.putExtra("converterName", "Temperature");
+                    startActivity(temperatureConverter);
+                    break;
+                case R.id.nav_byte:
+                    Intent byteConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                    byteConverter.putExtra("converterName", "Byte");
+                    startActivity(byteConverter);
+                    break;
+            }
 
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 }
