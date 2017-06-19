@@ -1,6 +1,8 @@
-package pro.adamzielonka.calculator.classes;
+package pro.adamzielonka.calculator.converters;
 
-public class TemperatureConverter extends Converter{
+import pro.adamzielonka.calculator.abstractes.Converter;
+
+public class TemperatureConverter extends Converter {
 
     public double calculate(double number, String from, String to) {
         switch (from+" "+to) {

@@ -1,4 +1,6 @@
-package pro.adamzielonka.calculator.classes;
+package pro.adamzielonka.calculator.converters;
+
+import pro.adamzielonka.calculator.abstractes.Converter;
 
 public class ByteConverter extends Converter {
 

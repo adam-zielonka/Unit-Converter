@@ -7,7 +7,8 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.classes.Calculator;
+import pro.adamzielonka.calculator.abstractes.BaseActivity;
+import pro.adamzielonka.calculator.calculators.Calculator;
 
 public class CalculatorActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.activities;
+package pro.adamzielonka.calculator.abstractes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.calculator.activities.CalculatorActivity;
+import pro.adamzielonka.calculator.activities.ConverterActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    void setListenerToButton(View.OnClickListener mButtonClickListener, String buttonName) {
+    protected void setListenerToButton(View.OnClickListener mButtonClickListener, String buttonName) {
         Button button = (Button) findViewById(getIdResourceByName("button" + buttonName));
         button.setOnClickListener(mButtonClickListener);
     }

@@ -11,9 +11,10 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.classes.ByteConverter;
-import pro.adamzielonka.calculator.classes.IConverter;
-import pro.adamzielonka.calculator.classes.TemperatureConverter;
+import pro.adamzielonka.calculator.abstractes.BaseActivity;
+import pro.adamzielonka.calculator.converters.ByteConverter;
+import pro.adamzielonka.calculator.interfaces.IConverter;
+import pro.adamzielonka.calculator.converters.TemperatureConverter;
 
 public class ConverterActivity extends BaseActivity {
 

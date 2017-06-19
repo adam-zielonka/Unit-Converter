@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.classes;
+package pro.adamzielonka.calculator.calculators;
 
 public class Calculator {
     private double lastNumber;

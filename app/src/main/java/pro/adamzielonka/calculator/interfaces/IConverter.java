@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.classes;
+package pro.adamzielonka.calculator.interfaces;
 
 public interface IConverter {
     double calculate(double number, String from, String to);
