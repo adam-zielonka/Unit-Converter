@@ -1,10 +1,10 @@
 package pro.adamzielonka.calculator.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -12,6 +12,7 @@ import java.text.NumberFormat;
 
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
+import pro.adamzielonka.calculator.adapters.UnitsAdapter;
 import pro.adamzielonka.calculator.converters.ByteConverter;
 import pro.adamzielonka.calculator.converters.TemperatureConverter;
 import pro.adamzielonka.calculator.converters.TimeConverter;
@@ -25,6 +26,7 @@ public class ConverterActivity extends BaseActivity {
     private Spinner spinnerToConverter;
     private IConverter converter;
     private int arrayItems;
+    private UnitsAdapter unitsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +65,14 @@ public class ConverterActivity extends BaseActivity {
         resultOutput.setOnFocusChangeListener(mResultOnClickListener);
         resultConverter.setOnFocusChangeListener(mResultOnClickListener);
 
+        Resources res = getResources();
+        unitsAdapter = new UnitsAdapter(res.getStringArray(arrayItems));
+
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, arrayItems, R.layout.spinner_layout);
-        spinnerFromConverter.setAdapter(adapter);
-        spinnerToConverter.setAdapter(adapter);
+//        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, arrayItems, R.layout.spinner_layout);
+        spinnerFromConverter.setAdapter(unitsAdapter);
+        spinnerToConverter.setAdapter(unitsAdapter);
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setSelection(1);

@@ -3,7 +3,7 @@ package pro.adamzielonka.calculator.converters;
 import pro.adamzielonka.calculator.abstractes.Converter;
 
 public class TimeConverter extends Converter {
-    
+
     private int letterToNumber(String letter) {
         switch (letter) {
             case "y":
