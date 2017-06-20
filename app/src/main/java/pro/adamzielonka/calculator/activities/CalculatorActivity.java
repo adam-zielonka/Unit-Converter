@@ -33,37 +33,50 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void onClickDigit(View v) {
-        int maxDigitCount = 15;
-        if(resultOutput.getText().length() >= maxDigitCount) return;
         if (isPressedOperator) {
             resultOutput.setText("");
             isPressedOperator = false;
         }
+        int maxDigitCount = 15;
+        if (resultOutput.getText().length() >= maxDigitCount) return;
         if (resultOutput.getText().toString().equals("0"))
             resultOutput.setText("");
         if (resultOutput.getText().toString().equals("-0"))
             resultOutput.setText("-");
         resultOutput.append(v.getTag().toString());
+        if (!resultOutput.getText().toString().contains(","))
+            resultOutput.setText(prepareString(resultOutput.getText().toString()));
     }
 
     public void onClickComa(View v) {
         if (isPressedOperator) {
-            resultOutput.setText("0.");
+            resultOutput.setText("0,");
             isPressedOperator = false;
-        } else if (!resultOutput.getText().toString().contains("."))
-            resultOutput.append(".");
+        } else if (!resultOutput.getText().toString().contains(","))
+            resultOutput.append(",");
     }
 
     public void onClickOperator(View v) {
-        calculator.calculate(resultOutput.getText().toString(), v.getTag().toString());
-        resultOutput.setText(calculator.getResult());
-        calculatorMemory.setText(calculator.getMemory());
+        double result = calculator.calculate(
+                convertStringToDouble(resultOutput.getText().toString()),
+                v.getTag().toString()
+        );
+        resultOutput.setText(convertDoubleToString(result));
+        if (!calculator.getLastOperator().equals("="))
+            calculatorMemory.setText(convertDoubleToString(calculator.getMemory()) + " " + calculator.getLastOperator());
+        else
+            calculatorMemory.setText("");
         isPressedOperator = true;
     }
 
     public void onClickSingleOperator(View v) {
-        resultOutput.setText(calculator.singleCalculate(resultOutput.getText().toString(), v.getTag().toString()));
-        calculatorMemory.setText(calculator.getMemory());
+        double result = calculator.singleCalculate(
+                convertStringToDouble(resultOutput.getText().toString()),
+                v.getTag().toString()
+        );
+        resultOutput.setText(convertDoubleToString(result));
+        if (!calculator.getLastOperator().equals("="))
+            calculatorMemory.setText(convertDoubleToString(calculator.getMemory()) + " " + calculator.getLastOperator());
     }
 
     public void onClickClear(View v) {
@@ -85,6 +98,7 @@ public class CalculatorActivity extends BaseActivity {
             isPressedOperator = false;
             resultOutput.setText("0");
         }
+        resultOutput.setText(prepareString(resultOutput.getText().toString()));
     }
 
 }

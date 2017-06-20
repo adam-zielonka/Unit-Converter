@@ -12,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.activities.CalculatorActivity;
 import pro.adamzielonka.calculator.activities.ConverterActivity;
@@ -38,6 +41,35 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         mNavigationView = (NavigationView) findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    protected String prepareString(String result) {
+        return convertDoubleToString(convertStringToDouble(result));
+    }
+
+    protected String convertDoubleToString(Double result) {
+        NumberFormat numberFormat = new DecimalFormat("#.##########################################################################################");
+        NumberFormat numberFormat2 = new DecimalFormat("0.########################################################################################E0");
+        if(!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
+            return numberFormat2.format(result);
+        if(numberFormat.format(result).contains("0,0000") && numberFormat.format(result).length() > 15)
+            return numberFormat2.format(result);
+        return numberFormat.format(result);
+    }
+
+    protected Double convertStringToDouble(String result) {
+        try {
+            return Double.parseDouble(result.replaceAll("\\s+", "").replaceAll(",", "."));
+        } catch (NumberFormatException e) {
+            switch (result) {
+                case "∞":
+                    return Double.POSITIVE_INFINITY;
+                case "-∞":
+                    return Double.NEGATIVE_INFINITY;
+                default:
+                    return Double.NaN;
+            }
+        }
     }
 
     @Override

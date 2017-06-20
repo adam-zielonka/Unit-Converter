@@ -8,8 +8,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.text.NumberFormat;
-
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
@@ -116,39 +114,38 @@ public class ConverterActivity extends BaseActivity {
     };
 
     private void calculateAndPrintResult() {
-        double result;
-        try {
-            result = converter.calculate(Double.parseDouble(resultOutput.getText().toString()), spinnerFromConverter.getSelectedItem().toString(), spinnerToConverter.getSelectedItem().toString());
-        } catch (Exception e) {
-            result = converter.calculate(0, spinnerFromConverter.getSelectedItem().toString(), spinnerToConverter.getSelectedItem().toString());
-        }
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultConverter.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
+        double result = converter.calculate(
+                convertStringToDouble(resultOutput.getText().toString()),
+                spinnerFromConverter.getSelectedItem().toString(),
+                spinnerToConverter.getSelectedItem().toString()
+        );
+        resultConverter.setText(convertDoubleToString(result));
     }
 
     public void onClickDigit(View v) {
+        int maxDigitCount = 15;
+        if (resultOutput.getText().length() >= maxDigitCount) return;
         if (resultOutput.getText().toString().equals("0"))
             resultOutput.setText("");
         if (resultOutput.getText().toString().equals("-0"))
             resultOutput.setText("-");
         resultOutput.append(v.getTag().toString());
+        if (!resultOutput.getText().toString().contains(","))
+            resultOutput.setText(prepareString(resultOutput.getText().toString()));
         calculateAndPrintResult();
     }
 
     public void onClickComa(View v) {
-        if (!resultOutput.getText().toString().contains("."))
-            resultOutput.append(".");
+        if (!resultOutput.getText().toString().contains(","))
+            resultOutput.append(",");
     }
 
     public void onClickSingleOperator(View v) {
-        double result;
-        try {
-            result = converter.singleCalculate(Double.parseDouble(resultOutput.getText().toString()), v.getTag().toString());
-        } catch (Exception e) {
-            result = converter.singleCalculate(0, v.getTag().toString());
-        }
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        resultOutput.setText(numberFormat.format(result).replaceAll("\\s+", "").replaceAll(",", "."));
+        double result = converter.singleCalculate(
+                convertStringToDouble(resultOutput.getText().toString()),
+                v.getTag().toString()
+        );
+        resultOutput.setText(convertDoubleToString(result));
         calculateAndPrintResult();
     }
 
@@ -162,6 +159,7 @@ public class ConverterActivity extends BaseActivity {
         resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
         if (resultOutput.getText().toString().isEmpty())
             resultOutput.setText("0");
+        resultOutput.setText(prepareString(resultOutput.getText().toString()));
         calculateAndPrintResult();
     }
 

@@ -27,12 +27,9 @@
                 android:layout_gravity="end"
                 android:ems="10"
                 android:enabled="false"
-                android:inputType="none"
+                android:inputType="text"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:text="0"
-                android:textAlignment="textEnd"
-                tools:ignore="HardcodedText" />
+                android:textAlignment="textEnd" />
 
             <EditText
                 android:id="@+id/resultOutput"
@@ -40,10 +37,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:ems="10"
-                android:inputType="none"
+                android:inputType="text"
                 android:maxLines="1"
-                android:singleLine="true"
                 android:text="0"
+                android:cursorVisible="false"
                 android:textAlignment="textEnd"
                 android:textIsSelectable="true"
                 android:textSize="36sp"
