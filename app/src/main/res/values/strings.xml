@@ -3,6 +3,7 @@
 
     <string name="title_activity_calculator">Calculators&amp;Converters</string>
     <string name="title_activity_converter">ConverterActivity</string>
+    <string name="title_activity_roman">RomanActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,4 +15,5 @@
     <string name="title_converter_temperature">Temperature converter</string>
     <string name="title_converter_byte">Byte converter</string>
     <string name="title_converter_time">Time converter</string>
+    <string name="title_roman_calculator">Roman calculator</string>
 </resources>

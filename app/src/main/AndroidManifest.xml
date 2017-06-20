@@ -26,6 +26,11 @@
             android:label="@string/title_activity_converter"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.RomanActivity"
+            android:label="@string/title_activity_roman"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

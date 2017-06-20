@@ -18,6 +18,7 @@ import java.text.NumberFormat;
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.activities.CalculatorActivity;
 import pro.adamzielonka.calculator.activities.ConverterActivity;
+import pro.adamzielonka.calculator.activities.RomanActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,9 +51,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected String convertDoubleToString(Double result) {
         NumberFormat numberFormat = new DecimalFormat("#.##########################################################################################");
         NumberFormat numberFormat2 = new DecimalFormat("0.########################################################################################E0");
-        if(!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
+        if (!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
             return numberFormat2.format(result);
-        if(numberFormat.format(result).contains("0,0000") && numberFormat.format(result).length() > 15)
+        if (numberFormat.format(result).contains("0,0000") && numberFormat.format(result).length() > 15)
             return numberFormat2.format(result);
         return numberFormat.format(result);
     }
@@ -97,6 +98,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 case R.id.nav_calculator:
                     Intent calculator = new Intent(this.getBaseContext(), CalculatorActivity.class);
                     startActivity(calculator);
+                    break;
+                case R.id.nav_roman_calculator:
+                    Intent romanCalculator = new Intent(this.getBaseContext(), RomanActivity.class);
+                    startActivity(romanCalculator);
                     break;
                 case R.id.nav_temperature:
                     Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
