@@ -18,6 +18,10 @@ public class TimeConverter extends Converter {
                 return 5;
             case "s":
                 return 6;
+            case "ms":
+                return 7;
+            case "µs":
+                return 8;
             default:
                 return -1;
         }
@@ -53,11 +57,23 @@ public class TimeConverter extends Converter {
                     result *= 60;
                     if (to.equals("s")) break;
                 case "s":
+                    result *= 1000;
+                    if (to.equals("ms")) break;
+                case "ms":
+                    result *= 1000;
+                    if (to.equals("µs")) break;
+                case "µs":
 
             }
         } else {
             switch (from) {
+                case "µs":
+                case "ms":
+                    result /= 1000;
+                    if (to.equals("ms")) break;
                 case "s":
+                    result /= 1000;
+                    if (to.equals("s")) break;
                 case "m":
                     result /= 60;
                     if (to.equals("m")) break;
