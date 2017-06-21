@@ -39,7 +39,7 @@ public class ConverterActivity extends BaseActivity {
         resultConverter.setOnFocusChangeListener(mResultOnClickListener);
 
         Resources res = getResources();
-        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), R.layout.units_layout, res.getStringArray(arrayItems), res.getStringArray(arrayUnits));
+        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), res.getStringArray(arrayItems), res.getStringArray(arrayUnits));
 
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);

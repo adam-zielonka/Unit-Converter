@@ -27,7 +27,7 @@
                 android:layout_gravity="end"
                 android:ems="10"
                 android:enabled="false"
-                android:inputType="text"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1"
                 android:textAlignment="textEnd" />
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1"
                 android:text="0"
                 android:cursorVisible="false"

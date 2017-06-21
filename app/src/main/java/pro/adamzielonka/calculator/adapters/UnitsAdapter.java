@@ -1,7 +1,6 @@
 package pro.adamzielonka.calculator.adapters;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,10 @@ import android.widget.TextView;
 import pro.adamzielonka.calculator.R;
 
 public class UnitsAdapter extends ArrayAdapter<String> {
-    private String[] units;
+    private final String[] units;
 
-    public UnitsAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull String[] objects,@NonNull String[] units) {
-        super(context, resource, objects);
+    public UnitsAdapter(@NonNull Context context, @NonNull String[] objects, @NonNull String[] units) {
+        super(context, R.layout.units_layout, objects);
         this.units = units;
     }
 

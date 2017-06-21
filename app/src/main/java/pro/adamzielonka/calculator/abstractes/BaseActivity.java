@@ -22,7 +22,7 @@ import pro.adamzielonka.calculator.activities.RomanActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static String PACKAGE_NAME;
+    protected static String PACKAGE_NAME;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
@@ -47,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         PACKAGE_NAME = getApplicationContext().getPackageName();
     }
 
-    public int getIdResourceByName(String defType,String name) {
+    protected int getIdResourceByName(String defType, String name) {
         return getResources().getIdentifier(name, defType, PACKAGE_NAME);
     }
 
@@ -56,8 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     protected String convertDoubleToString(Double result) {
-        NumberFormat numberFormat = new DecimalFormat("#.##########################################################################################");
-        NumberFormat numberFormat2 = new DecimalFormat("0.########################################################################################E0");
+        NumberFormat numberFormat = new DecimalFormat("#.################################");
+        NumberFormat numberFormat2 = new DecimalFormat("0.################################E0");
         if (!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
             return numberFormat2.format(result);
         if (numberFormat.format(result).contains("0,0000") && numberFormat.format(result).length() > 15)

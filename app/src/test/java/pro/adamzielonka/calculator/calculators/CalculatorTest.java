@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class CalculatorTest {
-    private double delta = 0.0000000001;
+    private final double delta = 0.0000000001;
 
     @Test
     public void clear() throws Exception {
