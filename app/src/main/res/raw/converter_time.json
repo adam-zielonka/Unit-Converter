@@ -1,0 +1,36 @@
+{
+  "units": [
+    {
+      "unitName": "µs",
+      "one": 0.000001
+    },
+    {
+      "unitName": "ms",
+      "one": 0.001
+    },
+    {
+      "unitName": "s",
+      "one": 1
+    },
+    {
+      "unitName": "m",
+      "one": 60
+    },
+    {
+      "unitName": "h",
+      "one": 3600
+    },
+    {
+      "unitName": "d",
+      "one": 86400
+    },
+    {
+      "unitName": "w",
+      "one": 604800
+    },
+    {
+      "unitName": "y",
+      "one": 31536000
+    }
+  ]
+}

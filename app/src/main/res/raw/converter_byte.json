@@ -1,0 +1,28 @@
+{
+  "units": [
+    {
+      "unitName": "b",
+      "one": 0.125
+    },
+    {
+      "unitName": "B",
+      "one": 1
+    },
+    {
+      "unitName": "KB",
+      "one": 1024
+    },
+    {
+      "unitName": "MB",
+      "one": 1048576
+    },
+    {
+      "unitName": "GB",
+      "one": 1073741824
+    },
+    {
+      "unitName": "TB",
+      "one": 1099511627776
+    }
+  ]
+}
