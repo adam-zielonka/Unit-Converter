@@ -2,6 +2,7 @@ package pro.adamzielonka.calculator.converters;
 
 import pro.adamzielonka.calculator.abstractes.Converter;
 
+@SuppressWarnings("unused")
 public class TemperatureConverter extends Converter {
 
     public double calculate(double number, String from, String to) {

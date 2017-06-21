@@ -11,10 +11,6 @@ import android.widget.Spinner;
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
-import pro.adamzielonka.calculator.converters.ByteConverter;
-import pro.adamzielonka.calculator.converters.LengthConverter;
-import pro.adamzielonka.calculator.converters.TemperatureConverter;
-import pro.adamzielonka.calculator.converters.TimeConverter;
 import pro.adamzielonka.calculator.interfaces.IConverter;
 
 public class ConverterActivity extends BaseActivity {
@@ -34,40 +30,7 @@ public class ConverterActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
-        switch (intent.getStringExtra("converterName")) {
-            case "Temperature":
-                converter = new TemperatureConverter();
-                arrayItems = R.array.temperatureItems;
-                arrayUnits = R.array.temperatureUnits;
-                setTitle(R.string.title_converter_temperature);
-                mNavigationView.setCheckedItem(R.id.nav_temperature);
-                mItemId = R.id.nav_temperature;
-                break;
-            case "Byte":
-                converter = new ByteConverter();
-                arrayItems = R.array.byteItems;
-                arrayUnits = R.array.byteUnits;
-                setTitle(R.string.title_converter_byte);
-                mNavigationView.setCheckedItem(R.id.nav_byte);
-                mItemId = R.id.nav_byte;
-                break;
-            case "Time":
-                converter = new TimeConverter();
-                arrayItems = R.array.timeItems;
-                arrayUnits = R.array.timeUnits;
-                setTitle(R.string.title_converter_time);
-                mNavigationView.setCheckedItem(R.id.nav_time);
-                mItemId = R.id.nav_time;
-                break;
-            case "Length":
-                converter = new LengthConverter();
-                arrayItems = R.array.lengthItems;
-                arrayUnits = R.array.lengthUnits;
-                setTitle(R.string.title_converter_length);
-                mNavigationView.setCheckedItem(R.id.nav_length);
-                mItemId = R.id.nav_length;
-                break;
-        }
+        converterSetUp(intent.getStringExtra("converterName"));
 
         resultOutput = (EditText) findViewById(R.id.resultOutput);
         resultConverter = (EditText) findViewById(R.id.resultConverter);
@@ -87,6 +50,22 @@ public class ConverterActivity extends BaseActivity {
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setSelection(1);
+    }
+
+    private void converterSetUp(String converterName) {
+        try {
+            String className = PACKAGE_NAME+".converters."+converterName+"Converter";
+            String name = converterName.toLowerCase();
+            Class cls = Class.forName(className);
+            converter = (IConverter) cls.newInstance();
+            arrayItems = getIdResourceByName("array",name+"Items");
+            arrayUnits = getIdResourceByName("array",name+"Units");
+            setTitle(getIdResourceByName("string","title_converter_"+name));
+            mNavigationView.setCheckedItem(getIdResourceByName("id","nav_"+name));
+            mItemId = getIdResourceByName("id","nav_"+name);
+        } catch (Exception e) {
+            converterSetUp("Byte");
+        }
     }
 
     private final View.OnFocusChangeListener mResultOnClickListener = new View.OnFocusChangeListener() {

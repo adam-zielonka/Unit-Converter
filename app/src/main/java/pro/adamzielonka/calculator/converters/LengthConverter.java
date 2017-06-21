@@ -2,6 +2,7 @@ package pro.adamzielonka.calculator.converters;
 
 import pro.adamzielonka.calculator.abstractes.Converter;
 
+@SuppressWarnings("unused")
 public class LengthConverter extends Converter {
 
     private int letterToNumber(String letter) {

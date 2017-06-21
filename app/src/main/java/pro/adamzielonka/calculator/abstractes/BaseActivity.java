@@ -22,6 +22,7 @@ import pro.adamzielonka.calculator.activities.RomanActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String PACKAGE_NAME;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
@@ -42,6 +43,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         mNavigationView = (NavigationView) findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+    }
+
+    public int getIdResourceByName(String defType,String name) {
+        return getResources().getIdentifier(name, defType, PACKAGE_NAME);
     }
 
     protected String prepareString(String result) {

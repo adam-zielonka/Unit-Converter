@@ -2,6 +2,7 @@ package pro.adamzielonka.calculator.converters;
 
 import pro.adamzielonka.calculator.abstractes.Converter;
 
+@SuppressWarnings("unused")
 public class ByteConverter extends Converter {
 
     private double bitToByte(double number) {
