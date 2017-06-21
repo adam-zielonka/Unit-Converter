@@ -58,4 +58,35 @@
         <item>millisecond</item>
         <item>microsecond</item>
     </string-array>
+
+    <string-array name="lengthItems">
+        <item>km</item>
+        <item>m</item>
+        <item>dm</item>
+        <item>cm</item>
+        <item>mm</item>
+        <item>µm</item>
+        <item>nm</item>
+        <item>mi</item>
+        <item>nmi</item>
+        <item>yd</item>
+        <item>ft</item>
+        <item>in</item>
+    </string-array>
+
+    <string-array name="lengthUnits">
+        <item>kilometer</item>
+        <item>meter</item>
+        <item>decimeter</item>
+        <item>centimeter</item>
+        <item>millimeter</item>
+        <item>micrometer</item>
+        <item>nanometer</item>
+        <item>mile</item>
+        <item>nautical mile</item>
+        <item>yd</item>
+        <item>foot</item>
+        <item>inch</item>
+    </string-array>
+
 </resources>

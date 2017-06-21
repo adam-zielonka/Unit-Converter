@@ -45,22 +45,22 @@ public class TimeConverter extends Converter {
                     result *= 52.14285714285714;
                     if (to.equals("w")) break;
                 case "w":
-                    result *= 7;
+                    result *= 7.0;
                     if (to.equals("d")) break;
                 case "d":
-                    result *= 24;
+                    result *= 24.0;
                     if (to.equals("h")) break;
                 case "h":
-                    result *= 60;
+                    result *= 60.0;
                     if (to.equals("m")) break;
                 case "m":
-                    result *= 60;
+                    result *= 60.0;
                     if (to.equals("s")) break;
                 case "s":
-                    result *= 1000;
+                    result *= 1000.0;
                     if (to.equals("ms")) break;
                 case "ms":
-                    result *= 1000;
+                    result *= 1000.0;
                     if (to.equals("µs")) break;
                 case "µs":
 
@@ -69,22 +69,22 @@ public class TimeConverter extends Converter {
             switch (from) {
                 case "µs":
                 case "ms":
-                    result /= 1000;
+                    result /= 1000.0;
                     if (to.equals("ms")) break;
                 case "s":
-                    result /= 1000;
+                    result /= 1000.0;
                     if (to.equals("s")) break;
                 case "m":
-                    result /= 60;
+                    result /= 60.0;
                     if (to.equals("m")) break;
                 case "h":
-                    result /= 60;
+                    result /= 60.0;
                     if (to.equals("h")) break;
                 case "d":
-                    result /= 24;
+                    result /= 24.0;
                     if (to.equals("d")) break;
                 case "w":
-                    result /= 7;
+                    result /= 7.0;
                     if (to.equals("w")) break;
                 case "y":
                     result /= 52.14285714285714;

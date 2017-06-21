@@ -12,6 +12,7 @@ import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
 import pro.adamzielonka.calculator.converters.ByteConverter;
+import pro.adamzielonka.calculator.converters.LengthConverter;
 import pro.adamzielonka.calculator.converters.TemperatureConverter;
 import pro.adamzielonka.calculator.converters.TimeConverter;
 import pro.adamzielonka.calculator.interfaces.IConverter;
@@ -57,6 +58,14 @@ public class ConverterActivity extends BaseActivity {
                 setTitle(R.string.title_converter_time);
                 mNavigationView.setCheckedItem(R.id.nav_time);
                 mItemId = R.id.nav_time;
+                break;
+            case "Length":
+                converter = new LengthConverter();
+                arrayItems = R.array.lengthItems;
+                arrayUnits = R.array.lengthUnits;
+                setTitle(R.string.title_converter_length);
+                mNavigationView.setCheckedItem(R.id.nav_length);
+                mItemId = R.id.nav_length;
                 break;
         }
 
