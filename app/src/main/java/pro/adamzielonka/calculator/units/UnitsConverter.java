@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class UnitsConverter {
+import pro.adamzielonka.calculator.abstractes.Converter;
+
+public class UnitsConverter extends Converter {
     @SerializedName("units")
     @Expose
     private List<Unit> units = null;
@@ -19,21 +21,19 @@ public class UnitsConverter {
             if (unit.getUnitName().equals(unitName)) {
                 return unit.getOne();
             }
-        }
-        return 1.0;
-    }
-
-    private double getAdd(String unitName) {
-        for (Unit unit : units) {
-            if (unit.getUnitName().equals(unitName)) {
-                return unit.getAdd();
+            if(unit.getPrefixes() == null) continue;
+            for (Prefix prefix : unit.getPrefixes()) {
+                if(unitName.equals(prefix.getPrefixName()+unit.getUnitName()))
+                {
+                    return  unit.getOne()*Math.pow(unit.getPrefixBase(),prefix.getPrefixExponent());
+                }
             }
         }
         return 1.0;
     }
 
-    public double convert(double number, String from, String to) {
-        return (((number - getAdd(from)) * getOne(from)) / getOne(to)) + getAdd(to);
+    @Override
+    public double calculate(double number, String from, String to) {
+        return ((number) * getOne(from)) / getOne(to);
     }
-
 }

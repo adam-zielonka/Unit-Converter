@@ -113,21 +113,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 case R.id.nav_temperature:
                     Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     temperatureConverter.putExtra("converterName", "Temperature");
+                    temperatureConverter.putExtra("converterType", "java");
                     startActivity(temperatureConverter);
                     break;
                 case R.id.nav_byte:
                     Intent byteConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     byteConverter.putExtra("converterName", "Byte");
+                    byteConverter.putExtra("converterType", "json");
                     startActivity(byteConverter);
                     break;
                 case R.id.nav_time:
                     Intent timeConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     timeConverter.putExtra("converterName", "Time");
+                    timeConverter.putExtra("converterType", "json");
                     startActivity(timeConverter);
                     break;
                 case R.id.nav_length:
                     Intent lengthConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     lengthConverter.putExtra("converterName", "Length");
+                    lengthConverter.putExtra("converterType", "json");
                     startActivity(lengthConverter);
                     break;
             }

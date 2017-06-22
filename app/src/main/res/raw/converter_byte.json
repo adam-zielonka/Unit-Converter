@@ -2,27 +2,45 @@
   "units": [
     {
       "unitName": "b",
-      "one": 0.125
+      "one": 0.125,
+      "prefixes": [
+        {
+          "prefixName": "K",
+          "prefixExponent": 10
+        },
+        {
+          "prefixName": "M",
+          "prefixExponent": 20
+        },
+        {
+          "prefixName": "G",
+          "prefixExponent": 30
+        }
+      ],
+      "prefixBase": "2"
     },
     {
       "unitName": "B",
-      "one": 1
-    },
-    {
-      "unitName": "KB",
-      "one": 1024
-    },
-    {
-      "unitName": "MB",
-      "one": 1048576
-    },
-    {
-      "unitName": "GB",
-      "one": 1073741824
-    },
-    {
-      "unitName": "TB",
-      "one": 1099511627776
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "K",
+          "prefixExponent": 10
+        },
+        {
+          "prefixName": "M",
+          "prefixExponent": 20
+        },
+        {
+          "prefixName": "G",
+          "prefixExponent": 30
+        },
+        {
+          "prefixName": "T",
+          "prefixExponent": 40
+        }
+      ],
+      "prefixBase": "2"
     }
   ]
 }

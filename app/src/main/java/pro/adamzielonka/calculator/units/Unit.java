@@ -3,17 +3,26 @@ package pro.adamzielonka.calculator.units;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Unit {
+import java.util.List;
 
+@SuppressWarnings("FieldCanBeLocal")
+class Unit {
     @SerializedName("unitName")
     @Expose
     private String unitName = "";
+    @SerializedName("prefixBase")
+    @Expose
+    private Double prefixBase = 10.0;
     @SerializedName("one")
     @Expose
     private Double one = 1.0;
-    @SerializedName("add")
+    @SerializedName("prefixes")
     @Expose
-    private Double add = 0.0;
+    private List<Prefix> prefixes = null;
+
+    public List<Prefix> getPrefixes() {
+        return prefixes;
+    }
 
     String getUnitName() {
         return unitName;
@@ -23,8 +32,7 @@ class Unit {
         return one;
     }
 
-    Double getAdd() {
-        return add;
+    Double getPrefixBase() {
+        return prefixBase;
     }
-
 }

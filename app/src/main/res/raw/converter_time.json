@@ -1,16 +1,18 @@
 {
   "units": [
     {
-      "unitName": "µs",
-      "one": 0.000001
-    },
-    {
-      "unitName": "ms",
-      "one": 0.001
-    },
-    {
       "unitName": "s",
-      "one": 1
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "m",
+          "prefixExponent": -3
+        },
+        {
+          "prefixName": "µ",
+          "prefixExponent": -6
+        }
+      ]
     },
     {
       "unitName": "m",
