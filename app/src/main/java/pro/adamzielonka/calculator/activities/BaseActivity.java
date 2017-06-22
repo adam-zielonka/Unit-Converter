@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.abstractes;
+package pro.adamzielonka.calculator.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,20 +19,16 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.activities.CalculatorActivity;
-import pro.adamzielonka.calculator.activities.ConverterActivity;
-import pro.adamzielonka.calculator.activities.RomanActivity;
-import pro.adamzielonka.calculator.units.Units;
 import pro.adamzielonka.calculator.units.Measures;
+import pro.adamzielonka.calculator.units.Units;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected static String PACKAGE_NAME;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    protected NavigationView mNavigationView;
-    protected int mItemId;
-    protected List<Units> unitsList;
+    NavigationView mNavigationView;
+    int mItemId;
+    List<Units> unitsList;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -49,8 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         mNavigationView = (NavigationView) findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        PACKAGE_NAME = getApplicationContext().getPackageName();
 
         loadConverters();
     }
@@ -70,15 +64,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
-    protected int getIdResourceByName(String defType, String name) {
-        return getResources().getIdentifier(name, defType, PACKAGE_NAME);
-    }
-
-    protected String prepareString(String result) {
+    String prepareString(String result) {
         return convertDoubleToString(convertStringToDouble(result));
     }
 
-    protected String convertDoubleToString(Double result) {
+    String convertDoubleToString(Double result) {
         NumberFormat numberFormat = new DecimalFormat("#.################################");
         NumberFormat numberFormat2 = new DecimalFormat("0.################################E0");
         if (!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
@@ -88,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         return numberFormat.format(result);
     }
 
-    protected Double convertStringToDouble(String result) {
+    Double convertStringToDouble(String result) {
         try {
             return Double.parseDouble(result.replaceAll("\\s+", "").replaceAll(",", "."));
         } catch (NumberFormatException e) {

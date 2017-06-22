@@ -5,10 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import pro.adamzielonka.calculator.abstractes.Converter;
-
 @SuppressWarnings({"CanBeFinal", "FieldCanBeLocal"})
-public class Units extends Converter {
+public class Units {
     @SerializedName("name")
     @Expose
     private String name = "";
@@ -86,8 +84,14 @@ public class Units extends Converter {
         return results;
     }
 
-    @Override
     public double calculate(double number, String from, String to) {
         return (((number + getShift(from)) * getOne(from)) / getOne(to)) - getShift(to);
+    }
+
+    public double singleCalculate(double number, String operator) {
+        switch (operator) {
+            case "+-": return (-1) * number;
+            default: return 0;
+        }
     }
 }

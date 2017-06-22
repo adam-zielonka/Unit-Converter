@@ -20,7 +20,6 @@ import pro.adamzielonka.calculator.units.Measures;
 
 public class LoadActivity extends AppCompatActivity {
 
-    private List<Units> unitsList;
     private static String PACKAGE_NAME;
 
     @Override
@@ -38,7 +37,7 @@ public class LoadActivity extends AppCompatActivity {
     private void loadConverters() {
         Field[] fields = R.raw.class.getFields();
 
-        unitsList = new ArrayList<>();
+        List<Units> unitsList = new ArrayList<>();
 
         for (int i = 0; i < fields.length - 1; i++) {
             String name = fields[i].getName();
@@ -52,7 +51,7 @@ public class LoadActivity extends AppCompatActivity {
         }
 
         Measures measures = Measures.getInstance();
-        measures.setUnitsList(this.unitsList);
+        measures.setUnitsList(unitsList);
     }
 
     private int getIdResourceByName(String defType, String name) {

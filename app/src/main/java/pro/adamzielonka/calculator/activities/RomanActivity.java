@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.calculators.RomanCalculator;
 
 import static pro.adamzielonka.calculator.calculators.RomanCalculator.NAN_ROMAN;
