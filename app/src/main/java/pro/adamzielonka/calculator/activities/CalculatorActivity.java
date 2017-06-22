@@ -20,7 +20,7 @@ public class CalculatorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
 
-        setTitle(R.string.title_calculator);
+        setTitle(R.string.title_basic_calculator);
         mNavigationView.setCheckedItem(R.id.nav_calculator);
         mItemId = R.id.nav_calculator;
 

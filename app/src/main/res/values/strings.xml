@@ -11,6 +11,6 @@
     <string name="nav_calculators">Calculators</string>
     <string name="nav_converters">Converters</string>
 
-    <string name="title_calculator">Calculator</string>
-    <string name="title_roman_calculator">Roman calculator</string>
+    <string name="title_basic_calculator">Calculator</string>
+    <string name="title_roman_calculator">Roman numerals</string>
 </resources>
