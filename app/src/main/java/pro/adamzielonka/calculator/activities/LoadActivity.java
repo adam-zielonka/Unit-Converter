@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.units.UnitsConverter;
-import pro.adamzielonka.calculator.units.UnitsList;
+import pro.adamzielonka.calculator.units.Units;
+import pro.adamzielonka.calculator.units.Measures;
 
 public class LoadActivity extends AppCompatActivity {
 
-    private List<UnitsConverter> unitsConverterList;
+    private List<Units> unitsList;
     private static String PACKAGE_NAME;
 
     @Override
@@ -38,7 +38,7 @@ public class LoadActivity extends AppCompatActivity {
     private void loadConverters() {
         Field[] fields = R.raw.class.getFields();
 
-        unitsConverterList = new ArrayList<>();
+        unitsList = new ArrayList<>();
 
         for (int i = 0; i < fields.length - 1; i++) {
             String name = fields[i].getName();
@@ -47,12 +47,12 @@ public class LoadActivity extends AppCompatActivity {
                 InputStream raw = getResources().openRawResource(getIdResourceByName("raw", name));
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
                 Gson gson = new Gson();
-                unitsConverterList.add(gson.fromJson(reader, UnitsConverter.class));
+                unitsList.add(gson.fromJson(reader, Units.class));
             }
         }
 
-        UnitsList unitsList = UnitsList.getInstance();
-        unitsList.setUnitsConverterList(unitsConverterList);
+        Measures measures = Measures.getInstance();
+        measures.setUnitsList(this.unitsList);
     }
 
     private int getIdResourceByName(String defType, String name) {

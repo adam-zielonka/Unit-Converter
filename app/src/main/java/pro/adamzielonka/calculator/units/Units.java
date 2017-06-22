@@ -8,7 +8,7 @@ import java.util.List;
 import pro.adamzielonka.calculator.abstractes.Converter;
 
 @SuppressWarnings({"CanBeFinal", "FieldCanBeLocal"})
-public class UnitsConverter extends Converter {
+public class Units extends Converter {
     @SerializedName("name")
     @Expose
     private String name = "";

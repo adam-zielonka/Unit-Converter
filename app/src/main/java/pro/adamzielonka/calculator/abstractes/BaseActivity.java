@@ -22,8 +22,8 @@ import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.activities.CalculatorActivity;
 import pro.adamzielonka.calculator.activities.ConverterActivity;
 import pro.adamzielonka.calculator.activities.RomanActivity;
-import pro.adamzielonka.calculator.units.UnitsConverter;
-import pro.adamzielonka.calculator.units.UnitsList;
+import pro.adamzielonka.calculator.units.Units;
+import pro.adamzielonka.calculator.units.Measures;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
     protected int mItemId;
-    protected List<UnitsConverter> unitsConverterList;
+    protected List<Units> unitsList;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -59,12 +59,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         Menu menu = mNavigationView.getMenu();
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
-        UnitsList unitsList = UnitsList.getInstance();
-        unitsConverterList = unitsList.getUnitsConverterList();
+        Measures measures = Measures.getInstance();
+        this.unitsList = measures.getUnitsList();
 
         int i = 0;
-        for (UnitsConverter unitsConverter : unitsConverterList) {
-            MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, unitsConverter.getName());
+        for (Units units : this.unitsList) {
+            MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, units.getName());
             menuItem.setCheckable(true);
             i++;
         }
@@ -141,9 +141,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     startActivity(temperatureConverter);
                     break;
                 default:
-                    if (id - 1000 >= unitsConverterList.size() && id - 1000 >= 0) break;
+                    if (id - 1000 >= unitsList.size() && id - 1000 >= 0) break;
                     Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    converter.putExtra("converterName", unitsConverterList.get(id - 1000).getName());
+                    converter.putExtra("converterName", unitsList.get(id - 1000).getName());
                     converter.putExtra("converterType", "json");
                     converter.putExtra("converterNavId", id);
                     startActivity(converter);

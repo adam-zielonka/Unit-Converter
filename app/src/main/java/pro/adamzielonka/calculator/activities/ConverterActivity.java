@@ -12,7 +12,7 @@ import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
 import pro.adamzielonka.calculator.interfaces.IConverter;
-import pro.adamzielonka.calculator.units.UnitsConverter;
+import pro.adamzielonka.calculator.units.Units;
 
 public class ConverterActivity extends BaseActivity {
 
@@ -57,15 +57,15 @@ public class ConverterActivity extends BaseActivity {
             if (converterType.equals("json")) {
                 Intent intent = getIntent();
                 int nav_id = intent.getIntExtra("converterNavId", 0);
-                UnitsConverter unitsConverter = unitsConverterList.get(nav_id - 1000);
-                converter = unitsConverter;
+                Units units = unitsList.get(nav_id - 1000);
+                converter = units;
 
-                setTitle(unitsConverter.getName());
+                setTitle(units.getName());
                 mNavigationView.setCheckedItem(nav_id);
                 mItemId = nav_id;
 
-                arrayItems = unitsConverterList.get(nav_id - 1000).getArrayUnitsName();
-                arrayUnits = unitsConverterList.get(nav_id - 1000).getArrayUnitsDescription();
+                arrayItems = unitsList.get(nav_id - 1000).getArrayUnitsName();
+                arrayUnits = unitsList.get(nav_id - 1000).getArrayUnitsDescription();
             } else {
                 String className = PACKAGE_NAME + ".converters." + converterName + "Converter";
                 Class cls = Class.forName(className);
