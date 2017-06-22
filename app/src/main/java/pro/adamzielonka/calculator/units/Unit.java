@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
 class Unit {
     @SerializedName("unitName")
     @Expose
@@ -20,7 +20,7 @@ class Unit {
     @Expose
     private List<Prefix> prefixes = null;
 
-    public List<Prefix> getPrefixes() {
+    List<Prefix> getPrefixes() {
         return prefixes;
     }
 

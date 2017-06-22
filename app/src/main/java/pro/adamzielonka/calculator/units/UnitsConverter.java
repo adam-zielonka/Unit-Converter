@@ -7,14 +7,11 @@ import java.util.List;
 
 import pro.adamzielonka.calculator.abstractes.Converter;
 
+@SuppressWarnings("CanBeFinal")
 public class UnitsConverter extends Converter {
     @SerializedName("units")
     @Expose
     private List<Unit> units = null;
-
-    public List<Unit> getUnits() {
-        return units;
-    }
 
     private double getOne(String unitName) {
         for (Unit unit : units) {
