@@ -1,0 +1,54 @@
+{
+  "units": [
+    {
+      "unitName": "m",
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "n",
+          "prefixExponent": -9
+        },
+        {
+          "prefixName": "μ",
+          "prefixExponent": -6
+        },
+        {
+          "prefixName": "m",
+          "prefixExponent": -3
+        },
+        {
+          "prefixName": "c",
+          "prefixExponent": -2
+        },
+        {
+          "prefixName": "d",
+          "prefixExponent": -1
+        },
+        {
+          "prefixName": "k",
+          "prefixExponent": 3
+        }
+      ]
+    },
+    {
+      "unitName": "mi",
+      "one": 1609.344
+    },
+    {
+      "unitName": "nmi",
+      "one": 1852
+    },
+    {
+      "unitName": "yd",
+      "one": 0.9144
+    },
+    {
+      "unitName": "ft",
+      "one": 0.3048
+    },
+    {
+      "unitName": "in",
+      "one": 0.0254
+    }
+  ]
+}

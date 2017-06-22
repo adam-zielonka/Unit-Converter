@@ -8,10 +8,18 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
 import pro.adamzielonka.calculator.interfaces.IConverter;
+import pro.adamzielonka.calculator.units.UnitsConverter;
 
 public class ConverterActivity extends BaseActivity {
 
@@ -30,7 +38,7 @@ public class ConverterActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
-        converterSetUp(intent.getStringExtra("converterName"));
+        converterSetUp(intent.getStringExtra("converterName"), intent.getStringExtra("converterType"));
 
         resultOutput = (EditText) findViewById(R.id.resultOutput);
         resultConverter = (EditText) findViewById(R.id.resultConverter);
@@ -52,19 +60,28 @@ public class ConverterActivity extends BaseActivity {
         spinnerToConverter.setSelection(1);
     }
 
-    private void converterSetUp(String converterName) {
+    private void converterSetUp(String converterName, String converterType) {
         try {
-            String className = PACKAGE_NAME+".converters."+converterName+"Converter";
+            if (converterType.equals("json")) {
+                String name = converterName.toLowerCase();
+                InputStream raw = getResources().openRawResource(getIdResourceByName("raw", "converter_" + name));
+                Reader reader = new BufferedReader(new InputStreamReader(raw));
+                Gson gson = new Gson();
+                converter = gson.fromJson(reader, UnitsConverter.class);
+            } else {
+                String className = PACKAGE_NAME + ".converters." + converterName + "Converter";
+                Class cls = Class.forName(className);
+                converter = (IConverter) cls.newInstance();
+            }
+
             String name = converterName.toLowerCase();
-            Class cls = Class.forName(className);
-            converter = (IConverter) cls.newInstance();
-            arrayItems = getIdResourceByName("array",name+"Items");
-            arrayUnits = getIdResourceByName("array",name+"Units");
-            setTitle(getIdResourceByName("string","title_converter_"+name));
-            mNavigationView.setCheckedItem(getIdResourceByName("id","nav_"+name));
-            mItemId = getIdResourceByName("id","nav_"+name);
+            arrayItems = getIdResourceByName("array", name + "Items");
+            arrayUnits = getIdResourceByName("array", name + "Units");
+            setTitle(getIdResourceByName("string", "title_converter_" + name));
+            mNavigationView.setCheckedItem(getIdResourceByName("id", "nav_" + name));
+            mItemId = getIdResourceByName("id", "nav_" + name);
         } catch (Exception e) {
-            converterSetUp("Byte");
+            converterSetUp("Byte", "json");
         }
     }
 

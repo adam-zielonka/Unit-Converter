@@ -13,28 +13,26 @@
 
     <string-array name="byteItems">
         <item>b</item>
+        <item>Kb</item>
+        <item>Mb</item>
+        <item>Gb</item>
         <item>B</item>
         <item>KB</item>
         <item>MB</item>
         <item>GB</item>
         <item>TB</item>
-        <item>PB</item>
-        <item>EB</item>
-        <item>ZB</item>
-        <item>YB</item>
     </string-array>
 
     <string-array name="byteUnits">
         <item>bit</item>
+        <item>kilobit</item>
+        <item>megabit</item>
+        <item>gigabit</item>
         <item>byte</item>
         <item>kilobyte</item>
         <item>megabyte</item>
         <item>gigabyte</item>
         <item>terabyte</item>
-        <item>petabyte</item>
-        <item>exabyte</item>
-        <item>zettabyte</item>
-        <item>yottabyte</item>
     </string-array>
 
     <string-array name="timeItems">

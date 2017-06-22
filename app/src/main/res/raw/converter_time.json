@@ -1,0 +1,38 @@
+{
+  "units": [
+    {
+      "unitName": "s",
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "m",
+          "prefixExponent": -3
+        },
+        {
+          "prefixName": "µ",
+          "prefixExponent": -6
+        }
+      ]
+    },
+    {
+      "unitName": "m",
+      "one": 60
+    },
+    {
+      "unitName": "h",
+      "one": 3600
+    },
+    {
+      "unitName": "d",
+      "one": 86400
+    },
+    {
+      "unitName": "w",
+      "one": 604800
+    },
+    {
+      "unitName": "y",
+      "one": 31536000
+    }
+  ]
+}

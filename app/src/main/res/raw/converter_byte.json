@@ -1,0 +1,46 @@
+{
+  "units": [
+    {
+      "unitName": "b",
+      "one": 0.125,
+      "prefixes": [
+        {
+          "prefixName": "K",
+          "prefixExponent": 10
+        },
+        {
+          "prefixName": "M",
+          "prefixExponent": 20
+        },
+        {
+          "prefixName": "G",
+          "prefixExponent": 30
+        }
+      ],
+      "prefixBase": "2"
+    },
+    {
+      "unitName": "B",
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "K",
+          "prefixExponent": 10
+        },
+        {
+          "prefixName": "M",
+          "prefixExponent": 20
+        },
+        {
+          "prefixName": "G",
+          "prefixExponent": 30
+        },
+        {
+          "prefixName": "T",
+          "prefixExponent": 40
+        }
+      ],
+      "prefixBase": "2"
+    }
+  ]
+}
