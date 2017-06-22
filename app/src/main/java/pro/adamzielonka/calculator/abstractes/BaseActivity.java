@@ -14,16 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.calculator.R;
@@ -31,6 +23,7 @@ import pro.adamzielonka.calculator.activities.CalculatorActivity;
 import pro.adamzielonka.calculator.activities.ConverterActivity;
 import pro.adamzielonka.calculator.activities.RomanActivity;
 import pro.adamzielonka.calculator.units.UnitsConverter;
+import pro.adamzielonka.calculator.units.UnitsList;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,23 +56,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     private void loadConverters() {
-        Field[] fields = R.raw.class.getFields();
-
         Menu menu = mNavigationView.getMenu();
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
-        unitsConverterList = new ArrayList<>();
+        UnitsList unitsList = UnitsList.getInstance();
+        unitsConverterList = unitsList.getUnitsConverterList();
 
-        for (int i = 0; i < fields.length - 1; i++) {
-            String name = fields[i].getName();
-            if (name.contains("converter_")) {
-
-                InputStream raw = getResources().openRawResource(getIdResourceByName("raw", name));
-                Reader reader = new BufferedReader(new InputStreamReader(raw));
-                Gson gson = new Gson();
-                unitsConverterList.add(gson.fromJson(reader, UnitsConverter.class));
-            }
-        }
         int i = 0;
         for (UnitsConverter unitsConverter : unitsConverterList) {
             MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, unitsConverter.getName());
@@ -167,8 +149,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     startActivity(converter);
             }
 
-            mDrawerLayout.closeDrawer(GravityCompat.START);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
         } else {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
