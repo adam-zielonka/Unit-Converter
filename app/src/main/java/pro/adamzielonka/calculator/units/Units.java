@@ -54,34 +54,21 @@ public class Units {
         return result;
     }
 
-    public String[] getArrayUnitsName() {
-        String[] results = new String[getCount()];
+    public String[][] getArrayUnits() {
+        String[][] result = new String[getCount()][2];
         int i = 0;
         for (Unit unit : units) {
-            results[i] = unit.getUnitName();
+            result[i][0] = unit.getUnitName();
+            result[i][1] = unit.getUnitDescription();
             i++;
             if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
-                results[i] = prefix.getPrefixName() + unit.getUnitName();
+                result[i][0] = prefix.getPrefixName() + unit.getUnitName();
+                result[i][1] = prefix.getPrefixDescription() + unit.getUnitDescription();
                 i++;
             }
         }
-        return results;
-    }
-
-    public String[] getArrayUnitsDescription() {
-        String[] results = new String[getCount()];
-        int i = 0;
-        for (Unit unit : units) {
-            results[i] = unit.getUnitDescription();
-            i++;
-            if (unit.getPrefixes() == null) continue;
-            for (Prefix prefix : unit.getPrefixes()) {
-                results[i] = prefix.getPrefixDescription() + unit.getUnitDescription();
-                i++;
-            }
-        }
-        return results;
+        return result;
     }
 
     public double calculate(double number, String from, String to) {
@@ -90,8 +77,10 @@ public class Units {
 
     public double singleCalculate(double number, String operator) {
         switch (operator) {
-            case "+-": return (-1) * number;
-            default: return 0;
+            case "+-":
+                return (-1) * number;
+            default:
+                return 0;
         }
     }
 }

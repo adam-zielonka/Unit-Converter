@@ -10,12 +10,18 @@ import android.widget.TextView;
 
 import pro.adamzielonka.calculator.R;
 
-public class UnitsAdapter extends ArrayAdapter<String> {
-    private final String[] units;
+public class UnitsAdapter extends ArrayAdapter<String[]> {
 
-    public UnitsAdapter(@NonNull Context context, @NonNull String[] objects, @NonNull String[] units) {
+    public UnitsAdapter(@NonNull Context context, @NonNull String[][] objects) {
         super(context, R.layout.units_layout, objects);
-        this.units = units;
+    }
+
+    public String getItemName(int position) {
+        String[] item = getItem(position);
+        if (item != null) {
+            return item[0];
+        }
+        return "";
     }
 
     @Override
@@ -29,11 +35,15 @@ public class UnitsAdapter extends ArrayAdapter<String> {
             result = convertView;
         }
 
-        String item = getItem(position);
-        String unit = units[position];
+        String[] item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item);
-        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(unit);
+        if (item != null) {
+            ((TextView) result.findViewById(R.id.unitsTextView)).setText(item[0]);
+            ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item[1]);
+        } else {
+            ((TextView) result.findViewById(R.id.unitsTextView)).setText("");
+            ((TextView) result.findViewById(R.id.unitsTextView2)).setText("");
+        }
 
         return result;
     }
@@ -49,9 +59,13 @@ public class UnitsAdapter extends ArrayAdapter<String> {
             result = convertView;
         }
 
-        String item = getItem(position);
+        String[] item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item);
+        if (item != null) {
+            ((TextView) result.findViewById(R.id.unitsTextView)).setText(item[0]);
+        } else {
+            ((TextView) result.findViewById(R.id.unitsTextView)).setText("");
+        }
 
         return result;
     }

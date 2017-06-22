@@ -18,8 +18,8 @@ public class ConverterActivity extends BaseActivity {
     private Spinner spinnerFromConverter;
     private Spinner spinnerToConverter;
     private Units converter;
-    private String[] arrayItems;
-    private String[] arrayUnits;
+    private String[][] arrayUnits;
+    private UnitsAdapter unitsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ConverterActivity extends BaseActivity {
         resultOutput.setOnFocusChangeListener(mResultOnClickListener);
         resultConverter.setOnFocusChangeListener(mResultOnClickListener);
 
-        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), arrayItems, arrayUnits);
+        unitsAdapter = new UnitsAdapter(getApplicationContext(), arrayUnits);
 
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
@@ -56,8 +56,7 @@ public class ConverterActivity extends BaseActivity {
             setTitle(converter.getName());
             mNavigationView.setCheckedItem(mItemId);
 
-            arrayItems = unitsList.get(mItemId - 1000).getArrayUnitsName();
-            arrayUnits = unitsList.get(mItemId - 1000).getArrayUnitsDescription();
+            arrayUnits = unitsList.get(mItemId - 1000).getArrayUnits();
         } catch (Exception e) {
             converterSetUp(1000);
         }
@@ -97,10 +96,13 @@ public class ConverterActivity extends BaseActivity {
     };
 
     private void calculateAndPrintResult() {
+        int fromId = (int) spinnerFromConverter.getSelectedItemId();
+        int toId = (int) spinnerToConverter.getSelectedItemId();
+
         double result = converter.calculate(
                 convertStringToDouble(resultOutput.getText().toString()),
-                spinnerFromConverter.getSelectedItem().toString(),
-                spinnerToConverter.getSelectedItem().toString()
+                unitsAdapter.getItemName(fromId),
+                unitsAdapter.getItemName(toId)
         );
         resultConverter.setText(convertDoubleToString(result));
     }
