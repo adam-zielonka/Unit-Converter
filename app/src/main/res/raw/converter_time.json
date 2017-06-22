@@ -4,17 +4,18 @@
     {
       "unitName": "s",
       "unitDescription": "second",
+      "unitPosition": -1,
       "one": 1,
       "prefixes": [
-        {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -3
-        },
         {
           "prefixName": "µ",
           "prefixDescription": "micro",
           "prefixExponent": -6
+        },
+        {
+          "prefixName": "m",
+          "prefixDescription": "milli",
+          "prefixExponent": -3
         }
       ]
     },

@@ -55,19 +55,56 @@ public class Units {
     }
 
     public String[][] getArrayUnits() {
-        String[][] result = new String[getCount()][2];
+        int count = getCount();
+        String[][] result = new String[count][2];
+        int[] positions = new int[count];
         int i = 0;
         for (Unit unit : units) {
             result[i][0] = unit.getUnitName();
-            result[i][1] = unit.getUnitDescription();
+            result[i][1] = unit.getUnitDescriptionFirst() + unit.getUnitDescription();
+            positions[i] = unit.getUnitPosition();
             i++;
             if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
                 result[i][0] = prefix.getPrefixName() + unit.getUnitName();
-                result[i][1] = prefix.getPrefixDescription() + unit.getUnitDescription();
+                result[i][1] = unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription();
+                positions[i] = prefix.getUnitPosition();
                 i++;
             }
         }
+
+        boolean finished = true;
+
+        while (finished) {
+            finished = false;
+            for (i = 1; i < count; i++) {
+                if (positions[i] > 0) {
+                    finished = true;
+                    String[] resultTemp = result[i];
+                    result[i] = result[i - 1];
+                    result[i - 1] = resultTemp;
+
+                    positions[i]--;
+                    int positionTemp = positions[i];
+                    positions[i] = positions[i - 1];
+                    positions[i - 1] = positionTemp;
+                }
+            }
+            for (i = count - 2; i >= 0; i--) {
+                if (positions[i] < 0) {
+                    finished = true;
+                    String[] resultTemp = result[i];
+                    result[i] = result[i + 1];
+                    result[i + 1] = resultTemp;
+
+                    positions[i]++;
+                    int positionTemp = positions[i];
+                    positions[i] = positions[i + 1];
+                    positions[i + 1] = positionTemp;
+                }
+            }
+        }
+
         return result;
     }
 

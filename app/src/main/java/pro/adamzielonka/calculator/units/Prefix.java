@@ -14,6 +14,9 @@ class Prefix {
     @SerializedName("prefixExponent")
     @Expose
     private Double prefixExponent = 1.0;
+    @SerializedName("unitPosition")
+    @Expose
+    private Integer unitPosition = 0;
 
     String getPrefixName() {
         return prefixName;
@@ -21,6 +24,10 @@ class Prefix {
 
     String getPrefixDescription() {
         return prefixDescription;
+    }
+
+    Integer getUnitPosition() {
+        return unitPosition;
     }
 
     Double getPrefixExponent() {

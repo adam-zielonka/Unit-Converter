@@ -1,0 +1,52 @@
+{
+  "name": "Area",
+  "units": [
+    {
+      "unitName": "a",
+      "unitDescription": "are",
+      "unitPosition": -1,
+      "one": 100,
+      "prefixes": [
+        {
+          "prefixName": "h",
+          "prefixDescription": "hect",
+          "prefixExponent": 2
+        }
+      ]
+    },
+    {
+      "unitName": "m²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "meter",
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "k",
+          "prefixDescription": "kilo",
+          "prefixExponent": 6,
+          "unitPosition": 3
+        },
+        {
+          "prefixName": "d",
+          "prefixDescription": "deci",
+          "prefixExponent": -2
+        },
+        {
+          "prefixName": "c",
+          "prefixDescription": "centi",
+          "prefixExponent": -4
+        },
+        {
+          "prefixName": "m",
+          "prefixDescription": "milli",
+          "prefixExponent": -6
+        },
+        {
+          "prefixName": "µ",
+          "prefixDescription": "micro",
+          "prefixExponent": -12
+        }
+      ]
+    }
+  ]
+}
