@@ -1,53 +1,66 @@
 {
+  "name": "Length",
   "units": [
     {
       "unitName": "m",
+      "unitDescription": "meter",
       "one": 1,
       "prefixes": [
         {
           "prefixName": "n",
+          "prefixDescription": "nano",
           "prefixExponent": -9
         },
         {
           "prefixName": "μ",
+          "prefixDescription": "micro",
           "prefixExponent": -6
         },
         {
           "prefixName": "m",
+          "prefixDescription": "milli",
           "prefixExponent": -3
         },
         {
           "prefixName": "c",
+          "prefixDescription": "centi",
           "prefixExponent": -2
         },
         {
           "prefixName": "d",
+          "prefixDescription": "deci",
           "prefixExponent": -1
         },
         {
           "prefixName": "k",
+          "prefixDescription": "kilo",
           "prefixExponent": 3
         }
       ]
     },
     {
       "unitName": "mi",
+      "unitDescription": "mile",
       "one": 1609.344
     },
     {
       "unitName": "nmi",
+      "unitDescription": "nautical mile",
       "one": 1852
     },
     {
       "unitName": "yd",
+      "unitDescription": "yard",
       "one": 0.9144
     },
     {
       "unitName": "ft",
+      "unitDescription": "foot",
       "one": 0.3048
     },
     {
       "unitName": "in",
+      "unitDescription": "inch",
       "one": 0.0254
     }
   ]

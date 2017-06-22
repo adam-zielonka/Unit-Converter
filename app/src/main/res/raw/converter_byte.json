@@ -1,19 +1,24 @@
 {
+  "name": "Byte",
   "units": [
     {
       "unitName": "b",
+      "unitDescription": "bit",
       "one": 0.125,
       "prefixes": [
         {
           "prefixName": "K",
+          "prefixDescription": "kilo",
           "prefixExponent": 10
         },
         {
           "prefixName": "M",
+          "prefixDescription": "mega",
           "prefixExponent": 20
         },
         {
           "prefixName": "G",
+          "prefixDescription": "giga",
           "prefixExponent": 30
         }
       ],
@@ -21,22 +26,27 @@
     },
     {
       "unitName": "B",
+      "unitDescription": "byte",
       "one": 1,
       "prefixes": [
         {
           "prefixName": "K",
+          "prefixDescription": "kilo",
           "prefixExponent": 10
         },
         {
           "prefixName": "M",
+          "prefixDescription": "mega",
           "prefixExponent": 20
         },
         {
           "prefixName": "G",
+          "prefixDescription": "giga",
           "prefixExponent": 30
         },
         {
           "prefixName": "T",
+          "prefixDescription": "tera",
           "prefixExponent": 40
         }
       ],

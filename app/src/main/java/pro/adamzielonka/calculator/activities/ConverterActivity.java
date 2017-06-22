@@ -8,13 +8,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
@@ -28,8 +21,8 @@ public class ConverterActivity extends BaseActivity {
     private Spinner spinnerFromConverter;
     private Spinner spinnerToConverter;
     private IConverter converter;
-    private int arrayItems;
-    private int arrayUnits;
+    private String[] arrayItems;
+    private String[] arrayUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +39,7 @@ public class ConverterActivity extends BaseActivity {
         resultOutput.setOnFocusChangeListener(mResultOnClickListener);
         resultConverter.setOnFocusChangeListener(mResultOnClickListener);
 
-        Resources res = getResources();
-        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), res.getStringArray(arrayItems), res.getStringArray(arrayUnits));
+        UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), arrayItems, arrayUnits);
 
         spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
         spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
@@ -63,23 +55,31 @@ public class ConverterActivity extends BaseActivity {
     private void converterSetUp(String converterName, String converterType) {
         try {
             if (converterType.equals("json")) {
-                String name = converterName.toLowerCase();
-                InputStream raw = getResources().openRawResource(getIdResourceByName("raw", "converter_" + name));
-                Reader reader = new BufferedReader(new InputStreamReader(raw));
-                Gson gson = new Gson();
-                converter = gson.fromJson(reader, UnitsConverter.class);
+                Intent intent = getIntent();
+                int nav_id = intent.getIntExtra("converterNavId", 0);
+                UnitsConverter unitsConverter = unitsConverterList.get(nav_id - 1000);
+                converter = unitsConverter;
+
+                setTitle(unitsConverter.getName());
+                mNavigationView.setCheckedItem(nav_id);
+                mItemId = nav_id;
+
+                arrayItems = unitsConverterList.get(nav_id - 1000).getArrayUnitsName();
+                arrayUnits = unitsConverterList.get(nav_id - 1000).getArrayUnitsDescription();
             } else {
                 String className = PACKAGE_NAME + ".converters." + converterName + "Converter";
                 Class cls = Class.forName(className);
                 converter = (IConverter) cls.newInstance();
+                String name = converterName.toLowerCase();
+                setTitle(getIdResourceByName("string", "title_converter_" + name));
+                mNavigationView.setCheckedItem(getIdResourceByName("id", "nav_" + name));
+                mItemId = getIdResourceByName("id", "nav_" + name);
+                Resources res = getResources();
+                arrayItems = res.getStringArray(getIdResourceByName("array", name + "Items"));
+                arrayUnits = res.getStringArray(getIdResourceByName("array", name + "Units"));
             }
 
-            String name = converterName.toLowerCase();
-            arrayItems = getIdResourceByName("array", name + "Items");
-            arrayUnits = getIdResourceByName("array", name + "Units");
-            setTitle(getIdResourceByName("string", "title_converter_" + name));
-            mNavigationView.setCheckedItem(getIdResourceByName("id", "nav_" + name));
-            mItemId = getIdResourceByName("id", "nav_" + name);
+
         } catch (Exception e) {
             converterSetUp("Byte", "json");
         }

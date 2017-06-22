@@ -9,16 +9,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.activities.CalculatorActivity;
 import pro.adamzielonka.calculator.activities.ConverterActivity;
 import pro.adamzielonka.calculator.activities.RomanActivity;
+import pro.adamzielonka.calculator.units.UnitsConverter;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
     protected int mItemId;
+    protected List<UnitsConverter> unitsConverterList;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -45,6 +58,34 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mNavigationView.setNavigationItemSelectedListener(this);
 
         PACKAGE_NAME = getApplicationContext().getPackageName();
+
+        loadConverters();
+    }
+
+    private void loadConverters() {
+        Field[] fields = R.raw.class.getFields();
+
+        Menu menu = mNavigationView.getMenu();
+        Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
+
+        unitsConverterList = new ArrayList<>();
+
+        for (int i = 0; i < fields.length - 1; i++) {
+            String name = fields[i].getName();
+            if (name.contains("converter_")) {
+
+                InputStream raw = getResources().openRawResource(getIdResourceByName("raw", name));
+                Reader reader = new BufferedReader(new InputStreamReader(raw));
+                Gson gson = new Gson();
+                unitsConverterList.add(gson.fromJson(reader, UnitsConverter.class));
+            }
+        }
+        int i = 0;
+        for (UnitsConverter unitsConverter : unitsConverterList) {
+            MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, unitsConverter.getName());
+            menuItem.setCheckable(true);
+            i++;
+        }
     }
 
     protected int getIdResourceByName(String defType, String name) {
@@ -99,6 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        Log.e("MenuID", " " + id);
 
         if (id != mItemId) {
             switch (id) {
@@ -116,24 +158,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     temperatureConverter.putExtra("converterType", "java");
                     startActivity(temperatureConverter);
                     break;
-                case R.id.nav_byte:
-                    Intent byteConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    byteConverter.putExtra("converterName", "Byte");
-                    byteConverter.putExtra("converterType", "json");
-                    startActivity(byteConverter);
-                    break;
-                case R.id.nav_time:
-                    Intent timeConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    timeConverter.putExtra("converterName", "Time");
-                    timeConverter.putExtra("converterType", "json");
-                    startActivity(timeConverter);
-                    break;
-                case R.id.nav_length:
-                    Intent lengthConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    lengthConverter.putExtra("converterName", "Length");
-                    lengthConverter.putExtra("converterType", "json");
-                    startActivity(lengthConverter);
-                    break;
+                default:
+                    if (id - 1000 >= unitsConverterList.size() && id - 1000 >= 0) break;
+                    Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                    converter.putExtra("converterName", unitsConverterList.get(id - 1000).getName());
+                    converter.putExtra("converterType", "json");
+                    converter.putExtra("converterNavId", id);
+                    startActivity(converter);
             }
 
             mDrawerLayout.closeDrawer(GravityCompat.START);

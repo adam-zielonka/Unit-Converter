@@ -1,37 +1,46 @@
 {
+  "name": "Time",
   "units": [
     {
       "unitName": "s",
+      "unitDescription": "second",
       "one": 1,
       "prefixes": [
         {
           "prefixName": "m",
+          "prefixDescription": "milli",
           "prefixExponent": -3
         },
         {
           "prefixName": "µ",
+          "prefixDescription": "micro",
           "prefixExponent": -6
         }
       ]
     },
     {
       "unitName": "m",
+      "unitDescription": "minute",
       "one": 60
     },
     {
       "unitName": "h",
+      "unitDescription": "hour",
       "one": 3600
     },
     {
       "unitName": "d",
+      "unitDescription": "day",
       "one": 86400
     },
     {
       "unitName": "w",
+      "unitDescription": "week",
       "one": 604800
     },
     {
       "unitName": "y",
+      "unitDescription": "year",
       "one": 31536000
     }
   ]

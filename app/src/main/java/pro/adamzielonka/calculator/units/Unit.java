@@ -10,6 +10,9 @@ class Unit {
     @SerializedName("unitName")
     @Expose
     private String unitName = "";
+    @SerializedName("unitDescription")
+    @Expose
+    private String unitDescription = "";
     @SerializedName("prefixBase")
     @Expose
     private Double prefixBase = 10.0;
@@ -26,6 +29,10 @@ class Unit {
 
     String getUnitName() {
         return unitName;
+    }
+
+    String getUnitDescription() {
+        return unitDescription;
     }
 
     Double getOne() {
