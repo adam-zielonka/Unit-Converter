@@ -1,10 +1,12 @@
 {
   "name": "Time",
+  "displayFrom": 4,
+  "displayTo": 2,
   "units": [
     {
       "unitName": "s",
       "unitDescription": "second",
-      "unitPosition": -1,
+      "unitPosition": -2,
       "one": 1,
       "prefixes": [
         {

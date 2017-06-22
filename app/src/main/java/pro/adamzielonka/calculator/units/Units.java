@@ -10,9 +10,29 @@ public class Units {
     @SerializedName("name")
     @Expose
     private String name = "";
+    @SerializedName("displayFrom")
+    @Expose
+    private Integer displayFrom = 0;
+    @SerializedName("displayTo")
+    @Expose
+    private Integer displayTo = 1;
     @SerializedName("units")
     @Expose
     private List<Unit> units = null;
+
+    public Integer getDisplayFrom() {
+        if (displayFrom >= 0 && displayFrom < getCount())
+            return displayFrom;
+        return 0;
+    }
+
+    public Integer getDisplayTo() {
+        if (displayTo >= 0 && displayTo < getCount())
+            return displayTo;
+        if(getCount()>1)
+            return 1;
+        return 0;
+    }
 
     public String getName() {
         return name;

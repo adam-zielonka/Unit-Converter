@@ -1,5 +1,7 @@
 {
   "name": "Byte",
+  "displayFrom": 0,
+  "displayTo": 4,
   "units": [
     {
       "unitName": "b",

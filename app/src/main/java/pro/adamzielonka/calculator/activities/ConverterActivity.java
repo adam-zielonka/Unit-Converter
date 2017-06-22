@@ -45,7 +45,8 @@ public class ConverterActivity extends BaseActivity {
 
         spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
         spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
-        spinnerToConverter.setSelection(1);
+        spinnerFromConverter.setSelection(converter.getDisplayFrom());
+        spinnerToConverter.setSelection(converter.getDisplayTo());
     }
 
     private void converterSetUp(int converterNavId) {

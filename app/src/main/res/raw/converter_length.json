@@ -1,5 +1,7 @@
 {
   "name": "Length",
+  "displayFrom": 5,
+  "displayTo": 6,
   "units": [
     {
       "unitName": "m",
