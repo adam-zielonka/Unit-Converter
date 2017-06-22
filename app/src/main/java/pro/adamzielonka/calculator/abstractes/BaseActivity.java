@@ -134,17 +134,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     Intent romanCalculator = new Intent(this.getBaseContext(), RomanActivity.class);
                     startActivity(romanCalculator);
                     break;
-                case R.id.nav_temperature:
-                    Intent temperatureConverter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    temperatureConverter.putExtra("converterName", "Temperature");
-                    temperatureConverter.putExtra("converterType", "java");
-                    startActivity(temperatureConverter);
-                    break;
                 default:
                     if (id - 1000 >= unitsList.size() && id - 1000 >= 0) break;
                     Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     converter.putExtra("converterName", unitsList.get(id - 1000).getName());
-                    converter.putExtra("converterType", "json");
                     converter.putExtra("converterNavId", id);
                     startActivity(converter);
             }

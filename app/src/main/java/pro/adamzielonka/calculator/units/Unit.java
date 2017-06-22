@@ -19,6 +19,9 @@ class Unit {
     @SerializedName("one")
     @Expose
     private Double one = 1.0;
+    @SerializedName("shift")
+    @Expose
+    private Double shift = 0.0;
     @SerializedName("prefixes")
     @Expose
     private List<Prefix> prefixes = null;
@@ -37,6 +40,10 @@ class Unit {
 
     Double getOne() {
         return one;
+    }
+
+    Double getShift() {
+        return shift;
     }
 
     Double getPrefixBase() {

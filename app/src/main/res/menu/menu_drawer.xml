@@ -13,14 +13,5 @@
             </group>
         </menu>
     </item>
-    <item android:title="@string/nav_converters">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_temperature"
-                    android:title="@string/title_converter_temperature" />
-            </group>
-        </menu>
-    </item>
 
 </menu>

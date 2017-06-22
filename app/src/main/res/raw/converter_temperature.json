@@ -1,0 +1,22 @@
+{
+  "name": "Temperature",
+  "units": [
+    {
+      "unitName": "℃",
+      "unitDescription": "Celsius",
+      "one": 1
+    },
+    {
+      "unitName": "℉",
+      "unitDescription": "Fahrenheit",
+      "one": 0.555555555555555555555555,
+      "shift": -32
+    },
+    {
+      "unitName": "K",
+      "unitDescription": "Kelvin",
+      "one": 1,
+      "shift": -273.15
+    }
+  ]
+}

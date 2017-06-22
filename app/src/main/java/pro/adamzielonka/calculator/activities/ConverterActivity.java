@@ -1,7 +1,6 @@
 package pro.adamzielonka.calculator.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +10,6 @@ import android.widget.Spinner;
 import pro.adamzielonka.calculator.R;
 import pro.adamzielonka.calculator.abstractes.BaseActivity;
 import pro.adamzielonka.calculator.adapters.UnitsAdapter;
-import pro.adamzielonka.calculator.interfaces.IConverter;
 import pro.adamzielonka.calculator.units.Units;
 
 public class ConverterActivity extends BaseActivity {
@@ -20,7 +18,7 @@ public class ConverterActivity extends BaseActivity {
     private EditText resultConverter;
     private Spinner spinnerFromConverter;
     private Spinner spinnerToConverter;
-    private IConverter converter;
+    private Units converter;
     private String[] arrayItems;
     private String[] arrayUnits;
 
@@ -30,8 +28,7 @@ public class ConverterActivity extends BaseActivity {
         setContentView(R.layout.activity_converter);
 
         Intent intent = getIntent();
-
-        converterSetUp(intent.getStringExtra("converterName"), intent.getStringExtra("converterType"));
+        converterSetUp(intent.getIntExtra("converterNavId", 1000));
 
         resultOutput = (EditText) findViewById(R.id.resultOutput);
         resultConverter = (EditText) findViewById(R.id.resultConverter);
@@ -52,36 +49,18 @@ public class ConverterActivity extends BaseActivity {
         spinnerToConverter.setSelection(1);
     }
 
-    private void converterSetUp(String converterName, String converterType) {
+    private void converterSetUp(int converterNavId) {
         try {
-            if (converterType.equals("json")) {
-                Intent intent = getIntent();
-                int nav_id = intent.getIntExtra("converterNavId", 0);
-                Units units = unitsList.get(nav_id - 1000);
-                converter = units;
+            mItemId = converterNavId;
+            converter = unitsList.get(mItemId - 1000);
 
-                setTitle(units.getName());
-                mNavigationView.setCheckedItem(nav_id);
-                mItemId = nav_id;
+            setTitle(converter.getName());
+            mNavigationView.setCheckedItem(mItemId);
 
-                arrayItems = unitsList.get(nav_id - 1000).getArrayUnitsName();
-                arrayUnits = unitsList.get(nav_id - 1000).getArrayUnitsDescription();
-            } else {
-                String className = PACKAGE_NAME + ".converters." + converterName + "Converter";
-                Class cls = Class.forName(className);
-                converter = (IConverter) cls.newInstance();
-                String name = converterName.toLowerCase();
-                setTitle(getIdResourceByName("string", "title_converter_" + name));
-                mNavigationView.setCheckedItem(getIdResourceByName("id", "nav_" + name));
-                mItemId = getIdResourceByName("id", "nav_" + name);
-                Resources res = getResources();
-                arrayItems = res.getStringArray(getIdResourceByName("array", name + "Items"));
-                arrayUnits = res.getStringArray(getIdResourceByName("array", name + "Units"));
-            }
-
-
+            arrayItems = unitsList.get(mItemId - 1000).getArrayUnitsName();
+            arrayUnits = unitsList.get(mItemId - 1000).getArrayUnitsDescription();
         } catch (Exception e) {
-            converterSetUp("Byte", "json");
+            converterSetUp(1000);
         }
     }
 

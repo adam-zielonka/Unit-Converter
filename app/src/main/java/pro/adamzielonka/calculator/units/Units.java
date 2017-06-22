@@ -35,6 +35,15 @@ public class Units extends Converter {
         return 1.0;
     }
 
+    private double getShift(String unitName) {
+        for (Unit unit : units) {
+            if (unit.getUnitName().equals(unitName)) {
+                return unit.getShift();
+            }
+        }
+        return 0.0;
+    }
+
     private int getCount() {
         int result = 0;
         for (Unit unit : units) {
@@ -55,7 +64,7 @@ public class Units extends Converter {
             i++;
             if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
-                results[i] = prefix.getPrefixName()+unit.getUnitName();
+                results[i] = prefix.getPrefixName() + unit.getUnitName();
                 i++;
             }
         }
@@ -70,7 +79,7 @@ public class Units extends Converter {
             i++;
             if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
-                results[i] = prefix.getPrefixDescription()+unit.getUnitDescription();
+                results[i] = prefix.getPrefixDescription() + unit.getUnitDescription();
                 i++;
             }
         }
@@ -79,6 +88,6 @@ public class Units extends Converter {
 
     @Override
     public double calculate(double number, String from, String to) {
-        return ((number) * getOne(from)) / getOne(to);
+        return (((number + getShift(from)) * getOne(from)) / getOne(to)) - getShift(to);
     }
 }
