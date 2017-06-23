@@ -47,6 +47,42 @@
           "prefixExponent": -12
         }
       ]
+    },
+    {
+      "unitName": "ac",
+      "unitDescription": "acre",
+      "one": 4046.8564224
+    },
+    {
+      "unitName": "mi²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "mile",
+      "one": 2589988.110336
+
+    },
+    {
+      "unitName": "nmi²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "nautical mile",
+      "one": 3429904
+    },
+    {
+      "unitName": "yd²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "yard",
+      "one": 0.83612736
+    },
+    {
+      "unitName": "ft²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "foot",
+      "one": 0.09290304
+    },
+    {
+      "unitName": "in²",
+      "unitDescriptionFirst": "square ",
+      "unitDescription": "inch",
+      "one": 0.00064516
     }
   ]
 }

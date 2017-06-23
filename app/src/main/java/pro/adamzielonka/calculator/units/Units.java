@@ -3,9 +3,10 @@ package pro.adamzielonka.calculator.units;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"CanBeFinal", "FieldCanBeLocal"})
+@SuppressWarnings({"CanBeFinal", "FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
 public class Units {
     @SerializedName("name")
     @Expose
@@ -18,7 +19,7 @@ public class Units {
     private Integer displayTo = 1;
     @SerializedName("units")
     @Expose
-    private List<Unit> units = null;
+    private List<Unit> units = new ArrayList<>();
 
     public Integer getDisplayFrom() {
         if (displayFrom >= 0 && displayFrom < getCount())
@@ -43,7 +44,6 @@ public class Units {
             if (unit.getUnitName().equals(unitName)) {
                 return unit.getOne();
             }
-            if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
                 if (unitName.equals(prefix.getPrefixName() + unit.getUnitName())) {
                     return unit.getOne() * Math.pow(unit.getPrefixBase(), prefix.getPrefixExponent());
@@ -62,11 +62,19 @@ public class Units {
         return 0.0;
     }
 
+    private double getShift2(String unitName) {
+        for (Unit unit : units) {
+            if (unit.getUnitName().equals(unitName)) {
+                return unit.getShift2();
+            }
+        }
+        return 0.0;
+    }
+
     private int getCount() {
         int result = 0;
         for (Unit unit : units) {
             result++;
-            if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
                 result++;
             }
@@ -84,7 +92,6 @@ public class Units {
             result[i][1] = unit.getUnitDescriptionFirst() + unit.getUnitDescription();
             positions[i] = unit.getUnitPosition();
             i++;
-            if (unit.getPrefixes() == null) continue;
             for (Prefix prefix : unit.getPrefixes()) {
                 result[i][0] = prefix.getPrefixName() + unit.getUnitName();
                 result[i][1] = unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription();
@@ -129,7 +136,7 @@ public class Units {
     }
 
     public double calculate(double number, String from, String to) {
-        return (((number + getShift(from)) * getOne(from)) / getOne(to)) - getShift(to);
+        return ((((number + getShift(from)) * getOne(from)) + getShift2(from) - getShift2(to)) / getOne(to)) - getShift(to);
     }
 
     public double singleCalculate(double number, String operator) {

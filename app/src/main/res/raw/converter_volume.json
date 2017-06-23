@@ -1,0 +1,64 @@
+{
+  "name": "Volume",
+  "units": [
+    {
+      "unitName": "m³",
+      "unitDescriptionFirst": "cubic ",
+      "unitDescription": "meter",
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "d",
+          "prefixDescription": "deci",
+          "prefixExponent": -3
+        },
+        {
+          "prefixName": "c",
+          "prefixDescription": "centi",
+          "prefixExponent": -6
+        },
+        {
+          "prefixName": "m",
+          "prefixDescription": "milli",
+          "prefixExponent": -9
+        }
+      ]
+    },
+    {
+      "unitName": "l",
+      "unitDescription": "liter",
+      "one": 0.001,
+      "unitPosition": -1,
+      "prefixes": [
+        {
+          "prefixName": "h",
+          "prefixDescription": "hecto",
+          "prefixExponent": 2
+        },
+        {
+          "prefixName": "m",
+          "prefixDescription": "milli",
+          "prefixExponent": -3
+        }
+      ]
+    },
+    {
+      "unitName": "yd³",
+      "unitDescriptionFirst": "cubic ",
+      "unitDescription": "yard",
+      "one": 0.764554857984
+    },
+    {
+      "unitName": "ft³",
+      "unitDescriptionFirst": "cubic ",
+      "unitDescription": "foot",
+      "one": 0.028316846592
+    },
+    {
+      "unitName": "in³",
+      "unitDescriptionFirst": "cubic ",
+      "unitDescription": "inch",
+      "one": 0.000016387064
+    }
+  ]
+}

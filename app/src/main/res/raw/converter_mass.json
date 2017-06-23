@@ -1,0 +1,48 @@
+{
+  "name": "Mass",
+  "units": [
+    {
+      "unitName": "t",
+      "unitDescription": "tonne",
+      "one": 1000000
+    },
+    {
+      "unitName": "g",
+      "unitDescription": "gram",
+      "unitPosition": -2,
+      "one": 1,
+      "prefixes": [
+        {
+          "prefixName": "k",
+          "prefixDescription": "kilo",
+          "prefixExponent": 3
+        },
+        {
+          "prefixName": "da",
+          "prefixDescription": "deca",
+          "prefixExponent": 1
+        },
+        {
+          "prefixName": "m",
+          "prefixDescription": "milli",
+          "prefixExponent": -3
+        }
+      ]
+    },
+    {
+      "unitName": "ct",
+      "unitDescription": "carat",
+      "one": 0.2
+    },
+    {
+      "unitName": "oz",
+      "unitDescription": "ounce",
+      "one": 28.34952981
+    },
+    {
+      "unitName": "lb",
+      "unitDescription": "pound",
+      "one": 453.59237
+    }
+  ]
+}

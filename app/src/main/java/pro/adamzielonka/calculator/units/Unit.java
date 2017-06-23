@@ -3,6 +3,7 @@ package pro.adamzielonka.calculator.units;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
@@ -28,9 +29,12 @@ class Unit {
     @SerializedName("shift")
     @Expose
     private Double shift = 0.0;
+    @SerializedName("shift2")
+    @Expose
+    private Double shift2 = 0.0;
     @SerializedName("prefixes")
     @Expose
-    private List<Prefix> prefixes = null;
+    private List<Prefix> prefixes = new ArrayList<>();
 
     List<Prefix> getPrefixes() {
         return prefixes;
@@ -58,6 +62,10 @@ class Unit {
 
     Double getShift() {
         return shift;
+    }
+
+    Double getShift2() {
+        return shift2;
     }
 
     Double getPrefixBase() {

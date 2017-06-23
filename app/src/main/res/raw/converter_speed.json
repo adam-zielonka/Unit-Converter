@@ -1,0 +1,73 @@
+{
+  "name": "Speed",
+  "displayFrom": 1,
+  "displayTo": 5,
+  "units": [
+    {
+      "unitName": "m/s",
+      "unitDescription": "meter per second",
+      "one": 1,
+      "unitPosition": -1,
+      "prefixes": [
+        {
+          "prefixName": "c",
+          "prefixDescription": "centi",
+          "prefixExponent": -2
+        },
+        {
+          "prefixName": "k",
+          "prefixDescription": "kilo",
+          "prefixExponent": 3
+        }
+      ]
+    },
+    {
+      "unitName": "m/h",
+      "unitDescription": "meter per hour",
+      "one": 0.000277777777777777777777777777777,
+      "unitPosition": -1,
+      "prefixes": [
+        {
+          "prefixName": "c",
+          "prefixDescription": "centi",
+          "prefixExponent": -2
+        },
+        {
+          "prefixName": "k",
+          "prefixDescription": "kilo",
+          "prefixExponent": 3
+        }
+      ]
+    },
+    {
+      "unitName": "mi",
+      "unitDescription": "mile per hour",
+      "one": 0.44704
+    },
+    {
+      "unitName": "fps",
+      "unitDescription": "foot per second",
+      "one": 0.3048
+    },
+    {
+      "unitName": "ips",
+      "unitDescription": "inch per second",
+      "one": 0.0254
+    },
+    {
+      "unitName": "kn",
+      "unitDescription": "knot",
+      "one": 5.1444444444444444444444444444444
+    },
+    {
+      "unitName": "Ma",
+      "unitDescription": "mach",
+      "one": 340.3
+    },
+    {
+      "unitName": "c",
+      "unitDescription": "light speed",
+      "one": 299792458
+    }
+  ]
+}
