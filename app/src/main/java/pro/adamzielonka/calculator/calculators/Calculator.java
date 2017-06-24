@@ -3,6 +3,7 @@ package pro.adamzielonka.calculator.calculators;
 public class Calculator {
     private double result;
     private String lastOperator;
+    private double lastDigit;
 
     public Calculator() {
         clear();
@@ -10,6 +11,7 @@ public class Calculator {
 
     public void clear() {
         result = 0;
+        lastDigit = 0;
         lastOperator = "=";
     }
 
@@ -19,6 +21,10 @@ public class Calculator {
 
     public double getMemory() {
         return result;
+    }
+
+    public void setLastOperator(String lastOperator) {
+        this.lastOperator = lastOperator;
     }
 
     public double calculate(double number, String operator) {
@@ -40,8 +46,13 @@ public class Calculator {
                 result = number;
                 break;
         }
-        lastOperator = operator;
+        if (!operator.equals("="))
+            lastOperator = operator;
         return result;
+    }
+
+    public double repeatCalculate(){
+        return calculate(lastDigit,"=");
     }
 
     public double singleCalculate(double number, String operator) {

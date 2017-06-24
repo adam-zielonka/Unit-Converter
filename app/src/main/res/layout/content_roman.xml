@@ -22,7 +22,7 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <EditText
-                android:id="@+id/calculatorMemory"
+                android:id="@+id/memoryOut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -33,7 +33,7 @@
                 android:textAlignment="textEnd" />
 
             <EditText
-                android:id="@+id/resultOutput"
+                android:id="@+id/resultOut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -237,7 +237,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="33"
-                            android:onClick="onClickSingleOperator"
+                            android:onClick="onClickChangeSign"
                             android:tag="+-"
                             android:text="±"
                             tools:ignore="HardcodedText" />

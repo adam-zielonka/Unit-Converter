@@ -29,8 +29,8 @@ public class RomanActivity extends BaseActivity {
         calculator = new RomanCalculator();
         isPressedOperator = false;
 
-        resultOutput = (EditText) findViewById(R.id.resultOutput);
-        calculatorMemory = (TextView) findViewById(R.id.calculatorMemory);
+        resultOutput = (EditText) findViewById(R.id.resultOut);
+        calculatorMemory = (TextView) findViewById(R.id.memoryOut);
     }
 
     public void onClickDigit(View v) {

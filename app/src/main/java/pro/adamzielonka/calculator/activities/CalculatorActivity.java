@@ -3,17 +3,15 @@ package pro.adamzielonka.calculator.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.calculators.Calculator;
+import pro.adamzielonka.calculator.calculators.NewCalculator;
 
 public class CalculatorActivity extends BaseActivity {
 
-    private EditText resultOutput;
-    private TextView calculatorMemory;
-    private Calculator calculator;
-    private boolean isPressedOperator;
+    private EditText resultOut;
+    private EditText memoryOut;
+    private NewCalculator calculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,80 +22,89 @@ public class CalculatorActivity extends BaseActivity {
         mNavigationView.setCheckedItem(R.id.nav_calculator);
         mItemId = R.id.nav_calculator;
 
-        calculator = new Calculator();
-        isPressedOperator = false;
+        calculator = new NewCalculator();
 
-        resultOutput = (EditText) findViewById(R.id.resultOutput);
-        calculatorMemory = (TextView) findViewById(R.id.calculatorMemory);
+        resultOut = (EditText) findViewById(R.id.resultOut);
+        memoryOut = (EditText) findViewById(R.id.memoryOut);
     }
 
     public void onClickDigit(View v) {
-        if (isPressedOperator) {
-            resultOutput.setText("");
-            isPressedOperator = false;
+        if (calculator.isPressedOperator()) {
+            resultOut.setText("");
+            calculator.setPressedOperator(false);
         }
         int maxDigitCount = 15;
-        if (resultOutput.getText().length() >= maxDigitCount) return;
-        if (resultOutput.getText().toString().equals("0"))
-            resultOutput.setText("");
-        if (resultOutput.getText().toString().equals("-0"))
-            resultOutput.setText("-");
-        resultOutput.append(v.getTag().toString());
-        if (!resultOutput.getText().toString().contains(","))
-            resultOutput.setText(prepareString(resultOutput.getText().toString()));
+        if (resultOut.getText().length() >= maxDigitCount) return;
+        if (resultOut.getText().toString().equals("0"))
+            resultOut.setText("");
+        if (resultOut.getText().toString().equals("-0"))
+            resultOut.setText("-");
+        resultOut.append(v.getTag().toString());
+        if (!resultOut.getText().toString().contains(","))
+            resultOut.setText(prepareString(resultOut.getText().toString()));
     }
 
     public void onClickComa(View v) {
-        if (isPressedOperator) {
-            resultOutput.setText("0,");
-            isPressedOperator = false;
-        } else if (!resultOutput.getText().toString().contains(","))
-            resultOutput.append(",");
-    }
-
-    public void onClickOperator(View v) {
-        double result = calculator.calculate(
-                convertStringToDouble(resultOutput.getText().toString()),
-                v.getTag().toString()
-        );
-        resultOutput.setText(convertDoubleToString(result));
-        if (!calculator.getLastOperator().equals("="))
-            calculatorMemory.setText(convertDoubleToString(calculator.getMemory()) + " " + calculator.getLastOperator());
-        else
-            calculatorMemory.setText("");
-        isPressedOperator = true;
-    }
-
-    public void onClickSingleOperator(View v) {
-        double result = calculator.singleCalculate(
-                convertStringToDouble(resultOutput.getText().toString()),
-                v.getTag().toString()
-        );
-        resultOutput.setText(convertDoubleToString(result));
-        if (!calculator.getLastOperator().equals("="))
-            calculatorMemory.setText(convertDoubleToString(calculator.getMemory()) + " " + calculator.getLastOperator());
-    }
-
-    public void onClickClear(View v) {
-        resultOutput.setText("0");
-    }
-
-    public void onClickClearAll(View v) {
-        resultOutput.setText("0");
-        calculatorMemory.setText("");
-        calculator.clear();
+        if (calculator.isPressedOperator()) {
+            resultOut.setText("0,");
+            calculator.setPressedOperator(false);
+        } else if (!resultOut.getText().toString().contains(","))
+            resultOut.append(",");
     }
 
     public void onClickDeleteLast(View v) {
-        if (!isPressedOperator) {
-            resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
-            if (resultOutput.getText().toString().isEmpty())
-                resultOutput.setText("0");
+        if (!calculator.isPressedOperator()) {
+            resultOut.setText(resultOut.getText().toString().substring(0, resultOut.getText().toString().length() - 1));
+            if (resultOut.getText().toString().isEmpty())
+                resultOut.setText("0");
         } else {
-            isPressedOperator = false;
-            resultOutput.setText("0");
+            calculator.setPressedOperator(false);
+            resultOut.setText("0");
         }
-        resultOutput.setText(prepareString(resultOutput.getText().toString()));
+        resultOut.setText(prepareString(resultOut.getText().toString()));
     }
 
+    public void onClickClear(View v) {
+        resultOut.setText("0");
+    }
+
+    public void onClickClearAll(View v) {
+        resultOut.setText("0");
+        memoryOut.setText("");
+        calculator.clear();
+    }
+
+    public void onClickChangeSign(View v) {
+        double result = (-1) * convertStringToDouble(resultOut.getText().toString());
+        calculator.setNumber(result);
+        resultOut.setText(convertDoubleToString(result));
+    }
+
+    public void printResult() {
+        resultOut.setText(convertDoubleToString(calculator.getResult()));
+        if (!calculator.isPressedEqual())
+            memoryOut.setText(convertDoubleToString(calculator.getResult()) + " " + calculator.getOperator());
+        else
+            memoryOut.setText("");
+    }
+
+    public void onClickOperator(View v) {
+        if (calculator.isPressedOperator()) {
+            calculator.setOperator(v.getTag().toString());
+        } else if (calculator.isPressedEqual()) {
+            calculator.setOperator(v.getTag().toString())
+                    .setNumber(convertStringToDouble(resultOut.getText().toString()));
+        } else {
+            calculator.setOperator(v.getTag().toString())
+                    .setNumber(convertStringToDouble(resultOut.getText().toString()))
+                    .calculate();
+        }
+        printResult();
+    }
+
+    public void onClickEqual(View v) {
+        calculator.setPressedEqual(true)
+                .calculate();
+        printResult();
+    }
 }

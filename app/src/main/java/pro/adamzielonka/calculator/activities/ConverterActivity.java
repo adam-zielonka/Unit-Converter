@@ -29,7 +29,7 @@ public class ConverterActivity extends BaseActivity {
         Intent intent = getIntent();
         converterSetUp(intent.getIntExtra("converterNavId", 1000));
 
-        resultOutput = (EditText) findViewById(R.id.resultOutput);
+        resultOutput = (EditText) findViewById(R.id.resultOut);
         resultConverter = (EditText) findViewById(R.id.resultConverter);
 
         resultOutput.setOnFocusChangeListener(mResultOnClickListener);
