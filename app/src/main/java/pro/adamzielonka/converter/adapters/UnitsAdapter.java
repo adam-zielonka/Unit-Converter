@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.adapters;
+package pro.adamzielonka.converter.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import pro.adamzielonka.calculator.R;
+import pro.adamzielonka.converter.R;
 
 public class UnitsAdapter extends ArrayAdapter<String[]> {
 

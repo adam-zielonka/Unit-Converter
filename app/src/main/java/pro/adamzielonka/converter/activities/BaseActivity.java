@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.activities;
+package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -18,9 +17,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.units.Measures;
-import pro.adamzielonka.calculator.units.Units;
+import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.units.Measures;
+import pro.adamzielonka.converter.units.Units;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,10 +45,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mNavigationView = (NavigationView) findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        loadConverters();
+        createConvertersMenu();
     }
 
-    private void loadConverters() {
+    private void createConvertersMenu() {
         Menu menu = mNavigationView.getMenu();
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
@@ -108,35 +107,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
-    public void beforeFinish() {
-
-    }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Log.e("MenuID", " " + id);
 
         if (id != mItemId) {
-            switch (id) {
-                case R.id.nav_calculator:
-                    Intent calculator = new Intent(this.getBaseContext(), CalculatorActivity.class);
-                    startActivity(calculator);
-                    break;
-                case R.id.nav_roman_calculator:
-                    Intent romanCalculator = new Intent(this.getBaseContext(), RomanActivity.class);
-                    startActivity(romanCalculator);
-                    break;
-                default:
-                    if (id - 1000 >= unitsList.size() && id - 1000 >= 0) break;
-                    Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
-                    converter.putExtra("converterName", unitsList.get(id - 1000).getName());
-                    converter.putExtra("converterNavId", id);
-                    beforeFinish();
-                    startActivity(converter);
-            }
+            Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
+            converter.putExtra("converterNavId", id);
+            startActivity(converter);
 
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();

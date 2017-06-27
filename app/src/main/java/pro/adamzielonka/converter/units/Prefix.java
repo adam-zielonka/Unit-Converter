@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.units;
+package pro.adamzielonka.converter.units;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

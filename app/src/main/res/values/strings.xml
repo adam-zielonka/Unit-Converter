@@ -1,16 +1,10 @@
 <resources>
-    <string name="app_name">Calculators&amp;Converters</string>
+    <string name="app_name">Converters</string>
 
-    <string name="title_activity_calculator">CalculatorsActivity</string>
     <string name="title_activity_converter">ConverterActivity</string>
-    <string name="title_activity_roman">RomanActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="nav_calculators">Calculators</string>
     <string name="nav_converters">Converters</string>
-
-    <string name="title_basic_calculator">Calculator</string>
-    <string name="title_roman_calculator">Roman numerals</string>
 </resources>

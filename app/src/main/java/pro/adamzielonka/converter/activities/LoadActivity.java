@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.activities;
+package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.units.Units;
-import pro.adamzielonka.calculator.units.Measures;
+import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.units.Measures;
+import pro.adamzielonka.converter.units.Units;
 
 public class LoadActivity extends AppCompatActivity {
 
@@ -29,8 +29,8 @@ public class LoadActivity extends AppCompatActivity {
         PACKAGE_NAME = getApplicationContext().getPackageName();
         loadConverters();
 
-        Intent calculator = new Intent(this.getBaseContext(), CalculatorActivity.class);
-        startActivity(calculator);
+        Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
+        startActivity(converter);
         finish();
     }
 
@@ -39,10 +39,9 @@ public class LoadActivity extends AppCompatActivity {
 
         List<Units> unitsList = new ArrayList<>();
 
-        for (int i = 0; i < fields.length - 1; i++) {
-            String name = fields[i].getName();
+        for (Field field : fields) {
+            String name = field.getName();
             if (name.contains("converter_")) {
-
                 InputStream raw = getResources().openRawResource(getIdResourceByName("raw", name));
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
                 Gson gson = new Gson();
@@ -57,5 +56,4 @@ public class LoadActivity extends AppCompatActivity {
     private int getIdResourceByName(String defType, String name) {
         return getResources().getIdentifier(name, defType, PACKAGE_NAME);
     }
-
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="pro.adamzielonka.calculator">
+    package="pro.adamzielonka.converter">
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.LoadActivity"
+            android:name="pro.adamzielonka.converter.activities.LoadActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -22,20 +22,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CalculatorActivity"
-            android:label="@string/title_activity_calculator"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.ConverterActivity"
+            android:name="pro.adamzielonka.converter.activities.ConverterActivity"
             android:label="@string/title_activity_converter"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.RomanActivity"
-            android:label="@string/title_activity_roman"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />

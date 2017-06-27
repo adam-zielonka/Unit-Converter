@@ -1,4 +1,4 @@
-package pro.adamzielonka.calculator.activities;
+package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import pro.adamzielonka.calculator.R;
-import pro.adamzielonka.calculator.adapters.UnitsAdapter;
-import pro.adamzielonka.calculator.units.Units;
+import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.adapters.UnitsAdapter;
+import pro.adamzielonka.converter.units.Units;
 
 public class ConverterActivity extends BaseActivity {
 
@@ -61,12 +61,6 @@ public class ConverterActivity extends BaseActivity {
         } catch (Exception e) {
             converterSetUp(1000);
         }
-    }
-
-    @Override
-    public void beforeFinish() {
-        converter.setDisplayFrom(spinnerFromConverter.getSelectedItemPosition());
-        converter.setDisplayTo(spinnerToConverter.getSelectedItemPosition());
     }
 
     private final View.OnFocusChangeListener mResultOnClickListener = new View.OnFocusChangeListener() {
@@ -132,14 +126,12 @@ public class ConverterActivity extends BaseActivity {
             resultOutput.append(",");
     }
 
-    public void onClickSingleOperator(View v) {
-        double result = converter.singleCalculate(
-                convertStringToDouble(resultOutput.getText().toString()),
-                v.getTag().toString()
-        );
+    public void onClickChangeSign(View v) {
+        double result = (-1) * convertStringToDouble(resultOutput.getText().toString());
         resultOutput.setText(convertDoubleToString(result));
         calculateAndPrintResult();
     }
+
 
     public void onClickClearOutput(View v) {
         resultOutput.setText("0");
