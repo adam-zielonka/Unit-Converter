@@ -108,6 +108,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+    public void beforeFinish() {
+
+    }
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -129,6 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
                     converter.putExtra("converterName", unitsList.get(id - 1000).getName());
                     converter.putExtra("converterNavId", id);
+                    beforeFinish();
                     startActivity(converter);
             }
 

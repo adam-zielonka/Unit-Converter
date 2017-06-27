@@ -63,6 +63,12 @@ public class ConverterActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void beforeFinish() {
+        converter.setDisplayFrom(spinnerFromConverter.getSelectedItemPosition());
+        converter.setDisplayTo(spinnerToConverter.getSelectedItemPosition());
+    }
+
     private final View.OnFocusChangeListener mResultOnClickListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {

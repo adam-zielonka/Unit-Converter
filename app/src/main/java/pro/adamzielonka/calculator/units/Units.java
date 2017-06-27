@@ -21,6 +21,33 @@ public class Units {
     @Expose
     private List<Unit> units = new ArrayList<>();
 
+    private String numberInMemory = "0";
+    private int selectedDisplay = 0;
+
+    public void setNumberInMemory(String numberInMemory) {
+        this.numberInMemory = numberInMemory;
+    }
+
+    public String getNumberInMemory() {
+        return numberInMemory;
+    }
+
+    public void setSelectedDisplay(int selectedDisplay) {
+        this.selectedDisplay = selectedDisplay;
+    }
+
+    public int getSelectedDisplay() {
+        return selectedDisplay;
+    }
+
+    public void setDisplayFrom(Integer displayFrom) {
+        this.displayFrom = displayFrom;
+    }
+
+    public void setDisplayTo(Integer displayTo) {
+        this.displayTo = displayTo;
+    }
+
     public Integer getDisplayFrom() {
         if (displayFrom >= 0 && displayFrom < getCount())
             return displayFrom;
