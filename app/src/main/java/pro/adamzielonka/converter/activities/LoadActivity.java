@@ -7,42 +7,40 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.Units;
 
 public class LoadActivity extends AppCompatActivity {
 
-    private static String PACKAGE_NAME;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        loadConverters();
+        try {
+            loadConverters();
+            Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
+            startActivity(converter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
-        startActivity(converter);
         finish();
     }
 
-    private void loadConverters() {
-        Field[] fields = R.raw.class.getFields();
-
+    private void loadConverters() throws IOException {
+        String[] strings = getAssets().list("converters");
         List<Units> unitsList = new ArrayList<>();
 
-        for (Field field : fields) {
-            String name = field.getName();
+        for (String name : strings) {
             if (name.contains("converter_")) {
-                InputStream raw = getResources().openRawResource(getIdResourceByName("raw", name));
+                InputStream raw = getAssets().open("converters/"+name);
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
                 Gson gson = new Gson();
                 unitsList.add(gson.fromJson(reader, Units.class));
@@ -51,9 +49,5 @@ public class LoadActivity extends AppCompatActivity {
 
         Measures measures = Measures.getInstance();
         measures.setUnitsList(unitsList);
-    }
-
-    private int getIdResourceByName(String defType, String name) {
-        return getResources().getIdentifier(name, defType, PACKAGE_NAME);
     }
 }
