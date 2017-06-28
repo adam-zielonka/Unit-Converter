@@ -115,8 +115,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (id != mItemId) {
             switch (id) {
                 case R.id.nav_settings:
-                    Intent calculator = new Intent(this.getBaseContext(), SettingsActivity.class);
-                    startActivity(calculator);
+                    Intent settings = new Intent(this.getBaseContext(), SettingsActivity.class);
+                    startActivity(settings);
                     break;
                 default:
                     Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
