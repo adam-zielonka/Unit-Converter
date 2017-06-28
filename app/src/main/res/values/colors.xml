@@ -7,4 +7,8 @@
     <color name="colorRedPrimary">#f44336</color>
     <color name="colorRedPrimaryDark">#d32f2f</color>
     <color name="colorRedAccent">#e53935</color>
+
+    <color name="colorGreenPrimary">#4caf50</color>
+    <color name="colorGreenPrimaryDark">#388e3c</color>
+    <color name="colorGreenAccent">#43a047</color>
 </resources>

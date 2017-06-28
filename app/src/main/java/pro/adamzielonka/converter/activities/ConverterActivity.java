@@ -1,7 +1,9 @@
 package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -21,8 +23,23 @@ public class ConverterActivity extends BaseActivity {
     private String[][] arrayUnits;
     private UnitsAdapter unitsAdapter;
 
+    SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String themeID = SP.getString("theme_list", "");
+        switch (themeID) {
+            case "1":
+                setTheme(R.style.RedTheme_NoActionBar);
+                break;
+            case "2":
+                setTheme(R.style.GreenTheme_NoActionBar);
+                break;
+            default:
+                setTheme(R.style.AppTheme_NoActionBar);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
 
@@ -146,5 +163,4 @@ public class ConverterActivity extends BaseActivity {
         resultOutput.setText(prepareString(resultOutput.getText().toString()));
         calculateAndPrintResult();
     }
-
 }

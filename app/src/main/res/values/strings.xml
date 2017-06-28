@@ -22,14 +22,14 @@
 
     <string name="pref_title_theme">Theme</string>
     <string-array name="pref_theme_list_titles">
-        <item>Default</item>
+        <item>Blue</item>
         <item>Red</item>
-        <item>Dark</item>
+        <item>Green</item>
     </string-array>
     <string-array name="pref_theme_list_values">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
 
 </resources>
