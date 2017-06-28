@@ -107,19 +107,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id != mItemId) {
-            Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
-            converter.putExtra("converterNavId", id);
-            startActivity(converter);
-
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            finish();
+            switch (id) {
+                case R.id.nav_settings:
+                    Intent calculator = new Intent(this.getBaseContext(), SettingsActivity.class);
+                    startActivity(calculator);
+                    break;
+                default:
+                    Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
+                    converter.putExtra("converterNavId", id);
+                    startActivity(converter);
+                    finish();
+            }
         } else {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
