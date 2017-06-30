@@ -1,7 +1,5 @@
 package pro.adamzielonka.converter.activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -15,55 +13,42 @@ import pro.adamzielonka.converter.units.Units;
 
 public class ConverterActivity extends BaseActivity {
 
-    private EditText resultOutput;
-    private EditText resultConverter;
-    private Spinner spinnerFromConverter;
-    private Spinner spinnerToConverter;
+    private EditText textFrom;
+    private EditText textTo;
+    private Spinner spinnerFrom;
+    private Spinner spinnerTo;
     private Units converter;
     private String[][] arrayUnits;
     private UnitsAdapter unitsAdapter;
 
-    SharedPreferences SP;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String themeID = SP.getString("theme_list", "");
-        switch (themeID) {
-            case "1":
-                setTheme(R.style.RedTheme_NoActionBar);
-                break;
-            case "2":
-                setTheme(R.style.GreenTheme_NoActionBar);
-                break;
-            default:
-                setTheme(R.style.AppTheme_NoActionBar);
-        }
+        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        themeSetUp();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
 
-        Intent intent = getIntent();
-        converterSetUp(intent.getIntExtra("converterNavId", 1000));
+        converterSetUp(getIntent().getIntExtra("converterNavId", 1000));
 
-        resultOutput = (EditText) findViewById(R.id.resultOut);
-        resultConverter = (EditText) findViewById(R.id.resultConverter);
+        textFrom = (EditText) findViewById(R.id.textFrom);
+        textTo = (EditText) findViewById(R.id.textTo);
 
-        resultOutput.setOnFocusChangeListener(mResultOnClickListener);
-        resultConverter.setOnFocusChangeListener(mResultOnClickListener);
+        textFrom.setOnFocusChangeListener(mResultOnClickListener);
+        textTo.setOnFocusChangeListener(mResultOnClickListener);
 
         unitsAdapter = new UnitsAdapter(getApplicationContext(), arrayUnits);
 
-        spinnerFromConverter = (Spinner) findViewById(R.id.spinnerFromConverter);
-        spinnerToConverter = (Spinner) findViewById(R.id.spinnerToConverter);
+        spinnerFrom = (Spinner) findViewById(R.id.spinnerFrom);
+        spinnerTo = (Spinner) findViewById(R.id.spinnerTo);
 
-        spinnerFromConverter.setAdapter(unitsAdapter);
-        spinnerToConverter.setAdapter(unitsAdapter);
+        spinnerFrom.setAdapter(unitsAdapter);
+        spinnerTo.setAdapter(unitsAdapter);
 
-        spinnerFromConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
-        spinnerToConverter.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
-        spinnerFromConverter.setSelection(converter.getDisplayFrom());
-        spinnerToConverter.setSelection(converter.getDisplayTo());
+        spinnerFrom.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
+        spinnerTo.setOnItemSelectedListener(mSpinnerOnItemSelectedListener);
+        spinnerFrom.setSelection(converter.getDisplayFrom());
+        spinnerTo.setSelection(converter.getDisplayTo());
     }
 
     private void converterSetUp(int converterNavId) {
@@ -84,21 +69,24 @@ public class ConverterActivity extends BaseActivity {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
-                if (resultConverter.equals(v)) {
-                    swapResult();
+                if (textTo.equals(v)) {
+                    swapTexts();
+                    swapSpinners();
                 }
             }
         }
     };
 
-    private void swapResult() {
-        EditText resultTemp = resultOutput;
-        resultOutput = resultConverter;
-        resultConverter = resultTemp;
+    private void swapTexts() {
+        EditText textTemp = textFrom;
+        textFrom = textTo;
+        textTo = textTemp;
+    }
 
-        Spinner spinnerTemp = spinnerFromConverter;
-        spinnerFromConverter = spinnerToConverter;
-        spinnerToConverter = spinnerTemp;
+    private void swapSpinners() {
+        Spinner spinnerTemp = spinnerFrom;
+        spinnerFrom = spinnerTo;
+        spinnerTo = spinnerTemp;
     }
 
     private final AdapterView.OnItemSelectedListener mSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
@@ -114,53 +102,52 @@ public class ConverterActivity extends BaseActivity {
     };
 
     private void calculateAndPrintResult() {
-        int fromId = (int) spinnerFromConverter.getSelectedItemId();
-        int toId = (int) spinnerToConverter.getSelectedItemId();
+        int fromId = (int) spinnerFrom.getSelectedItemId();
+        int toId = (int) spinnerTo.getSelectedItemId();
 
         double result = converter.calculate(
-                convertStringToDouble(resultOutput.getText().toString()),
+                convertStringToDouble(textFrom.getText().toString()),
                 unitsAdapter.getItemName(fromId),
                 unitsAdapter.getItemName(toId)
         );
-        resultConverter.setText(convertDoubleToString(result));
+        textTo.setText(convertDoubleToString(result));
     }
 
     public void onClickDigit(View v) {
         int maxDigitCount = 15;
-        if (resultOutput.getText().length() >= maxDigitCount) return;
-        if (resultOutput.getText().toString().equals("0"))
-            resultOutput.setText("");
-        if (resultOutput.getText().toString().equals("-0"))
-            resultOutput.setText("-");
-        resultOutput.append(v.getTag().toString());
-        if (!resultOutput.getText().toString().contains(","))
-            resultOutput.setText(prepareString(resultOutput.getText().toString()));
+        if (textFrom.getText().length() >= maxDigitCount) return;
+        if (textFrom.getText().toString().equals("0"))
+            textFrom.setText("");
+        if (textFrom.getText().toString().equals("-0"))
+            textFrom.setText("-");
+        textFrom.append(v.getTag().toString());
+        if (!textFrom.getText().toString().contains(","))
+            textFrom.setText(prepareString(textFrom.getText().toString()));
         calculateAndPrintResult();
     }
 
     public void onClickComa(View v) {
-        if (!resultOutput.getText().toString().contains(","))
-            resultOutput.append(",");
+        if (!textFrom.getText().toString().contains(","))
+            textFrom.append(",");
     }
 
     public void onClickChangeSign(View v) {
-        double result = (-1) * convertStringToDouble(resultOutput.getText().toString());
-        resultOutput.setText(convertDoubleToString(result));
+        double result = (-1) * convertStringToDouble(textFrom.getText().toString());
+        textFrom.setText(convertDoubleToString(result));
         calculateAndPrintResult();
     }
 
 
     public void onClickClearOutput(View v) {
-        resultOutput.setText("0");
-        resultConverter.setText("0");
+        textFrom.setText("0");
         calculateAndPrintResult();
     }
 
     public void onClickDeleteLast(View v) {
-        resultOutput.setText(resultOutput.getText().toString().substring(0, resultOutput.getText().toString().length() - 1));
-        if (resultOutput.getText().toString().isEmpty())
-            resultOutput.setText("0");
-        resultOutput.setText(prepareString(resultOutput.getText().toString()));
+        textFrom.setText(textFrom.getText().toString().substring(0, textFrom.getText().toString().length() - 1));
+        if (textFrom.getText().toString().isEmpty())
+            textFrom.setText("0");
+        textFrom.setText(prepareString(textFrom.getText().toString()));
         calculateAndPrintResult();
     }
 }

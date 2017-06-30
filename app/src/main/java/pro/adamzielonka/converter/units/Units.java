@@ -138,13 +138,4 @@ public class Units {
     public double calculate(double number, String from, String to) {
         return ((((number + getShift(from)) * getOne(from)) + getShift2(from) - getShift2(to)) / getOne(to)) - getShift(to);
     }
-
-    public double singleCalculate(double number, String operator) {
-        switch (operator) {
-            case "+-":
-                return (-1) * number;
-            default:
-                return 0;
-        }
-    }
 }
