@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_round_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/BlueTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".activities.LoadActivity"
@@ -24,13 +24,13 @@
         </activity>
         <activity
             android:name=".activities.ConverterActivity"
-            android:label="@string/title_activity_converter"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".activities.ConverterActivity"
+            android:theme="@style/BlueTheme.Converter">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pro.adamzielonka.converter.activities.ConverterActivity" />

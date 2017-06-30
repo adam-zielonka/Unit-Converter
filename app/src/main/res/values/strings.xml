@@ -1,21 +1,12 @@
 <resources>
     <string name="app_name">Converters</string>
 
-    <string name="title_activity_converter">ConverterActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="nav_converters">Converters</string>
     <string name="nav_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_basic_converters">Enable basic converter</string>
 
     <!-- Settings for Appearance -->
     <string name="pref_header_appearance">Appearance</string>

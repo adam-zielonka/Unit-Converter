@@ -33,16 +33,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     SharedPreferences preferences;
 
     protected void themeSetUp() {
-        String themeID = preferences.getString("theme_list", "");
+        String themeID = preferences.getString("theme", "");
         switch (themeID) {
             case "1":
-                setTheme(R.style.RedTheme_NoActionBar);
+                setTheme(R.style.RedTheme_Converter);
                 break;
             case "2":
-                setTheme(R.style.GreenTheme_NoActionBar);
+                setTheme(R.style.GreenTheme_Converter);
                 break;
             default:
-                setTheme(R.style.AppTheme_NoActionBar);
+                setTheme(R.style.BlueTheme_Converter);
         }
     }
 

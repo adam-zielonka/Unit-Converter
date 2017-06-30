@@ -1,8 +1,0 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:title="@string/pref_basic_converters" />
-
-</PreferenceScreen>
