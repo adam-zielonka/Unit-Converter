@@ -1,6 +1,7 @@
 package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     NavigationView mNavigationView;
     int mItemId;
     List<Units> unitsList;
+
+    SharedPreferences preferences;
+
+    protected void themeSetUp() {
+        String themeID = preferences.getString("theme", "");
+        switch (themeID) {
+            case "1":
+                setTheme(R.style.RedTheme_Converter);
+                break;
+            case "2":
+                setTheme(R.style.GreenTheme_Converter);
+                break;
+            default:
+                setTheme(R.style.BlueTheme_Converter);
+        }
+    }
 
     @Override
     public void setContentView(int layoutResID) {

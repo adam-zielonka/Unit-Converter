@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+def versionMajor = 1
+def versionMinor = 1
+def versionPatch = 1
+def versionAlpha = 1
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -7,16 +12,25 @@ android {
         applicationId "pro.adamzielonka.converter"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
     }
     buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            resValue "string", "app_version",
+                    "${defaultConfig.versionName}${versionNameSuffix}"
+        }
         release {
+            versionNameSuffix "-alpha${versionAlpha}"
+            resValue 'string', 'app_version', "${defaultConfig.versionName}"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 

@@ -12,7 +12,7 @@
         android:layout_gravity="end"
         android:text="S"
         android:textAlignment="textEnd"
-        android:textColor="@android:color/black"
+        android:textColor="?colorPrimary"
         android:textSize="36sp"
         tools:ignore="HardcodedText" />
 </LinearLayout>

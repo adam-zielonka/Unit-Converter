@@ -21,6 +21,9 @@ public class Units {
     @Expose
     private List<Unit> units = new ArrayList<>();
 
+    private String[][] arrayUnits = null;
+    private int count = -1;
+
     public Integer getDisplayFrom() {
         if (displayFrom >= 0 && displayFrom < getCount())
             return displayFrom;
@@ -30,7 +33,7 @@ public class Units {
     public Integer getDisplayTo() {
         if (displayTo >= 0 && displayTo < getCount())
             return displayTo;
-        if(getCount()>1)
+        if (getCount() > 1)
             return 1;
         return 0;
     }
@@ -39,112 +42,89 @@ public class Units {
         return name;
     }
 
-    private double getOne(String unitName) {
+    private void setCount() {
+        count = 0;
         for (Unit unit : units) {
-            if (unit.getUnitName().equals(unitName)) {
-                return unit.getOne();
-            }
+            count++;
             for (Prefix prefix : unit.getPrefixes()) {
-                if (unitName.equals(prefix.getPrefixName() + unit.getUnitName())) {
-                    return unit.getOne() * Math.pow(unit.getPrefixBase(), prefix.getPrefixExponent());
-                }
+                count++;
             }
         }
-        return 1.0;
-    }
-
-    private double getShift(String unitName) {
-        for (Unit unit : units) {
-            if (unit.getUnitName().equals(unitName)) {
-                return unit.getShift();
-            }
-        }
-        return 0.0;
-    }
-
-    private double getShift2(String unitName) {
-        for (Unit unit : units) {
-            if (unit.getUnitName().equals(unitName)) {
-                return unit.getShift2();
-            }
-        }
-        return 0.0;
     }
 
     private int getCount() {
-        int result = 0;
-        for (Unit unit : units) {
-            result++;
-            for (Prefix prefix : unit.getPrefixes()) {
-                result++;
-            }
-        }
-        return result;
+        if (count == -1)
+            setCount();
+        return count;
     }
 
-    public String[][] getArrayUnits() {
+    public void setArrayUnits() {
         int count = getCount();
-        String[][] result = new String[count][2];
+        arrayUnits = new String[count][2];
         int[] positions = new int[count];
         int i = 0;
         for (Unit unit : units) {
-            result[i][0] = unit.getUnitName();
-            result[i][1] = unit.getUnitDescriptionFirst() + unit.getUnitDescription();
-            positions[i] = unit.getUnitPosition();
+            arrayUnits[i][0] = unit.getUnitName();
+            arrayUnits[i][1] = unit.getUnitDescriptionFirst() + unit.getUnitDescription();
+            positions[i] = 2 * (count - i);
+            if (unit.getUnitPosition() != 0)
+                positions[i] += 2 * unit.getUnitPosition() - 1;
             i++;
             for (Prefix prefix : unit.getPrefixes()) {
-                result[i][0] = prefix.getPrefixName() + unit.getUnitName();
-                result[i][1] = unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription();
-                positions[i] = prefix.getUnitPosition();
+                arrayUnits[i][0] = prefix.getPrefixName() + unit.getUnitName();
+                arrayUnits[i][1] = unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription();
+                positions[i] = 2 * (count - i);
+                if (prefix.getUnitPosition() != 0)
+                    positions[i] += 2 * prefix.getUnitPosition() - 1;
                 i++;
             }
         }
 
-        boolean finished = true;
+        for (int j = 1; j < count - 1; j++) {
+            boolean sorted = true;
+            for (int k = 0; k < count - j; k++) {
+                if (positions[k] < positions[k + 1]) {
+                    sorted = false;
+                    String[] resultTemp = arrayUnits[k];
+                    arrayUnits[k] = arrayUnits[k + 1];
+                    arrayUnits[k + 1] = resultTemp;
 
-        while (finished) {
-            finished = false;
-            for (i = 1; i < count; i++) {
-                if (positions[i] > 0) {
-                    finished = true;
-                    String[] resultTemp = result[i];
-                    result[i] = result[i - 1];
-                    result[i - 1] = resultTemp;
-
-                    positions[i]--;
-                    int positionTemp = positions[i];
-                    positions[i] = positions[i - 1];
-                    positions[i - 1] = positionTemp;
+                    int positionTemp = positions[k];
+                    positions[k] = positions[k + 1];
+                    positions[k + 1] = positionTemp;
                 }
             }
-            for (i = count - 2; i >= 0; i--) {
-                if (positions[i] < 0) {
-                    finished = true;
-                    String[] resultTemp = result[i];
-                    result[i] = result[i + 1];
-                    result[i + 1] = resultTemp;
+            if (sorted) break;
+        }
+    }
 
-                    positions[i]++;
-                    int positionTemp = positions[i];
-                    positions[i] = positions[i + 1];
-                    positions[i + 1] = positionTemp;
+    public String[][] getArrayUnits() {
+        if (arrayUnits == null)
+            setArrayUnits();
+        return arrayUnits;
+    }
+
+    private ConcreteUnit getUnit(String unitName) {
+        for (Unit unit : units) {
+            if (unit.getUnitName().equals(unitName)) {
+                return new ConcreteUnit(unit.getOne(), unit.getShift(), unit.getShift2());
+            }
+            for (Prefix prefix : unit.getPrefixes()) {
+                if (unitName.equals(prefix.getPrefixName() + unit.getUnitName())) {
+                    return new ConcreteUnit(
+                            unit.getOne() * Math.pow(unit.getPrefixBase(), prefix.getPrefixExponent()),
+                            unit.getShift(), unit.getShift2()
+                    );
                 }
             }
         }
-
-        return result;
+        return new ConcreteUnit();
     }
 
     public double calculate(double number, String from, String to) {
-        return ((((number + getShift(from)) * getOne(from)) + getShift2(from) - getShift2(to)) / getOne(to)) - getShift(to);
-    }
+        ConcreteUnit unitFrom = getUnit(from);
+        ConcreteUnit unitTo = getUnit(to);
 
-    public double singleCalculate(double number, String operator) {
-        switch (operator) {
-            case "+-":
-                return (-1) * number;
-            default:
-                return 0;
-        }
+        return ((((number + unitFrom.getShift1()) * unitFrom.getOne()) + unitFrom.getShift2() - unitTo.getShift2()) / unitTo.getOne()) - unitTo.getShift1();
     }
 }
