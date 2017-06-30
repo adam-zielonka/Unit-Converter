@@ -40,11 +40,15 @@ public class LoadActivity extends AppCompatActivity {
 
         for (String name : strings) {
             if (name.contains("converter_")) {
-                InputStream raw = getAssets().open("converters/"+name);
+                InputStream raw = getAssets().open("converters/" + name);
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
                 Gson gson = new Gson();
                 unitsList.add(gson.fromJson(reader, Units.class));
             }
+        }
+
+        for (Units units : unitsList) {
+            units.setArrayUnits();
         }
 
         Measures measures = Measures.getInstance();
