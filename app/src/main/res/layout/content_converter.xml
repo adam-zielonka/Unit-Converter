@@ -190,7 +190,7 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:onClick="onClickClearOutput"
+                        android:onClick="onClickClear"
                         android:text="C"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>

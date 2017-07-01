@@ -1,5 +1,6 @@
 package pro.adamzielonka.converter.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -9,7 +10,15 @@ import android.widget.Spinner;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
+import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.Units;
+
+import static pro.adamzielonka.converter.tools.Number.appendComa;
+import static pro.adamzielonka.converter.tools.Number.appendDigit;
+import static pro.adamzielonka.converter.tools.Number.changeSign;
+import static pro.adamzielonka.converter.tools.Number.convertDoubleToString;
+import static pro.adamzielonka.converter.tools.Number.convertStringToDouble;
+import static pro.adamzielonka.converter.tools.Number.deleteLast;
 
 public class ConverterActivity extends BaseActivity {
 
@@ -21,10 +30,12 @@ public class ConverterActivity extends BaseActivity {
     private String[][] arrayUnits;
     private UnitsAdapter unitsAdapter;
 
+    SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        themeSetUp();
+        setTheme(Theme.getConverterStyleID(preferences.getString("theme", "")));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
@@ -112,37 +123,26 @@ public class ConverterActivity extends BaseActivity {
     }
 
     public void onClickDigit(View v) {
-        int maxDigitCount = 15;
-        if (textFrom.getText().length() >= maxDigitCount) return;
-        if (textFrom.getText().toString().equals("-0"))
-            textFrom.setText("-");
-        textFrom.append(v.getTag().toString());
-        if (!textFrom.getText().toString().contains(","))
-            textFrom.setText(prepareString(textFrom.getText().toString()));
+        textFrom.setText(appendDigit(textFrom.getText().toString(), v.getTag().toString()));
         calculateAndPrintResult();
     }
 
     public void onClickComa(View v) {
-        if (!textFrom.getText().toString().contains(","))
-            textFrom.append(",");
+        textFrom.setText(appendComa(textFrom.getText().toString()));
     }
 
     public void onClickChangeSign(View v) {
-        double result = (-1) * convertStringToDouble(textFrom.getText().toString());
-        textFrom.setText(convertDoubleToString(result));
+        textFrom.setText(changeSign(textFrom.getText().toString()));
         calculateAndPrintResult();
     }
 
-    public void onClickClearOutput(View v) {
+    public void onClickClear(View v) {
         textFrom.setText("0");
         calculateAndPrintResult();
     }
 
     public void onClickDeleteLast(View v) {
-        textFrom.setText(textFrom.getText().toString().substring(0, textFrom.getText().toString().length() - 1));
-        if (textFrom.getText().toString().isEmpty())
-            textFrom.setText("0");
-        textFrom.setText(prepareString(textFrom.getText().toString()));
+        textFrom.setText(deleteLast(textFrom.getText().toString()));
         calculateAndPrintResult();
     }
 }

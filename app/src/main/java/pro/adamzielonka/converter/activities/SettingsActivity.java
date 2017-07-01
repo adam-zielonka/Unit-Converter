@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.tools.Theme;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences preferences;
@@ -20,7 +21,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        themeSetUp();
+        setTheme(Theme.getStyleID(preferences.getString("theme", "")));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -52,20 +53,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    protected void themeSetUp() {
-        String themeID = preferences.getString("theme", "");
-        switch (themeID) {
-            case "1":
-                setTheme(R.style.RedTheme);
-                break;
-            case "2":
-                setTheme(R.style.GreenTheme);
-                break;
-            default:
-                setTheme(R.style.BlueTheme);
-        }
     }
 
     @Override

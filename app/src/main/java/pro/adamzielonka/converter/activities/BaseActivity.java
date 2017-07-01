@@ -1,7 +1,6 @@
 package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
@@ -29,22 +26,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     NavigationView mNavigationView;
     int mItemId;
     List<Units> unitsList;
-
-    SharedPreferences preferences;
-
-    protected void themeSetUp() {
-        String themeID = preferences.getString("theme", "");
-        switch (themeID) {
-            case "1":
-                setTheme(R.style.RedTheme_Converter);
-                break;
-            case "2":
-                setTheme(R.style.GreenTheme_Converter);
-                break;
-            default:
-                setTheme(R.style.BlueTheme_Converter);
-        }
-    }
 
     @Override
     public void setContentView(int layoutResID) {
@@ -77,35 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, units.getName());
             menuItem.setCheckable(true);
             i++;
-        }
-    }
-
-    String prepareString(String result) {
-        return convertDoubleToString(convertStringToDouble(result));
-    }
-
-    String convertDoubleToString(Double result) {
-        NumberFormat numberFormat = new DecimalFormat("#.################################");
-        NumberFormat numberFormat2 = new DecimalFormat("0.################################E0");
-        if (!numberFormat.format(result).contains(",") && numberFormat.format(result).length() > 15)
-            return numberFormat2.format(result);
-        if (numberFormat.format(result).contains("0,0000") && numberFormat.format(result).length() > 15)
-            return numberFormat2.format(result);
-        return numberFormat.format(result);
-    }
-
-    Double convertStringToDouble(String result) {
-        try {
-            return Double.parseDouble(result.replaceAll("\\s+", "").replaceAll(",", "."));
-        } catch (NumberFormatException e) {
-            switch (result) {
-                case "∞":
-                    return Double.POSITIVE_INFINITY;
-                case "-∞":
-                    return Double.NEGATIVE_INFINITY;
-                default:
-                    return Double.NaN;
-            }
         }
     }
 
