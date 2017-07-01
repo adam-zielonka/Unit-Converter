@@ -98,13 +98,11 @@ public class ConverterActivity extends BaseActivity {
         @Override
         public void onNothingSelected(AdapterView<?> parentView) {
         }
-
     };
 
     private void calculateAndPrintResult() {
         int fromId = (int) spinnerFrom.getSelectedItemId();
         int toId = (int) spinnerTo.getSelectedItemId();
-
         double result = converter.calculate(
                 convertStringToDouble(textFrom.getText().toString()),
                 unitsAdapter.getItemName(fromId),
@@ -116,8 +114,6 @@ public class ConverterActivity extends BaseActivity {
     public void onClickDigit(View v) {
         int maxDigitCount = 15;
         if (textFrom.getText().length() >= maxDigitCount) return;
-        if (textFrom.getText().toString().equals("0"))
-            textFrom.setText("");
         if (textFrom.getText().toString().equals("-0"))
             textFrom.setText("-");
         textFrom.append(v.getTag().toString());
@@ -136,7 +132,6 @@ public class ConverterActivity extends BaseActivity {
         textFrom.setText(convertDoubleToString(result));
         calculateAndPrintResult();
     }
-
 
     public void onClickClearOutput(View v) {
         textFrom.setText("0");
