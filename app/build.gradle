@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 1
-def versionAlpha = 1
+def versionPatch = 2
 
 android {
     compileSdkVersion 25
@@ -24,7 +23,7 @@ android {
                     "${defaultConfig.versionName}${versionNameSuffix}"
         }
         release {
-            versionNameSuffix "-alpha${versionAlpha}"
+            versionNameSuffix "-alpha"
             resValue 'string', 'app_version', "${defaultConfig.versionName}"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
