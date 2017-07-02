@@ -81,6 +81,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+
         if (id != mItemId) {
             switch (id) {
                 case R.id.nav_settings:
@@ -93,9 +95,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     startActivity(converter);
                     finish();
             }
-        } else {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
         }
+
         return true;
     }
 }

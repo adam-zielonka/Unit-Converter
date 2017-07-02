@@ -1,19 +1,18 @@
 package pro.adamzielonka.converter.tools;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 public class Number {
     private static final int MAX_DIGIT_COUNT = 15;
 
     public static String convertDoubleToString(Double number) {
-        NumberFormat exponentNotation = new DecimalFormat("0.########################E0");
-        NumberFormat numberFormat = new DecimalFormat("#.########################");
+        DecimalFormat exponentNotation = new DecimalFormat("0.#################E0");
+        DecimalFormat numberFormat = new DecimalFormat("#.#################");
 
         String result = exponentNotation.format(number);
         int exponent = result.contains("E") ? Integer.parseInt(result.substring(result.indexOf("E") + 1, result.length())) : 0;
 
-        return Math.abs(exponent) >= MAX_DIGIT_COUNT - 1 ? result : numberFormat.format(number);
+        return Math.abs(exponent) >= MAX_DIGIT_COUNT ? result : numberFormat.format(number);
     }
 
     public static Double convertStringToDouble(String number) {
