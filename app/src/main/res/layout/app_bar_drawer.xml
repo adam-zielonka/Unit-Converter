@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pro.adamzielonka.converter.activities.ConverterActivity">
+    tools:context="pro.adamzielonka.converter.activities.DrawerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_converter" />
+    <include layout="@layout/content_drawer" />
 
 </android.support.design.widget.CoordinatorLayout>

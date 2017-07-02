@@ -25,8 +25,8 @@ public class LoadActivity extends AppCompatActivity {
 
         try {
             loadConverters();
-            Intent converter = new Intent(this.getBaseContext(), ConverterActivity.class);
-            startActivity(converter);
+            Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
+            startActivity(intent);
         } catch (IOException e) {
             e.printStackTrace();
         }

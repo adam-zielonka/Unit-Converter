@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="appearance"
-        android:title="Appearance">
+        android:title="@string/pref_header_appearance">
 
         <ListPreference
             android:defaultValue="0"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Converters</string>
+    <string name="app_name">Unit Converter</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -24,5 +24,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string name="mantra_convert_everything">Convert everything</string>
 
 </resources>

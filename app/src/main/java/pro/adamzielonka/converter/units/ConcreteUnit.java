@@ -2,9 +2,9 @@ package pro.adamzielonka.converter.units;
 
 class ConcreteUnit {
 
-    private double one;
-    private double shift1;
-    private double shift2;
+    private final double one;
+    private final double shift1;
+    private final double shift2;
 
     ConcreteUnit(){
         one = 1.0;

@@ -16,7 +16,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.tools.Theme;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-    SharedPreferences preferences;
+
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            Intent intent = new Intent(getApplicationContext(), ConverterActivity.class);
+            Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -57,7 +58,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), ConverterActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

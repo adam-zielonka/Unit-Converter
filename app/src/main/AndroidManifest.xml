@@ -23,18 +23,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ConverterActivity"
+            android:name=".activities.DrawerActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.ConverterActivity"
-            android:theme="@style/BlueTheme.Converter">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pro.adamzielonka.converter.activities.ConverterActivity" />
-        </activity>
+            android:theme="@style/BlueTheme.Converter" />
     </application>
 
 </manifest>
