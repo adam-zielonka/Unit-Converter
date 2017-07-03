@@ -12,7 +12,7 @@
         android:theme="@style/BlueTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.LoadActivity"
+            android:name=".activities.StartActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">

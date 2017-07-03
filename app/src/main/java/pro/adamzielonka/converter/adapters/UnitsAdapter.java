@@ -18,32 +18,19 @@ public class UnitsAdapter extends ArrayAdapter<String[]> {
 
     public String getItemName(int position) {
         String[] item = getItem(position);
-        if (item != null) {
-            return item[0];
-        }
-        return "";
+        return item != null ? item[0] : "";
     }
 
     @Override
-    public View getDropDownView(int position, View convertView,
-                                @NonNull ViewGroup parent) {
-        final View result;
-
-        if (convertView == null) {
-            result = LayoutInflater.from(parent.getContext()).inflate(R.layout.units_layout, parent, false);
-        } else {
-            result = convertView;
-        }
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+        final View result = (convertView == null)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_layout, parent, false)
+                : convertView;
 
         String[] item = getItem(position);
 
-        if (item != null) {
-            ((TextView) result.findViewById(R.id.unitsTextView)).setText(item[0]);
-            ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item[1]);
-        } else {
-            ((TextView) result.findViewById(R.id.unitsTextView)).setText("");
-            ((TextView) result.findViewById(R.id.unitsTextView2)).setText("");
-        }
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item[0] : "");
+        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? item[1] : "");
 
         return result;
     }
@@ -51,21 +38,13 @@ public class UnitsAdapter extends ArrayAdapter<String[]> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        final View result;
-
-        if (convertView == null) {
-            result = LayoutInflater.from(parent.getContext()).inflate(R.layout.units_small_layout, parent, false);
-        } else {
-            result = convertView;
-        }
+        final View result = (convertView == null)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_small_layout, parent, false)
+                : convertView;
 
         String[] item = getItem(position);
 
-        if (item != null) {
-            ((TextView) result.findViewById(R.id.unitsTextView)).setText(item[0]);
-        } else {
-            ((TextView) result.findViewById(R.id.unitsTextView)).setText("");
-        }
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item[0] : "");
 
         return result;
     }

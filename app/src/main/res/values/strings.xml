@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="spinner_title">Select unit</string>
+    <string name="delete_last_digit">Delete last digit</string>
 
     <string name="nav_converters">Converters</string>
     <string name="nav_settings">Settings</string>

@@ -17,7 +17,7 @@ import java.util.List;
 import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.Units;
 
-public class LoadActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +37,12 @@ public class LoadActivity extends AppCompatActivity {
     private void loadConverters() throws IOException {
         String[] strings = getAssets().list("converters");
         List<Units> unitsList = new ArrayList<>();
+        Gson gson = new Gson();
 
         for (String name : strings) {
             if (name.contains("converter_")) {
                 InputStream raw = getAssets().open("converters/" + name);
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
-                Gson gson = new Gson();
                 unitsList.add(gson.fromJson(reader, Units.class));
             }
         }

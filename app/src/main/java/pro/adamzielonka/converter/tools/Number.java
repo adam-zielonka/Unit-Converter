@@ -5,17 +5,18 @@ import java.text.DecimalFormat;
 public class Number {
     private static final int MAX_DIGIT_COUNT = 15;
 
-    public static String convertDoubleToString(Double number) {
+    public static String doubleToString(Double number) {
         DecimalFormat exponentNotation = new DecimalFormat("0.#################E0");
         DecimalFormat numberFormat = new DecimalFormat("#.#################");
 
         String result = exponentNotation.format(number);
-        int exponent = result.contains("E") ? Integer.parseInt(result.substring(result.indexOf("E") + 1, result.length())) : 0;
+        int exponent = result.contains("E")
+                ? Integer.parseInt(result.substring(result.indexOf("E") + 1, result.length())) : 0;
 
         return Math.abs(exponent) >= MAX_DIGIT_COUNT ? result : numberFormat.format(number);
     }
 
-    public static Double convertStringToDouble(String number) {
+    public static Double stringToDouble(String number) {
         try {
             return Double.parseDouble(number.replaceAll("\\s+", "").replaceAll(",", "."));
         } catch (NumberFormatException e) {
@@ -46,7 +47,7 @@ public class Number {
     }
 
     public static String changeSign(String number) {
-        return convertDoubleToString((-1.0) * convertStringToDouble(number));
+        return doubleToString((-1.0) * stringToDouble(number));
     }
 
     public static String deleteLast(String number) {
