@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.units.Measures;
-import pro.adamzielonka.converter.units.Units;
+import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.units.user.Measure;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -36,22 +37,23 @@ public class StartActivity extends AppCompatActivity {
 
     private void loadConverters() throws IOException {
         String[] strings = getAssets().list("converters");
-        List<Units> unitsList = new ArrayList<>();
+        List<Measure> measureList = new ArrayList<>();
         Gson gson = new Gson();
 
         for (String name : strings) {
             if (name.contains("converter_")) {
                 InputStream raw = getAssets().open("converters/" + name);
                 Reader reader = new BufferedReader(new InputStreamReader(raw));
-                unitsList.add(gson.fromJson(reader, Units.class));
+                measureList.add(gson.fromJson(reader, Measure.class));
             }
         }
 
-        for (Units units : unitsList) {
-            units.setArrayUnits();
+        List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
+        for (Measure measure : measureList) {
+            concreteMeasureList.add(measure.getConcreteMeasure());
         }
 
         Measures measures = Measures.getInstance();
-        measures.setUnitsList(unitsList);
+        measures.setMeasureList(concreteMeasureList);
     }
 }

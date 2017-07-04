@@ -21,18 +21,19 @@ import android.widget.Spinner;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.adapters.UnitsAdapter;
+import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.Measures;
-import pro.adamzielonka.converter.units.Units;
+import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
-import static pro.adamzielonka.converter.tools.Number.doubleToString;
-import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 import static pro.adamzielonka.converter.tools.Number.appendComa;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
 import static pro.adamzielonka.converter.tools.Number.deleteLast;
+import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.converter.tools.Number.stringToDouble;
+import static pro.adamzielonka.converter.tools.UnitConverter.doConversion;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -41,15 +42,16 @@ public class DrawerActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private SharedPreferences preferences;
     private NavigationView navigationView;
-    private List<Units> unitsList;
+    private List<ConcreteMeasure> measureList;
     private int converterID;
 
     private EditText textFrom;
     private EditText textTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
-    private Units converter;
-    private UnitsAdapter unitsAdapter;
+    private ConcreteAdapter concreteAdapter;
+
+    private static final int DEFAULT_CONVERTER_ID = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,19 +73,19 @@ public class DrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Measures measures = Measures.getInstance();
-        unitsList = measures.getUnitsList();
+        measureList = measures.getMeasureList();
 
         setupConvertersMenu(navigationView.getMenu());
 
-        setupConverter(1000);
+        setupConverter(DEFAULT_CONVERTER_ID);
     }
 
     private void setupConvertersMenu(Menu menu) {
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
         int i = 0;
-        for (Units units : unitsList) {
-            MenuItem menuItem = convertersMenu.add(0, i + 1000, 0, units.getName());
+        for (ConcreteMeasure measure : measureList) {
+            MenuItem menuItem = convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName());
             menuItem.setCheckable(true);
             i++;
         }
@@ -92,9 +94,9 @@ public class DrawerActivity extends AppCompatActivity
     private void setupConverter(int converterID) {
         try {
             this.converterID = converterID;
-            converter = unitsList.get(this.converterID - 1000);
+            ConcreteMeasure measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
 
-            setTitle(converter.getName());
+            setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
 
             textFrom = (EditText) findViewById(R.id.textFrom);
@@ -105,23 +107,23 @@ public class DrawerActivity extends AppCompatActivity
             textFrom.setOnFocusChangeListener(this);
             textTo.setOnFocusChangeListener(this);
 
-            unitsAdapter = new UnitsAdapter(getApplicationContext(),
-                    unitsList.get(this.converterID - 1000).getArrayUnits());
+            concreteAdapter = new ConcreteAdapter(getApplicationContext(),
+                    measureList.get(this.converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
 
             spinnerFrom = (Spinner) findViewById(R.id.spinnerFrom);
             spinnerTo = (Spinner) findViewById(R.id.spinnerTo);
 
-            spinnerFrom.setAdapter(unitsAdapter);
-            spinnerTo.setAdapter(unitsAdapter);
+            spinnerFrom.setAdapter(concreteAdapter);
+            spinnerTo.setAdapter(concreteAdapter);
 
             spinnerFrom.setOnItemSelectedListener(this);
             spinnerTo.setOnItemSelectedListener(this);
-            spinnerFrom.setSelection(converter.getDisplayFrom());
-            spinnerTo.setSelection(converter.getDisplayTo());
+            spinnerFrom.setSelection(measure.getDisplayFrom());
+            spinnerTo.setSelection(measure.getDisplayTo());
 
             onClickClear(null);
         } catch (Exception e) {
-            setupConverter(1000);
+            setupConverter(DEFAULT_CONVERTER_ID);
         }
     }
 
@@ -146,10 +148,10 @@ public class DrawerActivity extends AppCompatActivity
     private void calculate() {
         int fromId = (int) spinnerFrom.getSelectedItemId();
         int toId = (int) spinnerTo.getSelectedItemId();
-        double result = converter.calculate(
+        double result = doConversion(
                 stringToDouble(textFrom.getText().toString()),
-                unitsAdapter.getItemName(fromId),
-                unitsAdapter.getItemName(toId)
+                concreteAdapter.getItem(fromId),
+                concreteAdapter.getItem(toId)
         );
         textTo.setText(doubleToString(result));
     }

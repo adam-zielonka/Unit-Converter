@@ -16,6 +16,10 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         debug {
             versionNameSuffix "-debug"

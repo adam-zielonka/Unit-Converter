@@ -8,17 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
-public class UnitsAdapter extends ArrayAdapter<String[]> {
+public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
 
-    public UnitsAdapter(@NonNull Context context, @NonNull String[][] objects) {
+    public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects) {
         super(context, R.layout.units_layout, objects);
     }
 
     public String getItemName(int position) {
-        String[] item = getItem(position);
-        return item != null ? item[0] : "";
+        ConcreteUnit item = getItem(position);
+        return item != null ? item.getName() : "";
     }
 
     @Override
@@ -27,10 +30,10 @@ public class UnitsAdapter extends ArrayAdapter<String[]> {
                 ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_layout, parent, false)
                 : convertView;
 
-        String[] item = getItem(position);
+        ConcreteUnit item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item[0] : "");
-        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? item[1] : "");
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.getName() + " " : "");
+        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + item.getDescription() : "");
 
         return result;
     }
@@ -42,9 +45,9 @@ public class UnitsAdapter extends ArrayAdapter<String[]> {
                 ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_small_layout, parent, false)
                 : convertView;
 
-        String[] item = getItem(position);
+        ConcreteUnit item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item[0] : "");
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.getName() : "");
 
         return result;
     }
