@@ -10,8 +10,6 @@ import java.util.List;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
-import static pro.adamzielonka.converter.tools.UnitConverter.getPosition;
-
 @SuppressWarnings({"CanBeFinal", "FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
 public class Measure {
     @SerializedName("name")
@@ -30,6 +28,10 @@ public class Measure {
     private int count = -1;
 
     private List<ConcreteUnit> concreteUnits = null;
+
+    private int getPosition(int i, int position){
+        return (2 * i) + ((position != 0) ? (((-2) * position) + 1) : 0);
+    }
 
     private void setConcreteUnits() {
         concreteUnits = new ArrayList<>();

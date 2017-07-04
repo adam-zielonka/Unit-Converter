@@ -205,6 +205,10 @@ public class DrawerActivity extends AppCompatActivity
                     Intent settings = new Intent(this.getBaseContext(), SettingsActivity.class);
                     startActivity(settings);
                     break;
+                case R.id.nav_add_converter:
+                    Intent addConverter = new Intent(this.getBaseContext(), AddConverterActivity.class);
+                    startActivity(addConverter);
+                    break;
                 default:
                     setupConverter(id);
             }

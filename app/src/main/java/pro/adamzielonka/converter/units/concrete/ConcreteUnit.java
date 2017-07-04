@@ -1,7 +1,6 @@
 package pro.adamzielonka.converter.units.concrete;
 
 public class ConcreteUnit {
-
     private final double one;
     private final double shift1;
     private final double shift2;

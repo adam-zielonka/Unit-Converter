@@ -29,5 +29,7 @@
     </string-array>
 
     <string name="mantra_convert_everything">Convert everything</string>
+    <string name="title_activity_add_converter">AddConverterActivity</string>
+    <string name="nav_add_converter">Add converter</string>
 
 </resources>
