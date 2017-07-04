@@ -88,5 +88,4 @@ public class StartActivity extends AppCompatActivity {
         editor.putBoolean("firstRun", true);
         editor.apply();
     }
-
 }
