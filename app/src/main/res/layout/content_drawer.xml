@@ -190,14 +190,14 @@
                     android:layout_weight="25"
                     android:orientation="vertical">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/buttonClearOutput"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:onClick="onClickClear"
-                        android:text="C"
-                        tools:ignore="HardcodedText" />
+                        app:srcCompat="@drawable/ic_clear_white_24dp"
+                        android:contentDescription="@string/clear_text"  />
                 </LinearLayout>
             </LinearLayout>
 
