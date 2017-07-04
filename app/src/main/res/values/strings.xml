@@ -38,6 +38,9 @@
     <string name="error_no_permissions">No permission to load file</string>
     <string name="from_json_sample_files">Sample json files</string>
     <string name="clear_text">Clear</string>
+    <string name="nav_about">About</string>
+    <string name="ok">OK</string>
+    <string name="website">adamzielonka.pro</string>
 
 
 </resources>

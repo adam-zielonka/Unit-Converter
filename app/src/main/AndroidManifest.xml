@@ -38,6 +38,9 @@
             android:name=".activities.AddConverterActivity"
             android:label="@string/title_activity_add_converter"
             android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.AboutActivity"
+            android:theme="@style/BlueTheme" />
     </application>
 
 </manifest>
