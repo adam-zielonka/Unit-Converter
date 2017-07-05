@@ -14,7 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -118,16 +117,15 @@ public class AddConverterActivity extends AppCompatActivity {
 
             ConcreteMeasure concreteMeasure = gson.fromJson(reader, Measure.class).getConcreteMeasure();
 
+            if (concreteMeasure.getConcreteUnits().size() == 0) {
+                showError(R.string.error_no_units);
+                return;
+            }
+
             String fileName = "converter_" + concreteMeasure.getName() + ".json";
 
             for (int i = 0; isFileExist(fileName); i++) {
                 fileName = "converter_" + concreteMeasure.getName() + "_" + i + ".json";
-            }
-
-            Log.i("COUNT", "loadConverter: " + concreteMeasure.getConcreteUnits().size());
-            if (concreteMeasure.getConcreteUnits().size() == 0) {
-                showError(R.string.error_no_units);
-                return;
             }
 
             String json = gson.toJson(concreteMeasure);
