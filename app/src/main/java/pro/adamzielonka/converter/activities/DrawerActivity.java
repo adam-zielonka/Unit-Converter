@@ -269,7 +269,7 @@ public class DrawerActivity extends AppCompatActivity
                     .setMessage(R.string.delete_converter_msg)
                     .setCancelable(true)
                     .setPositiveButton(R.string.delete_converter_yes, (dialog, which) -> {
-                        if (getBaseContext().getFileStreamPath(measure.getFileName()).delete()) {
+                        if (getFileStreamPath(measure.getFileName()).delete()) {
                             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);

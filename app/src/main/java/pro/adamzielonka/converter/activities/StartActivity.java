@@ -41,7 +41,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void loadConverters() {
-        if (!preferences.getBoolean("firstRun", false)) try {
+        if (!preferences.getBoolean("v1.1.11-alpha", false)) try {
             firstRun();
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,6 +68,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void firstRun() throws IOException {
+        clearInternalStorage();
+
         String[] strings = getAssets().list("converters");
         List<Measure> measureList = new ArrayList<>();
         Gson gson = new Gson();
@@ -95,7 +97,12 @@ public class StartActivity extends AppCompatActivity {
         }
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("firstRun", true);
+        editor.putBoolean("v1.1.11-alpha", true);
         editor.apply();
+    }
+
+    private void clearInternalStorage() {
+        File[] files = getFilesDir().listFiles();
+        for (File file : files) getFileStreamPath(file.getName()).delete();
     }
 }
