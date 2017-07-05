@@ -43,12 +43,10 @@ public class AddConverterActivity extends AppCompatActivity {
         setTheme(Theme.getStyleID(preferences.getString("theme", "")));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_converter);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

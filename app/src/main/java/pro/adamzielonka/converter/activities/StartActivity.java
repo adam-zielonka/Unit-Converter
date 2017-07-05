@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,27 +34,34 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        try {
-            loadConverters();
-            Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
-            startActivity(intent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadConverters();
+        Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
+        startActivity(intent);
 
         finish();
     }
 
-    private void loadConverters() throws IOException {
-        if (!preferences.getBoolean("firstRun", false)) firstRun();
+    private void loadConverters() {
+        if (!preferences.getBoolean("firstRun", false)) try {
+            firstRun();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         File[] files = getFilesDir().listFiles();
+
         Gson gson = new Gson();
         List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
         for (File file : files) {
-            FileInputStream in = this.openFileInput(file.getName());
-            Reader reader = new BufferedReader(new InputStreamReader(in));
-            concreteMeasureList.add(gson.fromJson(reader,ConcreteMeasure.class));
+            if (file.getName().contains("converter_")) {
+                try {
+                    FileInputStream in = this.openFileInput(file.getName());
+                    Reader reader = new BufferedReader(new InputStreamReader(in));
+                    concreteMeasureList.add(gson.fromJson(reader, ConcreteMeasure.class));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         Measures measures = Measures.getInstance();

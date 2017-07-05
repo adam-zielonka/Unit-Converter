@@ -59,16 +59,16 @@ public class DrawerActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         Measures measures = Measures.getInstance();
@@ -98,8 +98,8 @@ public class DrawerActivity extends AppCompatActivity
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
 
-            textFrom = (EditText) findViewById(R.id.textFrom);
-            textTo = (EditText) findViewById(R.id.textTo);
+            textFrom = findViewById(R.id.textFrom);
+            textTo = findViewById(R.id.textTo);
 
             textFrom.requestFocus();
 
@@ -109,8 +109,8 @@ public class DrawerActivity extends AppCompatActivity
             concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                     measureList.get(this.converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
 
-            spinnerFrom = (Spinner) findViewById(R.id.spinnerFrom);
-            spinnerTo = (Spinner) findViewById(R.id.spinnerTo);
+            spinnerFrom = findViewById(R.id.spinnerFrom);
+            spinnerTo = findViewById(R.id.spinnerTo);
 
             spinnerFrom.setAdapter(concreteAdapter);
             spinnerTo.setAdapter(concreteAdapter);
