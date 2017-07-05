@@ -40,7 +40,6 @@ public class DrawerActivity extends AppCompatActivity
         View.OnFocusChangeListener, AdapterView.OnItemSelectedListener {
 
     private DrawerLayout drawer;
-    private SharedPreferences preferences;
     private NavigationView navigationView;
     private List<ConcreteMeasure> measureList;
     private int converterID;
@@ -55,7 +54,7 @@ public class DrawerActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme(Theme.getConverterStyleID(preferences.getString("theme", "")));
 
         super.onCreate(savedInstanceState);

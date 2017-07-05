@@ -19,11 +19,6 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
         super(context, R.layout.units_layout, objects);
     }
 
-    public String getItemName(int position) {
-        ConcreteUnit item = getItem(position);
-        return item != null ? item.getName() : "";
-    }
-
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)

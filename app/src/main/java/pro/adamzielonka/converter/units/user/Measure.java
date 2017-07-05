@@ -29,7 +29,7 @@ public class Measure {
 
     private List<ConcreteUnit> concreteUnits = null;
 
-    private int getPosition(int i, int position){
+    private int getPosition(int i, int position) {
         return (2 * i) + ((position != 0) ? (((-2) * position) + 1) : 0);
     }
 
@@ -90,7 +90,7 @@ public class Measure {
         return 0;
     }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 

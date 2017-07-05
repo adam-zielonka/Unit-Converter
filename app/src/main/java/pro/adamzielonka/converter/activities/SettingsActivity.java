@@ -17,11 +17,9 @@ import pro.adamzielonka.converter.tools.Theme;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private SharedPreferences preferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme(Theme.getStyleID(preferences.getString("theme", "")));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);

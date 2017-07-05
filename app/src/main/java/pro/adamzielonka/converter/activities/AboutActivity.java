@@ -22,11 +22,11 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
     }
 
-    public void onClickOK(View view) {
+    public void onClickOK(@SuppressWarnings("unused") View view) {
         finish();
     }
 
-    public void onClickWebsite(View view) {
+    public void onClickWebsite(@SuppressWarnings("unused") View view) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/"));
         startActivity(browserIntent);
     }

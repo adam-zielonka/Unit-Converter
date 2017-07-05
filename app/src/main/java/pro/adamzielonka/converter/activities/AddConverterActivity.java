@@ -35,18 +35,20 @@ import pro.adamzielonka.converter.units.user.Measure;
 public class AddConverterActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
-    private SharedPreferences preferences;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme(Theme.getStyleID(preferences.getString("theme", "")));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_converter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -59,18 +61,23 @@ public class AddConverterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickSampleFiles(View v) {
+    public void onClickSampleFiles(@SuppressWarnings("unused") View v) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bitbucket.org/adam-zielonka-pro/converters/src"));
         startActivity(browserIntent);
     }
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+    public void onClickFromJsonFile(@SuppressWarnings("unused") View v) {
 
-    public void onClickFromJsonFile(View v) {
+        String[] PERMISSIONS_STORAGE;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            PERMISSIONS_STORAGE = new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            };
+        } else {
+            PERMISSIONS_STORAGE = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        }
+
         ActivityCompat.requestPermissions(this,
                 PERMISSIONS_STORAGE,
                 REQUEST_EXTERNAL_STORAGE);
@@ -85,7 +92,7 @@ public class AddConverterActivity extends AppCompatActivity {
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
             } else {
-                showInfo(R.string.error_no_permissions, R.color.colorRedPrimary);
+                showError(R.string.error_no_permissions);
             }
         }
     }
@@ -104,6 +111,10 @@ public class AddConverterActivity extends AppCompatActivity {
     private void loadConverter(Uri uri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                showError(R.string.error_no_file);
+                return;
+            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             Gson gson = new Gson();
 
@@ -117,7 +128,7 @@ public class AddConverterActivity extends AppCompatActivity {
 
             Log.i("COUNT", "loadConverter: " + concreteMeasure.getConcreteUnits().size());
             if (concreteMeasure.getConcreteUnits().size() == 0) {
-                showInfo(R.string.error_no_units, R.color.colorRedPrimary);
+                showError(R.string.error_no_units);
                 return;
             }
 
@@ -132,23 +143,23 @@ public class AddConverterActivity extends AppCompatActivity {
             finish();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            showInfo(R.string.error_no_json_file, R.color.colorRedPrimary);
+            showError(R.string.error_no_json_file);
         } catch (Exception e) {
-            showInfo(R.string.error_no_json_file, R.color.colorRedPrimary);
+            showError(R.string.error_no_json_file);
         }
 
     }
 
-    public boolean isFileExist(String fileName) {
+    private boolean isFileExist(String fileName) {
         File file = getBaseContext().getFileStreamPath(fileName);
         return file.exists();
     }
 
-    public void showInfo(int msg, int color) {
+    private void showError(int msg) {
         View parentLayout = findViewById(android.R.id.content);
         Snackbar snackbar = Snackbar.make(parentLayout, msg, Snackbar.LENGTH_LONG).setAction("Action", null);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(ContextCompat.getColor(this, color));
+        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorRedPrimary));
         snackbar.show();
     }
 }

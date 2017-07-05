@@ -3,10 +3,10 @@ package pro.adamzielonka.converter.units.concrete;
 import java.util.List;
 
 public class ConcreteMeasure {
-    private String name;
-    private Integer displayFrom;
-    private Integer displayTo;
-    private List<ConcreteUnit> concreteUnits;
+    private final String name;
+    private final Integer displayFrom;
+    private final Integer displayTo;
+    private final List<ConcreteUnit> concreteUnits;
 
     public ConcreteMeasure(String name, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits) {
         this.name = name;
