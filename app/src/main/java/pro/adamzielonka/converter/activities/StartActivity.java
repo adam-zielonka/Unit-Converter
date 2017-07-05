@@ -86,8 +86,10 @@ public class StartActivity extends AppCompatActivity {
         }
 
         for (ConcreteMeasure measure : concreteMeasureList) {
+            String fileName = "converter_" + measure.getName() + ".json";
+            measure.setFileName(fileName);
             String json = gson.toJson(measure);
-            FileOutputStream out = openFileOutput("converter_" + measure.getName() + ".json", MODE_PRIVATE);
+            FileOutputStream out = openFileOutput(fileName, MODE_PRIVATE);
             out.write(json.getBytes());
             out.close();
         }

@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class DrawerActivity extends AppCompatActivity
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private ConcreteAdapter concreteAdapter;
+    private ConcreteMeasure measure;
 
     private static final int DEFAULT_CONVERTER_ID = 1000;
 
@@ -74,12 +76,17 @@ public class DrawerActivity extends AppCompatActivity
         Measures measures = Measures.getInstance();
         measureList = measures.getMeasureList();
 
-        setupConvertersMenu(navigationView.getMenu());
+        int count = setupConvertersMenu(navigationView.getMenu());
 
-        setupConverter(DEFAULT_CONVERTER_ID);
+        if (count > 0) setupConverter(DEFAULT_CONVERTER_ID);
+        else {
+            Intent intent = new Intent(this.getBaseContext(), EmptyActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
-    private void setupConvertersMenu(Menu menu) {
+    private int setupConvertersMenu(Menu menu) {
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
         int i = 0;
@@ -88,12 +95,13 @@ public class DrawerActivity extends AppCompatActivity
             menuItem.setCheckable(true);
             i++;
         }
+        return i;
     }
 
     private void setupConverter(int converterID) {
         try {
             this.converterID = converterID;
-            ConcreteMeasure measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
+            measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
 
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
@@ -218,5 +226,35 @@ public class DrawerActivity extends AppCompatActivity
         }
 
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_converter, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_delete_converter) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.delete_converter_title)
+                    .setMessage(R.string.delete_converter_msg)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.delete_converter_yes, (dialog, which) -> {
+                        if (getBaseContext().getFileStreamPath(measure.getFileName()).delete()) {
+                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).setNegativeButton(R.string.delete_converter_no, (dialog, which) -> {
+            }).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

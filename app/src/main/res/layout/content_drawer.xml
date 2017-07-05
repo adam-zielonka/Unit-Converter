@@ -28,6 +28,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerFrom"
+                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:prompt="@string/spinner_title"
@@ -56,6 +57,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerTo"
+                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:prompt="@string/spinner_title"
@@ -195,9 +197,9 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="@string/clear_text"
                         android:onClick="onClickClear"
-                        app:srcCompat="@drawable/ic_clear_white_24dp"
-                        android:contentDescription="@string/clear_text"  />
+                        app:srcCompat="@drawable/ic_clear_white_24dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -306,10 +308,10 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="@string/delete_last_digit"
                         android:onClick="onClickDeleteLast"
                         android:tag="◀"
-                        app:srcCompat="@drawable/ic_backspace_white_24dp"
-                        android:contentDescription="@string/delete_last_digit" />
+                        app:srcCompat="@drawable/ic_backspace_white_24dp" />
                 </LinearLayout>
             </LinearLayout>
 

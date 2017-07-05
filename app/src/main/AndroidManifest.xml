@@ -44,6 +44,10 @@
             android:name=".activities.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.EmptyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
     </application>
 
 </manifest>

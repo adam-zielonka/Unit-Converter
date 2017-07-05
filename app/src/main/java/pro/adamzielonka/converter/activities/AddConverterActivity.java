@@ -128,6 +128,8 @@ public class AddConverterActivity extends AppCompatActivity {
                 fileName = "converter_" + concreteMeasure.getName() + "_" + i + ".json";
             }
 
+            concreteMeasure.setFileName(fileName);
+
             String json = gson.toJson(concreteMeasure);
             FileOutputStream out = openFileOutput(fileName, MODE_PRIVATE);
             out.write(json.getBytes());

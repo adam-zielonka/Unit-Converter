@@ -1,8 +1,5 @@
 package pro.adamzielonka.converter.units.user;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,23 +7,14 @@ import java.util.List;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
-@SuppressWarnings({"CanBeFinal", "FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings({"FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
 public class Measure {
-    @SerializedName("name")
-    @Expose
     private String name = "";
-    @SerializedName("displayFrom")
-    @Expose
     private Integer displayFrom = 0;
-    @SerializedName("displayTo")
-    @Expose
     private Integer displayTo = 1;
-    @SerializedName("units")
-    @Expose
     private List<Unit> units = new ArrayList<>();
 
     private int count = -1;
-
     private List<ConcreteUnit> concreteUnits = null;
 
     private int getPosition(int i, int position) {

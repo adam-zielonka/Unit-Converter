@@ -7,6 +7,7 @@ public class ConcreteMeasure {
     private final Integer displayFrom;
     private final Integer displayTo;
     private final List<ConcreteUnit> concreteUnits;
+    private String fileName;
 
     public ConcreteMeasure(String name, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits) {
         this.name = name;
@@ -29,5 +30,13 @@ public class ConcreteMeasure {
 
     public List<ConcreteUnit> getConcreteUnits() {
         return concreteUnits;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

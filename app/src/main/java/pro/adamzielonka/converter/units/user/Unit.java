@@ -1,39 +1,18 @@
 package pro.adamzielonka.converter.units.user;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
+@SuppressWarnings({"FieldCanBeLocal"})
 class Unit {
-    @SerializedName("unitName")
-    @Expose
     private String unitName = "";
-    @SerializedName("unitDescriptionFirst")
-    @Expose
     private String unitDescriptionFirst = "";
-    @SerializedName("unitDescription")
-    @Expose
     private String unitDescription = "";
-    @SerializedName("unitPosition")
-    @Expose
     private Integer unitPosition = 0;
-    @SerializedName("prefixBase")
-    @Expose
     private Double prefixBase = 10.0;
-    @SerializedName("one")
-    @Expose
     private Double one = 1.0;
-    @SerializedName("shift")
-    @Expose
     private Double shift = 0.0;
-    @SerializedName("shift2")
-    @Expose
     private Double shift2 = 0.0;
-    @SerializedName("prefixes")
-    @Expose
     private List<Prefix> prefixes = new ArrayList<>();
 
     List<Prefix> getPrefixes() {
