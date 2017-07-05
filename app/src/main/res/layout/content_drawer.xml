@@ -15,74 +15,124 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayoutKeyboard"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:weightSum="100">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spinnerFrom"
-                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:background="@null"
                     android:prompt="@string/spinner_title"
                     android:spinnerMode="dialog" />
 
-                <EditText
-                    android:id="@+id/textFrom"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textIsSelectable="true"
-                    android:textSize="24sp"
-                    tools:ignore="HardcodedText" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="100">
+
+                    <EditText
+                        android:id="@+id/textFrom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_weight="50"
+                        android:background="@android:color/transparent"
+                        android:cursorVisible="false"
+                        android:ems="10"
+                        android:gravity="end|bottom"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textAlignment="textEnd"
+                        android:textIsSelectable="true"
+                        android:textSize="24sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/textViewFrom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="50"
+                        android:text="Sample"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spinnerTo"
-                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:background="@null"
                     android:prompt="@string/spinner_title"
                     android:spinnerMode="dialog" />
 
-                <EditText
-                    android:id="@+id/textTo"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textIsSelectable="true"
-                    android:textSize="24sp"
-                    tools:ignore="HardcodedText" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="100">
+
+                    <EditText
+                        android:id="@+id/textTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_weight="50"
+                        android:background="@android:color/transparent"
+                        android:cursorVisible="false"
+                        android:ems="10"
+                        android:gravity="end|bottom"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textAlignment="textEnd"
+                        android:textIsSelectable="true"
+                        android:textSize="24sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/textViewTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="50"
+                        android:text="Sample"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/linearLayoutKeyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

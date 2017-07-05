@@ -8,11 +8,10 @@
     <TextView
         android:id="@+id/unitsTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_height="match_parent"
         android:text="S"
-        android:textAlignment="textEnd"
+        android:gravity="center"
         android:textColor="?colorPrimary"
-        android:textSize="36sp"
+        android:textSize="24sp"
         tools:ignore="HardcodedText" />
 </LinearLayout>

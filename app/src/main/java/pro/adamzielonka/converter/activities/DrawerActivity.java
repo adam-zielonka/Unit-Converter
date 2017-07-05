@@ -2,6 +2,7 @@ package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Number.appendComa;
@@ -44,9 +47,12 @@ public class DrawerActivity extends AppCompatActivity
     private NavigationView navigationView;
     private List<ConcreteMeasure> measureList;
     private int converterID;
+    private String themeID;
 
     private EditText textFrom;
     private EditText textTo;
+    private TextView textViewFrom;
+    private TextView textViewTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private ConcreteAdapter concreteAdapter;
@@ -57,7 +63,8 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        setTheme(Theme.getConverterStyleID(preferences.getString("theme", "")));
+        themeID = preferences.getString("theme", "");
+        setTheme(Theme.getConverterStyleID(themeID));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
@@ -106,8 +113,14 @@ public class DrawerActivity extends AppCompatActivity
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
 
+            textViewFrom = findViewById(R.id.textViewFrom);
+            textViewTo = findViewById(R.id.textViewTo);
+
             textFrom = findViewById(R.id.textFrom);
             textTo = findViewById(R.id.textTo);
+
+            textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
+            textTo.setTextColor(Color.BLACK);
 
             textFrom.requestFocus();
 
@@ -128,6 +141,11 @@ public class DrawerActivity extends AppCompatActivity
             spinnerFrom.setSelection(measure.getDisplayFrom());
             spinnerTo.setSelection(measure.getDisplayTo());
 
+            ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
+            ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
+            textViewFrom.setText(from != null ? from.getDescription() : "");
+            textViewTo.setText(to != null ? to.getDescription() : "");
+
             onClickClear(null);
         } catch (Exception e) {
             setupConverter(DEFAULT_CONVERTER_ID);
@@ -139,11 +157,18 @@ public class DrawerActivity extends AppCompatActivity
         if (hasFocus && textTo.equals(view)) {
             textFrom = (EditText) getItself(textTo, textTo = textFrom);
             spinnerFrom = (Spinner) getItself(spinnerTo, spinnerTo = spinnerFrom);
+            textViewFrom = (TextView) getItself(textViewTo, textViewTo = textViewFrom);
+            textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
+            textTo.setTextColor(Color.BLACK);
         }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
+        ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
+        textViewFrom.setText(from != null ? from.getDescription() : "");
+        textViewTo.setText(to != null ? to.getDescription() : "");
         calculate();
     }
 

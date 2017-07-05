@@ -28,4 +28,17 @@ public class Theme {
                 return R.style.BlueTheme_Converter;
         }
     }
+
+    public static int getTextColorID(String themeID){
+        switch (themeID) {
+            case "1":
+                return R.color.colorRedPrimaryDark;
+            case "2":
+                return R.color.colorGreenPrimaryDark;
+            case "3":
+                return R.color.colorGreyPrimaryDark;
+            default:
+                return R.color.colorPrimaryDark;
+        }
+    }
 }
