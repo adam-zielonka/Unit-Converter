@@ -12,6 +12,11 @@ public class Measure {
     private String name = "";
     private Integer displayFrom = 0;
     private Integer displayTo = 1;
+
+    public List<Unit> getUnits() {
+        return units;
+    }
+
     private List<Unit> units = new ArrayList<>();
 
     private int getPosition(int i, int position) {
@@ -74,7 +79,7 @@ public class Measure {
         return 0;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 

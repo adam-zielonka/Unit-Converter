@@ -51,5 +51,7 @@
     <string name="success_save_to_downloads">Saved to downloads</string>
     <string name="error_create_file">Unable to save file</string>
     <string name="error_no_permissions_to_write_file">No permission to write file</string>
+    <string name="title_activity_edit_measure">EditMeasureActivity</string>
+    <string name="edit_converter">Edit</string>
 
 </resources>

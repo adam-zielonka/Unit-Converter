@@ -1,25 +1,25 @@
 package pro.adamzielonka.converter.units.user;
 
 @SuppressWarnings({"FieldCanBeLocal"})
-class Prefix {
+public class Prefix {
     private String prefixName = "";
     private String prefixDescription = "";
     private Double prefixExponent = 1.0;
     private Integer unitPosition = 0;
 
-    String getPrefixName() {
+    public String getPrefixName() {
         return prefixName;
     }
 
-    String getPrefixDescription() {
+    public String getPrefixDescription() {
         return prefixDescription;
     }
 
-    Integer getUnitPosition() {
+    public Integer getUnitPosition() {
         return unitPosition;
     }
 
-    Double getPrefixExponent() {
+    public Double getPrefixExponent() {
         return prefixExponent;
     }
 }

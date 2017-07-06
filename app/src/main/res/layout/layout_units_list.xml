@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/textUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="S - Sample"
+        android:textSize="24sp"
+        android:textColor="?colorPrimaryDark"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textPrefixes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="kS MS mS"
+        android:textColor="?colorAccent"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

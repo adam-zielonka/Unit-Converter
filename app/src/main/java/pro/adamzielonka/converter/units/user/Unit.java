@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal"})
-class Unit {
+public class Unit {
     private String unitName = "";
     private String unitDescriptionFirst = "";
     private String unitDescription = "";
@@ -15,39 +15,39 @@ class Unit {
     private Double shift2 = 0.0;
     private List<Prefix> prefixes = new ArrayList<>();
 
-    List<Prefix> getPrefixes() {
+    public List<Prefix> getPrefixes() {
         return prefixes;
     }
 
-    String getUnitName() {
+    public String getUnitName() {
         return unitName;
     }
 
-    String getUnitDescriptionFirst() {
+    public String getUnitDescriptionFirst() {
         return unitDescriptionFirst;
     }
 
-    String getUnitDescription() {
+    public String getUnitDescription() {
         return unitDescription;
     }
 
-    Integer getUnitPosition() {
+    public Integer getUnitPosition() {
         return unitPosition;
     }
 
-    Double getOne() {
+    public Double getOne() {
         return one;
     }
 
-    Double getShift() {
+    public Double getShift() {
         return shift;
     }
 
-    Double getShift2() {
+    public Double getShift2() {
         return shift2;
     }
 
-    Double getPrefixBase() {
+    public Double getPrefixBase() {
         return prefixBase;
     }
 }

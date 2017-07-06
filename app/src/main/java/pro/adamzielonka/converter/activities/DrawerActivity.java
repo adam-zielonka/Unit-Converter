@@ -1,19 +1,15 @@
 package pro.adamzielonka.converter.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -24,13 +20,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
@@ -39,13 +28,8 @@ import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
-import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
-import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
-import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
-import static pro.adamzielonka.converter.tools.Message.showError;
-import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Number.appendComa;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
@@ -74,7 +58,6 @@ public class DrawerActivity extends AppCompatActivity
     private ConcreteMeasure measure;
 
     private static final int DEFAULT_CONVERTER_ID = 1000;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,74 +263,15 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.menu_delete_converter:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_converter_title)
-                        .setMessage(R.string.delete_converter_msg)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.delete_converter_yes, (dialog, which) -> {
-                            if (getFileStreamPath(measure.getConcreteFileName()).delete() &&
-                                    getFileStreamPath(measure.getUserFileName()).delete()) {
-                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }).setNegativeButton(R.string.delete_converter_no, (dialog, which) -> {
-                }).show();
-                return true;
-            case R.id.menu_save_converter:
-                saveToDownloads();
+            case R.id.menu_edit_converter:
+                Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+                intent.putExtra("measureFileName", measure.getConcreteFileName());
+                startActivity(intent);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveToDownloads() {
-        String[] PERMISSIONS_STORAGE;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            PERMISSIONS_STORAGE = new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            };
-        } else {
-            PERMISSIONS_STORAGE = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        }
-
-        ActivityCompat.requestPermissions(this,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && isExternalStorageWritable()) {
-                save();
-            } else {
-                showError(this, R.string.error_no_permissions_to_write_file);
-            }
-        }
-    }
-
-    private void save() {
-        try {
-            FileInputStream in = openFileInput(measure.getUserFileName());
-            Reader reader = new BufferedReader(new InputStreamReader(in));
-            Gson gson = new Gson();
-            String json = gson.toJson(gson.fromJson(reader, Measure.class));
-
-            OutputStream out = getContentResolver().openOutputStream(getFileUri(measure.getName()));
-            if (out != null) {
-                out.write(json.getBytes());
-                out.close();
-                showSuccess(this, R.string.success_save_to_downloads);
-            } else showError(this, R.string.error_create_file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError(this, R.string.error_create_file);
-        }
-    }
 
 }
