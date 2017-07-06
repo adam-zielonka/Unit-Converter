@@ -9,9 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -21,14 +19,18 @@ import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
+
+import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
+import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
+import static pro.adamzielonka.converter.tools.Message.showError;
 
 public class AddConverterActivity extends AppCompatActivity {
 
@@ -88,7 +90,7 @@ public class AddConverterActivity extends AppCompatActivity {
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
             } else {
-                showError(R.string.error_no_permissions);
+                showError(this, R.string.error_no_permissions);
             }
         }
     }
@@ -106,65 +108,36 @@ public class AddConverterActivity extends AppCompatActivity {
 
     private void loadConverter(Uri uri) {
         try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            if (inputStream == null) {
-                showError(R.string.error_no_file);
-                return;
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            Gson gson = new Gson();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, uri)));
 
+            Gson gson = new Gson();
             Measure userMeasure = gson.fromJson(reader, Measure.class);
             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-            if (concreteMeasure.getConcreteUnits().size() == 0) {
-                showError(R.string.error_no_units);
+            if (!concreteMeasure.isCorrect()) {
+                showError(this, R.string.error_no_units);
                 return;
             }
 
-            String concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + ".json";
-            String userFileName = "user_" + concreteMeasure.getName().toUpperCase() + ".json";
-
-            for (int i = 1; isFileExist(concreteFileName); i++) {
-                concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + "_" + i + ".json";
-                userFileName = "user_" + concreteMeasure.getName().toUpperCase() + "_" + i + ".json";
-            }
+            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
+            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
 
             concreteMeasure.setConcreteFileName(concreteFileName);
             concreteMeasure.setUserFileName(userFileName);
 
-            String json = gson.toJson(concreteMeasure);
-            FileOutputStream out = openFileOutput(concreteFileName, MODE_PRIVATE);
-            out.write(json.getBytes());
-            out.close();
-
-            json = gson.toJson(userMeasure);
-            out = openFileOutput(userFileName, MODE_PRIVATE);
-            out.write(json.getBytes());
-            out.close();
+            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
+            saveToInternal(this, userFileName, gson.toJson(userMeasure));
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            showError(R.string.error_no_json_file);
+            showError(this, R.string.error_no_file);
+        } catch (IOException e) {
+            showError(this, R.string.error_no_json_file);
         } catch (Exception e) {
-            showError(R.string.error_no_json_file);
+            showError(this, R.string.error_no_json_file);
         }
-
-    }
-
-    private boolean isFileExist(String fileName) {
-        return getFileStreamPath(fileName).exists();
-    }
-
-    private void showError(int msg) {
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(parentLayout, msg, Snackbar.LENGTH_LONG).setAction("Action", null);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorRedPrimary));
-        snackbar.show();
     }
 }

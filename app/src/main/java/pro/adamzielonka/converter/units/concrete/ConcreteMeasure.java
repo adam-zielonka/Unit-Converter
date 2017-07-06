@@ -48,4 +48,8 @@ public class ConcreteMeasure {
     public void setUserFileName(String userFileName) {
         this.userFileName = userFileName;
     }
+
+    public boolean isCorrect() {
+        return concreteUnits.size() != 0;
+    }
 }

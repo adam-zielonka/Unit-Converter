@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +22,9 @@ import java.util.List;
 import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
+
+import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -82,23 +84,15 @@ public class StartActivity extends AppCompatActivity {
             }
         }
 
-        for (Measure measure : measureList) {
-            ConcreteMeasure concreteMeasure = measure.getConcreteMeasure();
+        for (Measure userMeasure : measureList) {
+            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-            String concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + ".json";
-            String userFileName = "user_" + concreteMeasure.getName().toUpperCase() + ".json";
+            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
+            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
             concreteMeasure.setConcreteFileName(concreteFileName);
             concreteMeasure.setUserFileName(userFileName);
-
-            String json = gson.toJson(concreteMeasure);
-            FileOutputStream out = openFileOutput(concreteFileName, MODE_PRIVATE);
-            out.write(json.getBytes());
-            out.close();
-
-            json = gson.toJson(measure);
-            out = openFileOutput(userFileName, MODE_PRIVATE);
-            out.write(json.getBytes());
-            out.close();
+            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
+            saveToInternal(this, userFileName, gson.toJson(userMeasure));
         }
 
         SharedPreferences.Editor editor = preferences.edit();
@@ -106,6 +100,7 @@ public class StartActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void clearInternalStorage() {
         File[] files = getFilesDir().listFiles();
         for (File file : files) getFileStreamPath(file.getName()).delete();

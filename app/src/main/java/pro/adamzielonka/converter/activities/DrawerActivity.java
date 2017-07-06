@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,7 +27,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -47,6 +42,10 @@ import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
+import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
+import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
+import static pro.adamzielonka.converter.tools.Message.showError;
+import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Number.appendComa;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
@@ -305,24 +304,7 @@ public class DrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public File getFile(String converterName) {
-        String fileName = "converter_" + converterName + ".json";
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS), fileName);
-        for (int i = 1; file.exists(); i++) {
-            fileName = "converter_" + converterName + "_" + i + ".json";
-            file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS), fileName);
-        }
-        return file;
-    }
-
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
-
-    public void saveToDownloads() {
+    private void saveToDownloads() {
         String[] PERMISSIONS_STORAGE;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             PERMISSIONS_STORAGE = new String[]{
@@ -342,50 +324,30 @@ public class DrawerActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && isExternalStorageWritable()) {
-                try {
-                    FileInputStream in = this.openFileInput(measure.getUserFileName());
-                    Reader reader = new BufferedReader(new InputStreamReader(in));
-                    Gson gson = new Gson();
-                    String json = gson.toJson(gson.fromJson(reader, Measure.class));
-
-                    File file = getFile(measure.getName().toLowerCase());
-                    if (file.createNewFile()) {
-
-
-                        OutputStream out = getContentResolver().openOutputStream(Uri.parse(file.toURI().toString()));
-
-                        if (out != null) {
-                            out.write(json.getBytes());
-                            out.close();
-
-                            showSuccess(R.string.success_save_to_downloads);
-                        } else showError(R.string.error_create_file);
-
-                    } else showError(R.string.error_create_file);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showError(R.string.error_create_file);
-                }
+                save();
             } else {
-                showError(R.string.error_no_permissions_to_write_file);
+                showError(this, R.string.error_no_permissions_to_write_file);
             }
         }
     }
 
-    private void showError(int msg) {
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(parentLayout, msg, Snackbar.LENGTH_LONG).setAction("Action", null);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorRedPrimary));
-        snackbar.show();
-    }
+    private void save() {
+        try {
+            FileInputStream in = openFileInput(measure.getUserFileName());
+            Reader reader = new BufferedReader(new InputStreamReader(in));
+            Gson gson = new Gson();
+            String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
-    private void showSuccess(int msg) {
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(parentLayout, msg, Snackbar.LENGTH_LONG).setAction("Action", null);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreenPrimary));
-        snackbar.show();
+            OutputStream out = getContentResolver().openOutputStream(getFileUri(measure.getName()));
+            if (out != null) {
+                out.write(json.getBytes());
+                out.close();
+                showSuccess(this, R.string.success_save_to_downloads);
+            } else showError(this, R.string.error_create_file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError(this, R.string.error_create_file);
+        }
     }
 
 }
