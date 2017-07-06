@@ -41,7 +41,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void loadConverters() {
-        if (!preferences.getBoolean("v1.1.11-alpha", false)) try {
+        if (!preferences.getBoolean("v1.1.12-alpha", false)) try {
             firstRun();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class StartActivity extends AppCompatActivity {
         Gson gson = new Gson();
         List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
         for (File file : files) {
-            if (file.getName().contains("converter_")) {
+            if (file.getName().contains("concrete_")) {
                 try {
                     FileInputStream in = this.openFileInput(file.getName());
                     Reader reader = new BufferedReader(new InputStreamReader(in));
@@ -82,22 +82,27 @@ public class StartActivity extends AppCompatActivity {
             }
         }
 
-        List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
         for (Measure measure : measureList) {
-            concreteMeasureList.add(measure.getConcreteMeasure());
-        }
+            ConcreteMeasure concreteMeasure = measure.getConcreteMeasure();
 
-        for (ConcreteMeasure measure : concreteMeasureList) {
-            String fileName = "converter_" + measure.getName() + ".json";
-            measure.setFileName(fileName);
-            String json = gson.toJson(measure);
-            FileOutputStream out = openFileOutput(fileName, MODE_PRIVATE);
+            String concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + ".json";
+            String userFileName = "user_" + concreteMeasure.getName().toUpperCase() + ".json";
+            concreteMeasure.setConcreteFileName(concreteFileName);
+            concreteMeasure.setUserFileName(userFileName);
+
+            String json = gson.toJson(concreteMeasure);
+            FileOutputStream out = openFileOutput(concreteFileName, MODE_PRIVATE);
+            out.write(json.getBytes());
+            out.close();
+
+            json = gson.toJson(measure);
+            out = openFileOutput(userFileName, MODE_PRIVATE);
             out.write(json.getBytes());
             out.close();
         }
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("v1.1.11-alpha", true);
+        editor.putBoolean("v1.1.12-alpha", true);
         editor.apply();
     }
 

@@ -37,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
+                    android:entries="@array/pref_theme_list_titles"
                     android:prompt="@string/spinner_title"
                     android:spinnerMode="dialog" />
 
@@ -89,6 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
+                    android:entries="@array/pref_theme_list_titles"
                     android:prompt="@string/spinner_title"
                     android:spinnerMode="dialog" />
 

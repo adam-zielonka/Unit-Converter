@@ -20,7 +20,6 @@ import android.view.View;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -115,23 +114,32 @@ public class AddConverterActivity extends AppCompatActivity {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             Gson gson = new Gson();
 
-            ConcreteMeasure concreteMeasure = gson.fromJson(reader, Measure.class).getConcreteMeasure();
+            Measure userMeasure = gson.fromJson(reader, Measure.class);
+            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
             if (concreteMeasure.getConcreteUnits().size() == 0) {
                 showError(R.string.error_no_units);
                 return;
             }
 
-            String fileName = "converter_" + concreteMeasure.getName() + ".json";
+            String concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + ".json";
+            String userFileName = "user_" + concreteMeasure.getName().toUpperCase() + ".json";
 
-            for (int i = 0; isFileExist(fileName); i++) {
-                fileName = "converter_" + concreteMeasure.getName() + "_" + i + ".json";
+            for (int i = 1; isFileExist(concreteFileName); i++) {
+                concreteFileName = "concrete_" + concreteMeasure.getName().toUpperCase() + "_" + i + ".json";
+                userFileName = "user_" + concreteMeasure.getName().toUpperCase() + "_" + i + ".json";
             }
 
-            concreteMeasure.setFileName(fileName);
+            concreteMeasure.setConcreteFileName(concreteFileName);
+            concreteMeasure.setUserFileName(userFileName);
 
             String json = gson.toJson(concreteMeasure);
-            FileOutputStream out = openFileOutput(fileName, MODE_PRIVATE);
+            FileOutputStream out = openFileOutput(concreteFileName, MODE_PRIVATE);
+            out.write(json.getBytes());
+            out.close();
+
+            json = gson.toJson(userMeasure);
+            out = openFileOutput(userFileName, MODE_PRIVATE);
             out.write(json.getBytes());
             out.close();
 
@@ -149,8 +157,7 @@ public class AddConverterActivity extends AppCompatActivity {
     }
 
     private boolean isFileExist(String fileName) {
-        File file = getBaseContext().getFileStreamPath(fileName);
-        return file.exists();
+        return getFileStreamPath(fileName).exists();
     }
 
     private void showError(int msg) {

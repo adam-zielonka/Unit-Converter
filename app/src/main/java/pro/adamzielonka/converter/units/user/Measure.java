@@ -14,15 +14,12 @@ public class Measure {
     private Integer displayTo = 1;
     private List<Unit> units = new ArrayList<>();
 
-    private int count = -1;
-    private List<ConcreteUnit> concreteUnits = null;
-
     private int getPosition(int i, int position) {
         return (2 * i) + ((position != 0) ? (((-2) * position) + 1) : 0);
     }
 
-    private void setConcreteUnits() {
-        concreteUnits = new ArrayList<>();
+    private List<ConcreteUnit> setConcreteUnits() {
+        List<ConcreteUnit> concreteUnits = new ArrayList<>();
         int i = 0;
         for (Unit unit : units) {
             concreteUnits.add(new ConcreteUnit(
@@ -47,12 +44,11 @@ public class Measure {
             }
         }
         Collections.sort(concreteUnits, (unit1, unit2) -> ((Integer) unit1.getPosition()).compareTo(unit2.getPosition()));
+        return concreteUnits;
     }
 
     private List<ConcreteUnit> getConcreteUnits() {
-        if (concreteUnits == null)
-            setConcreteUnits();
-        return concreteUnits;
+           return setConcreteUnits();
     }
 
     public ConcreteMeasure getConcreteMeasure() {
@@ -82,19 +78,18 @@ public class Measure {
         return name;
     }
 
-    private void setCount() {
-        count = 0;
+    private int setCount() {
+        int count = 0;
         for (Unit unit : units) {
             count++;
             for (Prefix prefix : unit.getPrefixes()) {
                 count++;
             }
         }
+        return count;
     }
 
     private int getCount() {
-        if (count == -1)
-            setCount();
-        return count;
+        return setCount();
     }
 }
