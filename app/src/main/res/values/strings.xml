@@ -44,8 +44,8 @@
     <string name="delete_converter">Delete</string>
     <string name="delete_converter_title">Delete converter</string>
     <string name="delete_converter_msg">Are you sure?</string>
-    <string name="delete_converter_yes">Yes</string>
-    <string name="delete_converter_no">No</string>
+    <string name="delete_converter_yes">Delete</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="empty_converters">Add converters to use them</string>
     <string name="save_converter">Save to downloads</string>
     <string name="success_save_to_downloads">Saved to downloads</string>
@@ -63,5 +63,8 @@
     <string name="list_item_symbol">Symbol</string>
     <string name="list_item_formula">Formula</string>
     <string name="list_title_exponentiation_base">Exponentiation base</string>
+    <string name="list_item_units_order">Order of units</string>
+    <string name="dialog_measure_name">Measure name</string>
+    <string name="dialog_save">Save</string>
 
 </resources>

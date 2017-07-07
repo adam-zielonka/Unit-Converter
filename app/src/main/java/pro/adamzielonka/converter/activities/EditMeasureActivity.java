@@ -13,17 +13,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -32,10 +36,12 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
+import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
@@ -45,8 +51,11 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
     Measure userMeasure;
     ConcreteMeasure concreteMeasure;
     UnitsAdapter unitsAdapter;
+    String measureFileName;
+    ListView listView;
+    View measureNameView;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static final int COUNT_SETTINGS_ITEMS = 3;
+    private static final int COUNT_SETTINGS_ITEMS = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +75,9 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
                 .setAction("Action", null).show());
 
         Intent intent = getIntent();
-        String measureFileName = intent.getStringExtra("measureFileName");
+        measureFileName = intent.getStringExtra("measureFileName");
         try {
-            concreteMeasure = openConcreteMeasure(measureFileName);
-            userMeasure = openMeasure(concreteMeasure.getUserFileName());
-            unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
-            ListView listView = findViewById(R.id.unitsList);
-            listView.setAdapter(unitsAdapter);
-            listView.setOnItemClickListener(this);
-            listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_Measure)), false, false);
-            listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_name), userMeasure.getName()), false, true);
-            listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
-
+            load();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             finish();
@@ -87,9 +87,72 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
         }
     }
 
+    private void load() throws FileNotFoundException {
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
+        listView = findViewById(R.id.unitsList);
+        listView.setAdapter(unitsAdapter);
+        listView.setOnItemClickListener(this);
+        measureNameView = getItemNormal(this, getString(R.string.list_item_name), userMeasure.getName());
+
+        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_Measure)), false, false);
+        listView.addHeaderView(measureNameView, false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_units_order), getUnitsOrder()), false, true);
+        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
+    }
+
+    void reLoad() throws FileNotFoundException {
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        ((TextView) measureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
+    }
+
+    private String getUnitsOrder() {
+        StringBuilder order = new StringBuilder("");
+        for (ConcreteUnit concreteUnit : concreteMeasure.getConcreteUnits()) {
+            order.append(concreteUnit.getName());
+            order.append(" ");
+        }
+        return order.toString();
+    }
+
+    public void saveChange() {
+        Gson gson = new Gson();
+        String concreteFileName = concreteMeasure.getConcreteFileName();
+        String userFileName = concreteMeasure.getUserFileName();
+        concreteMeasure = userMeasure.getConcreteMeasure(concreteFileName, userFileName);
+        try {
+            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
+            saveToInternal(this, userFileName, gson.toJson(userMeasure));
+            reLoad();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (position - COUNT_SETTINGS_ITEMS < 0) return;
+        if (position - COUNT_SETTINGS_ITEMS < 0) {
+            switch (position) {
+                case 1:
+                    View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+                    final EditText editText = layout.findViewById(R.id.editText);
+                    editText.setText("");
+                    editText.append(userMeasure.getName());
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.dialog_measure_name)
+                            .setView(layout)
+                            .setCancelable(true)
+                            .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                                userMeasure.setName(editText.getText().toString());
+                                Log.i("NAME", "onItemClick: " + userMeasure.getName());
+                                saveChange();
+                            }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                    }).show();
+            }
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
         intent.putExtra("unitName", unitsAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getUnitName());
@@ -117,11 +180,22 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
     }
 
     @Override
+    public void onBackPressed() {
+        Intent home = new Intent(getApplicationContext(), StartActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(home);
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         switch (id) {
             case android.R.id.home:
+                Intent home = new Intent(getApplicationContext(), StartActivity.class);
+                home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(home);
                 finish();
                 return true;
             case R.id.menu_delete_converter:
@@ -137,7 +211,7 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
                                 startActivity(intent);
                                 finish();
                             }
-                        }).setNegativeButton(R.string.delete_converter_no, (dialog, which) -> {
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
                 return true;
             case R.id.menu_save_converter:

@@ -9,6 +9,10 @@ import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
 @SuppressWarnings({"FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
 public class Measure {
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String name = "";
     private Integer displayFrom = 0;
     private Integer displayTo = 1;
@@ -53,7 +57,7 @@ public class Measure {
     }
 
     private List<ConcreteUnit> getConcreteUnits() {
-           return setConcreteUnits();
+        return setConcreteUnits();
     }
 
     public ConcreteMeasure getConcreteMeasure() {
@@ -62,6 +66,17 @@ public class Measure {
                 getDisplayFrom(),
                 getDisplayTo(),
                 getConcreteUnits()
+        );
+    }
+
+    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile) {
+        return new ConcreteMeasure(
+                getName(),
+                getDisplayFrom(),
+                getDisplayTo(),
+                getConcreteUnits(),
+                concreteFile,
+                userFile
         );
     }
 

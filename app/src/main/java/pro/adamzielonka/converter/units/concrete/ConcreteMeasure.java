@@ -17,6 +17,15 @@ public class ConcreteMeasure {
         this.concreteUnits = concreteUnits;
     }
 
+    public ConcreteMeasure(String name, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, String concreteFileName, String userFileName) {
+        this.name = name;
+        this.displayFrom = displayFrom;
+        this.displayTo = displayTo;
+        this.concreteUnits = concreteUnits;
+        this.concreteFileName = concreteFileName;
+        this.userFileName = userFileName;
+    }
+
     public String getName() {
         return name;
     }
