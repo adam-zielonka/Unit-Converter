@@ -34,9 +34,12 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
+        
         loadConverters();
+
+        Intent oldIntent = getIntent();
         Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
+        intent.putExtra("measureFileName", oldIntent.getStringExtra("measureFileName"));
         startActivity(intent);
 
         finish();

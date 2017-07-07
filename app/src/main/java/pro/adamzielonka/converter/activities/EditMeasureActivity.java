@@ -189,6 +189,7 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
     public void onBackPressed() {
         Intent home = new Intent(getApplicationContext(), StartActivity.class);
         home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
         startActivity(home);
         finish();
     }
@@ -201,6 +202,7 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
             case android.R.id.home:
                 Intent home = new Intent(getApplicationContext(), StartActivity.class);
                 home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 startActivity(home);
                 finish();
                 return true;

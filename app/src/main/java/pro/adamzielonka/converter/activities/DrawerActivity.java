@@ -84,12 +84,23 @@ public class DrawerActivity extends AppCompatActivity
 
         int count = setupConvertersMenu(navigationView.getMenu());
 
-        if (count > 0) setupConverter(DEFAULT_CONVERTER_ID);
+        Intent intent = getIntent();
+        if (count > 0) setupConverter(getIDFromFileName(intent.getStringExtra("measureFileName")));
         else {
-            Intent intent = new Intent(this.getBaseContext(), EmptyActivity.class);
-            startActivity(intent);
+            Intent empty = new Intent(this.getBaseContext(), EmptyActivity.class);
+            startActivity(empty);
             finish();
         }
+    }
+
+    private int getIDFromFileName(String fileName) {
+        int i = 0;
+        for (ConcreteMeasure concreteMeasure : measureList) {
+            if (concreteMeasure.getConcreteFileName().equals(fileName))
+                return i + DEFAULT_CONVERTER_ID;
+            i++;
+        }
+        return DEFAULT_CONVERTER_ID;
     }
 
     private int setupConvertersMenu(Menu menu) {
