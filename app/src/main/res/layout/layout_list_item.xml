@@ -10,19 +10,18 @@
     android:paddingTop="8dp">
 
     <TextView
-        android:id="@+id/textUnit"
+        android:id="@+id/textPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="S - Sample"
-        android:textSize="24sp"
-        android:textColor="?colorPrimaryDark"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/textPrefixes"
+        android:id="@+id/textSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="kS MS mS"
-        android:textColor="?colorAccent"
         tools:ignore="HardcodedText" />
 </LinearLayout>

@@ -17,14 +17,14 @@ import pro.adamzielonka.converter.units.user.Unit;
 public class UnitsAdapter extends ArrayAdapter<Unit> {
 
     public UnitsAdapter(@NonNull Context context, @NonNull List<Unit> objects) {
-        super(context, R.layout.layout_units_list, objects);
+        super(context, R.layout.layout_list_item, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_units_list, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false)
                 : convertView;
 
         Unit item = getItem(position);
@@ -37,8 +37,10 @@ public class UnitsAdapter extends ArrayAdapter<Unit> {
                 prefixes.append(" ");
             }
 
-            ((TextView) result.findViewById(R.id.textUnit)).setText(unitName);
-            ((TextView) result.findViewById(R.id.textPrefixes)).setText(prefixes.toString());
+            ((TextView) result.findViewById(R.id.textPrimary)).setText(unitName);
+            TextView textPrefixes = result.findViewById(R.id.textSecondary);
+            textPrefixes.setText(prefixes.toString());
+            if (prefixes.toString().equals("")) textPrefixes.setVisibility(View.GONE);
         }
         return result;
     }

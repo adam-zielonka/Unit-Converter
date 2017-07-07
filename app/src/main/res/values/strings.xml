@@ -51,7 +51,17 @@
     <string name="success_save_to_downloads">Saved to downloads</string>
     <string name="error_create_file">Unable to save file</string>
     <string name="error_no_permissions_to_write_file">No permission to write file</string>
-    <string name="title_activity_edit_measure">EditMeasureActivity</string>
+    <string name="title_activity_edit_measure">Edit measure</string>
     <string name="edit_converter">Edit</string>
+    <string name="title_activity_edit_unit">Edit unit</string>
+    <string name="list_title_units">Units</string>
+    <string name="list_title_prefixes">Prefixes</string>
+    <string name="list_title_Measure">Measure</string>
+    <string name="list_item_name">Name</string>
+    <string name="list_title_unit">Unit</string>
+    <string name="list_item_description">Description</string>
+    <string name="list_item_symbol">Symbol</string>
+    <string name="list_item_formula">Formula</string>
+    <string name="list_title_exponentiation_base">Exponentiation base</string>
 
 </resources>

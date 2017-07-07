@@ -15,7 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -35,13 +36,17 @@ import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
+import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
+import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
 
-public class EditMeasureActivity extends AppCompatActivity {
+public class EditMeasureActivity extends AppCompatActivity implements ListView.OnItemClickListener {
     Measure userMeasure;
     ConcreteMeasure concreteMeasure;
+    UnitsAdapter unitsAdapter;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final int COUNT_SETTINGS_ITEMS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,6 @@ public class EditMeasureActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -66,11 +70,13 @@ public class EditMeasureActivity extends AppCompatActivity {
         try {
             concreteMeasure = openConcreteMeasure(measureFileName);
             userMeasure = openMeasure(concreteMeasure.getUserFileName());
-            UnitsAdapter unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
+            unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
             ListView listView = findViewById(R.id.unitsList);
             listView.setAdapter(unitsAdapter);
-            Button editText = findViewById(R.id.editMeasureName);
-            editText.setText(userMeasure.getName());
+            listView.setOnItemClickListener(this);
+            listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_Measure)), false, false);
+            listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_name), userMeasure.getName()), false, true);
+            listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -79,6 +85,15 @@ public class EditMeasureActivity extends AppCompatActivity {
             e.printStackTrace();
             finish();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        if (position - COUNT_SETTINGS_ITEMS < 0) return;
+        Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
+        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        intent.putExtra("unitName", unitsAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getUnitName());
+        startActivity(intent);
     }
 
     @Override
@@ -178,6 +193,4 @@ public class EditMeasureActivity extends AppCompatActivity {
             showError(this, R.string.error_create_file);
         }
     }
-
-
 }

@@ -51,6 +51,12 @@
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.EditMeasureActivity"
+            android:label="@string/title_activity_edit_measure"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.EditUnitActivity"
+            android:label="@string/title_activity_edit_unit"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
     </application>
