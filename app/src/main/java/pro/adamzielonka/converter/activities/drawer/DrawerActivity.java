@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities.drawer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +23,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities_edit.EditMeasureActivity;
+import pro.adamzielonka.converter.activities.AboutActivity;
+import pro.adamzielonka.converter.activities.AddConverterActivity;
+import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
+import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.Measures;
@@ -37,7 +40,7 @@ import static pro.adamzielonka.converter.tools.Number.changeSign;
 import static pro.adamzielonka.converter.tools.Number.deleteLast;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
-import static pro.adamzielonka.converter.tools.UnitConverter.doConversion;
+import static pro.adamzielonka.converter.tools.Converter.doConversion;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

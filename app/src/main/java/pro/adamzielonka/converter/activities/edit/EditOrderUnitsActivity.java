@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities_edit;
+package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,17 +24,17 @@ import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.FileTools.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.FileTools.openMeasure;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
+import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
+import static pro.adamzielonka.converter.tools.Open.openMeasure;
 
 public class EditOrderUnitsActivity extends AppCompatActivity {
 
-    Measure userMeasure;
-    ConcreteMeasure concreteMeasure;
-    OrderAdapter orderAdapter;
-    String measureFileName;
-    ListView listView;
+    private Measure userMeasure;
+    private ConcreteMeasure concreteMeasure;
+    private OrderAdapter orderAdapter;
+    private String measureFileName;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +72,14 @@ public class EditOrderUnitsActivity extends AppCompatActivity {
     }
 
 
-    void reLoad() throws FileNotFoundException {
+    private void reLoad() throws FileNotFoundException {
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView.setAdapter(orderAdapter);
     }
 
-    public void saveChange() {
+    private void saveChange() {
         Gson gson = new Gson();
         String concreteFileName = concreteMeasure.getConcreteFileName();
         String userFileName = concreteMeasure.getUserFileName();
@@ -107,7 +107,7 @@ public class EditOrderUnitsActivity extends AppCompatActivity {
         saveChange();
     }
 
-    public void changePos(int i, int change) {
+    private void changePos(int i, int change) {
         String find = orderAdapter.getItem(i).getName();
         for (Unit unit : userMeasure.getUnits()) {
             if (unit.getUnitName().equals(find)) {

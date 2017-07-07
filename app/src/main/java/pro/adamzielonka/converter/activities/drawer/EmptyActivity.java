@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities.drawer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.AboutActivity;
+import pro.adamzielonka.converter.activities.AddConverterActivity;
+import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.tools.Theme;
 
 public class EmptyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

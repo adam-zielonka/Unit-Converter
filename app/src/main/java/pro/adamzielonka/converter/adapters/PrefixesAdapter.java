@@ -15,7 +15,7 @@ import pro.adamzielonka.converter.units.user.Unit;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class PrefixesAdapter extends ArrayAdapter<Prefix> {
-    private Unit unit;
+    private final Unit unit;
 
     public PrefixesAdapter(@NonNull Context context, Unit unit) {
         super(context, R.layout.layout_list_item, unit.getPrefixes());

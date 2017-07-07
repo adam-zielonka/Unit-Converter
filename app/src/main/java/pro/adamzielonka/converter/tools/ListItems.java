@@ -22,4 +22,8 @@ public class ListItems {
             view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         return view;
     }
+
+    public static View getItemNormal(Activity activity, String textPrimary) {
+        return getItemNormal(activity, textPrimary, "");
+    }
 }

@@ -8,20 +8,20 @@ public class ConcreteUnit {
     private final String description;
     private final int position;
 
-    public int getOrginalPosition() {
-        return orginalPosition;
+    public int getBasicPosition() {
+        return basicPosition;
     }
 
-    private final int orginalPosition;
+    private final int basicPosition;
 
-    public ConcreteUnit(double one, double shift1, double shift2, String name, String description, int position, int orginalPosition) {
+    public ConcreteUnit(double one, double shift1, double shift2, String name, String description, int position, int basicPosition) {
         this.one = one;
         this.shift1 = shift1;
         this.shift2 = shift2;
         this.name = name;
         this.description = description;
         this.position = position;
-        this.orginalPosition = orginalPosition;
+        this.basicPosition = basicPosition;
     }
 
     public double getOne() {

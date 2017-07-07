@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities_edit;
+package pro.adamzielonka.converter.activities.edit;
 
 import android.Manifest;
 import android.content.Intent;
@@ -40,21 +40,21 @@ import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
-import static pro.adamzielonka.converter.tools.FileTools.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.FileTools.openMeasure;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
+import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
+import static pro.adamzielonka.converter.tools.Open.openMeasure;
 
 public class EditMeasureActivity extends AppCompatActivity implements ListView.OnItemClickListener {
-    Measure userMeasure;
-    ConcreteMeasure concreteMeasure;
-    UnitsAdapter unitsAdapter;
-    String measureFileName;
-    ListView listView;
-    View measureNameView;
+    private Measure userMeasure;
+    private ConcreteMeasure concreteMeasure;
+    private UnitsAdapter unitsAdapter;
+    private String measureFileName;
+    private ListView listView;
+    private View measureNameView;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int COUNT_SETTINGS_ITEMS = 4;
 
@@ -97,10 +97,10 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
         listView.addHeaderView(measureNameView, false, true);
         listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_units_order), getUnitsOrder()), false, true);
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
-        listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_unit), ""), false, true);
+        listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_unit)), false, true);
     }
 
-    void reLoad() throws FileNotFoundException {
+    private void reLoad() throws FileNotFoundException {
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         ((TextView) measureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
@@ -115,7 +115,7 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
         return order.toString();
     }
 
-    public void saveChange() {
+    private void saveChange() {
         Gson gson = new Gson();
         String concreteFileName = concreteMeasure.getConcreteFileName();
         String userFileName = concreteMeasure.getUserFileName();

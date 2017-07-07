@@ -27,12 +27,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.DrawerActivity"
+            android:name=".activities.drawer.DrawerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
@@ -46,26 +46,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.EmptyActivity"
+            android:name=".activities.drawer.EmptyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities_edit.EditMeasureActivity"
+            android:name=".activities.edit.EditMeasureActivity"
             android:label="@string/title_activity_edit_measure"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities_edit.EditUnitActivity"
+            android:name=".activities.edit.EditUnitActivity"
             android:label="@string/title_activity_edit_unit"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities_edit.EditOrderUnitsActivity"
+            android:name=".activities.edit.EditOrderUnitsActivity"
             android:label="@string/title_activity_edit_order_units"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities_edit.EditPrefixActivity"
+            android:name=".activities.edit.EditPrefixActivity"
             android:label="@string/title_activity_edit_prefix"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />

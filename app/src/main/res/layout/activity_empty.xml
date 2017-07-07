@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="pro.adamzielonka.converter.activities.DrawerActivity">
+        tools:context=".activities.drawer.DrawerActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_drawer"
-        app:menu="@menu/activity_drawer_drawer">
+        app:menu="@menu/menu_drawer">
 
     </android.support.design.widget.NavigationView>
 

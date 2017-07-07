@@ -72,7 +72,6 @@
     <string name="title_activity_edit_prefix">Edit prefix</string>
     <string name="list_title_prefix">Prefix</string>
     <string name="list_item_exponent">Exponent</string>
-    <string name="list_item_no_prefixes">No prefixes</string>
     <string name="list_item_add_unit">Add unit</string>
     <string name="list_item_add_prefix">Add prefix</string>
 

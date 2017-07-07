@@ -4,20 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.user.Measure;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -61,17 +52,5 @@ public class FileTools {
         return Uri.parse(file.toURI().toString());
     }
 
-    public static ConcreteMeasure openConcreteMeasure(Context context, String fileName) throws FileNotFoundException {
-        FileInputStream in = context.openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, ConcreteMeasure.class);
-    }
 
-    public static Measure openMeasure(Context context, String fileName) throws FileNotFoundException {
-        FileInputStream in = context.openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, Measure.class);
-    }
 }

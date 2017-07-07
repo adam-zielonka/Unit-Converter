@@ -8,43 +8,6 @@ public class Unit {
     private String unitName = "";
     private String unitDescriptionFirst = "";
     private String unitDescription = "";
-
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
-    }
-
-    public void setUnitDescriptionFirst(String unitDescriptionFirst) {
-        this.unitDescriptionFirst = unitDescriptionFirst;
-    }
-
-    public void setUnitDescription(String unitDescription) {
-        this.unitDescription = unitDescription;
-    }
-
-    public void setUnitPosition(Integer unitPosition) {
-        this.unitPosition = unitPosition;
-    }
-
-    public void setPrefixBase(Double prefixBase) {
-        this.prefixBase = prefixBase;
-    }
-
-    public void setOne(Double one) {
-        this.one = one;
-    }
-
-    public void setShift(Double shift) {
-        this.shift = shift;
-    }
-
-    public void setShift2(Double shift2) {
-        this.shift2 = shift2;
-    }
-
-    public void setPrefixes(List<Prefix> prefixes) {
-        this.prefixes = prefixes;
-    }
-
     private Integer unitPosition = 0;
     private Double prefixBase = 10.0;
     private Double one = 1.0;
@@ -86,5 +49,41 @@ public class Unit {
 
     public Double getPrefixBase() {
         return prefixBase;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public void setUnitDescriptionFirst(String unitDescriptionFirst) {
+        this.unitDescriptionFirst = unitDescriptionFirst;
+    }
+
+    public void setUnitDescription(String unitDescription) {
+        this.unitDescription = unitDescription;
+    }
+
+    public void setUnitPosition(Integer unitPosition) {
+        this.unitPosition = unitPosition;
+    }
+
+    public void setPrefixBase(Double prefixBase) {
+        this.prefixBase = prefixBase;
+    }
+
+    public void setOne(Double one) {
+        this.one = one;
+    }
+
+    public void setShift(Double shift) {
+        this.shift = shift;
+    }
+
+    public void setShift2(Double shift2) {
+        this.shift2 = shift2;
+    }
+
+    public void setPrefixes(List<Prefix> prefixes) {
+        this.prefixes = prefixes;
     }
 }

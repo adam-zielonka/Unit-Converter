@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities.settings;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.drawer.DrawerActivity;
 import pro.adamzielonka.converter.tools.Theme;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {

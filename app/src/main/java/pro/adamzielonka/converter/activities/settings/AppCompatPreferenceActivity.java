@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

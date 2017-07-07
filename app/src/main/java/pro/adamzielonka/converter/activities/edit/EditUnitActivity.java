@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities_edit;
+package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,17 +20,18 @@ import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.FileTools.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.FileTools.openMeasure;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
+import static pro.adamzielonka.converter.tools.Open.openMeasure;
+import static pro.adamzielonka.converter.tools.Open.openUnit;
 
 public class EditUnitActivity extends AppCompatActivity implements ListView.OnItemClickListener {
-    Measure userMeasure;
-    ConcreteMeasure concreteMeasure;
-    Unit unit;
-    PrefixesAdapter prefixesAdapter;
+    private Measure userMeasure;
+    private ConcreteMeasure concreteMeasure;
+    private Unit unit;
+    private PrefixesAdapter prefixesAdapter;
     private static final int COUNT_SETTINGS_ITEMS = 6;
 
     @Override
@@ -63,7 +64,7 @@ public class EditUnitActivity extends AppCompatActivity implements ListView.OnIt
             listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2())), false, true);
             listView.addHeaderView(getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getPrefixBase())), false, true);
             listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefixes)), false, false);
-            listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix), ""), false, true);
+            listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix)), false, true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             finish();
@@ -75,11 +76,13 @@ public class EditUnitActivity extends AppCompatActivity implements ListView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (position - COUNT_SETTINGS_ITEMS < 0 || position - COUNT_SETTINGS_ITEMS >= unit.getPrefixes().size()) return;
+        if (position - COUNT_SETTINGS_ITEMS < 0 || position - COUNT_SETTINGS_ITEMS >= unit.getPrefixes().size())
+            return;
         Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
         intent.putExtra("unitName", unit.getUnitName());
         intent.putExtra("prefixName", prefixesAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getPrefixName());
+
         startActivity(intent);
     }
 
@@ -91,14 +94,6 @@ public class EditUnitActivity extends AppCompatActivity implements ListView.OnIt
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private Unit openUnit(String unitName, Measure userMeasure) {
-        for (Unit unit : userMeasure.getUnits()) {
-            if (unit.getUnitName().equals(unitName))
-                return unit;
-        }
-        return null;
     }
 
     private String getFormula(Double one, Double shift1, Double shift2) {

@@ -16,13 +16,13 @@ import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
 
     public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects) {
-        super(context, R.layout.units_layout, objects);
+        super(context, R.layout.layout_spiner_units, objects);
     }
 
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_layout, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_spiner_units, parent, false)
                 : convertView;
 
         ConcreteUnit item = getItem(position);
@@ -37,7 +37,7 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.units_small_layout, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_spiner_units_small, parent, false)
                 : convertView;
 
         ConcreteUnit item = getItem(position);
