@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities_edit;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,12 +13,8 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
@@ -28,6 +24,8 @@ import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.FileTools.openConcreteMeasure;
+import static pro.adamzielonka.converter.tools.FileTools.openMeasure;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
 public class EditOrderUnitsActivity extends AppCompatActivity {
@@ -66,31 +64,17 @@ public class EditOrderUnitsActivity extends AppCompatActivity {
     }
 
     private void load() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(this, measureFileName);
+        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView = findViewById(R.id.orderListView);
         listView.setAdapter(orderAdapter);
     }
 
-    private ConcreteMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, ConcreteMeasure.class);
-    }
-
-    private Measure openMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, Measure.class);
-    }
-
 
     void reLoad() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(this, measureFileName);
+        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView.setAdapter(orderAdapter);
     }

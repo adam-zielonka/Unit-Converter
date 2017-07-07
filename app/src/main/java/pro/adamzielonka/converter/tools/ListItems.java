@@ -16,7 +16,10 @@ public class ListItems {
     public static View getItemNormal(Activity activity, String textPrimary, String textSecondary) {
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
-        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
+        if (!textSecondary.equals(""))
+            ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
+        else
+            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         return view;
     }
 }

@@ -50,18 +50,23 @@
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.EditMeasureActivity"
+            android:name=".activities_edit.EditMeasureActivity"
             android:label="@string/title_activity_edit_measure"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.EditUnitActivity"
+            android:name=".activities_edit.EditUnitActivity"
             android:label="@string/title_activity_edit_unit"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.EditOrderUnitsActivity"
+            android:name=".activities_edit.EditOrderUnitsActivity"
             android:label="@string/title_activity_edit_order_units"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities_edit.EditPrefixActivity"
+            android:label="@string/title_activity_edit_prefix"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
     </application>

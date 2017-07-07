@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
+
         loadConverters();
 
         Intent oldIntent = getIntent();

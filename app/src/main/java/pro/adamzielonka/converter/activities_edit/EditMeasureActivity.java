@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities_edit;
 
 import android.Manifest;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +31,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
@@ -41,6 +40,8 @@ import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
+import static pro.adamzielonka.converter.tools.FileTools.openConcreteMeasure;
+import static pro.adamzielonka.converter.tools.FileTools.openMeasure;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
@@ -70,10 +71,6 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
-
         Intent intent = getIntent();
         measureFileName = intent.getStringExtra("measureFileName");
         try {
@@ -88,8 +85,8 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
     }
 
     private void load() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(this, measureFileName);
+        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
         listView = findViewById(R.id.unitsList);
         listView.setAdapter(unitsAdapter);
@@ -100,11 +97,12 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
         listView.addHeaderView(measureNameView, false, true);
         listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_units_order), getUnitsOrder()), false, true);
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
+        listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_unit), ""), false, true);
     }
 
     void reLoad() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(this, measureFileName);
+        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         ((TextView) measureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
     }
 
@@ -133,7 +131,7 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (position - COUNT_SETTINGS_ITEMS < 0) {
+        if (position - COUNT_SETTINGS_ITEMS < 0 || position - COUNT_SETTINGS_ITEMS >= userMeasure.getUnits().size()) {
             switch (position) {
                 case 1:
                     View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
@@ -169,20 +167,6 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_measure, menu);
         return true;
-    }
-
-    private ConcreteMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, ConcreteMeasure.class);
-    }
-
-    private Measure openMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
-        return gson.fromJson(reader, Measure.class);
     }
 
     @Override
