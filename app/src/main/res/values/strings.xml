@@ -66,5 +66,8 @@
     <string name="list_item_units_order">Order of units</string>
     <string name="dialog_measure_name">Measure name</string>
     <string name="dialog_save">Save</string>
+    <string name="title_activity_edit_order_units">Edit order of units</string>
+    <string name="set_unit_up">Set unit up</string>
+    <string name="set_unit_down">Set unit down</string>
 
 </resources>

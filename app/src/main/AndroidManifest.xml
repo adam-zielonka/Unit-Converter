@@ -59,6 +59,11 @@
             android:label="@string/title_activity_edit_unit"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.EditOrderUnitsActivity"
+            android:label="@string/title_activity_edit_order_units"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
     </application>
 
 </manifest>

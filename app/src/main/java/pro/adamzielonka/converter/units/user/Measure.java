@@ -37,7 +37,7 @@ public class Measure {
                     unit.getShift2(),
                     unit.getUnitName(),
                     unit.getUnitDescriptionFirst() + unit.getUnitDescription(),
-                    getPosition(i, unit.getUnitPosition()))
+                    getPosition(i, unit.getUnitPosition()), 2 * i)
             );
             i++;
             for (Prefix prefix : unit.getPrefixes()) {
@@ -47,7 +47,7 @@ public class Measure {
                         unit.getShift2(),
                         prefix.getPrefixName() + unit.getUnitName(),
                         unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription(),
-                        getPosition(i, prefix.getUnitPosition()))
+                        getPosition(i, prefix.getUnitPosition()), 2 * i)
                 );
                 i++;
             }

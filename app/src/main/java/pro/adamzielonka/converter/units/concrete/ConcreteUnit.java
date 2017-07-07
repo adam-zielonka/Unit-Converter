@@ -8,13 +8,20 @@ public class ConcreteUnit {
     private final String description;
     private final int position;
 
-    public ConcreteUnit(double one, double shift1, double shift2, String name, String description, int position) {
+    public int getOrginalPosition() {
+        return orginalPosition;
+    }
+
+    private final int orginalPosition;
+
+    public ConcreteUnit(double one, double shift1, double shift2, String name, String description, int position, int orginalPosition) {
         this.one = one;
         this.shift1 = shift1;
         this.shift2 = shift2;
         this.name = name;
         this.description = description;
         this.position = position;
+        this.orginalPosition = orginalPosition;
     }
 
     public double getOne() {

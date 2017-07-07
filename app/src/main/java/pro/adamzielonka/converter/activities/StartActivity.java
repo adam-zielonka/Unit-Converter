@@ -43,7 +43,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void loadConverters() {
-        if (!preferences.getBoolean("v1.1.12-alpha", false)) try {
+        if (!preferences.getBoolean("v1.1.13-alpha", false)) try {
             firstRun();
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("v1.1.12-alpha", true);
+        editor.putBoolean("v1.1.13-alpha", true);
         editor.apply();
     }
 

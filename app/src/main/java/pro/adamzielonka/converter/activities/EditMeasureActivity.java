@@ -146,10 +146,16 @@ public class EditMeasureActivity extends AppCompatActivity implements ListView.O
                             .setCancelable(true)
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
                                 userMeasure.setName(editText.getText().toString());
-                                Log.i("NAME", "onItemClick: " + userMeasure.getName());
+                                Log.i("NAME", "changePos: " + userMeasure.getName());
                                 saveChange();
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
+                    break;
+                case 2:
+                    Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
+                    intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                    startActivity(intent);
+                    break;
             }
             return;
         }

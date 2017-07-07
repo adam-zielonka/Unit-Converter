@@ -267,6 +267,7 @@ public class DrawerActivity extends AppCompatActivity
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
                 intent.putExtra("measureFileName", measure.getConcreteFileName());
                 startActivity(intent);
+                finish();
                 return true;
         }
 

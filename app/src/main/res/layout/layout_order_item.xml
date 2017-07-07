@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/textPos"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="+10"
+        android:textColor="?colorPrimaryDark"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/buttonUp"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/set_unit_up"
+        android:onClick="SetUp"
+        app:srcCompat="@drawable/ic_keyboard_arrow_up_white_24dp" />
+
+    <ImageButton
+        android:id="@+id/buttonDown"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/set_unit_down"
+        android:onClick="SetDown"
+        app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp" />
+
+    <TextView
+        android:id="@+id/textPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="S - Sample"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+
+</LinearLayout>
