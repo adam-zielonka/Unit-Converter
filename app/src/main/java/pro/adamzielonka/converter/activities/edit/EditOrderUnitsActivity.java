@@ -1,124 +1,72 @@
 package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
-import pro.adamzielonka.converter.tools.Theme;
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.user.Measure;
+import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
 import static pro.adamzielonka.converter.tools.Open.openMeasure;
 
-public class EditOrderUnitsActivity extends AppCompatActivity {
+public class EditOrderUnitsActivity extends EditActivity {
 
-    private Measure userMeasure;
-    private ConcreteMeasure concreteMeasure;
     private OrderAdapter orderAdapter;
     private String measureFileName;
     private ListView listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        setTheme(Theme.getStyleID(preferences.getString("theme", "")));
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_order_units);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
+    public void onLoad() throws FileNotFoundException {
         Intent intent = getIntent();
         measureFileName = intent.getStringExtra("measureFileName");
-        try {
-            load();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            finish();
-        } catch (Exception e) {
-            e.printStackTrace();
-            finish();
-        }
 
-    }
-
-    private void load() throws FileNotFoundException {
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
-        listView = findViewById(R.id.orderListView);
+        listView = findViewById(R.id.editListView);
         listView.setAdapter(orderAdapter);
     }
 
-
-    private void reLoad() throws FileNotFoundException {
+    @Override
+    public void onReload() throws FileNotFoundException {
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView.setAdapter(orderAdapter);
     }
 
-    private void saveChange() {
-        Gson gson = new Gson();
-        String concreteFileName = concreteMeasure.getConcreteFileName();
-        String userFileName = concreteMeasure.getUserFileName();
-        concreteMeasure = userMeasure.getConcreteMeasure(concreteFileName, userFileName);
-        try {
-            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
-            saveToInternal(this, userFileName, gson.toJson(userMeasure));
-            reLoad();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void SetUp(View v) {
+    public void setUp(View v) {
         View item = (View) v.getParent();
         int position = listView.getPositionForView(item);
-        changePos(position, +1);
+        changePosition(orderAdapter.getItem(position), +1);
         saveChange();
     }
 
-    public void SetDown(View v) {
+    public void setDown(View v) {
         View item = (View) v.getParent();
         int position = listView.getPositionForView(item);
-        changePos(position, -1);
+        changePosition(orderAdapter.getItem(position), -1);
         saveChange();
     }
 
-    private void changePos(int i, int change) {
-        String find = orderAdapter.getItem(i).getName();
+    private void changePosition(ConcreteUnit concreteUnit, int change) {
+        String find = concreteUnit.getName();
         for (Unit unit : userMeasure.getUnits()) {
             if (unit.getUnitName().equals(find)) {
                 unit.setUnitPosition(unit.getUnitPosition() + change);
-                Log.i("POS", "changePos: " + unit.getUnitPosition());
                 return;
             }
             for (Prefix prefix : unit.getPrefixes()) {
                 if (find.equals(prefix.getPrefixName() + unit.getUnitName())) {
                     prefix.setUnitPosition(prefix.getUnitPosition() + change);
-                    Log.i("POS", "changePos: " + prefix.getUnitPosition());
                     return;
                 }
             }
@@ -136,18 +84,10 @@ public class EditOrderUnitsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case android.R.id.home:
-                Intent home = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                startActivity(home);
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

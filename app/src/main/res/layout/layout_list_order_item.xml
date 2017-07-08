@@ -27,7 +27,7 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:contentDescription="@string/set_unit_up"
-        android:onClick="SetUp"
+        android:onClick="setUp"
         app:srcCompat="@drawable/ic_keyboard_arrow_up_white_24dp" />
 
     <ImageButton
@@ -36,7 +36,7 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:contentDescription="@string/set_unit_down"
-        android:onClick="SetDown"
+        android:onClick="setDown"
         app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp" />
 
     <TextView

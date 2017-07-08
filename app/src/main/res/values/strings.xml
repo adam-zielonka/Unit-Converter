@@ -74,5 +74,7 @@
     <string name="list_item_exponent">Exponent</string>
     <string name="list_item_add_unit">Add unit</string>
     <string name="list_item_add_prefix">Add prefix</string>
+    <string name="error_could_not_save_changes">Could not save changes</string>
+    <string name="dialog_unit_symbol">Unit symbol</string>
 
 </resources>
