@@ -18,6 +18,7 @@ import pro.adamzielonka.converter.units.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
+import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
@@ -40,9 +41,9 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     private Unit unit;
 
-    private static final int EDIT_FORMULA_ONE = 1;
-    private static final int EDIT_FORMULA_SHIFT_1 = 2;
-    private static final int EDIT_FORMULA_SHIFT_2 = 3;
+    private static final int EDIT_FORMULA_ONE = 2;
+    private static final int EDIT_FORMULA_SHIFT_1 = 3;
+    private static final int EDIT_FORMULA_SHIFT_2 = 4;
 
     @Override
     public void onLoad() throws FileNotFoundException {
@@ -59,8 +60,8 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
         unitFormulaView = getItemNormal(this, getString(R.string.list_item_formula_description), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName()));
         unitFormulaOneView = getItemNormal(this, getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
-        unitFormulaShift1View = getItemNormal(this, getString(R.string.list_item_forumla_shift1), doubleToString(unit.getShift()));
-        unitFormulaShift2View = getItemNormal(this, getString(R.string.list_item_forumla_shift2), doubleToString(unit.getShift2()));
+        unitFormulaShift1View = getItemNormal(this, getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
+        unitFormulaShift2View = getItemNormal(this, getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));
 
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_formula)), false, false);
         listView.addHeaderView(unitFormulaView, false, false);
@@ -86,9 +87,9 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
             case EDIT_FORMULA_ONE:
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editText = layout.findViewById(R.id.editText);
-                editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
                 editText.setText(doubleToString(unit.getOne()));
-                editText.selectAll();
+                editText.setSelection(editText.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layout)
@@ -102,9 +103,9 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
             case EDIT_FORMULA_SHIFT_1:
                 View layoutShift1 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextShift1 = layoutShift1.findViewById(R.id.editText);
-                editTextShift1.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editTextShift1.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
                 editTextShift1.setText(doubleToString(unit.getShift()));
-                editTextShift1.selectAll();
+                editTextShift1.setSelection(editTextShift1.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layoutShift1)
@@ -118,9 +119,9 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
             case EDIT_FORMULA_SHIFT_2:
                 View layoutShift2 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextShift2 = layoutShift2.findViewById(R.id.editText);
-                editTextShift2.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editTextShift2.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
                 editTextShift2.setText(doubleToString(unit.getShift2()));
-                editTextShift2.selectAll();
+                editTextShift2.setSelection(editTextShift2.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layoutShift2)

@@ -93,7 +93,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                     View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                     final EditText editText = layout.findViewById(R.id.editText);
                     editText.setText(userMeasure.getName());
-                    editText.selectAll();
+                    editText.setSelection(editText.length());
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_measure_name)
                             .setView(layout)

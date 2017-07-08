@@ -15,11 +15,15 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
+import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.Check.checkSymbolPrefixExist;
+import static pro.adamzielonka.converter.tools.Check.checkSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
+import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
 import static pro.adamzielonka.converter.tools.Open.openMeasure;
@@ -88,9 +92,16 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                             .setView(layout)
                             .setCancelable(true)
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                                unit.setUnitName(editText.getText().toString());
-                                unitName = editText.getText().toString();
-                                onSave();
+                                String newName = editText.getText().toString();
+                                if (!newName.equals(unitName)) {
+                                    if (!checkSymbolUnitExist(newName, userMeasure.getUnits())) {
+                                        unit.setUnitName(newName);
+                                        unitName = newName;
+                                        onSave();
+                                    } else {
+                                        showError(this, R.string.error_symbol_unit_already_exist);
+                                    }
+                                }
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
                     break;
@@ -112,7 +123,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                     numberPicker.setValue(Integer.parseInt(doubleToString(unit.getPrefixBase())));
                     numberPicker.setMinValue(2);
                     new AlertDialog.Builder(this)
-                            .setTitle(R.string.dialog_unit_symbol)
+                            .setTitle(R.string.dialog_unit_exponentiation_base)
                             .setView(numberPicker)
                             .setCancelable(true)
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
@@ -121,6 +132,20 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
                     break;
+                default:
+                    Prefix newPrefix = new Prefix();
+                    String newPrefixName = "?";
+                    for (int i = 1; checkSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
+                        newPrefixName = "?_" + i;
+                    }
+                    newPrefix.setPrefixName(newPrefixName);
+                    unit.getPrefixes().add(newPrefix);
+                    onSave(false);
+                    Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
+                    intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                    intent.putExtra("unitName", unit.getUnitName());
+                    intent.putExtra("prefixName", newPrefixName);
+                    startActivity(intent);
             }
             return;
         }

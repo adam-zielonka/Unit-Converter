@@ -73,7 +73,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editText = layout.findViewById(R.id.editText);
                 editText.setText(unit.getUnitDescription());
-                editText.selectAll();
+                editText.setSelection(editText.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layout)
@@ -88,7 +88,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
                 View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
                 editTextPrefix.setText(unit.getUnitDescriptionFirst());
-                editTextPrefix.selectAll();
+                editTextPrefix.setSelection(editTextPrefix.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layoutPrefix)

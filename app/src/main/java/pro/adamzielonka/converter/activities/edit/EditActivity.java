@@ -32,6 +32,7 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
         try {
             onLoad();
         } catch (Exception e) {
+            e.printStackTrace();
             finish();
         }
     }
