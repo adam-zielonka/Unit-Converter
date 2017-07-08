@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -52,5 +55,8 @@ public class FileTools {
         return Uri.parse(file.toURI().toString());
     }
 
+    public static Gson getGson(){
+        return new GsonBuilder().serializeSpecialFloatingPointValues().create();
+    }
 
 }

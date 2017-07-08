@@ -16,14 +16,14 @@ public class ListItems {
     public static View getItemNormal(Activity activity, String textPrimary, String textSecondary) {
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
-        if (!textSecondary.equals(""))
-            ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
-        else
-            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
+        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
         return view;
     }
 
     public static View getItemNormal(Activity activity, String textPrimary) {
-        return getItemNormal(activity, textPrimary, "");
+        View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
+        ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
+        view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
+        return view;
     }
 }

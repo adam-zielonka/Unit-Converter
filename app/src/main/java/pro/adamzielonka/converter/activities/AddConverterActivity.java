@@ -28,6 +28,7 @@ import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Message.showError;
@@ -110,7 +111,7 @@ public class AddConverterActivity extends AppCompatActivity {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, uri)));
 
-            Gson gson = new Gson();
+            Gson gson = getGson();
             Measure userMeasure = gson.fromJson(reader, Measure.class);
             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 

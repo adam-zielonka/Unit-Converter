@@ -25,6 +25,7 @@ import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
 public class StartActivity extends AppCompatActivity {
@@ -55,7 +56,7 @@ public class StartActivity extends AppCompatActivity {
 
         File[] files = getFilesDir().listFiles();
 
-        Gson gson = new Gson();
+        Gson gson = getGson();
         List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
         for (File file : files) {
             if (file.getName().contains("concrete_")) {
@@ -78,7 +79,7 @@ public class StartActivity extends AppCompatActivity {
 
         String[] strings = getAssets().list("converters");
         List<Measure> measureList = new ArrayList<>();
-        Gson gson = new Gson();
+        Gson gson = getGson();
 
         for (String name : strings) {
             if (name.contains("converter_")) {

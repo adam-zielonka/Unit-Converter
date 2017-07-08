@@ -19,6 +19,7 @@ import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
+import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Check.checkSymbolPrefixExist;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
@@ -128,7 +129,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             case EDIT_EXP:
                 View layoutExp = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextExp = layoutExp.findViewById(R.id.editText);
-                editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_SIGNED);
+                editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
                 editTextExp.setText(doubleToString(prefix.getPrefixExponent()));
                 editTextExp.setSelection(editTextExp.length());
                 new AlertDialog.Builder(this)
@@ -144,7 +145,6 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         }
 
     }
-
 
     @Override
     public void onBackPressed() {

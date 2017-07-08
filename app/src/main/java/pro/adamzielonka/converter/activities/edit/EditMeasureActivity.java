@@ -28,8 +28,11 @@ import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Measure;
+import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.Check.checkSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
+import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
@@ -109,6 +112,19 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                     intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                     startActivity(intent);
                     break;
+                default:
+                    Unit newUnit = new Unit();
+                    String newUnitName = "";
+                    for (int i = 1; checkSymbolUnitExist(newUnitName, userMeasure.getUnits()); i++) {
+                        newUnitName = "" + i;
+                    }
+                    newUnit.setUnitName(newUnitName);
+                    userMeasure.getUnits().add(newUnit);
+                    onSave(false);
+                    Intent addUnit = new Intent(getApplicationContext(), EditUnitActivity.class);
+                    addUnit.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                    addUnit.putExtra("unitName", newUnitName);
+                    startActivity(addUnit);
             }
             return;
         }
@@ -193,7 +209,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         try {
             FileInputStream in = openFileInput(concreteMeasure.getUserFileName());
             Reader reader = new BufferedReader(new InputStreamReader(in));
-            Gson gson = new Gson();
+            Gson gson = getGson();
             String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
             OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName()));

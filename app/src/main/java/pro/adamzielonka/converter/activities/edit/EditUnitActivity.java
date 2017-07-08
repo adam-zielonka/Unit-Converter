@@ -134,9 +134,9 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                     break;
                 default:
                     Prefix newPrefix = new Prefix();
-                    String newPrefixName = "?";
+                    String newPrefixName = "";
                     for (int i = 1; checkSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
-                        newPrefixName = "?_" + i;
+                        newPrefixName = "" + i;
                     }
                     newPrefix.setPrefixName(newPrefixName);
                     unit.getPrefixes().add(newPrefix);

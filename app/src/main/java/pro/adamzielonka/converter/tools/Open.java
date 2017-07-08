@@ -15,18 +15,20 @@ import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.FileTools.getGson;
+
 public class Open {
     public static ConcreteMeasure openConcreteMeasure(Context context, String fileName) throws FileNotFoundException {
         FileInputStream in = context.openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
+        Gson gson = getGson();
         return gson.fromJson(reader, ConcreteMeasure.class);
     }
 
     public static Measure openMeasure(Context context, String fileName) throws FileNotFoundException {
         FileInputStream in = context.openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = new Gson();
+        Gson gson = getGson();
         return gson.fromJson(reader, Measure.class);
     }
 
