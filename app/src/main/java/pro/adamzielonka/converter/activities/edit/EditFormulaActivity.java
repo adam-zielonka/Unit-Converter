@@ -16,8 +16,13 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
+import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
+import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
 import static pro.adamzielonka.converter.tools.Open.openMeasure;
 import static pro.adamzielonka.converter.tools.Open.openUnit;
@@ -28,13 +33,16 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     private String unitName;
     private ListView listView;
 
-    private View unitDescriptionBaseView;
-    private View unitDescriptionPrefixView;
+    private View unitFormulaView;
+    private View unitFormulaOneView;
+    private View unitFormulaShift1View;
+    private View unitFormulaShift2View;
 
     private Unit unit;
 
-    private static final int EDIT_DESCRIPTION_BASE = 1;
-    private static final int EDIT_DESCRIPTION_PREFIX = 2;
+    private static final int EDIT_FORMULA_ONE = 1;
+    private static final int EDIT_FORMULA_SHIFT_1 = 2;
+    private static final int EDIT_FORMULA_SHIFT_2 = 3;
 
     @Override
     public void onLoad() throws FileNotFoundException {
@@ -49,12 +57,16 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
         listView.setOnItemClickListener(this);
 
-        unitDescriptionBaseView = getItemNormal(this, getString(R.string.list_item_description_base), unit.getUnitDescription());
-        unitDescriptionPrefixView = getItemNormal(this, getString(R.string.list_item_description_global_prefix), unit.getUnitDescriptionFirst());
+        unitFormulaView = getItemNormal(this, getString(R.string.list_item_formula_description), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName()));
+        unitFormulaOneView = getItemNormal(this, getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
+        unitFormulaShift1View = getItemNormal(this, getString(R.string.list_item_forumla_shift1), doubleToString(unit.getShift()));
+        unitFormulaShift2View = getItemNormal(this, getString(R.string.list_item_forumla_shift2), doubleToString(unit.getShift2()));
 
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_description)), false, false);
-        listView.addHeaderView(unitDescriptionBaseView, false, true);
-        listView.addHeaderView(unitDescriptionPrefixView, false, true);
+        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_formula)), false, false);
+        listView.addHeaderView(unitFormulaView, false, false);
+        listView.addHeaderView(unitFormulaOneView, false, true);
+        listView.addHeaderView(unitFormulaShift1View, false, true);
+        listView.addHeaderView(unitFormulaShift2View, false, true);
     }
 
     @Override
@@ -62,39 +74,59 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        ((TextView) unitDescriptionBaseView.findViewById(R.id.textSecondary)).setText(unit.getUnitDescription());
-        ((TextView) unitDescriptionPrefixView.findViewById(R.id.textSecondary)).setText(unit.getUnitDescriptionFirst());
+        ((TextView) unitFormulaOneView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getOne()));
+        ((TextView) unitFormulaShift1View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift()));
+        ((TextView) unitFormulaShift2View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift2()));
+        ((TextView) unitFormulaView.findViewById(R.id.textSecondary)).setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName()));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         switch (position) {
-            case EDIT_DESCRIPTION_BASE:
+            case EDIT_FORMULA_ONE:
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(unit.getUnitDescription());
+                editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editText.setText(doubleToString(unit.getOne()));
                 editText.selectAll();
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layout)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setUnitDescription(editText.getText().toString());
+                            unit.setOne(stringToDouble(editText.getText().toString()));
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
                 break;
-            case EDIT_DESCRIPTION_PREFIX:
-                View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
-                editTextPrefix.setText(unit.getUnitDescriptionFirst());
-                editTextPrefix.selectAll();
+            case EDIT_FORMULA_SHIFT_1:
+                View layoutShift1 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+                final EditText editTextShift1 = layoutShift1.findViewById(R.id.editText);
+                editTextShift1.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editTextShift1.setText(doubleToString(unit.getShift()));
+                editTextShift1.selectAll();
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
-                        .setView(layoutPrefix)
+                        .setView(layoutShift1)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setUnitDescriptionFirst(editTextPrefix.getText().toString());
+                            unit.setShift(stringToDouble(editTextShift1.getText().toString()));
+                            onSave();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+                break;
+            case EDIT_FORMULA_SHIFT_2:
+                View layoutShift2 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+                final EditText editTextShift2 = layoutShift2.findViewById(R.id.editText);
+                editTextShift2.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL);
+                editTextShift2.setText(doubleToString(unit.getShift2()));
+                editTextShift2.selectAll();
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_unit_symbol)
+                        .setView(layoutShift2)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                            unit.setShift2(stringToDouble(editTextShift2.getText().toString()));
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();

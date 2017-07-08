@@ -34,7 +34,7 @@ import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
-import static pro.adamzielonka.converter.tools.Number.appendComa;
+import static pro.adamzielonka.converter.tools.Number.appendComma;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
 import static pro.adamzielonka.converter.tools.Number.deleteLast;
@@ -208,8 +208,8 @@ public class DrawerActivity extends AppCompatActivity
     }
 
 
-    public void onClickComa(@SuppressWarnings("UnusedParameters") View v) {
-        textFrom.setText(appendComa(textFrom.getText().toString()));
+    public void onClickComma(@SuppressWarnings("UnusedParameters") View v) {
+        textFrom.setText(appendComma(textFrom.getText().toString()));
     }
 
 

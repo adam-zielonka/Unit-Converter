@@ -343,8 +343,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="33"
-                            android:onClick="onClickComa"
-                            android:text=","
+                            android:onClick="onClickComma"
+                            android:text="."
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>

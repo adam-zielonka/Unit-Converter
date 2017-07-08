@@ -82,5 +82,10 @@
     <string name="list_item_description_base">Base</string>
     <string name="list_item_description_global_prefix">Global prefix</string>
     <string name="title_activity_formula_description">Edit formula</string>
+    <string name="list_item_formula_one">One</string>
+    <string name="list_item_forumla_shift1">Shift 1</string>
+    <string name="list_item_forumla_shift2">Shift 2</string>
+    <string name="list_title_formula">Formula</string>
+    <string name="list_item_formula_description">ONE * ( BASE + SHIFT1) + SHIFT2</string>
 
 </resources>

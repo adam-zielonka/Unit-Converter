@@ -17,6 +17,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
@@ -58,7 +59,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_unit)), false, false);
         listView.addHeaderView(unitSymbolView, false, true);
         listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_description), unit.getUnitDescriptionFirst() + unit.getUnitDescription()), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2())), false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName())), false, true);
         listView.addHeaderView(unitExpBaseView, false, true);
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefixes)), false, false);
         listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix)), false, true);
@@ -165,12 +166,5 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private String getFormula(Double one, Double shift1, Double shift2) {
-        String shift1F = shift1 != 0.0 ? (shift1 < 0.0) ? (" - " + doubleToString((-1) * shift1)) : (" + " + doubleToString(shift1)) : "";
-        String shift2F = shift2 != 0.0 ? (shift2 < 0.0) ? (" - " + doubleToString((-1) * shift2)) : (" + " + doubleToString(shift2)) : "";
-        String oneF = one != 1.0 ? doubleToString(one) + " * " : "";
-        return shift1 != 0.0 && one != 1.0 ? oneF + "(" + "Base" + shift1F + ")" + shift2F : oneF + "Base" + shift1F + shift2F;
     }
 }
