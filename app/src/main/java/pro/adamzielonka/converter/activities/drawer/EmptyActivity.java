@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.AboutActivity;
-import pro.adamzielonka.converter.activities.AddConverterActivity;
+import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.tools.Theme;
 
@@ -68,8 +68,8 @@ public class EmptyActivity extends AppCompatActivity implements NavigationView.O
                 Intent settings = new Intent(this.getBaseContext(), SettingsActivity.class);
                 startActivity(settings);
                 break;
-            case R.id.nav_add_converter:
-                Intent addConverter = new Intent(this.getBaseContext(), AddConverterActivity.class);
+            case R.id.nav_add_measure:
+                Intent addConverter = new Intent(this.getBaseContext(), AddMeasureActivity.class);
                 startActivity(addConverter);
                 break;
         }

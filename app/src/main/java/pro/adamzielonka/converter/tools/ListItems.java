@@ -26,4 +26,13 @@ public class ListItems {
         view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         return view;
     }
+
+    public static View getItemDisable(Activity activity, String textPrimary, String textSecondary) {
+        View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
+        ((TextView) view.findViewById(R.id.textPrimary)).setTextColor(activity.getResources().getColor(R.color.colorGreyAccent));
+        ((TextView) view.findViewById(R.id.textSecondary)).setTextColor(activity.getResources().getColor(R.color.colorGreyPrimary));
+        ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
+        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
+        return view;
+    }
 }

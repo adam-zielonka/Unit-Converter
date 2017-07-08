@@ -24,7 +24,7 @@ import java.util.List;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.AboutActivity;
-import pro.adamzielonka.converter.activities.AddConverterActivity;
+import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
 import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
@@ -34,13 +34,13 @@ import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
 import static pro.adamzielonka.converter.tools.Common.getItself;
+import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.Number.appendComma;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
 import static pro.adamzielonka.converter.tools.Number.deleteLast;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
-import static pro.adamzielonka.converter.tools.Converter.doConversion;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -127,38 +127,63 @@ public class DrawerActivity extends AppCompatActivity
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
 
-            textViewFrom = findViewById(R.id.textViewFrom);
-            textViewTo = findViewById(R.id.textViewTo);
+            if (measure.getConcreteUnits().size() != 0) {
+                textViewFrom = findViewById(R.id.textViewFrom);
+                textViewTo = findViewById(R.id.textViewTo);
 
-            textFrom = findViewById(R.id.textFrom);
-            textTo = findViewById(R.id.textTo);
+                textFrom = findViewById(R.id.textFrom);
+                textTo = findViewById(R.id.textTo);
 
-            textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
-            textTo.setTextColor(Color.BLACK);
+                textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
+                textTo.setTextColor(Color.BLACK);
 
-            textFrom.requestFocus();
+                textFrom.requestFocus();
 
-            textFrom.setOnFocusChangeListener(this);
-            textTo.setOnFocusChangeListener(this);
+                textFrom.setOnFocusChangeListener(this);
+                textTo.setOnFocusChangeListener(this);
 
-            concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                    measureList.get(this.converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
+                concreteAdapter = new ConcreteAdapter(getApplicationContext(),
+                        measureList.get(this.converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
 
-            spinnerFrom = findViewById(R.id.spinnerFrom);
-            spinnerTo = findViewById(R.id.spinnerTo);
+                spinnerFrom = findViewById(R.id.spinnerFrom);
+                spinnerTo = findViewById(R.id.spinnerTo);
 
-            spinnerFrom.setAdapter(concreteAdapter);
-            spinnerTo.setAdapter(concreteAdapter);
+                spinnerFrom.setAdapter(concreteAdapter);
+                spinnerTo.setAdapter(concreteAdapter);
 
-            spinnerFrom.setOnItemSelectedListener(this);
-            spinnerTo.setOnItemSelectedListener(this);
-            spinnerFrom.setSelection(measure.getDisplayFrom());
-            spinnerTo.setSelection(measure.getDisplayTo());
+                spinnerFrom.setOnItemSelectedListener(this);
+                spinnerTo.setOnItemSelectedListener(this);
+                spinnerFrom.setSelection(measure.getDisplayFrom());
+                spinnerTo.setSelection(measure.getDisplayTo());
 
-            ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
-            ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
-            textViewFrom.setText(from != null ? from.getDescription() : "");
-            textViewTo.setText(to != null ? to.getDescription() : "");
+                ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
+                ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
+                textViewFrom.setText(from != null ? from.getDescription() : "");
+                textViewTo.setText(to != null ? to.getDescription() : "");
+
+                textViewFrom.setVisibility(View.VISIBLE);
+                textViewTo.setVisibility(View.VISIBLE);
+                textTo.setVisibility(View.VISIBLE);
+                textFrom.setVisibility(View.VISIBLE);
+                spinnerFrom.setVisibility(View.VISIBLE);
+                spinnerTo.setVisibility(View.VISIBLE);
+            } else {
+                textViewFrom = findViewById(R.id.textViewFrom);
+                textViewTo = findViewById(R.id.textViewTo);
+
+                textFrom = findViewById(R.id.textFrom);
+                textTo = findViewById(R.id.textTo);
+
+                spinnerFrom = findViewById(R.id.spinnerFrom);
+                spinnerTo = findViewById(R.id.spinnerTo);
+
+                textViewFrom.setVisibility(View.GONE);
+                textViewTo.setVisibility(View.GONE);
+                textTo.setVisibility(View.GONE);
+                textFrom.setVisibility(View.GONE);
+                spinnerFrom.setVisibility(View.GONE);
+                spinnerTo.setVisibility(View.GONE);
+            }
 
             onClickClear(null);
         } catch (Exception e) {
@@ -255,8 +280,8 @@ public class DrawerActivity extends AppCompatActivity
                     Intent settings = new Intent(this.getBaseContext(), SettingsActivity.class);
                     startActivity(settings);
                     break;
-                case R.id.nav_add_converter:
-                    Intent addConverter = new Intent(this.getBaseContext(), AddConverterActivity.class);
+                case R.id.nav_add_measure:
+                    Intent addConverter = new Intent(this.getBaseContext(), AddMeasureActivity.class);
                     startActivity(addConverter);
                     break;
                 default:

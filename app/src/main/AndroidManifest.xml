@@ -37,16 +37,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.AddConverterActivity"
-            android:label="@string/title_activity_add_converter"
-            android:screenOrientation="portrait"
-            android:theme="@style/BlueTheme" />
-        <activity
             android:name=".activities.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.drawer.EmptyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.edit.AddMeasureActivity"
+            android:label="@string/title_activity_add_measure"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity

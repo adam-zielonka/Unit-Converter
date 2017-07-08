@@ -1,19 +1,16 @@
-package pro.adamzielonka.converter.activities;
+package pro.adamzielonka.converter.activities.edit;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 
@@ -21,9 +18,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.tools.Theme;
+import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
@@ -31,41 +30,87 @@ import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
+import static pro.adamzielonka.converter.tools.ListItems.getItemDisable;
+import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
+import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
-public class AddConverterActivity extends AppCompatActivity {
+public class AddMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
+
+    private static final int ADD_BY_CREATE = 1;
+    private static final int ADD_FROM_FILE = 2;
+    private static final int GET_FILE = 3;
+    private static final int ADD_FROM_CLOUD = 4;
 
     private static final int READ_REQUEST_CODE = 42;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        setTheme(Theme.getStyleID(preferences.getString("theme", "")));
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_converter);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    public void onLoad() throws FileNotFoundException {
+        ListView listView = findViewById(R.id.editListView);
+        listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
+        listView.setOnItemClickListener(this);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        listView.addHeaderView(getItemHeader(this, getString(R.string.list_add_measure)), false, false);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_create), getString(R.string.list_item_create_description)), false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description)), false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description)), false, true);
+        listView.addHeaderView(getItemDisable(this, getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description)), false, false);
+    }
+
+    @Override
+    public void onReload() throws FileNotFoundException {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        switch (position) {
+            case ADD_BY_CREATE:
+                userMeasure = new Measure();
+                userMeasure.setName("Measure");
+                concreteMeasure = userMeasure.getConcreteMeasure();
+
+                String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
+                String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+
+                concreteMeasure.setConcreteFileName(concreteFileName);
+                concreteMeasure.setUserFileName(userFileName);
+                onSave(false);
+                Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+                addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                startActivity(addIntent);
+                break;
+            case ADD_FROM_FILE:
+                onClickFromJsonFile();
+                break;
+            case GET_FILE:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bitbucket.org/adam-zielonka-pro/converters/src"));
+                startActivity(browserIntent);
+                break;
+            case ADD_FROM_CLOUD:
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickSampleFiles(@SuppressWarnings("unused") View v) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bitbucket.org/adam-zielonka-pro/converters/src"));
-        startActivity(browserIntent);
-    }
-
-    public void onClickFromJsonFile(@SuppressWarnings("unused") View v) {
+    public void onClickFromJsonFile() {
 
         String[] PERMISSIONS_STORAGE;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
