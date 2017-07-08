@@ -69,6 +69,16 @@
             android:label="@string/title_activity_edit_prefix"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.edit.EditDescriptionActivity"
+            android:label="@string/title_activity_edit_description"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.edit.EditFormulaActivity"
+            android:label="@string/title_activity_formula_description"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
     </application>
 
 </manifest>

@@ -36,10 +36,14 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
         }
     }
 
-    protected void saveChange() {
+    protected void onSave() {
+        onSave(true);
+    }
+
+    protected void onSave(boolean reload) {
         try {
             saveMeasure(this, concreteMeasure, userMeasure);
-            onReload();
+            if (reload) onReload();
         } catch (Exception e) {
             showError(this, R.string.error_could_not_save_changes);
         }

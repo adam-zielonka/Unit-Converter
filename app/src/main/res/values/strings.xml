@@ -41,10 +41,10 @@
     <string name="nav_about">About</string>
     <string name="ok">OK</string>
     <string name="website">adamzielonka.pro</string>
-    <string name="delete_converter">Delete</string>
-    <string name="delete_converter_title">Delete converter</string>
-    <string name="delete_converter_msg">Are you sure?</string>
-    <string name="delete_converter_yes">Delete</string>
+    <string name="delete_title">Delete</string>
+    <string name="delete_measure_title">Delete measure</string>
+    <string name="delete_msg">Are you sure?</string>
+    <string name="dialog_delete">Delete</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="empty_converters">Add converters to use them</string>
     <string name="save_converter">Save to downloads</string>
@@ -76,5 +76,11 @@
     <string name="list_item_add_prefix">Add prefix</string>
     <string name="error_could_not_save_changes">Could not save changes</string>
     <string name="dialog_unit_symbol">Unit symbol</string>
+    <string name="delete_unit_title">Delete unit</string>
+    <string name="title_activity_edit_description">Edit description</string>
+    <string name="list_title_description">Description</string>
+    <string name="list_item_description_base">Base</string>
+    <string name="list_item_description_global_prefix">Global prefix</string>
+    <string name="title_activity_formula_description">Edit formula</string>
 
 </resources>

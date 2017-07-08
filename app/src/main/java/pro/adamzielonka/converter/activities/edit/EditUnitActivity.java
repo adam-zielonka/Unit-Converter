@@ -2,11 +2,13 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
@@ -28,6 +30,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     private String unitName;
     private Unit unit;
     private View unitSymbolView;
+    private View unitExpBaseView;
     private PrefixesAdapter prefixesAdapter;
     private static final int COUNT_SETTINGS_ITEMS = 6;
     private static final int EDIT_SYMBOL = 1;
@@ -50,12 +53,13 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         listView.setOnItemClickListener(this);
 
         unitSymbolView = getItemNormal(this, getString(R.string.list_item_symbol), unit.getUnitName());
+        unitExpBaseView = getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getPrefixBase()));
 
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_unit)), false, false);
         listView.addHeaderView(unitSymbolView, false, true);
         listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_description), unit.getUnitDescriptionFirst() + unit.getUnitDescription()), false, true);
         listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2())), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getPrefixBase())), false, true);
+        listView.addHeaderView(unitExpBaseView, false, true);
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefixes)), false, false);
         listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix)), false, true);
     }
@@ -66,6 +70,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         ((TextView) unitSymbolView.findViewById(R.id.textSecondary)).setText(unit.getUnitName());
+        ((TextView) unitExpBaseView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getPrefixBase()));
     }
 
     @Override
@@ -84,15 +89,36 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
                                 unit.setUnitName(editText.getText().toString());
                                 unitName = editText.getText().toString();
-                                saveChange();
+                                onSave();
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
                     break;
                 case EDIT_DESCRIPTION:
+                    Intent description = new Intent(getApplicationContext(), EditDescriptionActivity.class);
+                    description.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                    description.putExtra("unitName", unit.getUnitName());
+                    startActivity(description);
                     break;
                 case EDIT_FORMULA:
+                    Intent formula = new Intent(getApplicationContext(), EditFormulaActivity.class);
+                    formula.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                    formula.putExtra("unitName", unit.getUnitName());
+                    startActivity(formula);
                     break;
                 case EDIT_EXP_BASE:
+                    final NumberPicker numberPicker = new NumberPicker(this);
+                    numberPicker.setMaxValue(100);
+                    numberPicker.setValue(Integer.parseInt(doubleToString(unit.getPrefixBase())));
+                    numberPicker.setMinValue(2);
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.dialog_unit_symbol)
+                            .setView(numberPicker)
+                            .setCancelable(true)
+                            .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                                unit.setPrefixBase(1.0 * numberPicker.getValue());
+                                onSave();
+                            }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                    }).show();
                     break;
             }
             return;
@@ -101,25 +127,42 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
         intent.putExtra("unitName", unit.getUnitName());
         intent.putExtra("prefixName", prefixesAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getPrefixName());
-
         startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), EditMeasureActivity.class);
-        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(home);
+        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.menu_delete:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_unit_title)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
+                            userMeasure.getUnits().remove(unit);
+                            onSave(false);
+                            onBackPressed();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

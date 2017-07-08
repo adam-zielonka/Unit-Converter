@@ -100,7 +100,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                             .setCancelable(true)
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
                                 userMeasure.setName(editText.getText().toString());
-                                saveChange();
+                                onSave();
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
                     break;
@@ -119,18 +119,18 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_measure, menu);
-        return true;
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), StartActivity.class);
-        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(home);
-        finish();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_measure, menu);
+        return true;
     }
 
     @Override
@@ -143,16 +143,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 return true;
             case R.id.menu_delete_converter:
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_converter_title)
-                        .setMessage(R.string.delete_converter_msg)
+                        .setTitle(R.string.delete_measure_title)
                         .setCancelable(true)
-                        .setPositiveButton(R.string.delete_converter_yes, (dialog, which) -> {
+                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
                             if (getFileStreamPath(concreteMeasure.getConcreteFileName()).delete() &&
                                     getFileStreamPath(concreteMeasure.getUserFileName()).delete()) {
-                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
+                                onBackPressed();
                             }
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
@@ -164,7 +160,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
         return super.onOptionsItemSelected(item);
     }
-    
+
     //region save to downloads
     private void saveToDownloadsStep1() {
         String[] PERMISSIONS_STORAGE;

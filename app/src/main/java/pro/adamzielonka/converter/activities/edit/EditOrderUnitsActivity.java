@@ -42,19 +42,18 @@ public class EditOrderUnitsActivity extends EditActivity {
         listView.setAdapter(orderAdapter);
     }
 
-
     public void setUp(View v) {
         View item = (View) v.getParent();
         int position = listView.getPositionForView(item);
         changePosition(orderAdapter.getItem(position), +1);
-        saveChange();
+        onSave();
     }
 
     public void setDown(View v) {
         View item = (View) v.getParent();
         int position = listView.getPositionForView(item);
         changePosition(orderAdapter.getItem(position), -1);
-        saveChange();
+        onSave();
     }
 
     private void changePosition(ConcreteUnit concreteUnit, int change) {
@@ -75,10 +74,10 @@ public class EditOrderUnitsActivity extends EditActivity {
 
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), EditMeasureActivity.class);
-        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(home);
+        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        startActivity(intent);
         finish();
     }
 

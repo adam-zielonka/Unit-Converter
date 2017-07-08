@@ -1,6 +1,8 @@
 package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -51,16 +53,6 @@ public class EditPrefixActivity extends EditActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -68,5 +60,33 @@ public class EditPrefixActivity extends EditActivity {
         intent.putExtra("unitName", unit.getUnitName());
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.menu_delete:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_unit_title)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
+                            unit.getPrefixes().remove(prefix);
+                            onSave(false);
+                            onBackPressed();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
