@@ -2,8 +2,6 @@ package pro.adamzielonka.converter.tools;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,20 +19,18 @@ public class Open {
     public static ConcreteMeasure openConcreteMeasure(Context context, String fileName) throws FileNotFoundException {
         FileInputStream in = context.openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = getGson();
-        return gson.fromJson(reader, ConcreteMeasure.class);
+        return getGson().fromJson(reader, ConcreteMeasure.class);
     }
 
     public static Measure openMeasure(Context context, String fileName) throws FileNotFoundException {
         FileInputStream in = context.openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
-        Gson gson = getGson();
-        return gson.fromJson(reader, Measure.class);
+        return getGson().fromJson(reader, Measure.class);
     }
 
     public static Unit openUnit(String unitName, Measure measure) {
         for (Unit unit : measure.getUnits()) {
-            if (unit.getUnitName().equals(unitName))
+            if (unit.getSymbol().equals(unitName))
                 return unit;
         }
         return null;
@@ -42,7 +38,7 @@ public class Open {
 
     public static Prefix openPrefix(String prefixName, Unit unit) {
         for (Prefix prefix : unit.getPrefixes()) {
-            if (prefix.getPrefixName().equals(prefixName))
+            if (prefix.getSymbol().equals(prefixName))
                 return prefix;
         }
         return null;

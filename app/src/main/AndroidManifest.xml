@@ -79,6 +79,11 @@
             android:label="@string/title_activity_formula_description"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
+        <activity
+            android:name=".activities.cloud.CloudListActivity"
+            android:label="@string/title_activity_cloud_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
     </application>
 
 </manifest>

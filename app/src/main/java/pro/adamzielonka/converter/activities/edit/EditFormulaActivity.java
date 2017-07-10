@@ -32,7 +32,6 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     private String measureFileName;
     private String unitName;
-    private ListView listView;
 
     private View unitFormulaView;
     private View unitFormulaOneView;
@@ -54,11 +53,11 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        listView = findViewById(R.id.editListView);
+        ListView listView = findViewById(R.id.editListView);
         listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
         listView.setOnItemClickListener(this);
 
-        unitFormulaView = getItemNormal(this, getString(R.string.list_item_formula_description), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName()));
+        unitFormulaView = getItemNormal(this, getString(R.string.list_item_formula_description), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         unitFormulaOneView = getItemNormal(this, getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
         unitFormulaShift1View = getItemNormal(this, getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
         unitFormulaShift2View = getItemNormal(this, getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));
@@ -78,7 +77,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         ((TextView) unitFormulaOneView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getOne()));
         ((TextView) unitFormulaShift1View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift()));
         ((TextView) unitFormulaShift2View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift2()));
-        ((TextView) unitFormulaView.findViewById(R.id.textSecondary)).setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName()));
+        ((TextView) unitFormulaView.findViewById(R.id.textSecondary)).setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
     }
 
     @Override
@@ -140,7 +139,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit.getUnitName());
+        intent.putExtra("unitName", unit.getSymbol());
         startActivity(intent);
         finish();
     }

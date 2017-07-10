@@ -2,47 +2,47 @@
   "name": "Temperature",
   "units": [
     {
-      "unitName": "°C",
-      "unitDescription": "Celsius",
+      "symbol": "°C",
+      "description": "Celsius",
       "one": 1
     },
     {
-      "unitName": "°F",
-      "unitDescription": "Fahrenheit",
+      "symbol": "°F",
+      "description": "Fahrenheit",
       "one": 0.555555555555555555555555,
       "shift": -32
     },
     {
-      "unitName": "K",
-      "unitDescription": "Kelvin",
+      "symbol": "K",
+      "description": "Kelvin",
       "one": 1,
       "shift": -273.15
     },
     {
-      "unitName": "°R",
-      "unitDescription": "Rankine",
+      "symbol": "°R",
+      "description": "Rankine",
       "one": 0.555555555555555555555555,
       "shift": -491.67
     },
     {
-      "unitName": "°N",
-      "unitDescription": "Newton",
+      "symbol": "°N",
+      "description": "Newton",
       "one": 3.030303030303030303030303
     },
     {
-      "unitName": "°Ré",
-      "unitDescription": "Réaumur",
+      "symbol": "°Ré",
+      "description": "Réaumur",
       "one": 1.25
     },
     {
-      "unitName": "°Rø",
-      "unitDescription": "Rømer",
+      "symbol": "°Rø",
+      "description": "Rømer",
       "one": 1.904761904761904761904761,
       "shift": -7.5
     },
     {
-      "unitName": "°De",
-      "unitDescription": "Delisle",
+      "symbol": "°De",
+      "description": "Delisle",
       "one": -0.666666666666666666666666,
       "shift2": 100
     }

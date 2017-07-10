@@ -2,40 +2,40 @@ package pro.adamzielonka.converter.units.user;
 
 @SuppressWarnings({"FieldCanBeLocal"})
 public class Prefix {
-    private String prefixName = "";
-    private String prefixDescription = "";
-    private Double prefixExponent = 1.0;
-    private Integer unitPosition = 0;
+    private String symbol = "";
+    private String description = "";
+    private Double exp = 1.0;
+    private Integer position = 0;
 
-    public String getPrefixName() {
-        return prefixName;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public String getPrefixDescription() {
-        return prefixDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public Integer getUnitPosition() {
-        return unitPosition;
+    public Integer getPosition() {
+        return position;
     }
 
-    public Double getPrefixExponent() {
-        return prefixExponent;
+    public Double getExp() {
+        return exp;
     }
 
-    public void setPrefixName(String prefixName) {
-        this.prefixName = prefixName;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setPrefixDescription(String prefixDescription) {
-        this.prefixDescription = prefixDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setPrefixExponent(Double prefixExponent) {
-        this.prefixExponent = prefixExponent;
+    public void setExp(Double exp) {
+        this.exp = exp;
     }
 
-    public void setUnitPosition(Integer unitPosition) {
-        this.unitPosition = unitPosition;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

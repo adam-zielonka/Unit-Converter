@@ -30,7 +30,7 @@ import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.Check.checkSymbolUnitExist;
+import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
@@ -45,7 +45,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private UnitsAdapter unitsAdapter;
     private String measureFileName;
-    private ListView listView;
     private View measureNameView;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int COUNT_SETTINGS_ITEMS = 4;
@@ -60,7 +59,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
-        listView = findViewById(R.id.editListView);
+        ListView listView = findViewById(R.id.editListView);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
         measureNameView = getItemNormal(this, getString(R.string.list_item_name), userMeasure.getName());
@@ -115,10 +114,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 default:
                     Unit newUnit = new Unit();
                     String newUnitName = "";
-                    for (int i = 1; checkSymbolUnitExist(newUnitName, userMeasure.getUnits()); i++) {
+                    for (int i = 1; isSymbolUnitExist(newUnitName, userMeasure.getUnits()); i++) {
                         newUnitName = "" + i;
                     }
-                    newUnit.setUnitName(newUnitName);
+                    newUnit.setSymbol(newUnitName);
                     userMeasure.getUnits().add(newUnit);
                     onSave(false);
                     Intent addUnit = new Intent(getApplicationContext(), EditUnitActivity.class);
@@ -128,9 +127,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             }
             return;
         }
+        Unit unit = unitsAdapter.getItem(position - COUNT_SETTINGS_ITEMS);
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unitsAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getUnitName());
+        intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
         startActivity(intent);
     }
 

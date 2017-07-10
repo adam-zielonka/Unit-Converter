@@ -2,62 +2,62 @@
   "name": "Volume",
   "units": [
     {
-      "unitName": "m³",
-      "unitDescriptionFirst": "cubic ",
-      "unitDescription": "meter",
+      "symbol": "m³",
+      "descriptionPrefix": "cubic ",
+      "description": "meter",
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "d",
-          "prefixDescription": "deci",
-          "prefixExponent": -3
+          "symbol": "d",
+          "description": "deci",
+          "exp": -3
         },
         {
-          "prefixName": "c",
-          "prefixDescription": "centi",
-          "prefixExponent": -6
+          "symbol": "c",
+          "description": "centi",
+          "exp": -6
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -9
+          "symbol": "m",
+          "description": "milli",
+          "exp": -9
         }
       ]
     },
     {
-      "unitName": "l",
-      "unitDescription": "liter",
+      "symbol": "l",
+      "description": "liter",
       "one": 0.001,
-      "unitPosition": -1,
+      "position": -1,
       "prefixes": [
         {
-          "prefixName": "h",
-          "prefixDescription": "hecto",
-          "prefixExponent": 2
+          "symbol": "h",
+          "description": "hecto",
+          "exp": 2
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -3
+          "symbol": "m",
+          "description": "milli",
+          "exp": -3
         }
       ]
     },
     {
-      "unitName": "yd³",
-      "unitDescriptionFirst": "cubic ",
-      "unitDescription": "yard",
+      "symbol": "yd³",
+      "descriptionPrefix": "cubic ",
+      "description": "yard",
       "one": 0.764554857984
     },
     {
-      "unitName": "ft³",
-      "unitDescriptionFirst": "cubic ",
-      "unitDescription": "foot",
+      "symbol": "ft³",
+      "descriptionPrefix": "cubic ",
+      "description": "foot",
       "one": 0.028316846592
     },
     {
-      "unitName": "in³",
-      "unitDescriptionFirst": "cubic ",
-      "unitDescription": "inch",
+      "symbol": "in³",
+      "descriptionPrefix": "cubic ",
+      "description": "inch",
       "one": 0.000016387064
     }
   ]

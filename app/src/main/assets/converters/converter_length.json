@@ -4,66 +4,66 @@
   "displayTo": 6,
   "units": [
     {
-      "unitName": "m",
-      "unitDescription": "meter",
-      "unitPosition": -5,
+      "symbol": "m",
+      "description": "meter",
+      "position": -5,
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "n",
-          "prefixDescription": "nano",
-          "prefixExponent": -9
+          "symbol": "n",
+          "description": "nano",
+          "exp": -9
         },
         {
-          "prefixName": "μ",
-          "prefixDescription": "micro",
-          "prefixExponent": -6
+          "symbol": "μ",
+          "description": "micro",
+          "exp": -6
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -3
+          "symbol": "m",
+          "description": "milli",
+          "exp": -3
         },
         {
-          "prefixName": "c",
-          "prefixDescription": "centi",
-          "prefixExponent": -2
+          "symbol": "c",
+          "description": "centi",
+          "exp": -2
         },
         {
-          "prefixName": "d",
-          "prefixDescription": "deci",
-          "prefixExponent": -1
+          "symbol": "d",
+          "description": "deci",
+          "exp": -1
         },
         {
-          "prefixName": "k",
-          "prefixDescription": "kilo",
-          "prefixExponent": 3
+          "symbol": "k",
+          "description": "kilo",
+          "exp": 3
         }
       ]
     },
     {
-      "unitName": "mi",
-      "unitDescription": "mile",
+      "symbol": "mi",
+      "description": "mile",
       "one": 1609.344
     },
     {
-      "unitName": "nmi",
-      "unitDescription": "nautical mile",
+      "symbol": "nmi",
+      "description": "nautical mile",
       "one": 1852
     },
     {
-      "unitName": "yd",
-      "unitDescription": "yard",
+      "symbol": "yd",
+      "description": "yard",
       "one": 0.9144
     },
     {
-      "unitName": "ft",
-      "unitDescription": "foot",
+      "symbol": "ft",
+      "description": "foot",
       "one": 0.3048
     },
     {
-      "unitName": "in",
-      "unitDescription": "inch",
+      "symbol": "in",
+      "description": "inch",
       "one": 0.0254
     }
   ]

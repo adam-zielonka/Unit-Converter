@@ -2,86 +2,86 @@
   "name": "Area",
   "units": [
     {
-      "unitName": "a",
-      "unitDescription": "are",
-      "unitPosition": -1,
+      "symbol": "a",
+      "description": "are",
+      "position": -1,
       "one": 100,
       "prefixes": [
         {
-          "prefixName": "h",
-          "prefixDescription": "hect",
-          "prefixExponent": 2
+          "symbol": "h",
+          "description": "hect",
+          "exp": 2
         }
       ]
     },
     {
-      "unitName": "m²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "meter",
+      "symbol": "m²",
+      "descriptionPrefix": "square ",
+      "description": "meter",
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "k",
-          "prefixDescription": "kilo",
-          "prefixExponent": 6,
-          "unitPosition": 3
+          "symbol": "k",
+          "description": "kilo",
+          "exp": 6,
+          "position": 3
         },
         {
-          "prefixName": "d",
-          "prefixDescription": "deci",
-          "prefixExponent": -2
+          "symbol": "d",
+          "description": "deci",
+          "exp": -2
         },
         {
-          "prefixName": "c",
-          "prefixDescription": "centi",
-          "prefixExponent": -4
+          "symbol": "c",
+          "description": "centi",
+          "exp": -4
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -6
+          "symbol": "m",
+          "description": "milli",
+          "exp": -6
         },
         {
-          "prefixName": "µ",
-          "prefixDescription": "micro",
-          "prefixExponent": -12
+          "symbol": "µ",
+          "description": "micro",
+          "exp": -12
         }
       ]
     },
     {
-      "unitName": "ac",
-      "unitDescription": "acre",
+      "symbol": "ac",
+      "description": "acre",
       "one": 4046.8564224
     },
     {
-      "unitName": "mi²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "mile",
+      "symbol": "mi²",
+      "descriptionPrefix": "square ",
+      "description": "mile",
       "one": 2589988.110336
 
     },
     {
-      "unitName": "nmi²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "nautical mile",
+      "symbol": "nmi²",
+      "descriptionPrefix": "square ",
+      "description": "nautical mile",
       "one": 3429904
     },
     {
-      "unitName": "yd²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "yard",
+      "symbol": "yd²",
+      "descriptionPrefix": "square ",
+      "description": "yard",
       "one": 0.83612736
     },
     {
-      "unitName": "ft²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "foot",
+      "symbol": "ft²",
+      "descriptionPrefix": "square ",
+      "description": "foot",
       "one": 0.09290304
     },
     {
-      "unitName": "in²",
-      "unitDescriptionFirst": "square ",
-      "unitDescription": "inch",
+      "symbol": "in²",
+      "descriptionPrefix": "square ",
+      "description": "inch",
       "one": 0.00064516
     }
   ]

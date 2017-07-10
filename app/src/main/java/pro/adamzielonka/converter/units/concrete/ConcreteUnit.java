@@ -7,11 +7,6 @@ public class ConcreteUnit {
     private final String name;
     private final String description;
     private final int position;
-
-    public int getBasicPosition() {
-        return basicPosition;
-    }
-
     private final int basicPosition;
 
     public ConcreteUnit(double one, double shift1, double shift2, String name, String description, int position, int basicPosition) {
@@ -46,5 +41,9 @@ public class ConcreteUnit {
 
     public int getPosition() {
         return position;
+    }
+
+    public int getBasicPosition() {
+        return basicPosition;
     }
 }

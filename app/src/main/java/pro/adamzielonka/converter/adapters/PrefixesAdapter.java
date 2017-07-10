@@ -31,8 +31,8 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
 
         Prefix item = getItem(position);
         if (item != null) {
-            String prefixName = item.getPrefixName() + " - " + item.getPrefixDescription();
-            String exponent = doubleToString(unit.getPrefixBase()) + "E" + doubleToString(item.getPrefixExponent());
+            String prefixName = item.getSymbol() + " - " + item.getDescription();
+            String exponent = doubleToString(unit.getExpBase()) + "E" + doubleToString(item.getExp());
             ((TextView) result.findViewById(R.id.textPrimary)).setText(prefixName);
             ((TextView) result.findViewById(R.id.textSecondary)).setText(exponent);
         }

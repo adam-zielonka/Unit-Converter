@@ -30,19 +30,16 @@
         <item>3</item>
     </string-array>
 
-    <string name="add_converter_from_file">From json file</string>
     <string name="error_no_units">No units in this file</string>
     <string name="error_no_file">File not found</string>
     <string name="error_no_json_file">Only json file</string>
     <string name="error_no_permissions">No permission to load file</string>
-    <string name="from_json_sample_files">Sample json files</string>
     <string name="clear_text">Clear</string>
     <string name="nav_about">About</string>
     <string name="ok">OK</string>
     <string name="website">adamzielonka.pro</string>
     <string name="delete_title">Delete</string>
     <string name="delete_measure_title">Delete measure</string>
-    <string name="delete_msg">Are you sure?</string>
     <string name="dialog_delete">Delete</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="empty_converters">Add converters to use them</string>
@@ -102,5 +99,6 @@
     <string name="list_item_load_from_json_description">Load a json file with a specific structure</string>
     <string name="list_item_json_repo_description">See the sample file on the website</string>
     <string name="list_item_load_form_cloud_description">Soon, maybe</string>
+    <string name="title_activity_cloud_list">CloudListActivity</string>
 
 </resources>

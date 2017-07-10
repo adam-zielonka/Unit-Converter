@@ -4,55 +4,55 @@
   "displayTo": 4,
   "units": [
     {
-      "unitName": "b",
-      "unitDescription": "bit",
+      "symbol": "b",
+      "description": "bit",
       "one": 0.125,
       "prefixes": [
         {
-          "prefixName": "K",
-          "prefixDescription": "kilo",
-          "prefixExponent": 10
+          "symbol": "K",
+          "description": "kilo",
+          "exp": 10
         },
         {
-          "prefixName": "M",
-          "prefixDescription": "mega",
-          "prefixExponent": 20
+          "symbol": "M",
+          "description": "mega",
+          "exp": 20
         },
         {
-          "prefixName": "G",
-          "prefixDescription": "giga",
-          "prefixExponent": 30
+          "symbol": "G",
+          "description": "giga",
+          "exp": 30
         }
       ],
-      "prefixBase": "2"
+      "expBase": "2"
     },
     {
-      "unitName": "B",
-      "unitDescription": "byte",
+      "symbol": "B",
+      "description": "byte",
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "K",
-          "prefixDescription": "kilo",
-          "prefixExponent": 10
+          "symbol": "K",
+          "description": "kilo",
+          "exp": 10
         },
         {
-          "prefixName": "M",
-          "prefixDescription": "mega",
-          "prefixExponent": 20
+          "symbol": "M",
+          "description": "mega",
+          "exp": 20
         },
         {
-          "prefixName": "G",
-          "prefixDescription": "giga",
-          "prefixExponent": 30
+          "symbol": "G",
+          "description": "giga",
+          "exp": 30
         },
         {
-          "prefixName": "T",
-          "prefixDescription": "tera",
-          "prefixExponent": 40
+          "symbol": "T",
+          "description": "tera",
+          "exp": 40
         }
       ],
-      "prefixBase": "2"
+      "expBase": "2"
     }
   ]
 }

@@ -18,8 +18,8 @@ import pro.adamzielonka.converter.adapters.PrefixesAdapter;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.Check.checkSymbolPrefixExist;
-import static pro.adamzielonka.converter.tools.Check.checkSymbolUnitExist;
+import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
+import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
@@ -57,13 +57,13 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         listView.setAdapter(prefixesAdapter);
         listView.setOnItemClickListener(this);
 
-        unitSymbolView = getItemNormal(this, getString(R.string.list_item_symbol), unit.getUnitName());
-        unitExpBaseView = getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getPrefixBase()));
+        unitSymbolView = getItemNormal(this, getString(R.string.list_item_symbol), unit.getSymbol());
+        unitExpBaseView = getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getExpBase()));
 
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_unit)), false, false);
         listView.addHeaderView(unitSymbolView, false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_description), unit.getUnitDescriptionFirst() + unit.getUnitDescription()), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getUnitName())), false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_description), unit.getDescriptionPrefix() + unit.getDescription()), false, true);
+        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol())), false, true);
         listView.addHeaderView(unitExpBaseView, false, true);
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefixes)), false, false);
         listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix)), false, true);
@@ -74,8 +74,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        ((TextView) unitSymbolView.findViewById(R.id.textSecondary)).setText(unit.getUnitName());
-        ((TextView) unitExpBaseView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getPrefixBase()));
+        ((TextView) unitSymbolView.findViewById(R.id.textSecondary)).setText(unit.getSymbol());
+        ((TextView) unitExpBaseView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getExpBase()));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 case EDIT_SYMBOL:
                     View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                     final EditText editText = layout.findViewById(R.id.editText);
-                    editText.setText(unit.getUnitName());
+                    editText.setText(unit.getSymbol());
                     editText.selectAll();
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_unit_symbol)
@@ -94,8 +94,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
                                 String newName = editText.getText().toString();
                                 if (!newName.equals(unitName)) {
-                                    if (!checkSymbolUnitExist(newName, userMeasure.getUnits())) {
-                                        unit.setUnitName(newName);
+                                    if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
+                                        unit.setSymbol(newName);
                                         unitName = newName;
                                         onSave();
                                     } else {
@@ -108,26 +108,26 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 case EDIT_DESCRIPTION:
                     Intent description = new Intent(getApplicationContext(), EditDescriptionActivity.class);
                     description.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    description.putExtra("unitName", unit.getUnitName());
+                    description.putExtra("unitName", unit.getSymbol());
                     startActivity(description);
                     break;
                 case EDIT_FORMULA:
                     Intent formula = new Intent(getApplicationContext(), EditFormulaActivity.class);
                     formula.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    formula.putExtra("unitName", unit.getUnitName());
+                    formula.putExtra("unitName", unit.getSymbol());
                     startActivity(formula);
                     break;
                 case EDIT_EXP_BASE:
                     final NumberPicker numberPicker = new NumberPicker(this);
                     numberPicker.setMaxValue(100);
-                    numberPicker.setValue(Integer.parseInt(doubleToString(unit.getPrefixBase())));
+                    numberPicker.setValue(Integer.parseInt(doubleToString(unit.getExpBase())));
                     numberPicker.setMinValue(2);
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_unit_exponentiation_base)
                             .setView(numberPicker)
                             .setCancelable(true)
                             .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                                unit.setPrefixBase(1.0 * numberPicker.getValue());
+                                unit.setExpBase(1.0 * numberPicker.getValue());
                                 onSave();
                             }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                     }).show();
@@ -135,24 +135,25 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 default:
                     Prefix newPrefix = new Prefix();
                     String newPrefixName = "";
-                    for (int i = 1; checkSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
+                    for (int i = 1; isSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
                         newPrefixName = "" + i;
                     }
-                    newPrefix.setPrefixName(newPrefixName);
+                    newPrefix.setSymbol(newPrefixName);
                     unit.getPrefixes().add(newPrefix);
                     onSave(false);
                     Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
                     intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    intent.putExtra("unitName", unit.getUnitName());
+                    intent.putExtra("unitName", unit.getSymbol());
                     intent.putExtra("prefixName", newPrefixName);
                     startActivity(intent);
             }
             return;
         }
+        Prefix prefix = prefixesAdapter.getItem(position - COUNT_SETTINGS_ITEMS);
         Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit.getUnitName());
-        intent.putExtra("prefixName", prefixesAdapter.getItem(position - COUNT_SETTINGS_ITEMS).getPrefixName());
+        intent.putExtra("unitName", unit.getSymbol());
+        intent.putExtra("prefixName", prefix != null ? prefix.getSymbol() : "");
         startActivity(intent);
     }
 

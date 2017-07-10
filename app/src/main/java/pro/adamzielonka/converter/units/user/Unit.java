@@ -5,11 +5,11 @@ import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal"})
 public class Unit {
-    private String unitName = "";
-    private String unitDescriptionFirst = "";
-    private String unitDescription = "";
-    private Integer unitPosition = 0;
-    private Double prefixBase = 10.0;
+    private String symbol = "";
+    private String descriptionPrefix = "";
+    private String description = "";
+    private Integer position = 0;
+    private Double expBase = 10.0;
     private Double one = 1.0;
     private Double shift = 0.0;
     private Double shift2 = 0.0;
@@ -19,20 +19,20 @@ public class Unit {
         return prefixes;
     }
 
-    public String getUnitName() {
-        return unitName;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public String getUnitDescriptionFirst() {
-        return unitDescriptionFirst;
+    public String getDescriptionPrefix() {
+        return descriptionPrefix;
     }
 
-    public String getUnitDescription() {
-        return unitDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public Integer getUnitPosition() {
-        return unitPosition;
+    public Integer getPosition() {
+        return position;
     }
 
     public Double getOne() {
@@ -47,28 +47,28 @@ public class Unit {
         return shift2;
     }
 
-    public Double getPrefixBase() {
-        return prefixBase;
+    public Double getExpBase() {
+        return expBase;
     }
 
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setUnitDescriptionFirst(String unitDescriptionFirst) {
-        this.unitDescriptionFirst = unitDescriptionFirst;
+    public void setDescriptionPrefix(String descriptionPrefix) {
+        this.descriptionPrefix = descriptionPrefix;
     }
 
-    public void setUnitDescription(String unitDescription) {
-        this.unitDescription = unitDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setUnitPosition(Integer unitPosition) {
-        this.unitPosition = unitPosition;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
-    public void setPrefixBase(Double prefixBase) {
-        this.prefixBase = prefixBase;
+    public void setExpBase(Double expBase) {
+        this.expBase = expBase;
     }
 
     public void setOne(Double one) {

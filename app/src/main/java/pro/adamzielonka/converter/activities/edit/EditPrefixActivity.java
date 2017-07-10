@@ -21,7 +21,7 @@ import pro.adamzielonka.converter.units.user.Unit;
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
-import static pro.adamzielonka.converter.tools.Check.checkSymbolPrefixExist;
+import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
 import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
 import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
@@ -64,9 +64,9 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
         listView.setOnItemClickListener(this);
 
-        prefixNameView = getItemNormal(this, getString(R.string.list_item_symbol), prefix.getPrefixName());
-        prefixDescriptionView = getItemNormal(this, getString(R.string.list_item_description), prefix.getPrefixDescription());
-        prefixExponentView = getItemNormal(this, getString(R.string.list_item_exponent), doubleToString(prefix.getPrefixExponent()));
+        prefixNameView = getItemNormal(this, getString(R.string.list_item_symbol), prefix.getSymbol());
+        prefixDescriptionView = getItemNormal(this, getString(R.string.list_item_description), prefix.getDescription());
+        prefixExponentView = getItemNormal(this, getString(R.string.list_item_exponent), doubleToString(prefix.getExp()));
 
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefix)), false, false);
         listView.addHeaderView(prefixNameView, false, true);
@@ -80,9 +80,9 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefix = openPrefix(prefixName, unit);
-        ((TextView) prefixNameView.findViewById(R.id.textSecondary)).setText(prefix.getPrefixName());
-        ((TextView) prefixDescriptionView.findViewById(R.id.textSecondary)).setText(prefix.getPrefixDescription());
-        ((TextView) prefixExponentView.findViewById(R.id.textSecondary)).setText(doubleToString(prefix.getPrefixExponent()));
+        ((TextView) prefixNameView.findViewById(R.id.textSecondary)).setText(prefix.getSymbol());
+        ((TextView) prefixDescriptionView.findViewById(R.id.textSecondary)).setText(prefix.getDescription());
+        ((TextView) prefixExponentView.findViewById(R.id.textSecondary)).setText(doubleToString(prefix.getExp()));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             case EDIT_SYMBOL:
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(prefix.getPrefixName());
+                editText.setText(prefix.getSymbol());
                 editText.setSelection(editText.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_prefix_symbol)
@@ -100,8 +100,8 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
                             String newName = editText.getText().toString();
                             if (!newName.equals(prefixName)) {
-                                if (!checkSymbolPrefixExist(newName, unit.getPrefixes())) {
-                                    prefix.setPrefixName(newName);
+                                if (!isSymbolPrefixExist(newName, unit.getPrefixes())) {
+                                    prefix.setSymbol(newName);
                                     prefixName = newName;
                                     onSave();
                                 } else {
@@ -114,14 +114,14 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             case EDIT_DESCRIPTION:
                 View layoutDescription = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextDescription = layoutDescription.findViewById(R.id.editText);
-                editTextDescription.setText(prefix.getPrefixDescription());
+                editTextDescription.setText(prefix.getDescription());
                 editTextDescription.setSelection(editTextDescription.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_prefix_description)
                         .setView(layoutDescription)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            prefix.setPrefixDescription(editTextDescription.getText().toString());
+                            prefix.setDescription(editTextDescription.getText().toString());
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
@@ -130,14 +130,14 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
                 View layoutExp = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextExp = layoutExp.findViewById(R.id.editText);
                 editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-                editTextExp.setText(doubleToString(prefix.getPrefixExponent()));
+                editTextExp.setText(doubleToString(prefix.getExp()));
                 editTextExp.setSelection(editTextExp.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_prefix_exponent)
                         .setView(layoutExp)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            prefix.setPrefixExponent(stringToDouble(editTextExp.getText().toString()));
+                            prefix.setExp(stringToDouble(editTextExp.getText().toString()));
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
@@ -151,7 +151,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit.getUnitName());
+        intent.putExtra("unitName", unit.getSymbol());
         startActivity(intent);
         finish();
     }

@@ -2,46 +2,46 @@
   "name": "Mass",
   "units": [
     {
-      "unitName": "t",
-      "unitDescription": "tonne",
+      "symbol": "t",
+      "description": "tonne",
       "one": 1000000
     },
     {
-      "unitName": "g",
-      "unitDescription": "gram",
-      "unitPosition": -2,
+      "symbol": "g",
+      "description": "gram",
+      "position": -2,
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "k",
-          "prefixDescription": "kilo",
-          "prefixExponent": 3
+          "symbol": "k",
+          "description": "kilo",
+          "exp": 3
         },
         {
-          "prefixName": "da",
-          "prefixDescription": "deca",
-          "prefixExponent": 1
+          "symbol": "da",
+          "description": "deca",
+          "exp": 1
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -3
+          "symbol": "m",
+          "description": "milli",
+          "exp": -3
         }
       ]
     },
     {
-      "unitName": "ct",
-      "unitDescription": "carat",
+      "symbol": "ct",
+      "description": "carat",
       "one": 0.2
     },
     {
-      "unitName": "oz",
-      "unitDescription": "ounce",
+      "symbol": "oz",
+      "description": "ounce",
       "one": 28.34952981
     },
     {
-      "unitName": "lb",
-      "unitDescription": "pound",
+      "symbol": "lb",
+      "description": "pound",
       "one": 453.59237
     }
   ]

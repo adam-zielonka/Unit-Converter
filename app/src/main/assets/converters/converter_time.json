@@ -4,46 +4,46 @@
   "displayTo": 2,
   "units": [
     {
-      "unitName": "s",
-      "unitDescription": "second",
-      "unitPosition": -2,
+      "symbol": "s",
+      "description": "second",
+      "position": -2,
       "one": 1,
       "prefixes": [
         {
-          "prefixName": "µ",
-          "prefixDescription": "micro",
-          "prefixExponent": -6
+          "symbol": "µ",
+          "description": "micro",
+          "exp": -6
         },
         {
-          "prefixName": "m",
-          "prefixDescription": "milli",
-          "prefixExponent": -3
+          "symbol": "m",
+          "description": "milli",
+          "exp": -3
         }
       ]
     },
     {
-      "unitName": "m",
-      "unitDescription": "minute",
+      "symbol": "m",
+      "description": "minute",
       "one": 60
     },
     {
-      "unitName": "h",
-      "unitDescription": "hour",
+      "symbol": "h",
+      "description": "hour",
       "one": 3600
     },
     {
-      "unitName": "d",
-      "unitDescription": "day",
+      "symbol": "d",
+      "description": "day",
       "one": 86400
     },
     {
-      "unitName": "w",
-      "unitDescription": "week",
+      "symbol": "w",
+      "description": "week",
       "one": 604800
     },
     {
-      "unitName": "y",
-      "unitDescription": "year",
+      "symbol": "y",
+      "description": "year",
       "one": 31536000
     }
   ]

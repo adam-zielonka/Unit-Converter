@@ -4,69 +4,69 @@
   "displayTo": 5,
   "units": [
     {
-      "unitName": "m/s",
-      "unitDescription": "meter per second",
+      "symbol": "m/s",
+      "description": "meter per second",
       "one": 1,
-      "unitPosition": -1,
+      "position": -1,
       "prefixes": [
         {
-          "prefixName": "c",
-          "prefixDescription": "centi",
-          "prefixExponent": -2
+          "symbol": "c",
+          "description": "centi",
+          "exp": -2
         },
         {
-          "prefixName": "k",
-          "prefixDescription": "kilo",
-          "prefixExponent": 3
+          "symbol": "k",
+          "description": "kilo",
+          "exp": 3
         }
       ]
     },
     {
-      "unitName": "m/h",
-      "unitDescription": "meter per hour",
+      "symbol": "m/h",
+      "description": "meter per hour",
       "one": 0.000277777777777777777777777777777,
-      "unitPosition": -1,
+      "position": -1,
       "prefixes": [
         {
-          "prefixName": "c",
-          "prefixDescription": "centi",
-          "prefixExponent": -2
+          "symbol": "c",
+          "description": "centi",
+          "exp": -2
         },
         {
-          "prefixName": "k",
-          "prefixDescription": "kilo",
-          "prefixExponent": 3
+          "symbol": "k",
+          "description": "kilo",
+          "exp": 3
         }
       ]
     },
     {
-      "unitName": "mi",
-      "unitDescription": "mile per hour",
+      "symbol": "mi",
+      "description": "mile per hour",
       "one": 0.44704
     },
     {
-      "unitName": "fps",
-      "unitDescription": "foot per second",
+      "symbol": "fps",
+      "description": "foot per second",
       "one": 0.3048
     },
     {
-      "unitName": "ips",
-      "unitDescription": "inch per second",
+      "symbol": "ips",
+      "description": "inch per second",
       "one": 0.0254
     },
     {
-      "unitName": "kn",
-      "unitDescription": "knot",
+      "symbol": "kn",
+      "description": "knot",
       "one": 5.1444444444444444444444444444444
     },
     {
-      "unitName": "Ma",
-      "unitDescription": "mach",
+      "symbol": "Ma",
+      "description": "mach",
       "one": 340.3
     },
     {
-      "unitName": "c",
-      "unitDescription": "light speed",
+      "symbol": "c",
+      "description": "light speed",
       "one": 299792458
     }
   ]

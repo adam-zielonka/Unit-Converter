@@ -26,7 +26,6 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
 
     private String measureFileName;
     private String unitName;
-    private ListView listView;
 
     private View unitDescriptionBaseView;
     private View unitDescriptionPrefixView;
@@ -45,12 +44,12 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        listView = findViewById(R.id.editListView);
+        ListView listView = findViewById(R.id.editListView);
         listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
         listView.setOnItemClickListener(this);
 
-        unitDescriptionBaseView = getItemNormal(this, getString(R.string.list_item_description_base), unit.getUnitDescription());
-        unitDescriptionPrefixView = getItemNormal(this, getString(R.string.list_item_description_global_prefix), unit.getUnitDescriptionFirst());
+        unitDescriptionBaseView = getItemNormal(this, getString(R.string.list_item_description_base), unit.getDescription());
+        unitDescriptionPrefixView = getItemNormal(this, getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
 
         listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_description)), false, false);
         listView.addHeaderView(unitDescriptionBaseView, false, true);
@@ -62,8 +61,8 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        ((TextView) unitDescriptionBaseView.findViewById(R.id.textSecondary)).setText(unit.getUnitDescription());
-        ((TextView) unitDescriptionPrefixView.findViewById(R.id.textSecondary)).setText(unit.getUnitDescriptionFirst());
+        ((TextView) unitDescriptionBaseView.findViewById(R.id.textSecondary)).setText(unit.getDescription());
+        ((TextView) unitDescriptionPrefixView.findViewById(R.id.textSecondary)).setText(unit.getDescriptionPrefix());
     }
 
     @Override
@@ -72,14 +71,14 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
             case EDIT_DESCRIPTION_BASE:
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(unit.getUnitDescription());
+                editText.setText(unit.getDescription());
                 editText.setSelection(editText.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layout)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setUnitDescription(editText.getText().toString());
+                            unit.setDescription(editText.getText().toString());
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
@@ -87,14 +86,14 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
             case EDIT_DESCRIPTION_PREFIX:
                 View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
                 final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
-                editTextPrefix.setText(unit.getUnitDescriptionFirst());
+                editTextPrefix.setText(unit.getDescriptionPrefix());
                 editTextPrefix.setSelection(editTextPrefix.length());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_unit_symbol)
                         .setView(layoutPrefix)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setUnitDescriptionFirst(editTextPrefix.getText().toString());
+                            unit.setDescriptionPrefix(editTextPrefix.getText().toString());
                             onSave();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();
@@ -107,7 +106,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit.getUnitName());
+        intent.putExtra("unitName", unit.getSymbol());
         startActivity(intent);
         finish();
     }

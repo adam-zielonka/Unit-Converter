@@ -35,19 +35,19 @@ public class Measure {
                     unit.getOne(),
                     unit.getShift(),
                     unit.getShift2(),
-                    unit.getUnitName(),
-                    unit.getUnitDescriptionFirst() + unit.getUnitDescription(),
-                    getPosition(i, unit.getUnitPosition()), 2 * i)
+                    unit.getSymbol(),
+                    unit.getDescriptionPrefix() + unit.getDescription(),
+                    getPosition(i, unit.getPosition()), 2 * i)
             );
             i++;
             for (Prefix prefix : unit.getPrefixes()) {
                 concreteUnits.add(new ConcreteUnit(
-                        unit.getOne() * Math.pow(unit.getPrefixBase(), prefix.getPrefixExponent()),
+                        unit.getOne() * Math.pow(unit.getExpBase(), prefix.getExp()),
                         unit.getShift(),
                         unit.getShift2(),
-                        prefix.getPrefixName() + unit.getUnitName(),
-                        unit.getUnitDescriptionFirst() + prefix.getPrefixDescription() + unit.getUnitDescription(),
-                        getPosition(i, prefix.getUnitPosition()), 2 * i)
+                        prefix.getSymbol() + unit.getSymbol(),
+                        unit.getDescriptionPrefix() + prefix.getDescription() + unit.getDescription(),
+                        getPosition(i, prefix.getPosition()), 2 * i)
                 );
                 i++;
             }

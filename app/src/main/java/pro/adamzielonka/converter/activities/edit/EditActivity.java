@@ -15,8 +15,8 @@ import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Save.saveMeasure;
 
 public abstract class EditActivity extends AppCompatActivity implements IEdit {
-    protected Measure userMeasure;
-    protected ConcreteMeasure concreteMeasure;
+    Measure userMeasure;
+    ConcreteMeasure concreteMeasure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,11 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
         }
     }
 
-    protected void onSave() {
+    void onSave() {
         onSave(true);
     }
 
-    protected void onSave(boolean reload) {
+    void onSave(boolean reload) {
         try {
             saveMeasure(this, concreteMeasure, userMeasure);
             if (reload) onReload();
