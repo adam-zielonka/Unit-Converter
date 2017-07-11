@@ -34,11 +34,8 @@ import pro.adamzielonka.converter.units.user.Unit;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
-import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
-import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.Open.openMeasure;
 
 public class EditMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -55,8 +52,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         Intent intent = getIntent();
         measureFileName = intent.getStringExtra("measureFileName");
 
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
 
         MyListView listView = findViewById(R.id.editListView);
@@ -73,8 +70,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         ((TextView) measureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
     }
 

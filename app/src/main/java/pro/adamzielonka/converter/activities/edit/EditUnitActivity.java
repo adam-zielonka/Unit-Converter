@@ -20,13 +20,8 @@ import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
-import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
-import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
-import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.Open.openMeasure;
-import static pro.adamzielonka.converter.tools.Open.openUnit;
 
 public class EditUnitActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -48,8 +43,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         measureFileName = intent.getStringExtra("measureFileName");
         unitName = intent.getStringExtra("unitName");
 
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
 
@@ -69,8 +64,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         ((TextView) unitSymbolView.findViewById(R.id.textSecondary)).setText(unit.getSymbol());
         ((TextView) unitExpBaseView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getExpBase()));

@@ -21,9 +21,6 @@ import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
-import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.Open.openMeasure;
-import static pro.adamzielonka.converter.tools.Open.openUnit;
 
 public class EditFormulaActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -47,8 +44,8 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         measureFileName = intent.getStringExtra("measureFileName");
         unitName = intent.getStringExtra("unitName");
 
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
 
         MyListView listView = findViewById(R.id.editListView);
@@ -66,8 +63,8 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         ((TextView) unitFormulaOneView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getOne()));
         ((TextView) unitFormulaShift1View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift()));

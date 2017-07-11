@@ -20,14 +20,9 @@ import pro.adamzielonka.converter.units.user.Unit;
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
-import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
-import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.Open.openMeasure;
-import static pro.adamzielonka.converter.tools.Open.openPrefix;
-import static pro.adamzielonka.converter.tools.Open.openUnit;
 
 public class EditPrefixActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -53,8 +48,8 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
 
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefix = openPrefix(prefixName, unit);
 
@@ -71,8 +66,8 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefix = openPrefix(prefixName, unit);
         ((TextView) prefixNameView.findViewById(R.id.textSecondary)).setText(prefix.getSymbol());

@@ -15,10 +15,6 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
-import static pro.adamzielonka.converter.tools.Open.openMeasure;
-import static pro.adamzielonka.converter.tools.Open.openUnit;
-
 public class EditDescriptionActivity extends EditActivity implements ListView.OnItemClickListener {
 
     private String measureFileName;
@@ -38,8 +34,8 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         measureFileName = intent.getStringExtra("measureFileName");
         unitName = intent.getStringExtra("unitName");
 
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
 
         MyListView listView = findViewById(R.id.editListView);
@@ -54,8 +50,8 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(this, measureFileName);
-        userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
+        concreteMeasure = openConcreteMeasure(measureFileName);
+        userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         ((TextView) unitDescriptionBaseView.findViewById(R.id.textSecondary)).setText(unit.getDescription());
         ((TextView) unitDescriptionPrefixView.findViewById(R.id.textSecondary)).setText(unit.getDescriptionPrefix());
