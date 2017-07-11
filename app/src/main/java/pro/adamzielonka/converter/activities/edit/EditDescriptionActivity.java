@@ -10,14 +10,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.adapters.OrderAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
 import static pro.adamzielonka.converter.tools.Open.openMeasure;
 import static pro.adamzielonka.converter.tools.Open.openUnit;
@@ -44,16 +41,15 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        ListView listView = findViewById(R.id.editListView);
-        listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
+
+        MyListView listView = findViewById(R.id.editListView);
+        listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
+        listView.setActivity(this);
 
-        unitDescriptionBaseView = getItemNormal(this, getString(R.string.list_item_description_base), unit.getDescription());
-        unitDescriptionPrefixView = getItemNormal(this, getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
-
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_description)), false, false);
-        listView.addHeaderView(unitDescriptionBaseView, false, true);
-        listView.addHeaderView(unitDescriptionPrefixView, false, true);
+        listView.addHeaderTitle(getString(R.string.list_title_description));
+        unitDescriptionBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base), unit.getDescription());
+        unitDescriptionPrefixView = listView.addHeaderItem(getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
     }
 
     @Override

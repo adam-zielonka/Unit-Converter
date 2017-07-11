@@ -15,14 +15,13 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
 import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
-import static pro.adamzielonka.converter.tools.Converter.getFormula;
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
@@ -53,20 +52,19 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
-        ListView listView = findViewById(R.id.editListView);
+
+        MyListView listView = findViewById(R.id.editListView);
         listView.setAdapter(prefixesAdapter);
         listView.setOnItemClickListener(this);
+        listView.setActivity(this);
 
-        unitSymbolView = getItemNormal(this, getString(R.string.list_item_symbol), unit.getSymbol());
-        unitExpBaseView = getItemNormal(this, getString(R.string.list_title_exponentiation_base), doubleToString(unit.getExpBase()));
-
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_unit)), false, false);
-        listView.addHeaderView(unitSymbolView, false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_description), unit.getDescriptionPrefix() + unit.getDescription()), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol())), false, true);
-        listView.addHeaderView(unitExpBaseView, false, true);
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefixes)), false, false);
-        listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_prefix)), false, true);
+        listView.addHeaderTitle(getString(R.string.list_title_unit));
+        unitSymbolView = listView.addHeaderItem(getString(R.string.list_item_symbol), unit.getSymbol());
+        listView.addHeaderItem(getString(R.string.list_item_description), unit.getDescriptionPrefix() + unit.getDescription());
+        listView.addHeaderItem(getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+        unitExpBaseView = listView.addHeaderItem(getString(R.string.list_title_exponentiation_base), doubleToString(unit.getExpBase()));
+        listView.addHeaderTitle(getString(R.string.list_title_prefixes));
+        listView.addFooterItem(getString(R.string.list_item_add_prefix));
     }
 
     @Override

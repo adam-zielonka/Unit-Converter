@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <pro.adamzielonka.converter.components.MyListView
             android:id="@+id/editListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

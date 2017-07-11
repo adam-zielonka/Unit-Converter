@@ -26,16 +26,15 @@ import java.io.Reader;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
 
-import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
+import static pro.adamzielonka.converter.tools.If.isSymbolUnitExist;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
@@ -59,16 +58,17 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
-        ListView listView = findViewById(R.id.editListView);
+
+        MyListView listView = findViewById(R.id.editListView);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
-        measureNameView = getItemNormal(this, getString(R.string.list_item_name), userMeasure.getName());
+        listView.setActivity(this);
 
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_Measure)), false, false);
-        listView.addHeaderView(measureNameView, false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_units_order), getUnitsOrder()), false, true);
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_units)), false, false);
-        listView.addFooterView(getItemNormal(this, getString(R.string.list_item_add_unit)), false, true);
+        listView.addHeaderTitle(getString(R.string.list_title_Measure));
+        measureNameView = listView.addHeaderItem(getString(R.string.list_item_name), userMeasure.getName());
+        listView.addHeaderItem(getString(R.string.list_item_units_order), getUnitsOrder());
+        listView.addHeaderTitle(getString(R.string.list_title_units));
+        listView.addFooterItem(getString(R.string.list_item_add_unit));
     }
 
     @Override

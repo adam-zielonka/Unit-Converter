@@ -10,18 +10,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.adapters.OrderAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 import static pro.adamzielonka.converter.tools.Open.openConcreteMeasure;
@@ -53,20 +50,18 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         concreteMeasure = openConcreteMeasure(this, measureFileName);
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
-        ListView listView = findViewById(R.id.editListView);
-        listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
+
+        MyListView listView = findViewById(R.id.editListView);
+        listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
+        listView.setActivity(this);
 
-        unitFormulaView = getItemNormal(this, getString(R.string.list_item_formula_description), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
-        unitFormulaOneView = getItemNormal(this, getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
-        unitFormulaShift1View = getItemNormal(this, getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
-        unitFormulaShift2View = getItemNormal(this, getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));
-
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_formula)), false, false);
-        listView.addHeaderView(unitFormulaView, false, false);
-        listView.addHeaderView(unitFormulaOneView, false, true);
-        listView.addHeaderView(unitFormulaShift1View, false, true);
-        listView.addHeaderView(unitFormulaShift2View, false, true);
+        listView.addHeaderTitle(getString(R.string.list_title_formula));
+        unitFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula_description),
+                getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+        unitFormulaOneView = listView.addHeaderItem(getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
+        unitFormulaShift1View = listView.addHeaderItem(getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
+        unitFormulaShift2View = listView.addHeaderItem(getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));
     }
 
     @Override
@@ -77,7 +72,8 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         ((TextView) unitFormulaOneView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getOne()));
         ((TextView) unitFormulaShift1View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift()));
         ((TextView) unitFormulaShift2View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift2()));
-        ((TextView) unitFormulaView.findViewById(R.id.textSecondary)).setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+        ((TextView) unitFormulaView.findViewById(R.id.textSecondary)).setText(
+                getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,10 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.adapters.OrderAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
@@ -22,8 +21,6 @@ import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.If.isSymbolPrefixExist;
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
@@ -60,18 +57,16 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         userMeasure = openMeasure(this, concreteMeasure.getUserFileName());
         unit = openUnit(unitName, userMeasure);
         prefix = openPrefix(prefixName, unit);
-        ListView listView = findViewById(R.id.editListView);
-        listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
+
+        MyListView listView = findViewById(R.id.editListView);
+        listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
+        listView.setActivity(this);
 
-        prefixNameView = getItemNormal(this, getString(R.string.list_item_symbol), prefix.getSymbol());
-        prefixDescriptionView = getItemNormal(this, getString(R.string.list_item_description), prefix.getDescription());
-        prefixExponentView = getItemNormal(this, getString(R.string.list_item_exponent), doubleToString(prefix.getExp()));
-
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_title_prefix)), false, false);
-        listView.addHeaderView(prefixNameView, false, true);
-        listView.addHeaderView(prefixDescriptionView, false, true);
-        listView.addHeaderView(prefixExponentView, false, true);
+        listView.addHeaderTitle(getString(R.string.list_title_prefix));
+        prefixNameView = listView.addHeaderItem(getString(R.string.list_item_symbol), prefix.getSymbol());
+        prefixDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description), prefix.getDescription());
+        prefixExponentView = listView.addHeaderItem(getString(R.string.list_item_exponent), doubleToString(prefix.getExp()));
     }
 
     @Override

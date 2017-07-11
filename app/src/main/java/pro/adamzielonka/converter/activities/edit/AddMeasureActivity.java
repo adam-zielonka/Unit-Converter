@@ -18,12 +18,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.cloud.CloudListActivity;
-import pro.adamzielonka.converter.adapters.OrderAdapter;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
@@ -31,8 +30,6 @@ import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
-import static pro.adamzielonka.converter.tools.ListItems.getItemHeader;
-import static pro.adamzielonka.converter.tools.ListItems.getItemNormal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
 public class AddMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
@@ -47,15 +44,16 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        ListView listView = findViewById(R.id.editListView);
-        listView.setAdapter(new OrderAdapter(this, (new ArrayList<>())));
+        MyListView listView = findViewById(R.id.editListView);
+        listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
+        listView.setActivity(this);
 
-        listView.addHeaderView(getItemHeader(this, getString(R.string.list_add_measure)), false, false);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_create), getString(R.string.list_item_create_description)), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description)), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description)), false, true);
-        listView.addHeaderView(getItemNormal(this, getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description)), false, true);
+        listView.addHeaderTitle(getString(R.string.list_add_measure));
+        listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
+        listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
+        listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
+        listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
     }
 
     @Override
