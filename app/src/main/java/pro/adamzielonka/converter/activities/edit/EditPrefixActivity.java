@@ -14,8 +14,6 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.components.MyListView;
-import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
@@ -25,13 +23,6 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public class EditPrefixActivity extends EditActivity implements ListView.OnItemClickListener {
-
-    private Unit unit;
-    private Prefix prefix;
-
-    private String measureFileName;
-    private String unitName;
-    private String prefixName;
 
     private View prefixNameView;
     private View prefixDescriptionView;
@@ -43,16 +34,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
-        unitName = intent.getStringExtra("unitName");
-        prefixName = intent.getStringExtra("prefixName");
-
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
-        prefix = openPrefix(prefixName, unit);
-
+        super.onLoad();
         MyListView listView = findViewById(R.id.editListView);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -66,10 +48,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
-        prefix = openPrefix(prefixName, unit);
+        super.onReload();
         ((TextView) prefixNameView.findViewById(R.id.textSecondary)).setText(prefix.getSymbol());
         ((TextView) prefixDescriptionView.findViewById(R.id.textSecondary)).setText(prefix.getDescription());
         ((TextView) prefixExponentView.findViewById(R.id.textSecondary)).setText(doubleToString(prefix.getExp()));

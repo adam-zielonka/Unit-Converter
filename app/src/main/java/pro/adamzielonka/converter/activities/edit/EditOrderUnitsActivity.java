@@ -16,16 +16,11 @@ import pro.adamzielonka.converter.units.user.Unit;
 public class EditOrderUnitsActivity extends EditActivity {
 
     private OrderAdapter orderAdapter;
-    private String measureFileName;
     private ListView listView;
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
-
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        super.onLoad();
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView = findViewById(R.id.editListView);
         listView.setAdapter(orderAdapter);
@@ -33,8 +28,7 @@ public class EditOrderUnitsActivity extends EditActivity {
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        super.onReload();
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView.setAdapter(orderAdapter);
     }

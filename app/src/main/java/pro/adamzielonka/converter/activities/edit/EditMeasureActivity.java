@@ -40,7 +40,6 @@ import static pro.adamzielonka.converter.tools.Message.showSuccess;
 public class EditMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
 
     private UnitsAdapter unitsAdapter;
-    private String measureFileName;
     private View measureNameView;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -51,13 +50,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
-
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        super.onLoad();
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
-
         MyListView listView = findViewById(R.id.editListView);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
@@ -72,8 +66,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        super.onReload();
         ((TextView) measureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
     }
 

@@ -17,18 +17,12 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
 import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity implements ListView.OnItemClickListener {
-
-    private Unit unit;
-
-    private String measureFileName;
-    private String unitName;
 
     private View unitSymbolView;
     private View unitExpBaseView;
@@ -43,15 +37,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
-        unitName = intent.getStringExtra("unitName");
-
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
+        super.onLoad();
         prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
-
         MyListView listView = findViewById(R.id.editListView);
         listView.setAdapter(prefixesAdapter);
         listView.setOnItemClickListener(this);
@@ -68,9 +55,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
+        super.onReload();
         ((TextView) unitSymbolView.findViewById(R.id.textSecondary)).setText(unit.getSymbol());
         ((TextView) unitExpBaseView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getExpBase()));
     }

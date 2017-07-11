@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.components.MyListView;
-import pro.adamzielonka.converter.units.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
@@ -23,11 +22,6 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public class EditFormulaActivity extends EditActivity implements ListView.OnItemClickListener {
-
-    private Unit unit;
-
-    private String measureFileName;
-    private String unitName;
 
     private View unitFormulaView;
     private View unitFormulaOneView;
@@ -40,14 +34,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
-        unitName = intent.getStringExtra("unitName");
-
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
-
+        super.onLoad();
         MyListView listView = findViewById(R.id.editListView);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -63,9 +50,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onReload() throws FileNotFoundException {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
-        unit = openUnit(unitName, userMeasure);
+        super.onReload();
         ((TextView) unitFormulaOneView.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getOne()));
         ((TextView) unitFormulaShift1View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift()));
         ((TextView) unitFormulaShift2View.findViewById(R.id.textSecondary)).setText(doubleToString(unit.getShift2()));

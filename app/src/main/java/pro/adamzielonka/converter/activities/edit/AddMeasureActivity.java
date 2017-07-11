@@ -57,11 +57,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         switch (position) {
             case ADD_BY_CREATE:
