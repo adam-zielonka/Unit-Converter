@@ -42,7 +42,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private UnitsAdapter unitsAdapter;
     private String measureFileName;
     private View measureNameView;
+
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
     private static final int COUNT_SETTINGS_ITEMS = 4;
     private static final int EDIT_NAME = 1;
     private static final int EDIT_ORDER = 2;

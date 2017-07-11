@@ -25,12 +25,16 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity implements ListView.OnItemClickListener {
 
+    private Unit unit;
+
     private String measureFileName;
     private String unitName;
-    private Unit unit;
+
     private View unitSymbolView;
     private View unitExpBaseView;
+
     private PrefixesAdapter prefixesAdapter;
+
     private static final int COUNT_SETTINGS_ITEMS = 6;
     private static final int EDIT_SYMBOL = 1;
     private static final int EDIT_DESCRIPTION = 2;

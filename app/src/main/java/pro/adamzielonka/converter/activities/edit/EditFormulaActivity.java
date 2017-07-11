@@ -24,6 +24,8 @@ import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public class EditFormulaActivity extends EditActivity implements ListView.OnItemClickListener {
 
+    private Unit unit;
+
     private String measureFileName;
     private String unitName;
 
@@ -31,8 +33,6 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     private View unitFormulaOneView;
     private View unitFormulaShift1View;
     private View unitFormulaShift2View;
-
-    private Unit unit;
 
     private static final int EDIT_FORMULA_ONE = 2;
     private static final int EDIT_FORMULA_SHIFT_1 = 3;

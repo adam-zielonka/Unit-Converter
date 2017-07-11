@@ -28,6 +28,7 @@ import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
 public abstract class EditActivity extends AppCompatActivity implements IEdit {
+
     Measure userMeasure;
     ConcreteMeasure concreteMeasure;
 
@@ -63,19 +64,19 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
     }
 
     //region open and save
-    public ConcreteMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
+    ConcreteMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
         FileInputStream in = openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
         return getGson().fromJson(reader, ConcreteMeasure.class);
     }
 
-    public Measure openMeasure(String fileName) throws FileNotFoundException {
+    Measure openMeasure(String fileName) throws FileNotFoundException {
         FileInputStream in = openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
         return getGson().fromJson(reader, Measure.class);
     }
 
-    public Unit openUnit(String unitName, Measure measure) {
+    Unit openUnit(String unitName, Measure measure) {
         for (Unit unit : measure.getUnits()) {
             if (unit.getSymbol().equals(unitName))
                 return unit;
@@ -83,7 +84,7 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
         return null;
     }
 
-    public Prefix openPrefix(String prefixName, Unit unit) {
+    Prefix openPrefix(String prefixName, Unit unit) {
         for (Prefix prefix : unit.getPrefixes()) {
             if (prefix.getSymbol().equals(prefixName))
                 return prefix;
@@ -91,7 +92,7 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
         return null;
     }
 
-    public void saveMeasure(ConcreteMeasure concreteMeasure, Measure userMeasure) throws IOException {
+    private void saveMeasure(ConcreteMeasure concreteMeasure, Measure userMeasure) throws IOException {
         Gson gson = getGson();
         String concreteFileName = concreteMeasure.getConcreteFileName();
         String userFileName = concreteMeasure.getUserFileName();
@@ -102,14 +103,14 @@ public abstract class EditActivity extends AppCompatActivity implements IEdit {
     //endregion
 
     //region is symbol exist
-    public boolean isSymbolPrefixExist(String newName, List<Prefix> prefixes) {
+    boolean isSymbolPrefixExist(String newName, List<Prefix> prefixes) {
         for (Prefix prefix : prefixes) {
             if (prefix.getSymbol().equals(newName)) return true;
         }
         return false;
     }
 
-    public boolean isSymbolUnitExist(String newName, List<Unit> units) {
+    boolean isSymbolUnitExist(String newName, List<Unit> units) {
         for (Unit unit : units) {
             if (unit.getSymbol().equals(newName)) return true;
         }

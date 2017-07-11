@@ -111,7 +111,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     }
 
     private void onClickFromJsonFile() {
-
         String[] PERMISSIONS_STORAGE;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             PERMISSIONS_STORAGE = new String[]{

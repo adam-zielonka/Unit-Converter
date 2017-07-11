@@ -12,7 +12,7 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 
 public class MyListView extends ListView {
-    Activity activity;
+    private Activity activity;
 
     public MyListView(Context context) {
         super(context);
