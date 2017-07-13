@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +21,6 @@ import java.io.InputStreamReader;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.cloud.CloudListActivity;
-import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
@@ -31,60 +29,61 @@ import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Message.showError;
+import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
 
 public class AddMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
 
-    private static final int ADD_BY_CREATE = 1;
-    private static final int ADD_FROM_FILE = 2;
-    private static final int GET_FILE = 3;
-    private static final int ADD_FROM_CLOUD = 4;
+    private static final int RESULT_ADD_FROM_FILE = 42;
+    private static final int REQUEST_ADD_FROM_FILE = 1;
 
-    private static final int READ_REQUEST_CODE = 42;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private View addByCreateView;
+    private View addFromFileView;
+    private View getFileView;
+    private View addFromCloudView;
 
     @Override
     public void onLoad() throws FileNotFoundException {
-        MyListView listView = findViewById(R.id.editListView);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
         listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_add_measure));
-        listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
-        listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
-        listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
-        listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
+        addByCreateView = listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
+        addFromFileView = listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
+        getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
+        addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (position) {
-            case ADD_BY_CREATE:
-                userMeasure = new Measure();
-                userMeasure.setName("Measure");
-                concreteMeasure = userMeasure.getConcreteMeasure();
+        if (view.equals(addByCreateView)) {
+            userMeasure = new Measure();
+            userMeasure.setName("Measure");
+            concreteMeasure = userMeasure.getConcreteMeasure();
 
-                String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
-                String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
+            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
 
-                concreteMeasure.setConcreteFileName(concreteFileName);
-                concreteMeasure.setUserFileName(userFileName);
-                onSave(false);
-                Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                startActivity(addIntent);
-                break;
-            case ADD_FROM_FILE:
-                onClickFromJsonFile();
-                break;
-            case GET_FILE:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bitbucket.org/adam-zielonka-pro/converters/src"));
-                startActivity(browserIntent);
-                break;
-            case ADD_FROM_CLOUD:
-                Intent intent = new Intent(getApplicationContext(), CloudListActivity.class);
-                startActivity(intent);
-                break;
+            concreteMeasure.setConcreteFileName(concreteFileName);
+            concreteMeasure.setUserFileName(userFileName);
+            onSave(false);
+            Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+            addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+            startActivity(addIntent);
+
+        } else if (view.equals(addFromFileView)) {
+            ActivityCompat.requestPermissions(this,
+                    getReadAndWritePermissionsStorage(), REQUEST_ADD_FROM_FILE);
+
+        } else if (view.equals(getFileView)) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://bitbucket.org/adam-zielonka-pro/converters/src"));
+            startActivity(browserIntent);
+
+        } else if (view.equals(addFromCloudView)) {
+            Intent intent = new Intent(getApplicationContext(), CloudListActivity.class);
+            startActivity(intent);
+
         }
     }
 
@@ -105,30 +104,14 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
         return super.onOptionsItemSelected(item);
     }
 
-    private void onClickFromJsonFile() {
-        String[] PERMISSIONS_STORAGE;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            PERMISSIONS_STORAGE = new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            };
-        } else {
-            PERMISSIONS_STORAGE = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        }
-
-        ActivityCompat.requestPermissions(this,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+        if (requestCode == REQUEST_ADD_FROM_FILE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
-                startActivityForResult(intent, READ_REQUEST_CODE);
+                startActivityForResult(intent, RESULT_ADD_FROM_FILE);
             } else {
                 showError(this, R.string.error_no_permissions);
             }
@@ -137,16 +120,16 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RESULT_ADD_FROM_FILE && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();
-                loadConverter(uri);
+                addConverterFromFile(uri);
             }
         }
     }
 
-    private void loadConverter(Uri uri) {
+    private void addConverterFromFile(Uri uri) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, uri)));
 

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.components.MyListView;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
@@ -28,14 +27,9 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     private View prefixDescriptionView;
     private View prefixExponentView;
 
-    private static final int EDIT_SYMBOL = 1;
-    private static final int EDIT_DESCRIPTION = 2;
-    private static final int EDIT_EXP = 3;
-
     @Override
     public void onLoad() throws FileNotFoundException {
         super.onLoad();
-        MyListView listView = findViewById(R.id.editListView);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
         listView.setActivity(this);
@@ -56,61 +50,60 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (position) {
-            case EDIT_SYMBOL:
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(prefix.getSymbol());
-                editText.setSelection(editText.length());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_prefix_symbol)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            String newName = editText.getText().toString();
-                            if (!newName.equals(prefixName)) {
-                                if (!isSymbolPrefixExist(newName, unit.getPrefixes())) {
-                                    prefix.setSymbol(newName);
-                                    prefixName = newName;
-                                    onSave();
-                                } else {
-                                    showError(this, R.string.error_symbol_prefix_already_exist);
-                                }
+        if (view.equals(prefixNameView)) {
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editText = layout.findViewById(R.id.editText);
+            editText.setText(prefix.getSymbol());
+            editText.setSelection(editText.length());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_prefix_symbol)
+                    .setView(layout)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        String newName = editText.getText().toString();
+                        if (!newName.equals(prefixName)) {
+                            if (!isSymbolPrefixExist(newName, unit.getPrefixes())) {
+                                prefix.setSymbol(newName);
+                                prefixName = newName;
+                                onSave();
+                            } else {
+                                showError(this, R.string.error_symbol_prefix_already_exist);
                             }
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                }).show();
-                break;
-            case EDIT_DESCRIPTION:
-                View layoutDescription = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editTextDescription = layoutDescription.findViewById(R.id.editText);
-                editTextDescription.setText(prefix.getDescription());
-                editTextDescription.setSelection(editTextDescription.length());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_prefix_description)
-                        .setView(layoutDescription)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            prefix.setDescription(editTextDescription.getText().toString());
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                }).show();
-                break;
-            case EDIT_EXP:
-                View layoutExp = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editTextExp = layoutExp.findViewById(R.id.editText);
-                editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-                editTextExp.setText(doubleToString(prefix.getExp()));
-                editTextExp.setSelection(editTextExp.length());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_prefix_exponent)
-                        .setView(layoutExp)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            prefix.setExp(stringToDouble(editTextExp.getText().toString()));
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                }).show();
-                break;
+                        }
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
+
+        } else if (view.equals(prefixDescriptionView)) {
+            View layoutDescription = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editTextDescription = layoutDescription.findViewById(R.id.editText);
+            editTextDescription.setText(prefix.getDescription());
+            editTextDescription.setSelection(editTextDescription.length());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_prefix_description)
+                    .setView(layoutDescription)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        prefix.setDescription(editTextDescription.getText().toString());
+                        onSave();
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
+
+        } else if (view.equals(prefixExponentView)) {
+            View layoutExp = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editTextExp = layoutExp.findViewById(R.id.editText);
+            editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
+            editTextExp.setText(doubleToString(prefix.getExp()));
+            editTextExp.setSelection(editTextExp.length());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_prefix_exponent)
+                    .setView(layoutExp)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        prefix.setExp(stringToDouble(editTextExp.getText().toString()));
+                        onSave();
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
+
         }
 
     }

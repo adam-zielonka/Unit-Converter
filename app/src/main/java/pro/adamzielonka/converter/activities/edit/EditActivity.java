@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
@@ -38,6 +39,8 @@ public abstract class EditActivity extends AppCompatActivity {
     private String measureFileName;
     String unitName;
     String prefixName;
+
+    MyListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public abstract class EditActivity extends AppCompatActivity {
         measureFileName = intent.getStringExtra("measureFileName");
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
+        listView = findViewById(R.id.editListView);
         onOpen();
     }
 
@@ -128,7 +132,7 @@ public abstract class EditActivity extends AppCompatActivity {
     }
     //endregion
 
-    //region is symbol exist
+    //region isTrueOrFalse
     boolean isSymbolPrefixExist(String newName, List<Prefix> prefixes) {
         for (Prefix prefix : prefixes) {
             if (prefix.getSymbol().equals(newName)) return true;
@@ -141,6 +145,10 @@ public abstract class EditActivity extends AppCompatActivity {
             if (unit.getSymbol().equals(newName)) return true;
         }
         return false;
+    }
+
+    boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {
+        return (position - countHeaderItems >= 0 && position - countHeaderItems < countUnderItems);
     }
     //endregion
 }

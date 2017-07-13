@@ -12,69 +12,63 @@ import android.widget.TextView;
 import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.components.MyListView;
 
 public class EditDescriptionActivity extends EditActivity implements ListView.OnItemClickListener {
 
-    private View unitDescriptionBaseView;
-    private View unitDescriptionPrefixView;
-
-    private static final int EDIT_DESCRIPTION_BASE = 1;
-    private static final int EDIT_DESCRIPTION_PREFIX = 2;
+    private View unitEditBaseView;
+    private View unitEditPrefixView;
 
     @Override
     public void onLoad() throws FileNotFoundException {
         super.onLoad();
-        MyListView listView = findViewById(R.id.editListView);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
         listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_description));
-        unitDescriptionBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base), unit.getDescription());
-        unitDescriptionPrefixView = listView.addHeaderItem(getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
+        unitEditBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base), unit.getDescription());
+        unitEditPrefixView = listView.addHeaderItem(getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
     }
 
     @Override
     public void onReload() throws FileNotFoundException {
         super.onReload();
-        ((TextView) unitDescriptionBaseView.findViewById(R.id.textSecondary)).setText(unit.getDescription());
-        ((TextView) unitDescriptionPrefixView.findViewById(R.id.textSecondary)).setText(unit.getDescriptionPrefix());
+        ((TextView) unitEditBaseView.findViewById(R.id.textSecondary)).setText(unit.getDescription());
+        ((TextView) unitEditPrefixView.findViewById(R.id.textSecondary)).setText(unit.getDescriptionPrefix());
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (position) {
-            case EDIT_DESCRIPTION_BASE:
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(unit.getDescription());
-                editText.setSelection(editText.length());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_unit_symbol)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setDescription(editText.getText().toString());
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                }).show();
-                break;
-            case EDIT_DESCRIPTION_PREFIX:
-                View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
-                editTextPrefix.setText(unit.getDescriptionPrefix());
-                editTextPrefix.setSelection(editTextPrefix.length());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_unit_symbol)
-                        .setView(layoutPrefix)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setDescriptionPrefix(editTextPrefix.getText().toString());
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                }).show();
-                break;
+        if (view.equals(unitEditBaseView)) {
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editText = layout.findViewById(R.id.editText);
+            editText.setText(unit.getDescription());
+            editText.setSelection(editText.length());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_unit_symbol)
+                    .setView(layout)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        unit.setDescription(editText.getText().toString());
+                        onSave();
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
+
+        } else if (view.equals(unitEditPrefixView)) {
+            View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
+            editTextPrefix.setText(unit.getDescriptionPrefix());
+            editTextPrefix.setSelection(editTextPrefix.length());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_unit_symbol)
+                    .setView(layoutPrefix)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        unit.setDescriptionPrefix(editTextPrefix.getText().toString());
+                        onSave();
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
+
         }
     }
 

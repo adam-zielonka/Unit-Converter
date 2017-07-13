@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
-import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.units.user.Prefix;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
@@ -25,29 +24,24 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 public class EditUnitActivity extends EditActivity implements ListView.OnItemClickListener {
 
     private View unitSymbolView;
+    private View editDescriptionView;
+    private View editFormulaView;
     private View unitExpBaseView;
 
     private PrefixesAdapter prefixesAdapter;
-
-    private static final int COUNT_SETTINGS_ITEMS = 6;
-    private static final int EDIT_SYMBOL = 1;
-    private static final int EDIT_DESCRIPTION = 2;
-    private static final int EDIT_FORMULA = 3;
-    private static final int EDIT_EXP_BASE = 4;
 
     @Override
     public void onLoad() throws FileNotFoundException {
         super.onLoad();
         prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
-        MyListView listView = findViewById(R.id.editListView);
         listView.setAdapter(prefixesAdapter);
         listView.setOnItemClickListener(this);
         listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_unit));
         unitSymbolView = listView.addHeaderItem(getString(R.string.list_item_symbol), unit.getSymbol());
-        listView.addHeaderItem(getString(R.string.list_item_description), unit.getDescriptionPrefix() + unit.getDescription());
-        listView.addHeaderItem(getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+        editDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description), unit.getDescriptionPrefix() + unit.getDescription());
+        editFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula), getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         unitExpBaseView = listView.addHeaderItem(getString(R.string.list_title_exponentiation_base), doubleToString(unit.getExpBase()));
         listView.addHeaderTitle(getString(R.string.list_title_prefixes));
         listView.addFooterItem(getString(R.string.list_item_add_prefix));
@@ -62,76 +56,75 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (position - COUNT_SETTINGS_ITEMS < 0 || position - COUNT_SETTINGS_ITEMS >= unit.getPrefixes().size()) {
-            switch (position) {
-                case EDIT_SYMBOL:
-                    View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                    final EditText editText = layout.findViewById(R.id.editText);
-                    editText.setText(unit.getSymbol());
-                    editText.selectAll();
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.dialog_unit_symbol)
-                            .setView(layout)
-                            .setCancelable(true)
-                            .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                                String newName = editText.getText().toString();
-                                if (!newName.equals(unitName)) {
-                                    if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
-                                        unit.setSymbol(newName);
-                                        unitName = newName;
-                                        onSave();
-                                    } else {
-                                        showError(this, R.string.error_symbol_unit_already_exist);
-                                    }
+        if (!isUnderItemClick(position, listView.getCountHeaderItems(), unit.getPrefixes().size())) {
+            if (view.equals(unitSymbolView)) {
+                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+                final EditText editText = layout.findViewById(R.id.editText);
+                editText.setText(unit.getSymbol());
+                editText.selectAll();
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_unit_symbol)
+                        .setView(layout)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                            String newName = editText.getText().toString();
+                            if (!newName.equals(unitName)) {
+                                if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
+                                    unit.setSymbol(newName);
+                                    unitName = newName;
+                                    onSave();
+                                } else {
+                                    showError(this, R.string.error_symbol_unit_already_exist);
                                 }
-                            }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                    }).show();
-                    break;
-                case EDIT_DESCRIPTION:
-                    Intent description = new Intent(getApplicationContext(), EditDescriptionActivity.class);
-                    description.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    description.putExtra("unitName", unit.getSymbol());
-                    startActivity(description);
-                    break;
-                case EDIT_FORMULA:
-                    Intent formula = new Intent(getApplicationContext(), EditFormulaActivity.class);
-                    formula.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    formula.putExtra("unitName", unit.getSymbol());
-                    startActivity(formula);
-                    break;
-                case EDIT_EXP_BASE:
-                    final NumberPicker numberPicker = new NumberPicker(this);
-                    numberPicker.setMaxValue(100);
-                    numberPicker.setValue(Integer.parseInt(doubleToString(unit.getExpBase())));
-                    numberPicker.setMinValue(2);
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.dialog_unit_exponentiation_base)
-                            .setView(numberPicker)
-                            .setCancelable(true)
-                            .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                                unit.setExpBase(1.0 * numberPicker.getValue());
-                                onSave();
-                            }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                    }).show();
-                    break;
-                default:
-                    Prefix newPrefix = new Prefix();
-                    String newPrefixName = "";
-                    for (int i = 1; isSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
-                        newPrefixName = "" + i;
-                    }
-                    newPrefix.setSymbol(newPrefixName);
-                    unit.getPrefixes().add(newPrefix);
-                    onSave(false);
-                    Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
-                    intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                    intent.putExtra("unitName", unit.getSymbol());
-                    intent.putExtra("prefixName", newPrefixName);
-                    startActivity(intent);
+                            }
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+
+            } else if (view.equals(editDescriptionView)) {
+                Intent description = new Intent(getApplicationContext(), EditDescriptionActivity.class);
+                description.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                description.putExtra("unitName", unit.getSymbol());
+                startActivity(description);
+
+            } else if (view.equals(editFormulaView)) {
+                Intent formula = new Intent(getApplicationContext(), EditFormulaActivity.class);
+                formula.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                formula.putExtra("unitName", unit.getSymbol());
+                startActivity(formula);
+
+            } else if (view.equals(unitExpBaseView)) {
+                final NumberPicker numberPicker = new NumberPicker(this);
+                numberPicker.setMaxValue(100);
+                numberPicker.setValue(Integer.parseInt(doubleToString(unit.getExpBase())));
+                numberPicker.setMinValue(2);
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_unit_exponentiation_base)
+                        .setView(numberPicker)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                            unit.setExpBase(1.0 * numberPicker.getValue());
+                            onSave();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+
+            } else {
+                Prefix newPrefix = new Prefix();
+                String newPrefixName = "";
+                for (int i = 1; isSymbolPrefixExist(newPrefixName, unit.getPrefixes()); i++) {
+                    newPrefixName = "" + i;
+                }
+                newPrefix.setSymbol(newPrefixName);
+                unit.getPrefixes().add(newPrefix);
+                onSave(false);
+                Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
+                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                intent.putExtra("unitName", unit.getSymbol());
+                intent.putExtra("prefixName", newPrefixName);
+                startActivity(intent);
             }
             return;
         }
-        Prefix prefix = prefixesAdapter.getItem(position - COUNT_SETTINGS_ITEMS);
+        Prefix prefix = prefixesAdapter.getItem(position - listView.getCountHeaderItems());
         Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
         intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
         intent.putExtra("unitName", unit.getSymbol());

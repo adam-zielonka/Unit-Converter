@@ -100,5 +100,8 @@
     <string name="list_item_json_repo_description">See the sample file on the website</string>
     <string name="list_item_load_form_cloud_description">Soon, maybe</string>
     <string name="title_activity_cloud_list">CloudListActivity</string>
+    <string name="dialog_formula_one">One</string>
+    <string name="dialog_formula_shifit1">Shift 1</string>
+    <string name="dialog_formula_shifit2">Shift 2</string>
 
 </resources>

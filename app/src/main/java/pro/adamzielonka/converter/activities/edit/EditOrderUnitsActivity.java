@@ -3,7 +3,6 @@ package pro.adamzielonka.converter.activities.edit;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import java.io.FileNotFoundException;
 
@@ -16,7 +15,6 @@ import pro.adamzielonka.converter.units.user.Unit;
 public class EditOrderUnitsActivity extends EditActivity {
 
     private OrderAdapter orderAdapter;
-    private ListView listView;
 
     @Override
     public void onLoad() throws FileNotFoundException {

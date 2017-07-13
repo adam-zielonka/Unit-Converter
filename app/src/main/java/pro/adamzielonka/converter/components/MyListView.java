@@ -13,17 +13,21 @@ import pro.adamzielonka.converter.R;
 
 public class MyListView extends ListView {
     private Activity activity;
+    private int countHeaderItems;
 
     public MyListView(Context context) {
         super(context);
+        countHeaderItems = 0;
     }
 
     public MyListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        countHeaderItems = 0;
     }
 
     public MyListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        countHeaderItems = 0;
     }
 
     public void setEmptyAdapter() {
@@ -55,12 +59,14 @@ public class MyListView extends ListView {
     }
 
     public void addHeaderTitle(String text) {
+        countHeaderItems++;
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_title, null);
         ((TextView) view.findViewById(R.id.textHeader)).setText(text);
         addHeaderView(view, false, false);
     }
 
     public View addHeaderItem(String textPrimary, String textSecondary) {
+        countHeaderItems++;
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
@@ -73,5 +79,9 @@ public class MyListView extends ListView {
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         addFooterView(view, false, true);
+    }
+
+    public int getCountHeaderItems() {
+        return countHeaderItems;
     }
 }

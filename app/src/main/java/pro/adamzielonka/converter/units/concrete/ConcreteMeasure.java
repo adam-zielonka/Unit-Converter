@@ -61,4 +61,13 @@ public class ConcreteMeasure {
     public boolean isCorrect() {
         return concreteUnits.size() != 0;
     }
+
+    public String getUnitsOrder() {
+        StringBuilder order = new StringBuilder("");
+        for (ConcreteUnit concreteUnit : getConcreteUnits()) {
+            order.append(concreteUnit.getName());
+            order.append(" ");
+        }
+        return order.toString();
+    }
 }
