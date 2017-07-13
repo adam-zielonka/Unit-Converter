@@ -74,11 +74,12 @@ public class MyListView extends ListView {
         return view;
     }
 
-    public void addFooterItem(String textPrimary) {
+    public View addFooterItem(String textPrimary) {
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         addFooterView(view, false, true);
+        return view;
     }
 
     public int getCountHeaderItems() {

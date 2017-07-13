@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 
@@ -25,9 +27,13 @@ import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Prefix;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
+import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Message.showError;
+import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public abstract class EditActivity extends AppCompatActivity {
 
@@ -56,6 +62,7 @@ public abstract class EditActivity extends AppCompatActivity {
         try {
             onLoad();
         } catch (Exception e) {
+            e.printStackTrace();
             finish();
         }
     }
@@ -69,6 +76,7 @@ public abstract class EditActivity extends AppCompatActivity {
             saveMeasure(concreteMeasure, userMeasure);
             if (reload) onReload();
         } catch (Exception e) {
+            e.printStackTrace();
             showError(this, R.string.error_could_not_save_changes);
         }
     }
@@ -79,6 +87,7 @@ public abstract class EditActivity extends AppCompatActivity {
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
         listView = findViewById(R.id.editListView);
+        listView.setActivity(this);
         onOpen();
     }
 
@@ -149,6 +158,23 @@ public abstract class EditActivity extends AppCompatActivity {
 
     boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {
         return (position - countHeaderItems >= 0 && position - countHeaderItems < countUnderItems);
+    }
+    //endregion
+
+    //region dialog
+    EditText getDialogEditText(View layout, String text) {
+        EditText editText = layout.findViewById(R.id.editText);
+        editText.setText(text);
+        editText.setSelection(editText.length());
+        return editText;
+    }
+
+    EditText getDialogEditNumber(View layout, Double number) {
+        EditText editText = layout.findViewById(R.id.editText);
+        editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
+        editText.setText(doubleToString(number));
+        editText.setSelection(editText.length());
+        return editText;
     }
     //endregion
 }

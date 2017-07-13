@@ -41,6 +41,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private View editMeasureNameView;
     private View editUnitOrder;
+    private View addUnit;
 
     private static final int REQUEST_SAVE_TO_DOWNLOAD = 1;
 
@@ -50,13 +51,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
-        listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_Measure));
         editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name), userMeasure.getName());
         editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), concreteMeasure.getUnitsOrder());
         listView.addHeaderTitle(getString(R.string.list_title_units));
-        listView.addFooterItem(getString(R.string.list_item_add_unit));
+        addUnit = listView.addFooterItem(getString(R.string.list_item_add_unit));
     }
 
     @Override
@@ -67,12 +67,16 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (!isUnderItemClick(position, listView.getCountHeaderItems(), userMeasure.getUnits().size())) {
+        if (isUnderItemClick(position, listView.getCountHeaderItems(), userMeasure.getUnits().size())) {
+            Unit unit = unitsAdapter.getItem(position - listView.getCountHeaderItems());
+            Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
+            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+            intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
+            startActivity(intent);
+        } else {
             if (view.equals(editMeasureNameView)) {
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                final EditText editText = layout.findViewById(R.id.editText);
-                editText.setText(userMeasure.getName());
-                editText.setSelection(editText.length());
+                EditText editText = getDialogEditText(layout, userMeasure.getName());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_name)
                         .setView(layout)
@@ -88,27 +92,31 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 startActivity(intent);
 
-            } else {
-                Unit newUnit = new Unit();
-                String newUnitName = "";
-                for (int i = 1; isSymbolUnitExist(newUnitName, userMeasure.getUnits()); i++) {
-                    newUnitName = "" + i;
-                }
-                newUnit.setSymbol(newUnitName);
-                userMeasure.getUnits().add(newUnit);
-                onSave(false);
-                Intent addUnit = new Intent(getApplicationContext(), EditUnitActivity.class);
-                addUnit.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                addUnit.putExtra("unitName", newUnitName);
-                startActivity(addUnit);
+            } else if (view.equals(addUnit)) {
+                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+                EditText editText = getDialogEditText(layout, "");
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_unit_symbol)
+                        .setView(layout)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                            String newUnitName = editText.getText().toString();
+                            if (!isSymbolUnitExist(newUnitName, userMeasure.getUnits())) {
+                                Unit newUnit = new Unit();
+                                newUnit.setSymbol(newUnitName);
+                                userMeasure.getUnits().add(newUnit);
+                                onSave(false);
+                                Intent addUnit = new Intent(getApplicationContext(), EditUnitActivity.class);
+                                addUnit.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                                addUnit.putExtra("unitName", newUnitName);
+                                startActivity(addUnit);
+                            } else {
+                                showError(this, R.string.error_symbol_unit_already_exist);
+                            }
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
             }
-            return;
         }
-        Unit unit = unitsAdapter.getItem(position - listView.getCountHeaderItems());
-        Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
-        startActivity(intent);
     }
 
     @Override

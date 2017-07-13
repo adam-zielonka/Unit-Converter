@@ -13,9 +13,6 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 
-import static android.text.InputType.TYPE_CLASS_NUMBER;
-import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
-import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
@@ -32,7 +29,6 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
-        listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_formula));
         unitFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula_description),
@@ -56,10 +52,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditOneView)) {
             View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editText = layout.findViewById(R.id.editText);
-            editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-            editText.setText(doubleToString(unit.getOne()));
-            editText.setSelection(editText.length());
+            EditText editText = getDialogEditNumber(layout, unit.getOne());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_formula_one)
                     .setView(layout)
@@ -71,33 +64,27 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
             }).show();
 
         } else if (view.equals(unitEditShift1View)) {
-            View layoutShift1 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editTextShift1 = layoutShift1.findViewById(R.id.editText);
-            editTextShift1.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-            editTextShift1.setText(doubleToString(unit.getShift()));
-            editTextShift1.setSelection(editTextShift1.length());
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            EditText editText = getDialogEditNumber(layout, unit.getShift());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_formula_shifit1)
-                    .setView(layoutShift1)
+                    .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        unit.setShift(stringToDouble(editTextShift1.getText().toString()));
+                        unit.setShift(stringToDouble(editText.getText().toString()));
                         onSave();
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();
 
         } else if (view.equals(unitEditShift2View)) {
-            View layoutShift2 = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editTextShift2 = layoutShift2.findViewById(R.id.editText);
-            editTextShift2.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-            editTextShift2.setText(doubleToString(unit.getShift2()));
-            editTextShift2.setSelection(editTextShift2.length());
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            EditText editText = getDialogEditNumber(layout, unit.getShift2());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_formula_shifit2)
-                    .setView(layoutShift2)
+                    .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        unit.setShift2(stringToDouble(editTextShift2.getText().toString()));
+                        unit.setShift2(stringToDouble(editText.getText().toString()));
                         onSave();
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();

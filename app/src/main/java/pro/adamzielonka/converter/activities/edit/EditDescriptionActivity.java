@@ -23,7 +23,6 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
-        listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_description));
         unitEditBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base), unit.getDescription());
@@ -41,11 +40,9 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditBaseView)) {
             View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editText = layout.findViewById(R.id.editText);
-            editText.setText(unit.getDescription());
-            editText.setSelection(editText.length());
+            EditText editText = getDialogEditText(layout, unit.getDescription());
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_unit_symbol)
+                    .setTitle(R.string.dialog_unit_description_base)
                     .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
@@ -55,16 +52,16 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
             }).show();
 
         } else if (view.equals(unitEditPrefixView)) {
-            View layoutPrefix = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editTextPrefix = layoutPrefix.findViewById(R.id.editText);
-            editTextPrefix.setText(unit.getDescriptionPrefix());
-            editTextPrefix.setSelection(editTextPrefix.length());
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            final EditText editText = getDialogEditText(layout, unit.getDescriptionPrefix());
+            editText.setText(unit.getDescriptionPrefix());
+            editText.setSelection(editText.length());
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_unit_symbol)
-                    .setView(layoutPrefix)
+                    .setTitle(R.string.dialog_unit_description_global_prefix)
+                    .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        unit.setDescriptionPrefix(editTextPrefix.getText().toString());
+                        unit.setDescriptionPrefix(editText.getText().toString());
                         onSave();
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();

@@ -14,9 +14,6 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 
-import static android.text.InputType.TYPE_CLASS_NUMBER;
-import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
-import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
@@ -32,7 +29,6 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
-        listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_prefix));
         prefixNameView = listView.addHeaderItem(getString(R.string.list_item_symbol), prefix.getSymbol());
@@ -52,9 +48,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(prefixNameView)) {
             View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editText = layout.findViewById(R.id.editText);
-            editText.setText(prefix.getSymbol());
-            editText.setSelection(editText.length());
+            EditText editText = getDialogEditText(layout, prefix.getSymbol());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_prefix_symbol)
                     .setView(layout)
@@ -74,32 +68,27 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             }).show();
 
         } else if (view.equals(prefixDescriptionView)) {
-            View layoutDescription = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editTextDescription = layoutDescription.findViewById(R.id.editText);
-            editTextDescription.setText(prefix.getDescription());
-            editTextDescription.setSelection(editTextDescription.length());
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            EditText editText = getDialogEditText(layout, prefix.getDescription());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_prefix_description)
-                    .setView(layoutDescription)
+                    .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        prefix.setDescription(editTextDescription.getText().toString());
+                        prefix.setDescription(editText.getText().toString());
                         onSave();
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();
 
         } else if (view.equals(prefixExponentView)) {
-            View layoutExp = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            final EditText editTextExp = layoutExp.findViewById(R.id.editText);
-            editTextExp.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-            editTextExp.setText(doubleToString(prefix.getExp()));
-            editTextExp.setSelection(editTextExp.length());
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            EditText editText = getDialogEditNumber(layout, prefix.getExp());
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_prefix_exponent)
-                    .setView(layoutExp)
+                    .setView(layout)
                     .setCancelable(true)
                     .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        prefix.setExp(stringToDouble(editTextExp.getText().toString()));
+                        prefix.setExp(stringToDouble(editText.getText().toString()));
                         onSave();
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();

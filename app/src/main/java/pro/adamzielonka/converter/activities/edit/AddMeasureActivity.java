@@ -1,6 +1,7 @@
 package pro.adamzielonka.converter.activities.edit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -43,9 +45,10 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws FileNotFoundException {
+        listView = findViewById(R.id.editListView);
+        listView.setActivity(this);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
-        listView.setActivity(this);
 
         listView.addHeaderTitle(getString(R.string.list_add_measure));
         addByCreateView = listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
@@ -57,19 +60,30 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(addByCreateView)) {
-            userMeasure = new Measure();
-            userMeasure.setName("Measure");
-            concreteMeasure = userMeasure.getConcreteMeasure();
+            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+            EditText editText = getDialogEditText(layout, "");
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_measure_name)
+                    .setView(layout)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
+                        userMeasure = new Measure();
+                        userMeasure.setName(editText.getText().toString());
+                        concreteMeasure = userMeasure.getConcreteMeasure();
 
-            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
-            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+                        String concreteFileName = getFileInternalName(this,
+                                "concrete_", concreteMeasure.getName());
+                        String userFileName = getFileInternalName(this,
+                                "user_", concreteMeasure.getName());
 
-            concreteMeasure.setConcreteFileName(concreteFileName);
-            concreteMeasure.setUserFileName(userFileName);
-            onSave(false);
-            Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-            addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-            startActivity(addIntent);
+                        concreteMeasure.setConcreteFileName(concreteFileName);
+                        concreteMeasure.setUserFileName(userFileName);
+                        onSave(false);
+                        Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+                        addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                        startActivity(addIntent);
+                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            }).show();
 
         } else if (view.equals(addFromFileView)) {
             ActivityCompat.requestPermissions(this,

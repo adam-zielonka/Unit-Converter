@@ -103,5 +103,7 @@
     <string name="dialog_formula_one">One</string>
     <string name="dialog_formula_shifit1">Shift 1</string>
     <string name="dialog_formula_shifit2">Shift 2</string>
+    <string name="dialog_unit_description_base">Description base</string>
+    <string name="dialog_unit_description_global_prefix">Description global prefix</string>
 
 </resources>
