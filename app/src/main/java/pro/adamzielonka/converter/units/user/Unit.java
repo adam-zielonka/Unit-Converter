@@ -31,6 +31,10 @@ public class Unit {
         return description;
     }
 
+    public String getFullDescription() {
+        return descriptionPrefix + description;
+    }
+
     public Integer getPosition() {
         return position;
     }

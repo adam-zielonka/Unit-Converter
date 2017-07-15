@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -63,10 +62,7 @@ public class EditOrderUnitsActivity extends EditActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(intent);
+        setResult(resultCode);
         finish();
     }
 

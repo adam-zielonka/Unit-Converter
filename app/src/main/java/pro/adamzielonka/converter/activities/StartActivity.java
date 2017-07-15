@@ -10,8 +10,6 @@ import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.activities.drawer.DrawerActivity;
-import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
@@ -37,41 +34,19 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        loadConverters();
-
-        Intent oldIntent = getIntent();
-        Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
-        intent.putExtra("measureFileName", oldIntent.getStringExtra("measureFileName"));
-        startActivity(intent);
-
-        finish();
-    }
-
-    private void loadConverters() {
         if (!preferences.getBoolean("v1.1.14-alpha", false)) try {
             firstRun();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        File[] files = getFilesDir().listFiles();
+        Intent oldIntent = getIntent();
+        Intent intent = new Intent(this.getBaseContext(), DrawerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("measureFileName", oldIntent.getStringExtra("measureFileName"));
+        startActivity(intent);
 
-        Gson gson = getGson();
-        List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
-        for (File file : files) {
-            if (file.getName().contains("concrete_")) {
-                try {
-                    FileInputStream in = this.openFileInput(file.getName());
-                    Reader reader = new BufferedReader(new InputStreamReader(in));
-                    concreteMeasureList.add(gson.fromJson(reader, ConcreteMeasure.class));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        Measures measures = Measures.getInstance();
-        measures.setMeasureList(concreteMeasureList);
+        finish();
     }
 
     private void firstRun() throws IOException {

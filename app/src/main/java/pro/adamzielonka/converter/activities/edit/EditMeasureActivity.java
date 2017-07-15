@@ -28,6 +28,7 @@ import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
 
+import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
@@ -63,6 +64,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     public void onReload() throws FileNotFoundException {
         super.onReload();
         ((TextView) editMeasureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
+        ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText(concreteMeasure.getUnitsOrder());
+        unitsAdapter.clear();
+        unitsAdapter.addAll(userMeasure.getUnits());
+        unitsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -72,7 +77,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
             intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
             intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
@@ -90,7 +95,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editUnitOrder)) {
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(addUnit)) {
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
@@ -106,10 +111,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                 newUnit.setSymbol(newUnitName);
                                 userMeasure.getUnits().add(newUnit);
                                 onSave(false);
-                                Intent addUnit = new Intent(getApplicationContext(), EditUnitActivity.class);
-                                addUnit.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                                addUnit.putExtra("unitName", newUnitName);
-                                startActivity(addUnit);
+                                Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
+                                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                                intent.putExtra("unitName", newUnitName);
+                                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                             } else {
                                 showError(this, R.string.error_symbol_unit_already_exist);
                             }
@@ -121,10 +126,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(intent);
+        setResult(resultCode);
         finish();
     }
 
@@ -149,7 +151,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                         .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
                             if (getFileStreamPath(concreteMeasure.getConcreteFileName()).delete() &&
                                     getFileStreamPath(concreteMeasure.getUserFileName()).delete()) {
-                                onBackPressed();
+                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
                             }
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 }).show();

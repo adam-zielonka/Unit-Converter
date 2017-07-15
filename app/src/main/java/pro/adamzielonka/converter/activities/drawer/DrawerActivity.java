@@ -29,12 +29,13 @@ import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
 import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.tools.Theme;
-import pro.adamzielonka.converter.units.Measures;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
 
+import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
+import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.converter.tools.Number.appendComma;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
 import static pro.adamzielonka.converter.tools.Number.changeSign;
@@ -83,8 +84,7 @@ public class DrawerActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Measures measures = Measures.getInstance();
-        measureList = measures.getMeasureList();
+        measureList = loadConverters(this);
 
         int count = setupConvertersMenu(navigationView.getMenu());
 
@@ -122,6 +122,7 @@ public class DrawerActivity extends AppCompatActivity
     private void setupConverter(int converterID) {
         try {
             this.converterID = converterID;
+            measureList = loadConverters(this);
             measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
 
             setTitle(measure.getName());
@@ -305,12 +306,18 @@ public class DrawerActivity extends AppCompatActivity
             case R.id.menu_edit_converter:
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
                 intent.putExtra("measureFileName", measure.getConcreteFileName());
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == REQUEST_EDIT_ACTIVITY && resultCode == RESULT_OK) {
+            setupConverter(converterID);
+        }
     }
 
 

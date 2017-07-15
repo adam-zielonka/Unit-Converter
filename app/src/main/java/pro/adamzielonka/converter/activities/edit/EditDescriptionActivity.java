@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,11 +70,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit.getSymbol());
-        startActivity(intent);
+        setResult(resultCode);
         finish();
     }
 

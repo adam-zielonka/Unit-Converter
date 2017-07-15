@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,9 @@ import pro.adamzielonka.converter.activities.cloud.CloudListActivity;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
 
+import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
+import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
+import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
@@ -34,9 +38,6 @@ import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
 
 public class AddMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
-
-    private static final int RESULT_ADD_FROM_FILE = 42;
-    private static final int REQUEST_ADD_FROM_FILE = 1;
 
     private View addByCreateView;
     private View addFromFileView;
@@ -79,9 +80,9 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
                         concreteMeasure.setConcreteFileName(concreteFileName);
                         concreteMeasure.setUserFileName(userFileName);
                         onSave(false);
-                        Intent addIntent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                        addIntent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                        startActivity(addIntent);
+                        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+                        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                        startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                     }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
             }).show();
 
@@ -103,9 +104,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
         finish();
     }
 
@@ -134,12 +132,18 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        Log.i("RESULT", "onActivityResult: " + requestCode + " " + resultCode);
         if (requestCode == RESULT_ADD_FROM_FILE && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();
                 addConverterFromFile(uri);
             }
+        } else if (requestCode == REQUEST_EDIT_ACTIVITY) {
+            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -166,7 +170,7 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
             saveToInternal(this, userFileName, gson.toJson(userMeasure));
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
             startActivity(intent);
             finish();
         } catch (FileNotFoundException e) {

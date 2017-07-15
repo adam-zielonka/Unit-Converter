@@ -17,6 +17,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
 import pro.adamzielonka.converter.units.user.Prefix;
 
+import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
@@ -40,8 +41,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
         listView.addHeaderTitle(getString(R.string.list_title_unit));
         editSymbolView = listView.addHeaderItem(getString(R.string.list_item_symbol), unit.getSymbol());
-        editDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description),
-                unit.getDescriptionPrefix() + unit.getDescription());
+        editDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description), unit.getFullDescription());
         editFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula),
                 getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         editExpBaseView = listView.addHeaderItem(getString(R.string.list_title_exponentiation_base),
@@ -54,8 +54,14 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     public void onReload() throws FileNotFoundException {
         super.onReload();
         ((TextView) editSymbolView.findViewById(R.id.textSecondary)).setText(unit.getSymbol());
+        ((TextView) editDescriptionView.findViewById(R.id.textSecondary)).setText(unit.getFullDescription());
+        ((TextView) editFormulaView.findViewById(R.id.textSecondary))
+                .setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         ((TextView) editExpBaseView.findViewById(R.id.textSecondary))
                 .setText(doubleToString(unit.getExpBase()));
+        prefixesAdapter.clear();
+        prefixesAdapter.addAll(unit.getPrefixes());
+        prefixesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -66,7 +72,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
             intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
             intent.putExtra("unitName", unit.getSymbol());
             intent.putExtra("prefixName", prefix != null ? prefix.getSymbol() : "");
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editSymbolView)) {
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
@@ -94,13 +100,13 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 Intent intent = new Intent(getApplicationContext(), EditDescriptionActivity.class);
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 intent.putExtra("unitName", unit.getSymbol());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editFormulaView)) {
                 Intent intent = new Intent(getApplicationContext(), EditFormulaActivity.class);
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 intent.putExtra("unitName", unit.getSymbol());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editExpBaseView)) {
                 final NumberPicker numberPicker = new NumberPicker(this);
@@ -135,7 +141,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                                 intent.putExtra("unitName", unit.getSymbol());
                                 intent.putExtra("prefixName", newPrefixName);
-                                startActivity(intent);
+                                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                             } else {
                                 showError(this, R.string.error_symbol_prefix_already_exist);
                             }
@@ -147,10 +153,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-        startActivity(intent);
+        setResult(resultCode);
         finish();
     }
 

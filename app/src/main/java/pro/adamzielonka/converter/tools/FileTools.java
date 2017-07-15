@@ -7,11 +7,19 @@ import android.os.Environment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -55,8 +63,28 @@ public class FileTools {
         return Uri.parse(file.toURI().toString());
     }
 
-    public static Gson getGson(){
+    public static Gson getGson() {
         return new GsonBuilder().serializeSpecialFloatingPointValues().create();
+    }
+
+    public static List<ConcreteMeasure> loadConverters(Context context) {
+        File[] files = context.getFilesDir().listFiles();
+
+        Gson gson = getGson();
+        List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
+        for (File file : files) {
+            if (file.getName().contains("concrete_")) {
+                try {
+                    FileInputStream in = context.openFileInput(file.getName());
+                    Reader reader = new BufferedReader(new InputStreamReader(in));
+                    concreteMeasureList.add(gson.fromJson(reader, ConcreteMeasure.class));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return concreteMeasureList;
     }
 
 }

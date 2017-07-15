@@ -48,6 +48,8 @@ public abstract class EditActivity extends AppCompatActivity {
 
     MyListView listView;
 
+    int resultCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -58,6 +60,8 @@ public abstract class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        resultCode = RESULT_CANCELED;
 
         try {
             onLoad();
@@ -74,6 +78,7 @@ public abstract class EditActivity extends AppCompatActivity {
     void onSave(boolean reload) {
         try {
             saveMeasure(concreteMeasure, userMeasure);
+            setResultUpdate();
             if (reload) onReload();
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,6 +105,22 @@ public abstract class EditActivity extends AppCompatActivity {
         userMeasure = openMeasure(concreteMeasure.getUserFileName());
         unit = userMeasure != null ? openUnit(unitName, userMeasure) : null;
         prefix = unit != null ? openPrefix(prefixName, unit) : null;
+    }
+
+    void setResultUpdate() {
+        resultCode = RESULT_OK;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (resultCode == RESULT_OK) {
+            try {
+                this.resultCode = RESULT_OK;
+                onReload();
+            } catch (Exception e) {
+                finish();
+            }
+        }
     }
 
     //region open and save
