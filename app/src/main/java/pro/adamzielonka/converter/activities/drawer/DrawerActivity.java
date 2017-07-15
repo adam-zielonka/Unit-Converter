@@ -167,6 +167,7 @@ public class DrawerActivity extends AppCompatActivity
                 textFrom.setVisibility(View.VISIBLE);
                 spinnerFrom.setVisibility(View.VISIBLE);
                 spinnerTo.setVisibility(View.VISIBLE);
+                onClickClear(null);
             } else {
                 textViewFrom = findViewById(R.id.textViewFrom);
                 textViewTo = findViewById(R.id.textViewTo);
@@ -184,8 +185,6 @@ public class DrawerActivity extends AppCompatActivity
                 spinnerFrom.setVisibility(View.GONE);
                 spinnerTo.setVisibility(View.GONE);
             }
-
-            onClickClear(null);
         } catch (Exception e) {
             setupConverter(DEFAULT_CONVERTER_ID);
         }
