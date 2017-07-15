@@ -28,13 +28,14 @@ import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 public class StartActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
+    private final static String prefFirsRun = "v1.1.18-alpha";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        if (!preferences.getBoolean("v1.1.14-alpha", false)) try {
+        if (!preferences.getBoolean(prefFirsRun, false)) try {
             firstRun();
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +77,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("v1.1.14-alpha", true);
+        editor.putBoolean(prefFirsRun, true);
         editor.apply();
     }
 
