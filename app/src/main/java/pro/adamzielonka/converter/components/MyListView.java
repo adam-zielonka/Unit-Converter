@@ -66,11 +66,21 @@ public class MyListView extends ListView {
     }
 
     public View addHeaderItem(String textPrimary, String textSecondary) {
+        return addHeaderItem(textPrimary, textSecondary, true);
+    }
+
+    public View addHeaderItem(String textPrimary, String textSecondary, boolean isSelectable) {
         countHeaderItems++;
         View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
-        addHeaderView(view, false, true);
+        if (!isSelectable) {
+            ((TextView) view.findViewById(R.id.textPrimary))
+                    .setTextColor(activity.getResources().getColor(R.color.colorGreyAccent));
+            ((TextView) view.findViewById(R.id.textSecondary))
+                    .setTextColor(activity.getResources().getColor(R.color.colorGreyPrimary));
+        }
+        addHeaderView(view, false, isSelectable);
         return view;
     }
 

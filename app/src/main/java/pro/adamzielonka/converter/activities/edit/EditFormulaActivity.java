@@ -32,7 +32,8 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
         listView.addHeaderTitle(getString(R.string.list_title_formula));
         unitFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula_description),
-                getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+                getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()),
+                false);
         unitEditOneView = listView.addHeaderItem(getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
         unitEditShift1View = listView.addHeaderItem(getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
         unitEditShift2View = listView.addHeaderItem(getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));

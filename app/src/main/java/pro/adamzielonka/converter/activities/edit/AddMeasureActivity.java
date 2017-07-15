@@ -54,7 +54,7 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
         addByCreateView = listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
         addFromFileView = listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
         getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
-        addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
+        addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description), false);
     }
 
     @Override
