@@ -29,6 +29,7 @@ import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
+import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
@@ -43,8 +44,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private View editMeasureNameView;
     private View editUnitOrder;
     private View addUnit;
-
-    private static final int REQUEST_SAVE_TO_DOWNLOAD = 1;
 
     @Override
     public void onLoad() throws FileNotFoundException {

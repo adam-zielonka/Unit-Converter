@@ -43,7 +43,7 @@ import static pro.adamzielonka.converter.tools.Number.deleteLast;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
-public class DrawerActivity extends AppCompatActivity
+public class ConverterActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         View.OnFocusChangeListener, AdapterView.OnItemSelectedListener {
 
@@ -71,7 +71,7 @@ public class DrawerActivity extends AppCompatActivity
         setTheme(Theme.getConverterStyleID(themeID));
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
+        setContentView(R.layout.activity_converter);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -89,8 +89,10 @@ public class DrawerActivity extends AppCompatActivity
         int count = setupConvertersMenu(navigationView.getMenu());
 
         Intent intent = getIntent();
-        if (count > 0) setupConverter(getIDFromFileName(intent.getStringExtra("measureFileName")));
-        else {
+        if (count > 0) {
+            setupConverter(DEFAULT_CONVERTER_ID);
+            setupConverter(getIDFromFileName(intent.getStringExtra("measureFileName")));
+        } else {
             Intent empty = new Intent(this.getBaseContext(), EmptyActivity.class);
             startActivity(empty);
             finish();
@@ -316,6 +318,8 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == REQUEST_EDIT_ACTIVITY && resultCode == RESULT_OK) {
+            int converterID = this.converterID;
+            setupConverter(DEFAULT_CONVERTER_ID);
             setupConverter(converterID);
         }
     }

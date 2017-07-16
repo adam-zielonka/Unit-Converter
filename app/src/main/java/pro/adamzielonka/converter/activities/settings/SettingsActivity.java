@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.drawer.DrawerActivity;
+import pro.adamzielonka.converter.activities.drawer.ConverterActivity;
 import pro.adamzielonka.converter.tools.Theme;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ConverterActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ConverterActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

@@ -28,7 +28,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.drawer.DrawerActivity"
+            android:name=".activities.drawer.ConverterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
