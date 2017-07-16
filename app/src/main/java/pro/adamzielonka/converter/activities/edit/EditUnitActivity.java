@@ -136,7 +136,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                                 Prefix newPrefix = new Prefix();
                                 newPrefix.setSymbol(newPrefixName);
                                 unit.getPrefixes().add(newPrefix);
-                                onSave(false);
+                                onSave();
                                 Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
                                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                                 intent.putExtra("unitName", unit.getSymbol());

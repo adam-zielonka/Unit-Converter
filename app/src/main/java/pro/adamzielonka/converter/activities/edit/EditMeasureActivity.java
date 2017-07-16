@@ -109,7 +109,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                 Unit newUnit = new Unit();
                                 newUnit.setSymbol(newUnitName);
                                 userMeasure.getUnits().add(newUnit);
-                                onSave(false);
+                                onSave();
                                 Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
                                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                                 intent.putExtra("unitName", newUnitName);
