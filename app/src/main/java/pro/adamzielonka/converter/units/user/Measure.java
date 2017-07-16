@@ -112,4 +112,12 @@ public class Measure {
     private int getCount() {
         return setCount();
     }
+
+    public void setDisplayFrom(Integer displayFrom) {
+        this.displayFrom = displayFrom;
+    }
+
+    public void setDisplayTo(Integer displayTo) {
+        this.displayTo = displayTo;
+    }
 }

@@ -24,6 +24,7 @@ import java.io.Reader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.units.user.Measure;
 import pro.adamzielonka.converter.units.user.Unit;
@@ -43,6 +44,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private View editMeasureNameView;
     private View editUnitOrder;
+    private View editDefaultDisplay1;
+    private View editDefaultDisplay2;
     private View addUnit;
 
     @Override
@@ -54,7 +57,15 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
         listView.addHeaderTitle(getString(R.string.list_title_Measure));
         editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name), userMeasure.getName());
-        editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), concreteMeasure.getUnitsOrder());
+        if (userMeasure.getUnits().size() > 0) {
+            editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), concreteMeasure.getUnitsOrder());
+            editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1), concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
+            editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2), concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
+        } else {
+            editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), "");
+            editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1), "");
+            editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2), "");
+        }
         listView.addHeaderTitle(getString(R.string.list_title_units));
         addUnit = listView.addFooterItem(getString(R.string.list_item_add_unit));
     }
@@ -63,7 +74,17 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     public void onReload() throws FileNotFoundException {
         super.onReload();
         ((TextView) editMeasureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
-        ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText(concreteMeasure.getUnitsOrder());
+        if (userMeasure.getUnits().size() > 0) {
+            ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText(concreteMeasure.getUnitsOrder());
+            ((TextView) editDefaultDisplay1.findViewById(R.id.textSecondary))
+                    .setText(concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
+            ((TextView) editDefaultDisplay2.findViewById(R.id.textSecondary))
+                    .setText(concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
+        } else {
+            ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText("");
+            ((TextView) editDefaultDisplay1.findViewById(R.id.textSecondary)).setText("");
+            ((TextView) editDefaultDisplay2.findViewById(R.id.textSecondary)).setText("");
+        }
         unitsAdapter.clear();
         unitsAdapter.addAll(userMeasure.getUnits());
         unitsAdapter.notifyDataSetChanged();
@@ -92,9 +113,36 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 }).show();
 
             } else if (view.equals(editUnitOrder)) {
+                if (userMeasure.getUnits().size() <= 0) return;
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+
+            } else if (view.equals(editDefaultDisplay1)) {
+                if (userMeasure.getUnits().size() <= 0) return;
+                ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
+                        R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
+                new AlertDialog.Builder(this)
+                        .setAdapter(concreteAdapter, (dialogInterface, i) -> {
+                            userMeasure.setDisplayFrom(i);
+                            onSave();
+                        })
+                        .setTitle(R.string.dialog_measure_default_1)
+                        .setCancelable(true)
+                        .show();
+
+            } else if (view.equals(editDefaultDisplay2)) {
+                if (userMeasure.getUnits().size() <= 0) return;
+                ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
+                        R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
+                new AlertDialog.Builder(this)
+                        .setAdapter(concreteAdapter, (dialogInterface, i) -> {
+                            userMeasure.setDisplayTo(i);
+                            onSave();
+                        })
+                        .setTitle(R.string.dialog_measure_default_2)
+                        .setCancelable(true)
+                        .show();
 
             } else if (view.equals(addUnit)) {
                 View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);

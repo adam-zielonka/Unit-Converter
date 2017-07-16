@@ -37,8 +37,11 @@ public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
     }
 
     private String getChangePosition(ConcreteUnit item) {
-        Integer result = ((item.getBasicPosition() - item.getPosition()) + 1) / 2;
+        Integer result = item.getBasicPosition() - item.getPosition();
         if (result == 0) return "";
+
+        result = (result + 1) / 2;
+
         if (result < 0) return result.toString();
         return "+" + result.toString();
     }

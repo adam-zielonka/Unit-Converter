@@ -106,5 +106,9 @@
     <string name="dialog_unit_description_base">Description base</string>
     <string name="dialog_unit_description_global_prefix">Description global prefix</string>
     <string name="empty_units">Add units to use them</string>
+    <string name="list_item_measure_default_1">Default 1</string>
+    <string name="list_item_measure_default_2">Default 2</string>
+    <string name="dialog_measure_default_1">Default 1</string>
+    <string name="dialog_measure_default_2">Display 2</string>
 
 </resources>
