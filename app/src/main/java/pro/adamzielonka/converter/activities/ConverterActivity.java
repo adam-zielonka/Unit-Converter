@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities.drawer;
+package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.AboutActivity;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
 import pro.adamzielonka.converter.activities.settings.SettingsActivity;
@@ -59,8 +59,13 @@ public class ConverterActivity extends AppCompatActivity
     private TextView textViewTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
-    private ConcreteAdapter concreteAdapter;
+    private ConcreteAdapter adapter;
     private ConcreteMeasure measure;
+
+    private ConstraintLayout converterLayout;
+    private ConstraintLayout emptyLayout;
+
+    private boolean hideMenu = false;
 
     private static final int DEFAULT_CONVERTER_ID = 1000;
 
@@ -86,16 +91,20 @@ public class ConverterActivity extends AppCompatActivity
 
         measureList = loadConverters(this);
 
-        int count = setupConvertersMenu(navigationView.getMenu());
+        converterLayout = findViewById(R.id.converter_content);
+        emptyLayout = findViewById(R.id.converter_content_empty);
+        TextView emptyText = findViewById(R.id.textEmpty);
 
         Intent intent = getIntent();
-        if (count > 0) {
-            setupConverter(DEFAULT_CONVERTER_ID);
+        if (measureList.size() > 0) {
+            emptyText.setText(R.string.empty_units);
+            setupConvertersMenu(navigationView.getMenu());
             setupConverter(getIDFromFileName(intent.getStringExtra("measureFileName")));
         } else {
-            Intent empty = new Intent(this.getBaseContext(), EmptyActivity.class);
-            startActivity(empty);
-            finish();
+            setEmptyLayout();
+            emptyText.setText(R.string.empty_converters);
+            hideMenu = true;
+            invalidateOptionsMenu();
         }
     }
 
@@ -109,7 +118,7 @@ public class ConverterActivity extends AppCompatActivity
         return DEFAULT_CONVERTER_ID;
     }
 
-    private int setupConvertersMenu(Menu menu) {
+    private void setupConvertersMenu(Menu menu) {
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
 
         int i = 0;
@@ -118,9 +127,9 @@ public class ConverterActivity extends AppCompatActivity
             menuItem.setCheckable(true);
             i++;
         }
-        return i;
     }
 
+    //region setup converter
     private void setupConverter(int converterID) {
         try {
             this.converterID = converterID;
@@ -130,69 +139,82 @@ public class ConverterActivity extends AppCompatActivity
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
 
-            if (measure.getConcreteUnits().size() != 0) {
-                textViewFrom = findViewById(R.id.textViewFrom);
-                textViewTo = findViewById(R.id.textViewTo);
+            if (measure.getConcreteUnits().size() > 0) {
 
-                textFrom = findViewById(R.id.textFrom);
-                textTo = findViewById(R.id.textTo);
+                findConverterViews();
+                setConverterListeners();
+                setTextFocus();
+                setAdapter();
+                setSelection();
 
-                textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
-                textTo.setTextColor(Color.BLACK);
-
-                textFrom.requestFocus();
-
-                textFrom.setOnFocusChangeListener(this);
-                textTo.setOnFocusChangeListener(this);
-
-                concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        measureList.get(this.converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
-
-                spinnerFrom = findViewById(R.id.spinnerFrom);
-                spinnerTo = findViewById(R.id.spinnerTo);
-
-                spinnerFrom.setAdapter(concreteAdapter);
-                spinnerTo.setAdapter(concreteAdapter);
-
-                spinnerFrom.setOnItemSelectedListener(this);
-                spinnerTo.setOnItemSelectedListener(this);
-                spinnerFrom.setSelection(measure.getDisplayFrom());
-                spinnerTo.setSelection(measure.getDisplayTo());
-
-                ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
-                ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
-                textViewFrom.setText(from != null ? from.getDescription() : "");
-                textViewTo.setText(to != null ? to.getDescription() : "");
-
-                textViewFrom.setVisibility(View.VISIBLE);
-                textViewTo.setVisibility(View.VISIBLE);
-                textTo.setVisibility(View.VISIBLE);
-                textFrom.setVisibility(View.VISIBLE);
-                spinnerFrom.setVisibility(View.VISIBLE);
-                spinnerTo.setVisibility(View.VISIBLE);
                 onClickClear(null);
+                setConverterLayout();
             } else {
-                textViewFrom = findViewById(R.id.textViewFrom);
-                textViewTo = findViewById(R.id.textViewTo);
-
-                textFrom = findViewById(R.id.textFrom);
-                textTo = findViewById(R.id.textTo);
-
-                spinnerFrom = findViewById(R.id.spinnerFrom);
-                spinnerTo = findViewById(R.id.spinnerTo);
-
-                textViewFrom.setVisibility(View.GONE);
-                textViewTo.setVisibility(View.GONE);
-                textTo.setVisibility(View.GONE);
-                textFrom.setVisibility(View.GONE);
-                spinnerFrom.setVisibility(View.GONE);
-                spinnerTo.setVisibility(View.GONE);
+                setEmptyLayout();
             }
+
+
         } catch (Exception e) {
             setupConverter(DEFAULT_CONVERTER_ID);
         }
     }
 
+    void setConverterLayout() {
+        converterLayout.setVisibility(View.VISIBLE);
+        emptyLayout.setVisibility(View.GONE);
+    }
+
+    void setEmptyLayout() {
+        converterLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    void findConverterViews() {
+        textViewFrom = findViewById(R.id.textViewFrom);
+        textViewTo = findViewById(R.id.textViewTo);
+
+        textFrom = findViewById(R.id.textFrom);
+        textTo = findViewById(R.id.textTo);
+
+        spinnerFrom = findViewById(R.id.spinnerFrom);
+        spinnerTo = findViewById(R.id.spinnerTo);
+    }
+
+    void setTextFocus() {
+        textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
+        textTo.setTextColor(Color.BLACK);
+
+        textFrom.requestFocus();
+    }
+
+    void setConverterListeners() {
+        textFrom.setOnFocusChangeListener(this);
+        textTo.setOnFocusChangeListener(this);
+
+        spinnerFrom.setOnItemSelectedListener(this);
+        spinnerTo.setOnItemSelectedListener(this);
+    }
+
+    void setAdapter() {
+        adapter = new ConcreteAdapter(getApplicationContext(),
+                measureList.get(converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
+
+        spinnerFrom.setAdapter(adapter);
+        spinnerTo.setAdapter(adapter);
+    }
+
+    void setSelection() {
+        spinnerFrom.setSelection(measure.getDisplayFrom());
+        spinnerTo.setSelection(measure.getDisplayTo());
+
+        ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
+        ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
+        textViewFrom.setText(from != null ? from.getDescription() : "");
+        textViewTo.setText(to != null ? to.getDescription() : "");
+    }
+    //endregion
+
+    //region events
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus && textTo.equals(view)) {
@@ -206,11 +228,11 @@ public class ConverterActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        ConcreteUnit from = concreteAdapter.getItem(spinnerFrom.getSelectedItemPosition());
-        ConcreteUnit to = concreteAdapter.getItem(spinnerTo.getSelectedItemPosition());
+        ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
+        ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
         textViewFrom.setText(from != null ? from.getDescription() : "");
         textViewTo.setText(to != null ? to.getDescription() : "");
-        calculate();
+        onCalculate();
     }
 
     @Override
@@ -218,20 +240,20 @@ public class ConverterActivity extends AppCompatActivity
 
     }
 
-    private void calculate() {
-        int fromId = (int) spinnerFrom.getSelectedItemId();
-        int toId = (int) spinnerTo.getSelectedItemId();
+    private void onCalculate() {
         double result = doConversion(
                 stringToDouble(textFrom.getText().toString()),
-                concreteAdapter.getItem(fromId),
-                concreteAdapter.getItem(toId)
+                adapter.getItem((int) spinnerFrom.getSelectedItemId()),
+                adapter.getItem((int) spinnerTo.getSelectedItemId())
         );
         textTo.setText(doubleToString(result));
     }
+    //endregion
 
+    //region clicks
     public void onClickDigit(View v) {
         textFrom.setText(appendDigit(textFrom.getText().toString(), v.getTag().toString()));
-        calculate();
+        onCalculate();
     }
 
 
@@ -242,27 +264,26 @@ public class ConverterActivity extends AppCompatActivity
 
     public void onClickChangeSign(@SuppressWarnings("UnusedParameters") View v) {
         textFrom.setText(changeSign(textFrom.getText().toString()));
-        calculate();
+        onCalculate();
     }
 
     @SuppressWarnings("WeakerAccess")
     public void onClickClear(@SuppressWarnings({"UnusedParameters", "SameParameterValue"}) View v) {
         textFrom.setText("0");
-        calculate();
+        onCalculate();
     }
 
     public void onClickDeleteLast(@SuppressWarnings("UnusedParameters") View v) {
         textFrom.setText(deleteLast(textFrom.getText().toString()));
-        calculate();
+        onCalculate();
     }
+    //endregion
 
+    //region navigation
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
+        else super.onBackPressed();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -297,6 +318,10 @@ public class ConverterActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_converter, menu);
+        if (hideMenu) {
+            for (int i = 0; i < menu.size(); i++)
+                menu.getItem(i).setVisible(false);
+        }
         return true;
     }
 
@@ -318,11 +343,9 @@ public class ConverterActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == REQUEST_EDIT_ACTIVITY && resultCode == RESULT_OK) {
-            int converterID = this.converterID;
-            setupConverter(DEFAULT_CONVERTER_ID);
             setupConverter(converterID);
         }
     }
-
+    //endregion
 
 }
