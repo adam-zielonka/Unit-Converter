@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
@@ -69,6 +71,8 @@ public class ConverterActivity extends AppCompatActivity
 
     private static final int DEFAULT_CONVERTER_ID = 1000;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -89,6 +93,8 @@ public class ConverterActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         measureList = loadConverters(this);
 
         converterLayout = findViewById(R.id.converter_content);
@@ -105,6 +111,11 @@ public class ConverterActivity extends AppCompatActivity
             emptyText.setText(R.string.empty_converters);
             hideMenu = true;
             invalidateOptionsMenu();
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "empty");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }
 
@@ -149,7 +160,16 @@ public class ConverterActivity extends AppCompatActivity
 
                 onClickClear(null);
                 setConverterLayout();
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName());
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             } else {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName());
+                bundle.putString(FirebaseAnalytics.Param.VALUE, "empty");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 setEmptyLayout();
             }
 
