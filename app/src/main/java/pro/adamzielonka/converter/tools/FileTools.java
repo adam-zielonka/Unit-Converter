@@ -78,7 +78,7 @@ public class FileTools {
                     FileInputStream in = context.openFileInput(file.getName());
                     Reader reader = new BufferedReader(new InputStreamReader(in));
                     concreteMeasureList.add(gson.fromJson(reader, ConcreteMeasure.class));
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

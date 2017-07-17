@@ -1,7 +1,6 @@
 package pro.adamzielonka.converter.activities.edit;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 
@@ -53,12 +51,10 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     @Override
     public void onReload() throws FileNotFoundException {
         super.onReload();
-        ((TextView) editSymbolView.findViewById(R.id.textSecondary)).setText(unit.getSymbol());
-        ((TextView) editDescriptionView.findViewById(R.id.textSecondary)).setText(unit.getFullDescription());
-        ((TextView) editFormulaView.findViewById(R.id.textSecondary))
-                .setText(getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
-        ((TextView) editExpBaseView.findViewById(R.id.textSecondary))
-                .setText(doubleToString(unit.getExpBase()));
+        updateView(editSymbolView, unit.getSymbol());
+        updateView(editDescriptionView, unit.getFullDescription());
+        updateView(editFormulaView, getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
+        updateView(editExpBaseView, doubleToString(unit.getExpBase()));
         prefixesAdapter.clear();
         prefixesAdapter.addAll(unit.getPrefixes());
         prefixesAdapter.notifyDataSetChanged();
@@ -75,26 +71,19 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
             startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editSymbolView)) {
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                EditText editText = getDialogEditText(layout, unit.getSymbol());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_unit_symbol)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            String newName = editText.getText().toString();
-                            if (!newName.equals(unitName)) {
-                                if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
-                                    unit.setSymbol(newName);
-                                    unitName = newName;
-                                    onSave();
-                                } else {
-                                    showError(this, R.string.error_symbol_unit_already_exist);
-                                }
-                            }
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                EditText editText = getDialogEditText(unit.getSymbol());
+                getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
+                    String newName = editText.getText().toString();
+                    if (!newName.equals(unitName)) {
+                        if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
+                            unit.setSymbol(newName);
+                            unitName = newName;
+                            onSave();
+                        } else {
+                            showError(this, R.string.error_symbol_unit_already_exist);
+                        }
+                    }
                 }).show();
-
 
             } else if (view.equals(editDescriptionView)) {
                 Intent intent = new Intent(getApplicationContext(), EditDescriptionActivity.class);
@@ -113,48 +102,32 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 numberPicker.setMaxValue(100);
                 numberPicker.setValue(Integer.parseInt(doubleToString(unit.getExpBase())));
                 numberPicker.setMinValue(2);
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_unit_exponentiation_base)
-                        .setView(numberPicker)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            unit.setExpBase(1.0 * numberPicker.getValue());
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+
+                getAlertDialogSave(R.string.dialog_unit_exponentiation_base, numberPicker, (dialog, which) -> {
+                    unit.setExpBase(1.0 * numberPicker.getValue());
+                    onSave();
                 }).show();
 
             } else if (view.equals(addPrefix)) {
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                EditText editText = getDialogEditText(layout, "");
-                new android.app.AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_prefix_symbol)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            String newPrefixName = editText.getText().toString();
-                            if (!isSymbolPrefixExist(newPrefixName, unit.getPrefixes())) {
-                                Prefix newPrefix = new Prefix();
-                                newPrefix.setSymbol(newPrefixName);
-                                unit.getPrefixes().add(newPrefix);
-                                onSave();
-                                Intent intent = new Intent(getApplicationContext(), EditPrefixActivity.class);
-                                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                                intent.putExtra("unitName", unit.getSymbol());
-                                intent.putExtra("prefixName", newPrefixName);
-                                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
-                            } else {
-                                showError(this, R.string.error_symbol_prefix_already_exist);
-                            }
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                EditText editText = getDialogEditText("");
+                getAlertDialogSave(R.string.dialog_prefix_symbol, editText.getRootView(), (dialog, which) -> {
+                    String newPrefixName = editText.getText().toString();
+                    if (!EditUnitActivity.this.isSymbolPrefixExist(newPrefixName, unit.getPrefixes())) {
+                        Prefix newPrefix = new Prefix();
+                        newPrefix.setSymbol(newPrefixName);
+                        unit.getPrefixes().add(newPrefix);
+                        EditUnitActivity.this.onSave();
+                        Intent intent = new Intent(EditUnitActivity.this.getApplicationContext(), EditPrefixActivity.class);
+                        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                        intent.putExtra("unitName", unit.getSymbol());
+                        intent.putExtra("prefixName", newPrefixName);
+                        EditUnitActivity.this.startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+                    } else {
+                        showError(EditUnitActivity.this, R.string.error_symbol_prefix_already_exist);
+                    }
                 }).show();
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(resultCode);
-        finish();
     }
 
     @Override
@@ -167,18 +140,11 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
             case R.id.menu_delete:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_unit_title)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
-                            userMeasure.getUnits().remove(unit);
-                            onSave(false);
-                            onBackPressed();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                getAlertDialogDelete(R.string.delete_unit_title, (dialog, which) -> {
+                    userMeasure.getUnits().remove(unit);
+                    onSave(false);
+                    onBackPressed();
                 }).show();
                 return true;
         }

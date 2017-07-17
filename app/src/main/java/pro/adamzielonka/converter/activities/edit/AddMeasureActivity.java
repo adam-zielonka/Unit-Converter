@@ -1,14 +1,12 @@
 package pro.adamzielonka.converter.activities.edit;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -61,29 +59,23 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(addByCreateView)) {
-            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            EditText editText = getDialogEditText(layout, "");
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_measure_name)
-                    .setView(layout)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        userMeasure = new Measure();
-                        userMeasure.setName(editText.getText().toString());
-                        concreteMeasure = userMeasure.getConcreteMeasure();
+            EditText editText = getDialogEditText("");
+            getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
+                userMeasure = new Measure();
+                userMeasure.setName(editText.getText().toString());
+                concreteMeasure = userMeasure.getConcreteMeasure();
 
-                        String concreteFileName = getFileInternalName(this,
-                                "concrete_", concreteMeasure.getName());
-                        String userFileName = getFileInternalName(this,
-                                "user_", concreteMeasure.getName());
+                String concreteFileName = getFileInternalName(this,
+                        "concrete_", concreteMeasure.getName());
+                String userFileName = getFileInternalName(this,
+                        "user_", concreteMeasure.getName());
 
-                        concreteMeasure.setConcreteFileName(concreteFileName);
-                        concreteMeasure.setUserFileName(userFileName);
-                        onSave(false);
-                        Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                        startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
-                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                concreteMeasure.setConcreteFileName(concreteFileName);
+                concreteMeasure.setUserFileName(userFileName);
+                onSave(false);
+                Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
             }).show();
 
         } else if (view.equals(addFromFileView)) {
@@ -100,20 +92,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
             startActivity(intent);
 
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

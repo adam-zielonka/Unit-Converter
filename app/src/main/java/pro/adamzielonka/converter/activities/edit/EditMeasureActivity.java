@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -73,17 +72,15 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onReload() throws FileNotFoundException {
         super.onReload();
-        ((TextView) editMeasureNameView.findViewById(R.id.textSecondary)).setText(userMeasure.getName());
+        updateView(editMeasureNameView, userMeasure.getName());
         if (userMeasure.getUnits().size() > 0) {
-            ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText(concreteMeasure.getUnitsOrder());
-            ((TextView) editDefaultDisplay1.findViewById(R.id.textSecondary))
-                    .setText(concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
-            ((TextView) editDefaultDisplay2.findViewById(R.id.textSecondary))
-                    .setText(concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
+            updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
+            updateView(editDefaultDisplay1, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
+            updateView(editDefaultDisplay2, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
         } else {
-            ((TextView) editUnitOrder.findViewById(R.id.textSecondary)).setText("");
-            ((TextView) editDefaultDisplay1.findViewById(R.id.textSecondary)).setText("");
-            ((TextView) editDefaultDisplay2.findViewById(R.id.textSecondary)).setText("");
+            updateView(editUnitOrder, "");
+            updateView(editDefaultDisplay1, "");
+            updateView(editDefaultDisplay2, "");
         }
         unitsAdapter.clear();
         unitsAdapter.addAll(userMeasure.getUnits());
@@ -100,16 +97,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                EditText editText = getDialogEditText(layout, userMeasure.getName());
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_measure_name)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            userMeasure.setName(editText.getText().toString());
-                            onSave();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                EditText editText = getDialogEditText(userMeasure.getName());
+                getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
+                    userMeasure.setName(editText.getText().toString());
+                    onSave();
                 }).show();
 
             } else if (view.equals(editUnitOrder)) {
@@ -123,58 +114,44 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_measure_default_1)
+                        .setCancelable(true)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
                             userMeasure.setDisplayFrom(i);
                             onSave();
-                        })
-                        .setTitle(R.string.dialog_measure_default_1)
-                        .setCancelable(true)
-                        .show();
+                        }).show();
 
             } else if (view.equals(editDefaultDisplay2)) {
                 if (userMeasure.getUnits().size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_measure_default_2)
+                        .setCancelable(true)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
                             userMeasure.setDisplayTo(i);
                             onSave();
-                        })
-                        .setTitle(R.string.dialog_measure_default_2)
-                        .setCancelable(true)
-                        .show();
+                        }).show();
 
             } else if (view.equals(addUnit)) {
-                View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-                EditText editText = getDialogEditText(layout, "");
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_unit_symbol)
-                        .setView(layout)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                            String newUnitName = editText.getText().toString();
-                            if (!isSymbolUnitExist(newUnitName, userMeasure.getUnits())) {
-                                Unit newUnit = new Unit();
-                                newUnit.setSymbol(newUnitName);
-                                userMeasure.getUnits().add(newUnit);
-                                onSave();
-                                Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
-                                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                                intent.putExtra("unitName", newUnitName);
-                                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
-                            } else {
-                                showError(this, R.string.error_symbol_unit_already_exist);
-                            }
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                EditText editText = getDialogEditText("");
+                getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
+                    String newUnitName = editText.getText().toString();
+                    if (!isSymbolUnitExist(newUnitName, userMeasure.getUnits())) {
+                        Unit newUnit = new Unit();
+                        newUnit.setSymbol(newUnitName);
+                        userMeasure.getUnits().add(newUnit);
+                        onSave();
+                        Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
+                        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                        intent.putExtra("unitName", newUnitName);
+                        startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+                    } else {
+                        showError(this, R.string.error_symbol_unit_already_exist);
+                    }
                 }).show();
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(resultCode);
-        finish();
     }
 
     @Override
@@ -186,24 +163,16 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
             case R.id.menu_delete_converter:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_measure_title)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
-                            if (getFileStreamPath(concreteMeasure.getConcreteFileName()).delete() &&
-                                    getFileStreamPath(concreteMeasure.getUserFileName()).delete()) {
-                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                getAlertDialogDelete(R.string.delete_measure_title, (dialog, which) -> {
+                    if (getFileStreamPath(concreteMeasure.getConcreteFileName()).delete() &&
+                            getFileStreamPath(concreteMeasure.getUserFileName()).delete()) {
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
                 }).show();
                 return true;
             case R.id.menu_save_converter:
@@ -211,7 +180,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                         getReadAndWritePermissionsStorage(), REQUEST_SAVE_TO_DOWNLOAD);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

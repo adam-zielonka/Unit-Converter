@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 
@@ -38,68 +37,43 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     @Override
     public void onReload() throws FileNotFoundException {
         super.onReload();
-        ((TextView) prefixNameView.findViewById(R.id.textSecondary)).setText(prefix.getSymbol());
-        ((TextView) prefixDescriptionView.findViewById(R.id.textSecondary)).setText(prefix.getDescription());
-        ((TextView) prefixExponentView.findViewById(R.id.textSecondary)).setText(doubleToString(prefix.getExp()));
+        updateView(prefixNameView,prefix.getSymbol());
+        updateView(prefixDescriptionView,prefix.getDescription());
+        updateView(prefixExponentView,doubleToString(prefix.getExp()));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(prefixNameView)) {
-            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            EditText editText = getDialogEditText(layout, prefix.getSymbol());
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_prefix_symbol)
-                    .setView(layout)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        String newName = editText.getText().toString();
-                        if (!newName.equals(prefixName)) {
-                            if (!isSymbolPrefixExist(newName, unit.getPrefixes())) {
-                                prefix.setSymbol(newName);
-                                prefixName = newName;
-                                onSave();
-                            } else {
-                                showError(this, R.string.error_symbol_prefix_already_exist);
-                            }
-                        }
-                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            EditText editText = getDialogEditText(prefix.getSymbol());
+            getAlertDialogSave(R.string.dialog_prefix_symbol, editText.getRootView(), (dialog, which) -> {
+                String newName = editText.getText().toString();
+                if (!newName.equals(prefixName)) {
+                    if (!isSymbolPrefixExist(newName, unit.getPrefixes())) {
+                        prefix.setSymbol(newName);
+                        prefixName = newName;
+                        onSave();
+                    } else {
+                        showError(this, R.string.error_symbol_prefix_already_exist);
+                    }
+                }
             }).show();
 
         } else if (view.equals(prefixDescriptionView)) {
-            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            EditText editText = getDialogEditText(layout, prefix.getDescription());
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_prefix_description)
-                    .setView(layout)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        prefix.setDescription(editText.getText().toString());
-                        onSave();
-                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            EditText editText = getDialogEditText(prefix.getDescription());
+            getAlertDialogSave(R.string.dialog_prefix_description, editText.getRootView(), (dialog, which) -> {
+                prefix.setDescription(editText.getText().toString());
+                onSave();
             }).show();
 
         } else if (view.equals(prefixExponentView)) {
-            View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
-            EditText editText = getDialogEditNumber(layout, prefix.getExp());
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_prefix_exponent)
-                    .setView(layout)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.dialog_save, (dialog, which) -> {
-                        prefix.setExp(stringToDouble(editText.getText().toString()));
-                        onSave();
-                    }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+            EditText editText = getDialogEditNumber(prefix.getExp());
+            getAlertDialogSave(R.string.dialog_prefix_exponent, editText.getRootView(), (dialog, which) -> {
+                prefix.setExp(stringToDouble(editText.getText().toString()));
+                onSave();
             }).show();
-
         }
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(resultCode);
-        finish();
     }
 
     @Override
@@ -112,9 +86,6 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
             case R.id.menu_delete:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.delete_unit_title)

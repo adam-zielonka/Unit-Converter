@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.view.MenuItem;
 import android.view.View;
 
 import java.io.FileNotFoundException;
@@ -58,20 +57,5 @@ public class EditOrderUnitsActivity extends EditActivity {
                 }
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(resultCode);
-        finish();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

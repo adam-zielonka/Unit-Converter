@@ -1,13 +1,17 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -48,7 +52,7 @@ public abstract class EditActivity extends AppCompatActivity {
 
     MyListView listView;
 
-    int resultCode;
+    private int resultCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +111,7 @@ public abstract class EditActivity extends AppCompatActivity {
         prefix = unit != null ? openPrefix(prefixName, unit) : null;
     }
 
-    void setResultUpdate() {
+    private void setResultUpdate() {
         resultCode = RESULT_OK;
     }
 
@@ -121,6 +125,21 @@ public abstract class EditActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(resultCode);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //region open and save
@@ -183,19 +202,42 @@ public abstract class EditActivity extends AppCompatActivity {
     //endregion
 
     //region dialog
-    EditText getDialogEditText(View layout, String text) {
+    EditText getDialogEditText(String text) {
+        View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
         editText.setText(text);
         editText.setSelection(editText.length());
         return editText;
     }
 
-    EditText getDialogEditNumber(View layout, Double number) {
+    EditText getDialogEditNumber(Double number) {
+        View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
         editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
         editText.setText(doubleToString(number));
         editText.setSelection(editText.length());
         return editText;
     }
+
+    AlertDialog.Builder getAlertDialogSave(int title, View view, DialogInterface.OnClickListener onClickListener) {
+        return getAlertDialog(title, onClickListener, R.string.dialog_save).setView(view);
+    }
+
+    AlertDialog.Builder getAlertDialogDelete(int title, DialogInterface.OnClickListener onClickListener) {
+        return getAlertDialog(title, onClickListener, R.string.dialog_delete);
+    }
+
+    private AlertDialog.Builder getAlertDialog(int dialogTitle, DialogInterface.OnClickListener onClickListener, int positiveButtonTitle) {
+        return new AlertDialog.Builder(this)
+                .setTitle(dialogTitle)
+                .setCancelable(true)
+                .setPositiveButton(positiveButtonTitle, onClickListener)
+                .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                });
+    }
     //endregion
+
+    void updateView(View view, String text) {
+        ((TextView) view.findViewById(R.id.textSecondary)).setText(text);
+    }
 }
