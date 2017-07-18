@@ -65,6 +65,14 @@ public class MyListView extends ListView {
         addHeaderView(view, false, false);
     }
 
+    public View addHeaderItem(String textPrimary) {
+        return addHeaderItem(textPrimary, "", true);
+    }
+
+    public View addHeaderItemNotSelectable(String textPrimary) {
+        return addHeaderItem(textPrimary, "", false);
+    }
+
     public View addHeaderItem(String textPrimary, String textSecondary) {
         return addHeaderItem(textPrimary, textSecondary, true);
     }
@@ -80,6 +88,8 @@ public class MyListView extends ListView {
             ((TextView) view.findViewById(R.id.textSecondary))
                     .setTextColor(activity.getResources().getColor(R.color.colorGreyPrimary));
         }
+        if (textSecondary.equals(""))
+            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         addHeaderView(view, false, isSelectable);
         return view;
     }

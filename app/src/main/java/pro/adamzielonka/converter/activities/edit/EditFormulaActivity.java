@@ -27,17 +27,15 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         listView.setOnItemClickListener(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_formula));
-        unitFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula_description),
-                getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()),
-                false);
-        unitEditOneView = listView.addHeaderItem(getString(R.string.list_item_formula_one), doubleToString(unit.getOne()));
-        unitEditShift1View = listView.addHeaderItem(getString(R.string.list_item_formula_shift1), doubleToString(unit.getShift()));
-        unitEditShift2View = listView.addHeaderItem(getString(R.string.list_item_formula_shift2), doubleToString(unit.getShift2()));
+        unitFormulaView = listView.addHeaderItemNotSelectable(getString(R.string.list_item_formula_description));
+        unitEditOneView = listView.addHeaderItem(getString(R.string.list_item_formula_one));
+        unitEditShift1View = listView.addHeaderItem(getString(R.string.list_item_formula_shift1));
+        unitEditShift2View = listView.addHeaderItem(getString(R.string.list_item_formula_shift2));
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-        super.onReload();
+    public void onUpdate() throws FileNotFoundException {
+        super.onUpdate();
         updateView(unitFormulaView, getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         updateView(unitEditOneView, doubleToString(unit.getOne()));
         updateView(unitEditShift1View, doubleToString(unit.getShift()));

@@ -54,6 +54,8 @@ public abstract class EditActivity extends AppCompatActivity {
 
     private int resultCode;
 
+    boolean enabledUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -66,9 +68,11 @@ public abstract class EditActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         resultCode = RESULT_CANCELED;
+        enabledUpdate = true;
 
         try {
             onLoad();
+            if (enabledUpdate) onUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             finish();
@@ -83,7 +87,7 @@ public abstract class EditActivity extends AppCompatActivity {
         try {
             saveMeasure(concreteMeasure, userMeasure);
             setResultUpdate();
-            if (reload) onReload();
+            if (reload) onUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             showError(this, R.string.error_could_not_save_changes);
@@ -100,7 +104,7 @@ public abstract class EditActivity extends AppCompatActivity {
         onOpen();
     }
 
-    void onReload() throws FileNotFoundException {
+    void onUpdate() throws FileNotFoundException {
         onOpen();
     }
 
@@ -120,7 +124,7 @@ public abstract class EditActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             try {
                 this.resultCode = RESULT_OK;
-                onReload();
+                onUpdate();
             } catch (Exception e) {
                 finish();
             }
@@ -239,5 +243,15 @@ public abstract class EditActivity extends AppCompatActivity {
 
     void updateView(View view, String text) {
         ((TextView) view.findViewById(R.id.textSecondary)).setText(text);
+        if (text.equals("")) view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
+        else view.findViewById(R.id.textSecondary).setVisibility(View.VISIBLE);
+    }
+
+    Intent setEditIntent(Class<?> cls) {
+        Intent intent = new Intent(getApplicationContext(), cls);
+        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
+        intent.putExtra("prefixName", prefix != null ? prefix.getSymbol() : "");
+        return intent;
     }
 }

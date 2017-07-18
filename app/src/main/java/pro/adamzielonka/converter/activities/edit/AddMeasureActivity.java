@@ -44,6 +44,7 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws FileNotFoundException {
+        enabledUpdate = false;
         listView = findViewById(R.id.editListView);
         listView.setActivity(this);
         listView.setEmptyAdapter();

@@ -21,13 +21,13 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
         listView.setOnItemClickListener(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_description));
-        unitEditBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base), unit.getDescription());
-        unitEditPrefixView = listView.addHeaderItem(getString(R.string.list_item_description_global_prefix), unit.getDescriptionPrefix());
+        unitEditBaseView = listView.addHeaderItem(getString(R.string.list_item_description_base));
+        unitEditPrefixView = listView.addHeaderItem(getString(R.string.list_item_description_global_prefix));
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-        super.onReload();
+    public void onUpdate() throws FileNotFoundException {
+        super.onUpdate();
         updateView(unitEditBaseView, unit.getDescription());
         updateView(unitEditPrefixView, unit.getDescriptionPrefix());
     }

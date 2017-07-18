@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,17 +28,17 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         listView.setOnItemClickListener(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_prefix));
-        prefixNameView = listView.addHeaderItem(getString(R.string.list_item_symbol), prefix.getSymbol());
-        prefixDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description), prefix.getDescription());
-        prefixExponentView = listView.addHeaderItem(getString(R.string.list_item_exponent), doubleToString(prefix.getExp()));
+        prefixNameView = listView.addHeaderItem(getString(R.string.list_item_symbol));
+        prefixDescriptionView = listView.addHeaderItem(getString(R.string.list_item_description));
+        prefixExponentView = listView.addHeaderItem(getString(R.string.list_item_exponent));
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-        super.onReload();
-        updateView(prefixNameView,prefix.getSymbol());
-        updateView(prefixDescriptionView,prefix.getDescription());
-        updateView(prefixExponentView,doubleToString(prefix.getExp()));
+    public void onUpdate() throws FileNotFoundException {
+        super.onUpdate();
+        updateView(prefixNameView, prefix.getSymbol());
+        updateView(prefixDescriptionView, prefix.getDescription());
+        updateView(prefixExponentView, doubleToString(prefix.getExp()));
     }
 
     @Override
@@ -87,14 +86,10 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_delete:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_unit_title)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.dialog_delete, (dialog, which) -> {
-                            unit.getPrefixes().remove(prefix);
-                            onSave(false);
-                            onBackPressed();
-                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                getAlertDialogDelete(R.string.delete_unit_title, (dialog, which) -> {
+                    unit.getPrefixes().remove(prefix);
+                    onSave(false);
+                    onBackPressed();
                 }).show();
                 return true;
         }

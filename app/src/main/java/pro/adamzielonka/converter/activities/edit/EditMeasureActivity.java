@@ -55,23 +55,17 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         listView.setOnItemClickListener(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_Measure));
-        editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name), userMeasure.getName());
-        if (userMeasure.getUnits().size() > 0) {
-            editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), concreteMeasure.getUnitsOrder());
-            editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1), concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
-            editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2), concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
-        } else {
-            editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order), "");
-            editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1), "");
-            editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2), "");
-        }
+        editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name));
+        editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order));
+        editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1));
+        editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2));
         listView.addHeaderTitle(getString(R.string.list_title_units));
         addUnit = listView.addFooterItem(getString(R.string.list_item_add_unit));
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-        super.onReload();
+    public void onUpdate() throws FileNotFoundException {
+        super.onUpdate();
         updateView(editMeasureNameView, userMeasure.getName());
         if (userMeasure.getUnits().size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
@@ -90,11 +84,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (isUnderItemClick(position, listView.getCountHeaderItems(), userMeasure.getUnits().size())) {
-            Unit unit = unitsAdapter.getItem(position - listView.getCountHeaderItems());
-            Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
-            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-            intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
-            startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+            unit = unitsAdapter.getItem(position - listView.getCountHeaderItems());
+            startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {
                 EditText editText = getDialogEditText(userMeasure.getName());
@@ -138,13 +129,11 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
                     String newUnitName = editText.getText().toString();
                     if (!isSymbolUnitExist(newUnitName, userMeasure.getUnits())) {
-                        Unit newUnit = new Unit();
-                        newUnit.setSymbol(newUnitName);
-                        userMeasure.getUnits().add(newUnit);
+                        unit = new Unit();
+                        unit.setSymbol(newUnitName);
+                        userMeasure.getUnits().add(unit);
+                        Intent intent = setEditIntent(EditUnitActivity.class);
                         onSave();
-                        Intent intent = new Intent(getApplicationContext(), EditUnitActivity.class);
-                        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
-                        intent.putExtra("unitName", newUnitName);
                         startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                     } else {
                         showError(this, R.string.error_symbol_unit_already_exist);

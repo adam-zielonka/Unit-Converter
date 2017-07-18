@@ -23,10 +23,11 @@ public class EditOrderUnitsActivity extends EditActivity {
     }
 
     @Override
-    public void onReload() throws FileNotFoundException {
-        super.onReload();
-        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
-        listView.setAdapter(orderAdapter);
+    public void onUpdate() throws FileNotFoundException {
+        super.onUpdate();
+        orderAdapter.clear();
+        orderAdapter.addAll(concreteMeasure.getConcreteUnits());
+        orderAdapter.notifyDataSetChanged();
     }
 
     public void setUp(View v) {
