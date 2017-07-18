@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
@@ -70,6 +71,7 @@ public class ConverterActivity extends AppCompatActivity
     private boolean hideMenu = false;
 
     private static final int DEFAULT_CONVERTER_ID = 1000;
+    private List<MenuItem> menuItems = new ArrayList<>();
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -131,11 +133,11 @@ public class ConverterActivity extends AppCompatActivity
 
     private void setupConvertersMenu(Menu menu) {
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
-
+        menuItems.clear();
         int i = 0;
         for (ConcreteMeasure measure : measureList) {
-            MenuItem menuItem = convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName());
-            menuItem.setCheckable(true);
+            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName()));
+            menuItems.get(i).setCheckable(true);
             i++;
         }
     }
@@ -149,6 +151,7 @@ public class ConverterActivity extends AppCompatActivity
 
             setTitle(measure.getName());
             navigationView.setCheckedItem(this.converterID);
+            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.getName());
 
             if (measure.getConcreteUnits().size() > 0) {
 
@@ -175,7 +178,9 @@ public class ConverterActivity extends AppCompatActivity
 
 
         } catch (Exception e) {
-            setupConverter(DEFAULT_CONVERTER_ID);
+            e.printStackTrace();
+            if (DEFAULT_CONVERTER_ID != converterID) setupConverter(DEFAULT_CONVERTER_ID);
+            else finish();
         }
     }
 
