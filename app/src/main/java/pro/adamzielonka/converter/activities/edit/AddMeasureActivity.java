@@ -137,7 +137,18 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
             intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
             startActivity(intent);
             finish();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+            startActivity(intent);
+            finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void addConverterFromFile(Uri uri) {

@@ -18,7 +18,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
+import pro.adamzielonka.converter.activities.SplashActivity;
 
 /**
  * Service to handle uploading files to Firebase Storage.
@@ -162,7 +162,7 @@ public class MyUploadService extends MyBaseTaskService {
         dismissProgressNotification();
 
         // Make Intent to EditMeasureActivity
-        Intent intent = new Intent(this, EditMeasureActivity.class)
+        Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_URL, downloadUrl)
                 .putExtra(EXTRA_FILE_URI, fileUri)
                 .putExtra("measureFileName", concreteFileName)

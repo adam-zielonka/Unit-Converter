@@ -41,8 +41,8 @@ public class  MainActivity extends BaseActivity {
             };
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_recent),
-                    getString(R.string.heading_my_posts),
-                    getString(R.string.heading_my_top_posts)
+                    getString(R.string.heading_my_measure),
+                    getString(R.string.heading_my_top_measure)
             };
             @Override
             public Fragment getItem(int position) {
@@ -62,9 +62,6 @@ public class  MainActivity extends BaseActivity {
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        // Button launches NewPostActivity
-        findViewById(R.id.fab_new_post).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NewPostActivity.class)));
     }
 
     @Override

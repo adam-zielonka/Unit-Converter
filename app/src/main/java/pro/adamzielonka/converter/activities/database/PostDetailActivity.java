@@ -1,11 +1,19 @@
 package pro.adamzielonka.converter.activities.database;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,8 +30,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.storage.MyDownloadService;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.models.database.Comment;
 import pro.adamzielonka.converter.models.database.User;
@@ -48,10 +58,44 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private Button mCommentButton;
     private RecyclerView mCommentsRecycler;
 
+    private CloudMeasure cloudMeasure;
+    private BroadcastReceiver mBroadcastReceiver;
+    private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive:" + intent);
+                hideProgressDialog();
+
+                switch (intent.getAction()) {
+                    case MyDownloadService.DOWNLOAD_COMPLETED:
+                        // Get number of bytes downloaded
+                        long numBytes = intent.getLongExtra(MyDownloadService.EXTRA_BYTES_DOWNLOADED, 0);
+
+                        // Alert success
+                        showMessageDialog(getString(R.string.success), String.format(Locale.getDefault(),
+                                "%d bytes downloaded from %s",
+                                numBytes,
+                                intent.getStringExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH)));
+                        break;
+                    case MyDownloadService.DOWNLOAD_ERROR:
+                        // Alert failure
+                        showMessageDialog("Error", String.format(Locale.getDefault(),
+                                "Failed to download from %s",
+                                intent.getStringExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH)));
+                        break;
+                }
+            }
+        };
 
         // Get post key from intent
         mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
@@ -89,7 +133,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get CloudMeasure object and use the values to update the UI
-                CloudMeasure cloudMeasure = dataSnapshot.getValue(CloudMeasure.class);
+                cloudMeasure = dataSnapshot.getValue(CloudMeasure.class);
                 // [START_EXCLUDE]
                 mAuthorView.setText(cloudMeasure.author);
                 mTitleView.setText(cloudMeasure.title);
@@ -117,6 +161,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         // Listen for comments
         mAdapter = new CommentAdapter(this, mCommentsReference);
         mCommentsRecycler.setAdapter(mAdapter);
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.registerReceiver(mBroadcastReceiver, MyDownloadService.getIntentFilter());
     }
 
     @Override
@@ -130,6 +177,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Clean up comments listener
         mAdapter.cleanupListener();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -309,5 +358,60 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             }
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_download, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == R.id.action_download) {
+            beginDownload();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void beginDownload() {
+        // Get path
+        String path = "users/" + cloudMeasure.uid + "/" + cloudMeasure.file;
+
+        // Kick off MyDownloadService to download the file
+        Intent intent = new Intent(this, MyDownloadService.class)
+                .putExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH, path)
+                .setAction(MyDownloadService.ACTION_DOWNLOAD);
+        startService(intent);
+
+        // Show loading spinner
+        showProgressDialog(getString(R.string.progress_downloading));
+    }
+
+    private void showProgressDialog(String caption) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.setMessage(caption);
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void showMessageDialog(String title, String message) {
+        AlertDialog ad = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .create();
+        ad.show();
     }
 }

@@ -124,8 +124,8 @@
     <string name="title_sign_in">Welcome</string>
     <string name="sign_up">Sign Up</string>
     <string name="heading_recent">Recent</string>
-    <string name="heading_my_posts">My Posts</string>
-    <string name="heading_my_top_posts">My Top Posts</string>
+    <string name="heading_my_measure">My Measures</string>
+    <string name="heading_my_top_measure">My Top Measures</string>
     <!-- -->
 
     <!-- -->
@@ -229,6 +229,7 @@
     <string name="download_failure">Download failure</string>
     <string name="storage">Storage</string>
     <string name="msg_error_upload">Error upload</string>
+    <string name="menu_download">Download measure</string>
     <!-- -->
 
 </resources>

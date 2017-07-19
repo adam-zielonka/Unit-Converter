@@ -369,4 +369,13 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Unregister download receiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+
 }

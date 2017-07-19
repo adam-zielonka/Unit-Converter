@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Google Inc. All Rights Reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,22 +18,30 @@ package pro.adamzielonka.converter.activities.storage;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StreamDownloadTask;
+import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.SplashActivity;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.user.Measure;
+
+import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.getGson;
+import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
+import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
 /**
  * Service to handle downloading files from Firebase Storage.
@@ -42,16 +50,21 @@ public class MyDownloadService extends MyBaseTaskService {
 
     private static final String TAG = "Storage#DownloadService";
 
-    /** Actions **/
+    /**
+     * Actions
+     **/
     public static final String ACTION_DOWNLOAD = "action_download";
     public static final String DOWNLOAD_COMPLETED = "download_completed";
     public static final String DOWNLOAD_ERROR = "download_error";
 
-    /** Extras **/
+    /**
+     * Extras
+     **/
     public static final String EXTRA_DOWNLOAD_PATH = "extra_download_path";
     public static final String EXTRA_BYTES_DOWNLOADED = "extra_bytes_downloaded";
 
     private StorageReference mStorageRef;
+    private String concreteFileName;
 
     @Override
     public void onCreate() {
@@ -87,44 +100,41 @@ public class MyDownloadService extends MyBaseTaskService {
         taskStarted();
         showProgressNotification(getString(R.string.progress_downloading), 0, 0);
 
-        // Download and get total bytes
-        mStorageRef.child(downloadPath).getStream(
-                new StreamDownloadTask.StreamProcessor() {
-                    @Override
-                    public void doInBackground(StreamDownloadTask.TaskSnapshot taskSnapshot,
-                                               InputStream inputStream) throws IOException {
-                        long totalBytes = taskSnapshot.getTotalByteCount();
-                        long bytesDownloaded = 0;
+        try {
+            File localFile = File.createTempFile("cloud_measure", "json");
 
-                        byte[] buffer = new byte[1024];
-                        int size;
-
-                        while ((size = inputStream.read(buffer)) != -1) {
-                            bytesDownloaded += size;
-                            showProgressNotification(getString(R.string.progress_downloading),
-                                    bytesDownloaded, totalBytes);
-                        }
-
-                        // Close the stream at the end of the Task
-                        inputStream.close();
-                    }
-                })
-                .addOnSuccessListener(new OnSuccessListener<StreamDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(StreamDownloadTask.TaskSnapshot taskSnapshot) {
+            // Download and get total bytes
+            mStorageRef.child(downloadPath).getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
                         Log.d(TAG, "download:SUCCESS");
 
                         // Send success broadcast with number of bytes downloaded
                         broadcastDownloadFinished(downloadPath, taskSnapshot.getTotalByteCount());
                         showDownloadFinishedNotification(downloadPath, (int) taskSnapshot.getTotalByteCount());
 
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, Uri.parse(localFile.toURI().toString()))));
+
+                            Gson gson = getGson();
+                            Measure userMeasure = gson.fromJson(reader, Measure.class);
+                            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
+
+                            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
+                            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+
+                            concreteMeasure.setConcreteFileName(concreteFileName);
+                            concreteMeasure.setUserFileName(userFileName);
+
+                            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
+                            saveToInternal(this, userFileName, gson.toJson(userMeasure));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         // Mark task completed
                         taskCompleted();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
+                    })
+                    .addOnFailureListener(exception -> {
                         Log.w(TAG, "download:FAILURE", exception);
 
                         // Send failure broadcast
@@ -133,12 +143,16 @@ public class MyDownloadService extends MyBaseTaskService {
 
                         // Mark task completed
                         taskCompleted();
-                    }
-                });
+                    }).addOnProgressListener(taskSnapshot -> showProgressNotification(getString(R.string.progress_downloading), taskSnapshot.getBytesTransferred(), taskSnapshot.getTotalByteCount()));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Broadcast finished download (success or failure).
+     *
      * @return true if a running receiver received the broadcast.
      */
     private boolean broadcastDownloadFinished(String downloadPath, long bytesDownloaded) {
@@ -160,9 +174,10 @@ public class MyDownloadService extends MyBaseTaskService {
         dismissProgressNotification();
 
         // Make Intent to StorageActivity
-        Intent intent = new Intent(this, StorageActivity.class)
+        Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_PATH, downloadPath)
                 .putExtra(EXTRA_BYTES_DOWNLOADED, bytesDownloaded)
+                .putExtra("measureFileName", concreteFileName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         boolean success = bytesDownloaded != -1;
