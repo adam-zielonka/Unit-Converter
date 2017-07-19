@@ -18,9 +18,4 @@
     <color name="colorGreyPrimary">#9e9e9e</color>
     <color name="colorGreyPrimaryDark">#616161</color>
     <color name="colorGreyAccent">#757575</color>
-
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#727272</color>
-    <color name="icons">#212121</color>
-    <color name="divider">#B6B6B6</color>
 </resources>
