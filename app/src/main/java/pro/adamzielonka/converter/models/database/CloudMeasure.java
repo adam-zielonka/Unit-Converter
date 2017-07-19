@@ -13,6 +13,7 @@ public class CloudMeasure {
     public String uid;
     public String author;
     public String title;
+    public String file;
     public Integer version;
     public String units_symbols;
     public String units_names;
@@ -39,6 +40,7 @@ public class CloudMeasure {
         result.put("uid", uid);
         result.put("author", author);
         result.put("title", title);
+        result.put("file", file);
         result.put("version", version);
         result.put("units_symbols", units_symbols);
         result.put("units_names", units_names);

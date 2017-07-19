@@ -13,10 +13,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
 
 /**
  * Service to handle uploading files to Firebase Storage.
@@ -25,17 +27,24 @@ public class MyUploadService extends MyBaseTaskService {
 
     private static final String TAG = "MyUploadService";
 
-    /** Intent Actions **/
+    /**
+     * Intent Actions
+     **/
     public static final String ACTION_UPLOAD = "action_upload";
     public static final String UPLOAD_COMPLETED = "upload_completed";
     public static final String UPLOAD_ERROR = "upload_error";
 
-    /** Intent Extras **/
+    /**
+     * Intent Extras
+     **/
     public static final String EXTRA_FILE_URI = "extra_file_uri";
+    public static final String EXTRA_FILE_USER = "extra_file_user";
+    public static final String EXTRA_FILE_CONCRETE = "extra_file_concrete";
     public static final String EXTRA_DOWNLOAD_URL = "extra_download_url";
 
     // [START declare_ref]
     private StorageReference mStorageRef;
+    private String concreteFileName;
     // [END declare_ref]
 
     @Override
@@ -58,14 +67,16 @@ public class MyUploadService extends MyBaseTaskService {
         Log.d(TAG, "onStartCommand:" + intent + ":" + startId);
         if (ACTION_UPLOAD.equals(intent.getAction())) {
             Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
-            uploadFromUri(fileUri);
+            String fileUser = intent.getStringExtra(EXTRA_FILE_USER);
+            concreteFileName = intent.getStringExtra(EXTRA_FILE_CONCRETE);
+            uploadFromUri(fileUri, fileUser);
         }
 
         return START_REDELIVER_INTENT;
     }
 
     // [START upload_from_uri]
-    private void uploadFromUri(final Uri fileUri) {
+    private void uploadFromUri(final Uri fileUri, final String fileUser) {
         Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
 
         // [START_EXCLUDE]
@@ -75,13 +86,17 @@ public class MyUploadService extends MyBaseTaskService {
 
         // [START get_child_ref]
         // Get a reference to store file at photos/<FILENAME>.jpg
-        final StorageReference photoRef = mStorageRef.child("photos")
+        final StorageReference photoRef = mStorageRef.child("users").child(fileUser)
                 .child(fileUri.getLastPathSegment());
         // [END get_child_ref]
 
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("application/json")
+                .build();
+
         // Upload file to Firebase Storage
         Log.d(TAG, "uploadFromUri:dst:" + photoRef.getPath());
-        photoRef.putFile(fileUri).
+        photoRef.putFile(fileUri, metadata).
                 addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
@@ -124,6 +139,7 @@ public class MyUploadService extends MyBaseTaskService {
 
     /**
      * Broadcast finished upload (success or failure).
+     *
      * @return true if a running receiver received the broadcast.
      */
     private boolean broadcastUploadFinished(@Nullable Uri downloadUrl, @Nullable Uri fileUri) {
@@ -145,10 +161,11 @@ public class MyUploadService extends MyBaseTaskService {
         // Hide the progress notification
         dismissProgressNotification();
 
-        // Make Intent to StorageActivity
-        Intent intent = new Intent(this, StorageActivity.class)
+        // Make Intent to EditMeasureActivity
+        Intent intent = new Intent(this, EditMeasureActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_URL, downloadUrl)
                 .putExtra(EXTRA_FILE_URI, fileUri)
+                .putExtra("measureFileName", concreteFileName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         boolean success = downloadUrl != null;

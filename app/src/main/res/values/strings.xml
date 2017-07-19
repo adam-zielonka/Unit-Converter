@@ -228,6 +228,7 @@
     <string name="download_success">Download finished</string>
     <string name="download_failure">Download failure</string>
     <string name="storage">Storage</string>
+    <string name="msg_error_upload">Error upload</string>
     <!-- -->
 
 </resources>

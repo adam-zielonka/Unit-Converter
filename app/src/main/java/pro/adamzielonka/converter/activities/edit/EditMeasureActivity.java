@@ -1,9 +1,14 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -34,6 +40,7 @@ import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.activities.storage.MyUploadService;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
@@ -62,10 +69,28 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private DatabaseReference mDatabase;
     private static final String TAG = "EditMeasureActivity";
+    private ProgressDialog mProgressDialog;
+    private BroadcastReceiver mBroadcastReceiver;
 
     @Override
     public void onLoad() throws FileNotFoundException {
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive:" + intent);
+                hideProgressDialog();
+
+                switch (intent.getAction()) {
+                    case MyUploadService.UPLOAD_COMPLETED:
+                        showSuccess(EditMeasureActivity.this, R.string.msg_succes_upload);
+                        break;
+                    case MyUploadService.UPLOAD_ERROR:
+                        showError(EditMeasureActivity.this, R.string.msg_error_upload);
+                        break;
+                }
+            }
+        };
         super.onLoad();
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
         listView.setAdapter(unitsAdapter);
@@ -290,6 +315,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     }
 
     private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
+        cloudMeasure.file = concreteMeasure.getUserFileName();
         Map<String, Object> postValues = cloudMeasure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -299,7 +325,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         mDatabase.updateChildren(childUpdates);
         userMeasure.setCloudID(key);
         onSave(false);
-        showSuccess(EditMeasureActivity.this, R.string.msg_succes_upload);
+        File file = new File(getFilesDir() + "/" + concreteMeasure.getUserFileName());
+        uploadFromUri(Uri.parse(file.toURI().toString()));
     }
 
     public String getUid() {
@@ -308,5 +335,38 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private void uploadFromUri(Uri fileUri) {
+        startService(new Intent(this, MyUploadService.class)
+                .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)
+                .putExtra(MyUploadService.EXTRA_FILE_USER, getUid())
+                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, concreteMeasure.getConcreteFileName())
+                .setAction(MyUploadService.ACTION_UPLOAD));
+
+        showProgressDialog(getString(R.string.progress_uploading));
+    }
+
+    private void showProgressDialog(String caption) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.setMessage(caption);
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
     }
 }
