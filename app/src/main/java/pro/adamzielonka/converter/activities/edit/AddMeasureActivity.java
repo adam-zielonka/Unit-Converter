@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.activities.database.GoogleSignInActivity;
 import pro.adamzielonka.converter.activities.database.SignInActivity;
 import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.units.user.Measure;
@@ -41,6 +42,7 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     private View addFromFileView;
     private View getFileView;
     private View addFromCloudView;
+    private View logInView;
 
     @Override
     public void onLoad() throws FileNotFoundException {
@@ -55,6 +57,7 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
         addFromFileView = listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
         getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
         addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
+        logInView = listView.addHeaderItem(getString(R.string.login_label));
     }
 
     @Override
@@ -90,6 +93,10 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
         } else if (view.equals(addFromCloudView)) {
             Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+            startActivity(intent);
+
+        } else if (view.equals(logInView)) {
+            Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
             startActivity(intent);
 
         }
