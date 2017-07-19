@@ -86,6 +86,16 @@
         <activity android:name=".activities.database.SignInActivity" />
         <activity android:name=".activities.database.PostDetailActivity" />
         <activity android:name=".activities.database.GoogleSignInActivity" />
+        <activity
+            android:name=".activities.storage.StorageActivity"
+            android:launchMode="singleTask" />
+
+        <service
+            android:name=".activities.storage.MyDownloadService"
+            android:exported="false" />
+        <service
+            android:name=".activities.storage.MyUploadService"
+            android:exported="false" />
     </application>
 
 </manifest>

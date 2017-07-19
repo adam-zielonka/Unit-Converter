@@ -112,7 +112,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
 
-        // Go to MainActivity
+        // Go to StorageActivity
         startActivity(new Intent(SignInActivity.this, MainActivity.class));
         finish();
     }
