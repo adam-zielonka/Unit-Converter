@@ -25,7 +25,7 @@ import java.util.List;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.database.models.Comment;
-import pro.adamzielonka.converter.activities.database.models.Post;
+import pro.adamzielonka.converter.activities.database.models.Measure;
 import pro.adamzielonka.converter.activities.database.models.User;
 
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
@@ -42,6 +42,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
     private TextView mAuthorView;
     private TextView mTitleView;
+    private TextView mVersionView;
     private TextView mBodyView;
     private EditText mCommentField;
     private Button mCommentButton;
@@ -60,13 +61,14 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Initialize Database
         mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("posts").child(mPostKey);
+                .child("measures").child(mPostKey);
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(mPostKey);
 
         // Initialize Views
         mAuthorView = findViewById(R.id.post_author);
         mTitleView = findViewById(R.id.post_title);
+        mVersionView = findViewById(R.id.post_version);
         mBodyView = findViewById(R.id.post_body);
         mCommentField = findViewById(R.id.field_comment_text);
         mCommentButton = findViewById(R.id.button_post_comment);
@@ -86,18 +88,19 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                Post post = dataSnapshot.getValue(Post.class);
+                // Get Measure object and use the values to update the UI
+                Measure measure = dataSnapshot.getValue(Measure.class);
                 // [START_EXCLUDE]
-                mAuthorView.setText(post.author);
-                mTitleView.setText(post.title);
-                mBodyView.setText(post.body);
+                mAuthorView.setText(measure.author);
+                mTitleView.setText(measure.title);
+                mVersionView.setText(String.format("  v.%s", measure.version));
+                mBodyView.setText(measure.units_symbols);
                 // [END_EXCLUDE]
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                // Getting Measure failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
                 Toast.makeText(PostDetailActivity.this, "Failed to load post.",

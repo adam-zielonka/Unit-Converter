@@ -13,11 +13,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.database.models.Post;
+import pro.adamzielonka.converter.activities.database.models.Measure;
 import pro.adamzielonka.converter.activities.database.models.User;
 
 public class NewPostActivity extends BaseActivity {
@@ -119,15 +120,15 @@ public class NewPostActivity extends BaseActivity {
 
     // [START write_fan_out]
     private void writeNewPost(String userId, String username, String title, String body) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
-        String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body);
-        Map<String, Object> postValues = post.toMap();
+        // Create new measure at /user-measures/$userid/$postid and at
+        // /measures/$postid simultaneously
+        String key = mDatabase.child("measures").push().getKey();
+        Measure measure = new Measure(userId, username, title, body, body, 1);
+        Map<String, Object> postValues = measure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+        childUpdates.put("/measures/" + key, postValues);
+        childUpdates.put("/user-measures/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
     }

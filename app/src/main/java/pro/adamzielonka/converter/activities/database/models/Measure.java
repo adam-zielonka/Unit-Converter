@@ -8,24 +8,28 @@ import java.util.Map;
 
 // [START post_class]
 @IgnoreExtraProperties
-public class Post {
+public class Measure {
 
     public String uid;
     public String author;
     public String title;
-    public String body;
+    public Integer version;
+    public String units_symbols;
+    public String units_names;
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public Post() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    public Measure() {
+        // Default constructor required for calls to DataSnapshot.getValue(Measure.class)
     }
 
-    public Post(String uid, String author, String title, String body) {
+    public Measure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
         this.uid = uid;
         this.author = author;
         this.title = title;
-        this.body = body;
+        this.units_symbols = units_symbols;
+        this.units_names = units_names;
+        this.version = version;
     }
 
     // [START post_to_map]
@@ -35,7 +39,9 @@ public class Post {
         result.put("uid", uid);
         result.put("author", author);
         result.put("title", title);
-        result.put("body", body);
+        result.put("version", version);
+        result.put("units_symbols", units_symbols);
+        result.put("units_names", units_names);
         result.put("starCount", starCount);
         result.put("stars", stars);
 
