@@ -19,7 +19,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 
 import static android.content.Context.MODE_PRIVATE;
 

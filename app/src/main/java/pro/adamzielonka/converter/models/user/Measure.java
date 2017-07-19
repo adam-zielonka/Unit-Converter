@@ -1,11 +1,11 @@
-package pro.adamzielonka.converter.units.user;
+package pro.adamzielonka.converter.models.user;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
 @SuppressWarnings({"FieldCanBeLocal", "MismatchedQueryAndUpdateOfCollection"})
 public class Measure {
@@ -14,6 +14,7 @@ public class Measure {
     }
 
     private String name = "";
+    private String cloudID = "";
     private Integer displayFrom = 0;
     private Integer displayTo = 1;
 
@@ -119,5 +120,13 @@ public class Measure {
 
     public void setDisplayTo(Integer displayTo) {
         this.displayTo = displayTo;
+    }
+
+    public String getCloudID() {
+        return cloudID;
+    }
+
+    public void setCloudID(String cloudID) {
+        this.cloudID = cloudID;
     }
 }

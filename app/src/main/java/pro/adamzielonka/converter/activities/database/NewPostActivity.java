@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.database.models.Measure;
-import pro.adamzielonka.converter.activities.database.models.User;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
+import pro.adamzielonka.converter.models.database.User;
 
 public class NewPostActivity extends BaseActivity {
 
@@ -120,11 +120,11 @@ public class NewPostActivity extends BaseActivity {
 
     // [START write_fan_out]
     private void writeNewPost(String userId, String username, String title, String body) {
-        // Create new measure at /user-measures/$userid/$postid and at
+        // Create new cloudMeasure at /user-measures/$userid/$postid and at
         // /measures/$postid simultaneously
         String key = mDatabase.child("measures").push().getKey();
-        Measure measure = new Measure(userId, username, title, body, body, 1);
-        Map<String, Object> postValues = measure.toMap();
+        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+        Map<String, Object> postValues = cloudMeasure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/measures/" + key, postValues);

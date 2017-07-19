@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
 public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
 

@@ -11,8 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
+import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.models.user.Unit;
 
 public class UnitsAdapter extends ArrayAdapter<Unit> {
 

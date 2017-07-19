@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities.database.models;
+package pro.adamzielonka.converter.models.database;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

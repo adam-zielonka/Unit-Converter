@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.database.models.Comment;
-import pro.adamzielonka.converter.activities.database.models.Measure;
-import pro.adamzielonka.converter.activities.database.models.User;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
+import pro.adamzielonka.converter.models.database.Comment;
+import pro.adamzielonka.converter.models.database.User;
 
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -88,19 +88,19 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Measure object and use the values to update the UI
-                Measure measure = dataSnapshot.getValue(Measure.class);
+                // Get CloudMeasure object and use the values to update the UI
+                CloudMeasure cloudMeasure = dataSnapshot.getValue(CloudMeasure.class);
                 // [START_EXCLUDE]
-                mAuthorView.setText(measure.author);
-                mTitleView.setText(measure.title);
-                mVersionView.setText(String.format("  v.%s", measure.version));
-                mBodyView.setText(measure.units_symbols);
+                mAuthorView.setText(cloudMeasure.author);
+                mTitleView.setText(cloudMeasure.title);
+                mVersionView.setText(String.format("  v.%s", cloudMeasure.version));
+                mBodyView.setText(cloudMeasure.units_symbols);
                 // [END_EXCLUDE]
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Measure failed, log a message
+                // Getting CloudMeasure failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
                 Toast.makeText(PostDetailActivity.this, "Failed to load post.",

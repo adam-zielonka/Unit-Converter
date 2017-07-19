@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.units.user;
+package pro.adamzielonka.converter.models.user;
 
 @SuppressWarnings({"FieldCanBeLocal"})
 public class Prefix {

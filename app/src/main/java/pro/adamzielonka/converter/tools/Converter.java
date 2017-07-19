@@ -1,6 +1,6 @@
 package pro.adamzielonka.converter.tools;
 
-import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 

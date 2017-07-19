@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
-import pro.adamzielonka.converter.units.concrete.ConcreteUnit;
-import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
+import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.models.user.Unit;
 
 public class EditOrderUnitsActivity extends EditActivity {
 

@@ -5,13 +5,22 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -20,13 +29,17 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
-import pro.adamzielonka.converter.units.user.Measure;
-import pro.adamzielonka.converter.units.user.Unit;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
+import pro.adamzielonka.converter.models.database.User;
+import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
@@ -47,8 +60,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private View editDefaultDisplay2;
     private View addUnit;
 
+    private DatabaseReference mDatabase;
+    private static final String TAG = "EditMeasureActivity";
+
     @Override
     public void onLoad() throws FileNotFoundException {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         super.onLoad();
         unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
         listView.setAdapter(unitsAdapter);
@@ -168,6 +185,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 ActivityCompat.requestPermissions(this,
                         getReadAndWritePermissionsStorage(), REQUEST_SAVE_TO_DOWNLOAD);
                 return true;
+            case R.id.menu_upload_converter:
+                submitMeasure();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -199,6 +219,94 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         } catch (Exception e) {
             e.printStackTrace();
             showError(this, R.string.error_create_file);
+        }
+    }
+
+    private void submitMeasure() {
+        String userId = getUid();
+        if (userId == null) return;
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+
+                        if (user == null) {
+                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+                            Toast.makeText(EditMeasureActivity.this,
+                                    "Error: could not fetch user.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            updateMeasure(userId, user.username, userMeasure.getName(), concreteMeasure.getUnitsOrder());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                    }
+                });
+    }
+
+    private void updateMeasure(String userId, String username, String title, String body) {
+        if (userMeasure.getCloudID().equals("")) {
+            String key = mDatabase.child("measures").push().getKey();
+            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+            doUpdateMeasure(key, cloudMeasure);
+        } else {
+            Query query = mDatabase.child("measures");
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.hasChild(userMeasure.getCloudID())) {
+                        CloudMeasure cloudMeasure = snapshot.child(userMeasure.getCloudID()).getValue(CloudMeasure.class);
+                        if (cloudMeasure.uid.equals(getUid())) {
+                            cloudMeasure.version++;
+                            cloudMeasure.title = title;
+                            cloudMeasure.units_symbols = body;
+                            cloudMeasure.units_names = body;
+                            doUpdateMeasure(userMeasure.getCloudID(), cloudMeasure);
+                        } else {
+                            String key = mDatabase.child("measures").push().getKey();
+                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                            doUpdateMeasure(key, cloudMeasure);
+                        }
+                    } else {
+                        String key = mDatabase.child("measures").push().getKey();
+                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                        doUpdateMeasure(key, cloudMeasure);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+    }
+
+    private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
+        Map<String, Object> postValues = cloudMeasure.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/measures/" + key, postValues);
+        childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+        userMeasure.setCloudID(key);
+        onSave(false);
+        showSuccess(EditMeasureActivity.this, R.string.msg_succes_upload);
+    }
+
+    public String getUid() {
+        try {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } catch (Exception e) {
+            return null;
         }
     }
 }

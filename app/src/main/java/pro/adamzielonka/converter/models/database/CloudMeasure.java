@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities.database.models;
+package pro.adamzielonka.converter.models.database;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 // [START post_class]
 @IgnoreExtraProperties
-public class Measure {
+public class CloudMeasure {
 
     public String uid;
     public String author;
@@ -19,11 +19,11 @@ public class Measure {
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public Measure() {
-        // Default constructor required for calls to DataSnapshot.getValue(Measure.class)
+    public CloudMeasure() {
+        // Default constructor required for calls to DataSnapshot.getValue(CloudMeasure.class)
     }
 
-    public Measure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
+    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
         this.uid = uid;
         this.author = author;
         this.title = title;

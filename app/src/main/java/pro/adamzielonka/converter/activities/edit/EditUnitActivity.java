@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
-import pro.adamzielonka.converter.units.user.Prefix;
+import pro.adamzielonka.converter.models.user.Prefix;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;

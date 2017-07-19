@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.units.concrete;
+package pro.adamzielonka.converter.models.concrete;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.database.models.User;
+import pro.adamzielonka.converter.models.database.User;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 

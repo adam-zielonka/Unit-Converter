@@ -23,8 +23,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.database.GoogleSignInActivity;
 import pro.adamzielonka.converter.activities.database.SignInActivity;
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.user.Measure;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.user.Measure;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;

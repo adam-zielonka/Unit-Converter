@@ -26,10 +26,10 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.tools.Theme;
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.user.Measure;
-import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.models.user.Unit;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;

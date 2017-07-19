@@ -17,8 +17,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.units.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.units.user.Measure;
+import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.user.Measure;
 
 import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;

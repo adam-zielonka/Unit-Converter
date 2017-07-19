@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.units.user.Prefix;
-import pro.adamzielonka.converter.units.user.Unit;
+import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.models.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 

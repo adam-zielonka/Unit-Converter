@@ -202,6 +202,8 @@
 
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
+    <string name="upload_converter">Upload to cloud</string>
+    <string name="msg_succes_upload">Upload succes</string>
     <!-- -->
 
 </resources>
