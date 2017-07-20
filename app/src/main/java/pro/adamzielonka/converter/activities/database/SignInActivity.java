@@ -112,8 +112,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
 
-        // Go to StorageActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        startActivity(new Intent(SignInActivity.this, CloudActivity.class));
         finish();
     }
 

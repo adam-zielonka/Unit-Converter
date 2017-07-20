@@ -79,15 +79,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
-            android:name=".activities.database.MainActivity"
+            android:name=".activities.database.CloudActivity"
             android:label="@string/app_name"
             android:theme="@style/BlueTheme" />
         <activity android:name=".activities.database.SignInActivity" />
         <activity android:name=".activities.database.PostDetailActivity" />
         <activity android:name=".activities.database.GoogleSignInActivity" />
-        <activity
-            android:name=".activities.storage.StorageActivity"
-            android:launchMode="singleTask" />
 
         <service
             android:name=".activities.storage.MyDownloadService"

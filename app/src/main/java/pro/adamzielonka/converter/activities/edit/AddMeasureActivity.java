@@ -21,9 +21,8 @@ import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.activities.database.GoogleSignInActivity;
-import pro.adamzielonka.converter.activities.database.SignInActivity;
-import pro.adamzielonka.converter.activities.storage.StorageActivity;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
@@ -44,7 +43,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
     private View getFileView;
     private View addFromCloudView;
     private View logInView;
-    private View storageView;
 
     @Override
     public void onLoad() throws FileNotFoundException {
@@ -60,7 +58,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
         getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
         addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
         logInView = listView.addHeaderItem(getString(R.string.login_label));
-        storageView = listView.addHeaderItem(getString(R.string.storage));
     }
 
     @Override
@@ -95,15 +92,11 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
             startActivity(browserIntent);
 
         } else if (view.equals(addFromCloudView)) {
-            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CloudActivity.class);
             startActivity(intent);
 
         } else if (view.equals(logInView)) {
             Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
-            startActivity(intent);
-
-        } else if (view.equals(storageView)) {
-            Intent intent = new Intent(getApplicationContext(), StorageActivity.class);
             startActivity(intent);
 
         }

@@ -37,11 +37,12 @@ public abstract class PostListFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
-    public PostListFragment() {}
+    public PostListFragment() {
+    }
 
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
 
@@ -67,41 +68,52 @@ public abstract class PostListFragment extends Fragment {
 
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase);
-        mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder>(CloudMeasure.class, R.layout.item_post,
-                PostViewHolder.class, postsQuery) {
-            @Override
-            protected void populateViewHolder(final PostViewHolder viewHolder, final CloudMeasure model, final int position) {
-                final DatabaseReference postRef = getRef(position);
+        if (postsQuery != null) {
+            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder>(CloudMeasure.class, R.layout.item_post,
+                    PostViewHolder.class, postsQuery) {
+                @Override
+                protected void populateViewHolder(final PostViewHolder viewHolder, final CloudMeasure model, final int position) {
+                    final DatabaseReference postRef = getRef(position);
 
-                // Set click listener for the whole post view
-                final String postKey = postRef.getKey();
-                viewHolder.itemView.setOnClickListener(v -> {
-                    // Launch PostDetailActivity
-                    Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-                    intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                    startActivity(intent);
-                });
+                    // Set click listener for the whole post view
+                    final String postKey = postRef.getKey();
+                    viewHolder.itemView.setOnClickListener(v -> {
+                        // Launch PostDetailActivity
+                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
+                        startActivity(intent);
+                    });
+                    if (getUid() != null) {
+                        // Determine if the current user has liked this post and set UI accordingly
+                        if (model.stars.containsKey(getUid())) {
+                            viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
+                        } else {
+                            viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                        }
 
-                // Determine if the current user has liked this post and set UI accordingly
-                if (model.stars.containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                        // Bind CloudMeasure to ViewHolder, setting OnClickListener for the star button
+
+                        viewHolder.bindToPost(model, starView -> {
+                            // Need to write to both places the post is stored
+                            DatabaseReference globalPostRef = mDatabase.child("measures").child(postRef.getKey());
+                            DatabaseReference userPostRef = mDatabase.child("user-measures").child(model.uid).child(postRef.getKey());
+
+                            // Run two transactions
+                            onStarClicked(globalPostRef);
+                            onStarClicked(userPostRef);
+                        });
+                    } else {
+                        viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                        viewHolder.bindToPost(model, starView -> {
+                            // Need to write to both places the post is stored
+                            DatabaseReference globalPostRef = mDatabase.child("measures").child(postRef.getKey());
+                            DatabaseReference userPostRef = mDatabase.child("user-measures").child(model.uid).child(postRef.getKey());
+                        });
+                    }
                 }
-
-                // Bind CloudMeasure to ViewHolder, setting OnClickListener for the star button
-                viewHolder.bindToPost(model, starView -> {
-                    // Need to write to both places the post is stored
-                    DatabaseReference globalPostRef = mDatabase.child("measures").child(postRef.getKey());
-                    DatabaseReference userPostRef = mDatabase.child("user-measures").child(model.uid).child(postRef.getKey());
-
-                    // Run two transactions
-                    onStarClicked(globalPostRef);
-                    onStarClicked(userPostRef);
-                });
-            }
-        };
-        mRecycler.setAdapter(mAdapter);
+            };
+            mRecycler.setAdapter(mAdapter);
+        }
     }
 
     // [START post_stars_transaction]
@@ -148,7 +160,11 @@ public abstract class PostListFragment extends Fragment {
     }
 
     public String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        try {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);

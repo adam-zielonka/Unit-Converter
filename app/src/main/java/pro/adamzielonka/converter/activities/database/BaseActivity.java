@@ -41,7 +41,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        try {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

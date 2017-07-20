@@ -10,6 +10,7 @@ public class MyPostsFragment extends PostListFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         // All my posts
+        if(getUid() == null) return null;
         return databaseReference.child("user-measures")
                 .child(getUid());
     }

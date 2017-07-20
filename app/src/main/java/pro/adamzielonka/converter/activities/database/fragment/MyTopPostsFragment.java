@@ -11,6 +11,7 @@ public class MyTopPostsFragment extends PostListFragment {
     public Query getQuery(DatabaseReference databaseReference) {
         // [START my_top_posts_query]
         // My top posts by number of stars
+        if(getUid() == null) return null;
         String myUserId = getUid();
         Query myTopPostsQuery = databaseReference.child("user-measures").child(myUserId)
                 .orderByChild("starCount");

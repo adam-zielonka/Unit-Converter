@@ -17,9 +17,7 @@ import pro.adamzielonka.converter.activities.database.fragment.MyPostsFragment;
 import pro.adamzielonka.converter.activities.database.fragment.MyTopPostsFragment;
 import pro.adamzielonka.converter.activities.database.fragment.RecentPostsFragment;
 
-public class  MainActivity extends BaseActivity {
-
-    private static final String TAG = "StorageActivity";
+public class CloudActivity extends BaseActivity {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -27,7 +25,7 @@ public class  MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_cloud);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);

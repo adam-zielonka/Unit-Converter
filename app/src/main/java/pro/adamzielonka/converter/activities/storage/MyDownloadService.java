@@ -173,7 +173,6 @@ public class MyDownloadService extends MyBaseTaskService {
         // Hide the progress notification
         dismissProgressNotification();
 
-        // Make Intent to StorageActivity
         Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_PATH, downloadPath)
                 .putExtra(EXTRA_BYTES_DOWNLOADED, bytesDownloaded)
