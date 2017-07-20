@@ -21,8 +21,8 @@ import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
+import pro.adamzielonka.converter.activities.abstractes.ListActivity;
 import pro.adamzielonka.converter.activities.database.CloudActivity;
-import pro.adamzielonka.converter.activities.database.GoogleSignInActivity;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
@@ -32,21 +32,23 @@ import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
+import static pro.adamzielonka.converter.tools.FileTools.saveMeasure;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
 
-public class AddMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
+public class AddMeasureActivity extends ListActivity implements ListView.OnItemClickListener {
 
     private View addByCreateView;
     private View addFromFileView;
     private View getFileView;
     private View addFromCloudView;
-    private View logInView;
+
+    Measure userMeasure;
+    ConcreteMeasure concreteMeasure;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
-        enabledUpdate = false;
+    public void onLoad() throws Exception {
         listView = findViewById(R.id.editListView);
         listView.setActivity(this);
         listView.setEmptyAdapter();
@@ -57,7 +59,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
         addFromFileView = listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
         getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
         addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
-        logInView = listView.addHeaderItem(getString(R.string.login_label));
     }
 
     @Override
@@ -76,7 +77,12 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
                 concreteMeasure.setConcreteFileName(concreteFileName);
                 concreteMeasure.setUserFileName(userFileName);
-                onSave(false);
+                try {
+                    saveMeasure(this, concreteMeasure, userMeasure);
+                    setResultCode(RESULT_OK);
+                } catch (Exception e) {
+                    showError(this, R.string.error_could_not_save_changes);
+                }
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
                 intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
@@ -93,10 +99,6 @@ public class AddMeasureActivity extends EditActivity implements ListView.OnItemC
 
         } else if (view.equals(addFromCloudView)) {
             Intent intent = new Intent(getApplicationContext(), CloudActivity.class);
-            startActivity(intent);
-
-        } else if (view.equals(logInView)) {
-            Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
             startActivity(intent);
 
         }

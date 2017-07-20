@@ -21,7 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.database.PostDetailActivity;
+import pro.adamzielonka.converter.activities.database.MeasureDetailActivity;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.activities.database.viewholder.PostViewHolder;
 
@@ -78,9 +78,9 @@ public abstract class PostListFragment extends Fragment {
                     // Set click listener for the whole post view
                     final String postKey = postRef.getKey();
                     viewHolder.itemView.setOnClickListener(v -> {
-                        // Launch PostDetailActivity
-                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
+                        // Launch MeasureDetailActivity
+                        Intent intent = new Intent(getActivity(), MeasureDetailActivity.class);
+                        intent.putExtra(MeasureDetailActivity.EXTRA_POST_KEY, postKey);
                         startActivity(intent);
                     });
                     if (getUid() != null) {

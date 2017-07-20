@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.database;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,14 +32,15 @@ import java.util.List;
 import java.util.Locale;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.activities.storage.MyDownloadService;
+import pro.adamzielonka.converter.activities.abstractes.BaseActivity;
+import pro.adamzielonka.converter.services.MyDownloadService;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.models.database.Comment;
 import pro.adamzielonka.converter.models.database.User;
 
-public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
+public class MeasureDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "PostDetailActivity";
+    private static final String TAG = "MeasureDetailActivity";
 
     public static final String EXTRA_POST_KEY = "post_key";
 
@@ -60,7 +60,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
     private CloudMeasure cloudMeasure;
     private BroadcastReceiver mBroadcastReceiver;
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +146,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 // Getting CloudMeasure failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
-                Toast.makeText(PostDetailActivity.this, "Failed to load post.",
+                Toast.makeText(MeasureDetailActivity.this, "Failed to load post.",
                         Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }
@@ -389,22 +388,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Show loading spinner
         showProgressDialog(getString(R.string.progress_downloading));
-    }
-
-    private void showProgressDialog(String caption) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.setMessage(caption);
-        mProgressDialog.show();
-    }
-
-    public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
     }
 
     private void showMessageDialog(String title, String message) {

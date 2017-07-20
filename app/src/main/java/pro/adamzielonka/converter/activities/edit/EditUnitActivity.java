@@ -9,9 +9,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
-import java.io.FileNotFoundException;
-
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.PrefixesAdapter;
 import pro.adamzielonka.converter.models.user.Prefix;
 
@@ -31,7 +30,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     private PrefixesAdapter prefixesAdapter;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         super.onLoad();
         prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
         listView.setAdapter(prefixesAdapter);
@@ -47,7 +46,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(editSymbolView, unit.getSymbol());
         updateView(editDescriptionView, unit.getFullDescription());

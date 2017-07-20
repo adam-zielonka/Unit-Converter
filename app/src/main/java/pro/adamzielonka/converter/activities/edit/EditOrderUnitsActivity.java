@@ -2,9 +2,8 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.view.View;
 
-import java.io.FileNotFoundException;
-
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.models.user.Prefix;
@@ -15,7 +14,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     private OrderAdapter orderAdapter;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         super.onLoad();
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
         listView = findViewById(R.id.editListView);
@@ -23,7 +22,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         orderAdapter.clear();
         orderAdapter.addAll(concreteMeasure.getConcreteUnits());

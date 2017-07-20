@@ -7,9 +7,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.io.FileNotFoundException;
-
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
@@ -22,7 +21,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     private View prefixExponentView;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -34,7 +33,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(prefixNameView, prefix.getSymbol());
         updateView(prefixDescriptionView, prefix.getDescription());

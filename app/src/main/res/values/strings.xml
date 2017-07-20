@@ -230,6 +230,8 @@
     <string name="storage">Storage</string>
     <string name="msg_error_upload">Error upload</string>
     <string name="menu_download">Download measure</string>
+    <string name="menu_search">Search</string>
+    <string name="pref_header_user">User</string>
     <!-- -->
 
 </resources>

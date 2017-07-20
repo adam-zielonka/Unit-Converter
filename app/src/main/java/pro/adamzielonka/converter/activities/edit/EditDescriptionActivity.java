@@ -5,9 +5,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.io.FileNotFoundException;
-
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
 public class EditDescriptionActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -15,7 +14,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     private View unitEditPrefixView;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -26,7 +25,7 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(unitEditBaseView, unit.getDescription());
         updateView(unitEditPrefixView, unit.getDescriptionPrefix());

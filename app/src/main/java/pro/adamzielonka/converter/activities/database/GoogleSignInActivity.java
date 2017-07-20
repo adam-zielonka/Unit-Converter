@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.BaseActivity;
 
 public class GoogleSignInActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,

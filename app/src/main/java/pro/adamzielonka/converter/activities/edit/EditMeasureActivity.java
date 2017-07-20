@@ -31,7 +31,6 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -40,7 +39,8 @@ import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
-import pro.adamzielonka.converter.activities.storage.MyUploadService;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
+import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
@@ -73,7 +73,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private BroadcastReceiver mBroadcastReceiver;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -106,7 +106,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(editMeasureNameView, userMeasure.getName());
         if (userMeasure.getUnits().size() > 0) {
@@ -345,22 +345,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 .setAction(MyUploadService.ACTION_UPLOAD));
 
         showProgressDialog(getString(R.string.progress_uploading));
-    }
-
-    private void showProgressDialog(String caption) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.setMessage(caption);
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
     }
 
     @Override

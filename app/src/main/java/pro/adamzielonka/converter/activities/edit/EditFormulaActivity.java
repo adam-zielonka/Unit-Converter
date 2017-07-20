@@ -5,9 +5,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.io.FileNotFoundException;
-
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
@@ -21,7 +20,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     private View unitEditShift2View;
 
     @Override
-    public void onLoad() throws FileNotFoundException {
+    public void onLoad() throws Exception {
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -34,7 +33,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     }
 
     @Override
-    public void onUpdate() throws FileNotFoundException {
+    public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(unitFormulaView, getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
         updateView(unitEditOneView, doubleToString(unit.getOne()));

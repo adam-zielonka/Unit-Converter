@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.adamzielonka.converter.activities.storage;
+package pro.adamzielonka.converter.services;
 
 import android.content.Intent;
 import android.content.IntentFilter;

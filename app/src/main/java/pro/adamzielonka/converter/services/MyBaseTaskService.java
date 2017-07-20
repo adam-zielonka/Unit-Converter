@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.activities.storage;
+package pro.adamzielonka.converter.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

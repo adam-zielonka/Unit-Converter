@@ -29,11 +29,10 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
-import pro.adamzielonka.converter.activities.settings.SettingsActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
-import pro.adamzielonka.converter.tools.Theme;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.tools.Theme;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Common.getItself;
@@ -325,8 +324,8 @@ public class ConverterActivity extends AppCompatActivity
                     startActivity(about);
                     break;
                 case R.id.nav_settings:
-                    Intent settings = new Intent(this.getBaseContext(), SettingsActivity.class);
-                    startActivity(settings);
+                    Intent set = new Intent(this.getBaseContext(), SettingsActivity.class);
+                    startActivity(set);
                     break;
                 case R.id.nav_add_measure:
                     Intent addConverter = new Intent(this.getBaseContext(), AddMeasureActivity.class);

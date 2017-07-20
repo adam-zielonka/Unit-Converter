@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
+import pro.adamzielonka.converter.models.user.Measure;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -85,6 +86,15 @@ public class FileTools {
         }
 
         return concreteMeasureList;
+    }
+
+    public static void saveMeasure(Context context, ConcreteMeasure concreteMeasure, Measure userMeasure) throws IOException {
+        Gson gson = getGson();
+        String concreteFileName = concreteMeasure.getConcreteFileName();
+        String userFileName = concreteMeasure.getUserFileName();
+        concreteMeasure = userMeasure.getConcreteMeasure(concreteFileName, userFileName);
+        saveToInternal(context, concreteFileName, gson.toJson(concreteMeasure));
+        saveToInternal(context, userFileName, gson.toJson(userMeasure));
     }
 
 }
