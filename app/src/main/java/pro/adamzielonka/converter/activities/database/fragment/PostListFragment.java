@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,8 +23,8 @@ import com.google.firebase.database.Transaction;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.database.MeasureDetailActivity;
-import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.activities.database.viewholder.PostViewHolder;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
 
 public abstract class PostListFragment extends Fragment {
 
@@ -160,11 +161,11 @@ public abstract class PostListFragment extends Fragment {
     }
 
     public String getUid() {
-        try {
-            return FirebaseAuth.getInstance().getCurrentUser().getUid();
-        } catch (Exception e) {
-            return null;
-        }
+        return getUser() != null ? getUser().getUid() : null;
+    }
+
+    public FirebaseUser getUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);

@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,13 +39,13 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.adapters.UnitsAdapter;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Unit;
+import pro.adamzielonka.converter.services.MyUploadService;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
@@ -328,15 +327,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         File file = new File(getFilesDir() + "/" + concreteMeasure.getUserFileName());
         uploadFromUri(Uri.parse(file.toURI().toString()));
     }
-
-    public String getUid() {
-        try {
-            return FirebaseAuth.getInstance().getCurrentUser().getUid();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+    
     private void uploadFromUri(Uri fileUri) {
         startService(new Intent(this, MyUploadService.class)
                 .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)

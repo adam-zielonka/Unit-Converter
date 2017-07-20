@@ -4,18 +4,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
@@ -97,42 +92,31 @@ public class MyUploadService extends MyBaseTaskService {
         // Upload file to Firebase Storage
         Log.d(TAG, "uploadFromUri:dst:" + photoRef.getPath());
         photoRef.putFile(fileUri, metadata).
-                addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        showProgressNotification(getString(R.string.progress_uploading),
-                                taskSnapshot.getBytesTransferred(),
-                                taskSnapshot.getTotalByteCount());
-                    }
+                addOnProgressListener(taskSnapshot -> showProgressNotification(getString(R.string.progress_uploading),
+                        taskSnapshot.getBytesTransferred(),
+                        taskSnapshot.getTotalByteCount()))
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Upload succeeded
+                    Log.d(TAG, "uploadFromUri:onSuccess");
+
+                    // Get the public download URL
+                    Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+
+                    // [START_EXCLUDE]
+                    broadcastUploadFinished(downloadUri, fileUri);
+                    showUploadFinishedNotification(downloadUri, fileUri);
+                    taskCompleted();
+                    // [END_EXCLUDE]
                 })
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Upload succeeded
-                        Log.d(TAG, "uploadFromUri:onSuccess");
+                .addOnFailureListener(exception -> {
+                    // Upload failed
+                    Log.w(TAG, "uploadFromUri:onFailure", exception);
 
-                        // Get the public download URL
-                        Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-
-                        // [START_EXCLUDE]
-                        broadcastUploadFinished(downloadUri, fileUri);
-                        showUploadFinishedNotification(downloadUri, fileUri);
-                        taskCompleted();
-                        // [END_EXCLUDE]
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Upload failed
-                        Log.w(TAG, "uploadFromUri:onFailure", exception);
-
-                        // [START_EXCLUDE]
-                        broadcastUploadFinished(null, fileUri);
-                        showUploadFinishedNotification(null, fileUri);
-                        taskCompleted();
-                        // [END_EXCLUDE]
-                    }
+                    // [START_EXCLUDE]
+                    broadcastUploadFinished(null, fileUri);
+                    showUploadFinishedNotification(null, fileUri);
+                    taskCompleted();
+                    // [END_EXCLUDE]
                 });
     }
     // [END upload_from_uri]
