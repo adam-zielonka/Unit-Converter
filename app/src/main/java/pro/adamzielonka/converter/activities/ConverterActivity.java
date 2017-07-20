@@ -319,10 +319,6 @@ public class ConverterActivity extends AppCompatActivity
 
         if (id != converterID) {
             switch (id) {
-                case R.id.nav_about:
-                    Intent about = new Intent(this.getBaseContext(), AboutActivity.class);
-                    startActivity(about);
-                    break;
                 case R.id.nav_settings:
                     Intent set = new Intent(this.getBaseContext(), SettingsActivity.class);
                     startActivity(set);

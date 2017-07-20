@@ -2,6 +2,7 @@ package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -30,6 +31,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     private View themeView;
     private View logInView;
+    private View websiteView;
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mFirebaseAuth;
@@ -46,6 +48,9 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         themeView = listView.addHeaderItem(getString(R.string.pref_title_theme));
         listView.addHeaderTitle(getString(R.string.pref_header_user));
         logInView = listView.addHeaderItem(getString(R.string.sign_in));
+        listView.addHeaderTitle(getString(R.string.pref_header_about));
+        listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version), false);
+        websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
     }
 
     public void onUpdate() {
@@ -75,6 +80,9 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         } else if (view.equals(logInView)) {
             if (getUser() != null) signOut();
             else signIn();
+        } else if (view.equals(websiteView)) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/"));
+            startActivity(browserIntent);
         }
     }
 

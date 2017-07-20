@@ -35,10 +35,6 @@
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.AboutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BlueTheme" />
-        <activity
             android:name=".activities.edit.AddMeasureActivity"
             android:label="@string/title_activity_add_measure"
             android:screenOrientation="portrait"
