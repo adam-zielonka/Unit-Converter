@@ -60,12 +60,11 @@ public class Theme {
         return context.getResources().getStringArray(R.array.pref_theme_list_titles);
     }
 
-    public static String getThemeNameFromID(Context context, String themeID) {
-        String[] themesName = getThemes(context);
-        String[] themesID = context.getResources().getStringArray(R.array.pref_theme_list_values);
-        for (int i = 0; i < themesID.length; i++) {
-            if (themesID[i].equals(themeID)) return themesName[i];
+    private static String getThemeNameFromID(Context context, String themeID) {
+        String[] themes = getThemes(context);
+        for (int i = 0; i < themes.length; i++) {
+            if (i == Integer.parseInt(themeID)) return themes[i];
         }
-        return themesName[0];
+        return themes[0];
     }
 }

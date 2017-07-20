@@ -47,7 +47,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         listView.addHeaderTitle(getString(R.string.pref_header_appearance));
         themeView = listView.addHeaderItem(getString(R.string.pref_title_theme));
         listView.addHeaderTitle(getString(R.string.pref_header_user));
-        logInView = listView.addHeaderItem(getString(R.string.sign_in));
+        logInView = listView.addHeaderItem(getString(R.string.pref_title_sign_in));
         listView.addHeaderTitle(getString(R.string.pref_header_about));
         listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version), false);
         websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
@@ -56,9 +56,9 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     public void onUpdate() {
         updateView(themeView, getThemeName(this));
         if (getUser() != null) {
-            updateView(logInView, getString(R.string.sign_out), getUser().getEmail());
+            updateView(logInView, getString(R.string.pref_title_sign_out), getUser().getEmail());
         } else {
-            updateView(logInView, getString(R.string.sign_in), "");
+            updateView(logInView, getString(R.string.pref_title_sign_in), "");
         }
     }
 

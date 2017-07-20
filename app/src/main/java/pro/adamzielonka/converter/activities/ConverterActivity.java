@@ -160,7 +160,7 @@ public class ConverterActivity extends AppCompatActivity
                 setAdapter();
                 setSelection();
 
-                onClickClear(null);
+                onClear();
                 setConverterLayout();
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
@@ -280,24 +280,39 @@ public class ConverterActivity extends AppCompatActivity
         onCalculate();
     }
 
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.buttonComa:
+                onAppendComma();
+                break;
+            case R.id.buttonPlusMinus:
+                onChangeSign();
+                break;
+            case R.id.buttonClearOutput:
+                onClear();
+                break;
+            case R.id.buttonDeleteLast:
+                onClickDeleteLast();
+                break;
+        }
+    }
 
-    public void onClickComma(@SuppressWarnings("UnusedParameters") View v) {
+    public void onAppendComma() {
         textFrom.setText(appendComma(textFrom.getText().toString()));
     }
 
-
-    public void onClickChangeSign(@SuppressWarnings("UnusedParameters") View v) {
+    public void onChangeSign() {
         textFrom.setText(changeSign(textFrom.getText().toString()));
         onCalculate();
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public void onClickClear(@SuppressWarnings({"UnusedParameters", "SameParameterValue"}) View v) {
+    public void onClear() {
         textFrom.setText("0");
         onCalculate();
     }
 
-    public void onClickDeleteLast(@SuppressWarnings("UnusedParameters") View v) {
+    public void onClickDeleteLast() {
         textFrom.setText(deleteLast(textFrom.getText().toString()));
         onCalculate();
     }

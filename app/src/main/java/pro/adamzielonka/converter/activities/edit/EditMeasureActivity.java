@@ -82,7 +82,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
                 switch (intent.getAction()) {
                     case MyUploadService.UPLOAD_COMPLETED:
-                        showSuccess(EditMeasureActivity.this, R.string.msg_succes_upload);
+                        showSuccess(EditMeasureActivity.this, R.string.success_upload);
                         break;
                     case MyUploadService.UPLOAD_ERROR:
                         showError(EditMeasureActivity.this, R.string.msg_error_upload);
@@ -327,7 +327,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         File file = new File(getFilesDir() + "/" + concreteMeasure.getUserFileName());
         uploadFromUri(Uri.parse(file.toURI().toString()));
     }
-    
+
     private void uploadFromUri(Uri fileUri) {
         startService(new Intent(this, MyUploadService.class)
                 .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)

@@ -251,7 +251,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/clear_text"
-                        android:onClick="onClickClear"
+                        android:onClick="onClick"
                         app:srcCompat="@drawable/ic_clear_white_24dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -322,8 +322,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="33"
-                            android:onClick="onClickChangeSign"
-                            android:tag="+-"
+                            android:onClick="onClick"
                             android:text="±"
                             tools:ignore="HardcodedText" />
 
@@ -344,7 +343,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="33"
-                            android:onClick="onClickComma"
+                            android:onClick="onClick"
                             android:text="."
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
@@ -362,8 +361,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/delete_last_digit"
-                        android:onClick="onClickDeleteLast"
-                        android:tag="◀"
+                        android:onClick="onClick"
                         app:srcCompat="@drawable/ic_backspace_white_24dp" />
                 </LinearLayout>
             </LinearLayout>
