@@ -70,7 +70,7 @@ public abstract class PostListFragment extends Fragment {
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase);
         if (postsQuery != null) {
-            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder>(CloudMeasure.class, R.layout.item_post,
+            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder>(CloudMeasure.class, R.layout.item_measure,
                     PostViewHolder.class, postsQuery) {
                 @Override
                 protected void populateViewHolder(final PostViewHolder viewHolder, final CloudMeasure model, final int position) {

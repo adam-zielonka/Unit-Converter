@@ -60,7 +60,7 @@ public class MyListView extends ListView {
 
     public void addHeaderTitle(String text) {
         countHeaderItems++;
-        View view = activity.getLayoutInflater().inflate(R.layout.layout_list_title, null);
+        View view = activity.getLayoutInflater().inflate(R.layout.item_header, null);
         ((TextView) view.findViewById(R.id.textHeader)).setText(text);
         addHeaderView(view, false, false);
     }
@@ -79,7 +79,7 @@ public class MyListView extends ListView {
 
     public View addHeaderItem(String textPrimary, String textSecondary, boolean isSelectable) {
         countHeaderItems++;
-        View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
+        View view = activity.getLayoutInflater().inflate(R.layout.item_pref, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
         if (!isSelectable) {
@@ -95,7 +95,7 @@ public class MyListView extends ListView {
     }
 
     public View addFooterItem(String textPrimary) {
-        View view = activity.getLayoutInflater().inflate(R.layout.layout_list_item, null);
+        View view = activity.getLayoutInflater().inflate(R.layout.item_pref, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         addFooterView(view, false, true);

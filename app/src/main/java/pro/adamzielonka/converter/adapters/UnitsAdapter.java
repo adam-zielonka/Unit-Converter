@@ -17,14 +17,14 @@ import pro.adamzielonka.converter.models.user.Unit;
 public class UnitsAdapter extends ArrayAdapter<Unit> {
 
     public UnitsAdapter(@NonNull Context context, @NonNull List<Unit> objects) {
-        super(context, R.layout.layout_list_item, objects);
+        super(context, R.layout.item_pref, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pref, parent, false)
                 : convertView;
 
         Unit item = getItem(position);

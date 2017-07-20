@@ -17,14 +17,14 @@ public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
 
 
     public OrderAdapter(@NonNull Context context, List<ConcreteUnit> concreteUnits) {
-        super(context, R.layout.layout_list_order_item, concreteUnits);
+        super(context, R.layout.item_order, concreteUnits);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_order_item, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false)
                 : convertView;
 
         ConcreteUnit item = getItem(position);

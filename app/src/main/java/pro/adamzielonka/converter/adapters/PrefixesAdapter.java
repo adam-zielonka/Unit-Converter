@@ -18,7 +18,7 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
     private final Unit unit;
 
     public PrefixesAdapter(@NonNull Context context, Unit unit) {
-        super(context, R.layout.layout_list_item, unit.getPrefixes());
+        super(context, R.layout.item_pref, unit.getPrefixes());
         this.unit = unit;
     }
 
@@ -26,7 +26,7 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pref, parent, false)
                 : convertView;
 
         Prefix item = getItem(position);
