@@ -17,6 +17,7 @@ import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.tools.FileTools;
 
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
@@ -59,7 +60,7 @@ public abstract class EditActivity extends ListActivity {
 
     protected void onLoad() throws Exception {
         Intent intent = getIntent();
-        measureFileName = intent.getStringExtra("measureFileName");
+        measureFileName = intent.getStringExtra(EXTRA_MEASURE_FILE_NAME);
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
         super.onLoad();
@@ -137,7 +138,7 @@ public abstract class EditActivity extends ListActivity {
 
     protected Intent setEditIntent(Class<?> cls) {
         Intent intent = new Intent(getApplicationContext(), cls);
-        intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+        intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
         intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
         intent.putExtra("prefixName", prefix != null ? prefix.getSymbol() : "");
         return intent;

@@ -26,10 +26,11 @@ import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
-import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.FileTools.saveMeasure;
@@ -70,9 +71,9 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
                 userMeasure.setName(editText.getText().toString());
                 concreteMeasure = userMeasure.getConcreteMeasure();
 
-                String concreteFileName = getFileInternalName(this,
+                String concreteFileName = getNewFileInternalName(this,
                         "concrete_", concreteMeasure.getName());
-                String userFileName = getFileInternalName(this,
+                String userFileName = getNewFileInternalName(this,
                         "user_", concreteMeasure.getName());
 
                 concreteMeasure.setConcreteFileName(concreteFileName);
@@ -84,7 +85,7 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
                     showError(this, R.string.error_could_not_save_changes);
                 }
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
             }).show();
 
@@ -129,7 +130,7 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
             }
         } else if (requestCode == REQUEST_EDIT_ACTIVITY) {
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+            intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
             startActivity(intent);
             finish();
         } else {
@@ -159,8 +160,8 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
                 return;
             }
 
-            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
-            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName());
+            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName());
 
             concreteMeasure.setConcreteFileName(concreteFileName);
             concreteMeasure.setUserFileName(userFileName);
@@ -169,7 +170,7 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
             saveToInternal(this, userFileName, gson.toJson(userMeasure));
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+            intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
             startActivity(intent);
             finish();
         } catch (FileNotFoundException e) {

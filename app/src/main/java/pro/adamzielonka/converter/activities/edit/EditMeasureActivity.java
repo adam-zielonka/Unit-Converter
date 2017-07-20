@@ -47,6 +47,7 @@ import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
@@ -138,7 +139,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editUnitOrder)) {
                 if (userMeasure.getUnits().size() <= 0) return;
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
-                intent.putExtra("measureFileName", concreteMeasure.getConcreteFileName());
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editDefaultDisplay1)) {

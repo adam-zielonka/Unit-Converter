@@ -15,40 +15,28 @@ import com.google.firebase.storage.StorageReference;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
 
-/**
- * Service to handle uploading files to Firebase Storage.
- */
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+
 public class MyUploadService extends MyBaseTaskService {
 
     private static final String TAG = "MyUploadService";
 
-    /**
-     * Intent Actions
-     **/
     public static final String ACTION_UPLOAD = "action_upload";
     public static final String UPLOAD_COMPLETED = "upload_completed";
     public static final String UPLOAD_ERROR = "upload_error";
 
-    /**
-     * Intent Extras
-     **/
     public static final String EXTRA_FILE_URI = "extra_file_uri";
     public static final String EXTRA_FILE_USER = "extra_file_user";
     public static final String EXTRA_FILE_CONCRETE = "extra_file_concrete";
     public static final String EXTRA_DOWNLOAD_URL = "extra_download_url";
 
-    // [START declare_ref]
     private StorageReference mStorageRef;
     private String concreteFileName;
-    // [END declare_ref]
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        // [START get_storage_ref]
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        // [END get_storage_ref]
     }
 
     @Nullable
@@ -70,62 +58,39 @@ public class MyUploadService extends MyBaseTaskService {
         return START_REDELIVER_INTENT;
     }
 
-    // [START upload_from_uri]
     private void uploadFromUri(final Uri fileUri, final String fileUser) {
         Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
 
-        // [START_EXCLUDE]
         taskStarted();
         showProgressNotification(getString(R.string.progress_uploading), 0, 0);
-        // [END_EXCLUDE]
 
-        // [START get_child_ref]
-        // Get a reference to store file at photos/<FILENAME>.jpg
         final StorageReference photoRef = mStorageRef.child("users").child(fileUser)
                 .child(fileUri.getLastPathSegment());
-        // [END get_child_ref]
 
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType("application/json")
                 .build();
 
-        // Upload file to Firebase Storage
-        Log.d(TAG, "uploadFromUri:dst:" + photoRef.getPath());
         photoRef.putFile(fileUri, metadata).
                 addOnProgressListener(taskSnapshot -> showProgressNotification(getString(R.string.progress_uploading),
-                        taskSnapshot.getBytesTransferred(),
-                        taskSnapshot.getTotalByteCount()))
+                        taskSnapshot.getBytesTransferred(), taskSnapshot.getTotalByteCount())
+                )
                 .addOnSuccessListener(taskSnapshot -> {
-                    // Upload succeeded
-                    Log.d(TAG, "uploadFromUri:onSuccess");
-
-                    // Get the public download URL
                     Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
 
-                    // [START_EXCLUDE]
                     broadcastUploadFinished(downloadUri, fileUri);
                     showUploadFinishedNotification(downloadUri, fileUri);
+
                     taskCompleted();
-                    // [END_EXCLUDE]
                 })
                 .addOnFailureListener(exception -> {
-                    // Upload failed
-                    Log.w(TAG, "uploadFromUri:onFailure", exception);
-
-                    // [START_EXCLUDE]
                     broadcastUploadFinished(null, fileUri);
                     showUploadFinishedNotification(null, fileUri);
+
                     taskCompleted();
-                    // [END_EXCLUDE]
                 });
     }
-    // [END upload_from_uri]
 
-    /**
-     * Broadcast finished upload (success or failure).
-     *
-     * @return true if a running receiver received the broadcast.
-     */
     private boolean broadcastUploadFinished(@Nullable Uri downloadUrl, @Nullable Uri fileUri) {
         boolean success = downloadUrl != null;
 
@@ -138,18 +103,13 @@ public class MyUploadService extends MyBaseTaskService {
                 .sendBroadcast(broadcast);
     }
 
-    /**
-     * Show a notification for a finished upload.
-     */
     private void showUploadFinishedNotification(@Nullable Uri downloadUrl, @Nullable Uri fileUri) {
-        // Hide the progress notification
         dismissProgressNotification();
 
-        // Make Intent to EditMeasureActivity
         Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_URL, downloadUrl)
                 .putExtra(EXTRA_FILE_URI, fileUri)
-                .putExtra("measureFileName", concreteFileName)
+                .putExtra(EXTRA_MEASURE_FILE_NAME, concreteFileName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         boolean success = downloadUrl != null;

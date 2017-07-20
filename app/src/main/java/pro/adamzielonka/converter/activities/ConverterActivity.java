@@ -34,6 +34,7 @@ import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.tools.Theme;
 
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
@@ -101,12 +102,11 @@ public class ConverterActivity extends AppCompatActivity
         converterLayout = findViewById(R.id.converter_content);
         emptyLayout = findViewById(R.id.converter_content_empty);
         TextView emptyText = findViewById(R.id.textEmpty);
-
-        Intent intent = getIntent();
+        
         if (measureList.size() > 0) {
             emptyText.setText(R.string.empty_units);
             setupConvertersMenu(navigationView.getMenu());
-            setupConverter(getIDFromFileName(intent.getStringExtra("measureFileName")));
+            setupConverter(getIDFromFileName(getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME)));
         } else {
             setEmptyLayout();
             emptyText.setText(R.string.empty_converters);
@@ -367,7 +367,7 @@ public class ConverterActivity extends AppCompatActivity
         switch (id) {
             case R.id.menu_edit_converter:
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                intent.putExtra("measureFileName", measure.getConcreteFileName());
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, measure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;
         }

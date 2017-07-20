@@ -29,7 +29,7 @@ public class FileTools {
         return context.getFileStreamPath(fileName).exists();
     }
 
-    public static String getFileInternalName(Context context, String prefix, String name) {
+    public static String getNewFileInternalName(Context context, String prefix, String name) {
         String fileName = prefix + name.toUpperCase() + ".json";
         for (int i = 1; isFileInternalExist(context, fileName); i++) {
             fileName = prefix + name.toUpperCase() + "_" + i + ".json";

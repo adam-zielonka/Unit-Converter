@@ -6,20 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import pro.adamzielonka.converter.R;
 
-/**
- * Base class for Services that keep track of the number of active jobs and self-stop when the
- * count is zero.
- */
 public abstract class MyBaseTaskService extends Service {
 
     static final int PROGRESS_NOTIFICATION_ID = 0;
     static final int FINISHED_NOTIFICATION_ID = 1;
 
-    private static final String TAG = "MyBaseTaskService";
     private int mNumTasks = 0;
 
     public void taskStarted() {
@@ -31,19 +25,13 @@ public abstract class MyBaseTaskService extends Service {
     }
 
     private synchronized void changeNumberOfTasks(int delta) {
-        Log.d(TAG, "changeNumberOfTasks:" + mNumTasks + ":" + delta);
         mNumTasks += delta;
 
-        // If there are no tasks left, stop the service
         if (mNumTasks <= 0) {
-            Log.d(TAG, "stopping");
             stopSelf();
         }
     }
 
-    /**
-     * Show notification with a progress bar.
-     */
     protected void showProgressNotification(String caption, long completedUnits, long totalUnits) {
         int percentComplete = 0;
         if (totalUnits > 0) {
@@ -64,9 +52,6 @@ public abstract class MyBaseTaskService extends Service {
         manager.notify(PROGRESS_NOTIFICATION_ID, builder.build());
     }
 
-    /**
-     * Show notification that the activity finished.
-     */
     protected void showFinishedNotification(String caption, Intent intent, boolean success) {
         // Make PendingIntent for notification
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* requestCode */, intent,
@@ -87,9 +72,6 @@ public abstract class MyBaseTaskService extends Service {
         manager.notify(FINISHED_NOTIFICATION_ID, builder.build());
     }
 
-    /**
-     * Dismiss the progress notification.
-     */
     protected void dismissProgressNotification() {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

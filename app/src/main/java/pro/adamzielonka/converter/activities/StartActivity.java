@@ -20,7 +20,8 @@ import java.util.List;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
-import static pro.adamzielonka.converter.tools.FileTools.getFileInternalName;
+import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
@@ -43,7 +44,7 @@ public class StartActivity extends AppCompatActivity {
         Intent oldIntent = getIntent();
         Intent intent = new Intent(this.getBaseContext(), ConverterActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("measureFileName", oldIntent.getStringExtra("measureFileName"));
+        intent.putExtra(EXTRA_MEASURE_FILE_NAME, oldIntent.getStringExtra(EXTRA_MEASURE_FILE_NAME));
         startActivity(intent);
 
         finish();
@@ -67,8 +68,8 @@ public class StartActivity extends AppCompatActivity {
         for (Measure userMeasure : measureList) {
             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-            String concreteFileName = getFileInternalName(this, "concrete_", concreteMeasure.getName());
-            String userFileName = getFileInternalName(this, "user_", concreteMeasure.getName());
+            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName());
+            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName());
             concreteMeasure.setConcreteFileName(concreteFileName);
             concreteMeasure.setUserFileName(userFileName);
             saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
