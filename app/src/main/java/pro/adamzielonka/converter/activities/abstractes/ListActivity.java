@@ -43,6 +43,9 @@ public abstract class ListActivity extends BaseActivity {
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         updateView(view, textSecondary);
     }
+    protected void hideView(View view) {
+        updateView(view, "");
+    }
 
     protected boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {
         return (position - countHeaderItems >= 0 && position - countHeaderItems < countUnderItems);

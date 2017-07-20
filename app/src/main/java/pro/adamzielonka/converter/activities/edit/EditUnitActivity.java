@@ -59,8 +59,8 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getCountHeaderItems(), unit.getPrefixes().size())) {
-            prefix = prefixesAdapter.getItem(position - listView.getCountHeaderItems());
+        if (isUnderItemClick(position, listView.getHeaderViewsCount(), unit.getPrefixes().size())) {
+            prefix = prefixesAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editSymbolView)) {

@@ -31,6 +31,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     private View themeView;
     private View logInView;
+    private View userNameView;
     private View websiteView;
     private static final int RC_SIGN_IN = 9001;
 
@@ -48,6 +49,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         themeView = listView.addHeaderItem(getString(R.string.pref_title_theme));
         listView.addHeaderTitle(getString(R.string.pref_header_user));
         logInView = listView.addHeaderItem(getString(R.string.pref_title_sign_in));
+        userNameView = listView.addHeaderItem(getString(R.string.pref_title_user_name));
         listView.addHeaderTitle(getString(R.string.pref_header_about));
         listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version), false);
         websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
@@ -57,8 +59,10 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         updateView(themeView, getThemeName(this));
         if (getUser() != null) {
             updateView(logInView, getString(R.string.pref_title_sign_out), getUser().getEmail());
+            updateView(userNameView,getString(R.string.pref_title_user_name), getUser().getDisplayName());
         } else {
             updateView(logInView, getString(R.string.pref_title_sign_in), "");
+            hideView(userNameView);
         }
     }
 

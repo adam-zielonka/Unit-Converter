@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +68,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private DatabaseReference mDatabase;
     private static final String TAG = "EditMeasureActivity";
-    private ProgressDialog mProgressDialog;
     private BroadcastReceiver mBroadcastReceiver;
 
     @Override
@@ -114,9 +112,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             updateView(editDefaultDisplay1, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
             updateView(editDefaultDisplay2, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
         } else {
-            updateView(editUnitOrder, "");
-            updateView(editDefaultDisplay1, "");
-            updateView(editDefaultDisplay2, "");
+            hideView(editUnitOrder);
+            hideView(editDefaultDisplay1);
+            hideView(editDefaultDisplay2);
         }
         unitsAdapter.clear();
         unitsAdapter.addAll(userMeasure.getUnits());
@@ -125,8 +123,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getCountHeaderItems(), userMeasure.getUnits().size())) {
-            unit = unitsAdapter.getItem(position - listView.getCountHeaderItems());
+        if (isUnderItemClick(position, listView.getHeaderViewsCount(), userMeasure.getUnits().size())) {
+            unit = unitsAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {

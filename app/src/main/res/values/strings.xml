@@ -146,6 +146,7 @@
     <string name="msg_error_upload">Error upload</string>
     <string name="menu_download">Download measure</string>
     <string name="menu_search">Search</string>
+    <string name="pref_title_user_name">Name</string>
     <!-- -->
 
 </resources>
