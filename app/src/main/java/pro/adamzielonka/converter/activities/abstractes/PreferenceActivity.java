@@ -9,7 +9,7 @@ import pro.adamzielonka.converter.activities.ConverterActivity;
 
 public abstract class PreferenceActivity extends ListActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    SharedPreferences preferences;
+    protected SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

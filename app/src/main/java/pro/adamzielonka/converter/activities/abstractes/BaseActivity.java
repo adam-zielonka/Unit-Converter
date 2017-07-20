@@ -81,8 +81,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     //endregion
 
     public String getUid() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        return currentUser != null ? currentUser.getUid() : null;
+        return getUser() != null ? getUser().getUid() : null;
+    }
+
+    public FirebaseUser getUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
 }

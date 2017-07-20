@@ -39,6 +39,11 @@ public abstract class ListActivity extends BaseActivity {
         else view.findViewById(R.id.textSecondary).setVisibility(View.VISIBLE);
     }
 
+    protected void updateView(View view, String textPrimary, String textSecondary) {
+        ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
+        updateView(view, textSecondary);
+    }
+
     protected boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {
         return (position - countHeaderItems >= 0 && position - countHeaderItems < countUnderItems);
     }
