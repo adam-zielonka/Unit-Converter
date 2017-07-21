@@ -14,6 +14,8 @@ public class Measure {
     }
 
     private String name = "";
+    private String author = "";
+    private Integer version = 0;
     private String cloudID = "";
     private Integer displayFrom = 0;
     private Integer displayTo = 1;
@@ -128,5 +130,21 @@ public class Measure {
 
     public void setCloudID(String cloudID) {
         this.cloudID = cloudID;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

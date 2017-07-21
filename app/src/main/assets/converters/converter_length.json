@@ -1,5 +1,7 @@
 {
   "name": "Length",
+  "version": 1,
+  "author": "root",
   "displayFrom": 5,
   "displayTo": 6,
   "units": [

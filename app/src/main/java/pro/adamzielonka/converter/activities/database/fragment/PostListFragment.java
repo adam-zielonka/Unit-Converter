@@ -23,7 +23,7 @@ import com.google.firebase.database.Transaction;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.database.MeasureDetailActivity;
-import pro.adamzielonka.converter.activities.database.viewholder.PostViewHolder;
+import pro.adamzielonka.converter.activities.database.viewholder.MeasureViewHolder;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 
 public abstract class PostListFragment extends Fragment {
@@ -34,7 +34,7 @@ public abstract class PostListFragment extends Fragment {
     private DatabaseReference mDatabase;
     // [END define_database_reference]
 
-    private FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder> mAdapter;
+    private FirebaseRecyclerAdapter<CloudMeasure, MeasureViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
@@ -70,10 +70,10 @@ public abstract class PostListFragment extends Fragment {
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase);
         if (postsQuery != null) {
-            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, PostViewHolder>(CloudMeasure.class, R.layout.item_measure,
-                    PostViewHolder.class, postsQuery) {
+            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, MeasureViewHolder>(CloudMeasure.class, R.layout.item_measure,
+                    MeasureViewHolder.class, postsQuery) {
                 @Override
-                protected void populateViewHolder(final PostViewHolder viewHolder, final CloudMeasure model, final int position) {
+                protected void populateViewHolder(final MeasureViewHolder viewHolder, final CloudMeasure model, final int position) {
                     final DatabaseReference postRef = getRef(position);
 
                     // Set click listener for the whole post view

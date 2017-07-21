@@ -65,6 +65,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private View editDefaultDisplay1;
     private View editDefaultDisplay2;
     private View addUnit;
+    private View authorView;
+    private View versionView;
+    private View cloudView;
 
     private DatabaseReference mDatabase;
     private static final String TAG = "EditMeasureActivity";
@@ -76,9 +79,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d(TAG, "onReceive:" + intent);
                 hideProgressDialog();
-
                 switch (intent.getAction()) {
                     case MyUploadService.UPLOAD_COMPLETED:
                         showSuccess(EditMeasureActivity.this, R.string.success_upload);
@@ -94,6 +95,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
+        authorView = listView.addHeaderItem(getString(R.string.list_item_author));
+        versionView = listView.addHeaderItem(getString(R.string.list_item_version));
+        cloudView = listView.addHeaderItem(getString(R.string.list_item_cloud));
         listView.addHeaderTitle(getString(R.string.list_title_Measure));
         editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name));
         editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order));
@@ -106,6 +110,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
+        updateView(authorView, userMeasure.getAuthor());
+        updateView(versionView, userMeasure.getVersion().toString());
+        updateView(cloudView, userMeasure.getCloudID());
         updateView(editMeasureNameView, userMeasure.getName());
         if (userMeasure.getUnits().size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
@@ -260,7 +267,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, userMeasure.getName(), concreteMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.username, user.photo, userMeasure.getName(), concreteMeasure.getUnitsOrder());
                         }
                     }
 
@@ -271,10 +278,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 });
     }
 
-    private void updateMeasure(String userId, String username, String title, String body) {
+    private void updateMeasure(String userId, String username, String userPhoto, String title, String body) {
         if (userMeasure.getCloudID().equals("")) {
             String key = mDatabase.child("measures").push().getKey();
-            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
             doUpdateMeasure(key, cloudMeasure);
         } else {
             Query query = mDatabase.child("measures");
@@ -292,12 +299,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                             doUpdateMeasure(userMeasure.getCloudID(), cloudMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
-                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
                             doUpdateMeasure(key, cloudMeasure);
                         }
                     } else {
                         String key = mDatabase.child("measures").push().getKey();
-                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
                         doUpdateMeasure(key, cloudMeasure);
                     }
                 }
@@ -347,8 +354,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onStop() {
         super.onStop();
-
-        // Unregister download receiver
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 

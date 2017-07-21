@@ -1,5 +1,7 @@
 {
   "name": "Byte",
+  "version": 1,
+  "author": "root",
   "displayFrom": 0,
   "displayTo": 4,
   "units": [

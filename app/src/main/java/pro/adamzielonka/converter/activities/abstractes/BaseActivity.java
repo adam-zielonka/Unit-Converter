@@ -80,11 +80,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     //endregion
 
-    public String getUid() {
+    public static String getUid() {
         return getUser() != null ? getUser().getUid() : null;
     }
 
-    public FirebaseUser getUser() {
+    public static FirebaseUser getUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 

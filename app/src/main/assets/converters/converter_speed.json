@@ -1,5 +1,7 @@
 {
   "name": "Speed",
+  "version": 1,
+  "author": "root",
   "displayFrom": 1,
   "displayTo": 5,
   "units": [

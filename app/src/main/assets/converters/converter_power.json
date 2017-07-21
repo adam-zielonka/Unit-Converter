@@ -1,5 +1,7 @@
 {
   "name": "Power",
+  "version": 1,
+  "author": "root",
   "units": [
     {
       "symbol": "W",

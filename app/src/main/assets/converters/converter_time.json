@@ -1,5 +1,7 @@
 {
   "name": "Time",
+  "version": 1,
+  "author": "root",
   "displayFrom": 4,
   "displayTo": 2,
   "units": [
