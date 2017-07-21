@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,10 +19,15 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
@@ -63,7 +69,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         updateView(themeView, getThemeName(this));
         if (getUser() != null) {
             updateView(logInView, getString(R.string.pref_title_sign_out), getUser().getEmail());
-            updateView(userNameView, getString(R.string.pref_title_user_name), getUser().getDisplayName());
+            updateView(userNameView, getString(R.string.pref_title_user_name), getUserName());
         } else {
             updateView(logInView, getString(R.string.pref_title_sign_in), "");
             hideView(userNameView);
@@ -91,6 +97,11 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         } else if (view.equals(websiteView)) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/"));
             startActivity(browserIntent);
+        } else if (view.equals(userNameView)) {
+            if (getUser() != null) {
+                showProgressDialog();
+                createUser(true, getUserName(), "");
+            }
         }
     }
 
@@ -123,6 +134,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     }
 
     private void signOut() {
+        setUserName("");
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> onUpdate());
     }
@@ -154,24 +166,86 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        onAuthSuccess(mFirebaseAuth.getCurrentUser());
+                        mFirebaseAuth.getCurrentUser();
+                        onAuthSuccess();
                     } else {
                         Toast.makeText(SettingsActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    onUpdate();
-                    hideProgressDialog();
                 });
     }
 
-    private void onAuthSuccess(FirebaseUser user) {
-        writeNewUser(user.getUid(), user.getDisplayName());
+    private void onAuthSuccess() {
+        String userId = getUid();
+        if (userId == null) return;
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user == null) {
+                            createUser(false, "", "");
+                        } else {
+                            setUserName(user.username);
+                            onUpdate();
+                            hideProgressDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        onUpdate();
+                        hideProgressDialog();
+                    }
+                });
     }
 
-    private static void writeNewUser(String userId, String name) {
+    private void createUser(boolean changeName, String name, String error) {
+        EditText editText = getDialogEditText(name, error);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_set_user_name)
+                .setCancelable(false)
+                .setView(editText.getRootView())
+                .setPositiveButton(R.string.dialog_create, (dialogInterface, i) -> {
+                    String newUnitName = editText.getText().toString();
+                    writeNewUser(changeName, getUid(), newUnitName);
+                })
+                .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                    if (!changeName) signOut();
+                    onUpdate();
+                    hideProgressDialog();
+                }).show();
+    }
+
+    private void createUserName(String name) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, getUid());
+        mDatabase.child("usernames").updateChildren(map);
+    }
+
+    private void writeNewUser(boolean changeName, String userId, String name) {
         User user = new User(name);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(userId).setValue(user);
+        mDatabase.child("users").child(userId).setValue(user)
+                .addOnSuccessListener(aVoid -> {
+                    createUserName(name);
+                    setUserName(name);
+                    onUpdate();
+                    hideProgressDialog();
+                })
+                .addOnFailureListener(e -> createUser(changeName, name, getString(R.string.error_name_already_exist)));
+    }
+
+    private void setUserName(String name) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("username", name);
+        editor.apply();
+    }
+
+    private String getUserName() {
+        return preferences.getString("username", "");
     }
     //endregion
 

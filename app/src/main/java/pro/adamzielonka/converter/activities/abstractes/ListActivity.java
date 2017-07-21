@@ -43,6 +43,7 @@ public abstract class ListActivity extends BaseActivity {
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         updateView(view, textSecondary);
     }
+
     protected void hideView(View view) {
         updateView(view, "");
     }
@@ -53,10 +54,19 @@ public abstract class ListActivity extends BaseActivity {
 
     //region dialog
     protected EditText getDialogEditText(String text) {
+        return getDialogEditText(text, "");
+    }
+
+    protected EditText getDialogEditText(String text, String error) {
         View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
         editText.setText(text);
         editText.setSelection(editText.length());
+        if (!error.equals("")) {
+            TextView textView = layout.findViewById(R.id.textView);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(error);
+        }
         return editText;
     }
 
