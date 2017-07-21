@@ -11,7 +11,6 @@ public class CloudMeasure {
 
     public String uid;
     public String author;
-    public String photo;
     public String title;
     public String file;
     public Integer version;
@@ -24,14 +23,13 @@ public class CloudMeasure {
 
     }
 
-    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Integer version, String photo) {
+    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
         this.uid = uid;
         this.author = author;
         this.title = title;
         this.units_symbols = units_symbols;
         this.units_names = units_names;
         this.version = version;
-        this.photo = photo;
 
     }
 
@@ -47,7 +45,6 @@ public class CloudMeasure {
         result.put("units_names", units_names);
         result.put("starCount", starCount);
         result.put("stars", stars);
-        result.put("photo", photo);
 
         return result;
     }

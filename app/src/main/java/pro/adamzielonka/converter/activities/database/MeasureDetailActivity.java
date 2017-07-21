@@ -3,16 +3,12 @@ package pro.adamzielonka.converter.activities.database;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +37,6 @@ public class MeasureDetailActivity extends BaseActivity {
     private TextView mTitleView;
     private TextView mVersionView;
     private TextView mBodyView;
-    private ImageView authorPhotoView;
 
     private CloudMeasure cloudMeasure;
     private BroadcastReceiver mBroadcastReceiver;
@@ -88,7 +83,6 @@ public class MeasureDetailActivity extends BaseActivity {
         mTitleView = findViewById(R.id.post_title);
         mVersionView = findViewById(R.id.post_version);
         mBodyView = findViewById(R.id.post_body);
-        authorPhotoView = findViewById(R.id.post_author_photo);
     }
 
     @Override
@@ -104,11 +98,6 @@ public class MeasureDetailActivity extends BaseActivity {
                 mTitleView.setText(cloudMeasure.title);
                 mVersionView.setText(String.format("  v.%s", cloudMeasure.version));
                 mBodyView.setText(cloudMeasure.units_symbols);
-                if (!cloudMeasure.photo.equals("")) {
-                    byte[] b = Base64.decode(cloudMeasure.photo, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-                    authorPhotoView.setImageBitmap(bitmap);
-                }
             }
 
             @Override

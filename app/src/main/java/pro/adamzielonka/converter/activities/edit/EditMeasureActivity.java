@@ -267,7 +267,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, user.photo, userMeasure.getName(), concreteMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.username, userMeasure.getName(), concreteMeasure.getUnitsOrder());
                         }
                     }
 
@@ -278,10 +278,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 });
     }
 
-    private void updateMeasure(String userId, String username, String userPhoto, String title, String body) {
+    private void updateMeasure(String userId, String username, String title, String body) {
         if (userMeasure.getCloudID().equals("")) {
             String key = mDatabase.child("measures").push().getKey();
-            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
+            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
             doUpdateMeasure(key, cloudMeasure);
         } else {
             Query query = mDatabase.child("measures");
@@ -299,12 +299,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                             doUpdateMeasure(userMeasure.getCloudID(), cloudMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
-                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
+                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
                             doUpdateMeasure(key, cloudMeasure);
                         }
                     } else {
                         String key = mDatabase.child("measures").push().getKey();
-                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1, userPhoto);
+                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
                         doUpdateMeasure(key, cloudMeasure);
                     }
                 }

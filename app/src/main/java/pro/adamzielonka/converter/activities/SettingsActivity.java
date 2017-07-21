@@ -2,13 +2,9 @@ package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,9 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.ByteArrayOutputStream;
-import java.net.URL;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
@@ -172,40 +165,13 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        Uri photoUri = user.getPhotoUrl();
-        SendPhotoUser sendPhotoUser = new SendPhotoUser();
-        sendPhotoUser.execute(photoUri != null ? photoUri.toString() : "");
-        writeNewUser(user.getUid(), user.getDisplayName(), user.getEmail(), "");
+        writeNewUser(user.getUid(), user.getDisplayName());
     }
 
-    private static void writeNewUser(String userId, String name, String email, String photo) {
-        User user = new User(name, email, photo);
+    private static void writeNewUser(String userId, String name) {
+        User user = new User(name);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(userId).setValue(user);
-    }
-
-    private static class SendPhotoUser extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                URL photoURL = new URL(params[0]);
-                Bitmap bmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] byteArrayImage = baos.toByteArray();
-                return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
-            } catch (Exception e) {
-                return "";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-            if (!message.equals("")) {
-                writeNewUser(getUser().getUid(), getUser().getDisplayName(), getUser().getEmail(), message);
-            }
-        }
     }
     //endregion
 
