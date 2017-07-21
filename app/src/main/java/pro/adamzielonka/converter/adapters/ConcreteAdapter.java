@@ -23,14 +23,14 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
     }
 
     public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects) {
-        super(context, R.layout.layout_spiner_units_small, objects);
-        this.resource = R.layout.layout_spiner_units_small;
+        super(context, R.layout.spiner_units_small, objects);
+        this.resource = R.layout.spiner_units_small;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_spiner_units, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.spiner_units, parent, false)
                 : convertView;
 
         ConcreteUnit item = getItem(position);

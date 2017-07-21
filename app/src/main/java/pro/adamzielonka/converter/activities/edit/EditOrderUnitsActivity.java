@@ -2,7 +2,6 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.view.View;
 
-import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
@@ -17,7 +16,6 @@ public class EditOrderUnitsActivity extends EditActivity {
     public void onLoad() throws Exception {
         super.onLoad();
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
-        listView = findViewById(R.id.editListView);
         listView.setAdapter(orderAdapter);
     }
 

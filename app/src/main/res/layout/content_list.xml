@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.abstractes.EditActivity"
-    tools:showIn="@layout/activity_edit">
+    tools:showIn="@layout/activity_list">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <pro.adamzielonka.converter.components.MyListView
-            android:id="@+id/editListView"
+            android:id="@+id/ListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"

@@ -150,7 +150,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editDefaultDisplay1)) {
                 if (userMeasure.getUnits().size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
+                        R.layout.spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_1)
                         .setCancelable(true)
@@ -162,7 +162,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editDefaultDisplay2)) {
                 if (userMeasure.getUnits().size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.layout_spiner_units, concreteMeasure.getConcreteUnits());
+                        R.layout.spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_2)
                         .setCancelable(true)

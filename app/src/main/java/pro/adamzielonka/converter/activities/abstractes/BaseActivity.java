@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.tools.Theme;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -24,11 +22,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setTheme(Theme.getStyleID(preferences.getString("theme", "")));
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         resultCode = RESULT_CANCELED;
     }

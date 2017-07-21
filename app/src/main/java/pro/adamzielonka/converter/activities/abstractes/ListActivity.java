@@ -3,6 +3,7 @@ package pro.adamzielonka.converter.activities.abstractes;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +22,11 @@ public abstract class ListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         try {
             onLoad();
         } catch (Exception e) {
@@ -29,7 +35,7 @@ public abstract class ListActivity extends BaseActivity {
     }
 
     protected void onLoad() throws Exception {
-        listView = findViewById(R.id.editListView);
+        listView = findViewById(R.id.ListView);
         listView.setActivity(this);
     }
 
@@ -58,7 +64,7 @@ public abstract class ListActivity extends BaseActivity {
     }
 
     protected EditText getDialogEditText(String text, String error) {
-        View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+        View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
         editText.setText(text);
         editText.setSelection(editText.length());
@@ -71,7 +77,7 @@ public abstract class ListActivity extends BaseActivity {
     }
 
     protected EditText getDialogEditNumber(Double number) {
-        View layout = getLayoutInflater().inflate(R.layout.layout_dialog_edit_text, null);
+        View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
         editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
         editText.setText(doubleToString(number));

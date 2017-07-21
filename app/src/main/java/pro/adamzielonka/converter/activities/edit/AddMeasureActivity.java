@@ -50,7 +50,7 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws Exception {
-        listView = findViewById(R.id.editListView);
+        super.onLoad();
         listView.setActivity(this);
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
