@@ -11,7 +11,9 @@ public class CloudMeasure {
 
     public String uid;
     public String author;
+    public String author_small;
     public String title;
+    public String title_small;
     public String file;
     public Integer version;
     public String units_symbols;
@@ -26,11 +28,12 @@ public class CloudMeasure {
     public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
         this.uid = uid;
         this.author = author;
+        this.author_small = author.toLowerCase();
         this.title = title;
+        this.title_small = title.toLowerCase();
         this.units_symbols = units_symbols;
         this.units_names = units_names;
         this.version = version;
-
     }
 
     @Exclude
@@ -38,7 +41,9 @@ public class CloudMeasure {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("author", author);
+        result.put("author_small", author_small);
         result.put("title", title);
+        result.put("title_small", title_small);
         result.put("file", file);
         result.put("version", version);
         result.put("units_symbols", units_symbols);

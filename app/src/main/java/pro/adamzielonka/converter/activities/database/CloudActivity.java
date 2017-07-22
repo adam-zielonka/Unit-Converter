@@ -6,14 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.BaseActivity;
-import pro.adamzielonka.converter.activities.database.fragment.MyPostsFragment;
-import pro.adamzielonka.converter.activities.database.fragment.MyTopPostsFragment;
-import pro.adamzielonka.converter.activities.database.fragment.RecentPostsFragment;
+import pro.adamzielonka.converter.activities.database.fragment.MyMeasureFragment;
+import pro.adamzielonka.converter.activities.database.fragment.MyTopMeasureFragment;
+import pro.adamzielonka.converter.activities.database.fragment.RecentMeasuresFragment;
 
 public class CloudActivity extends BaseActivity {
 
@@ -28,12 +26,11 @@ public class CloudActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
-                    new RecentPostsFragment(),
-                    new MyPostsFragment(),
-                    new MyTopPostsFragment(),
+                    new RecentMeasuresFragment(),
+                    new MyMeasureFragment(),
+                    new MyTopMeasureFragment(),
             };
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_recent),
@@ -53,27 +50,11 @@ public class CloudActivity extends BaseActivity {
                 return mFragmentNames[position];
             }
         };
-        // Set up the ViewPager with the sections adapter.
+
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_cloud, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.action_search) {
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
     }
 
 }

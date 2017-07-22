@@ -31,10 +31,10 @@ public class MeasureViewHolder extends RecyclerView.ViewHolder {
     public void bindToPost(CloudMeasure cloudMeasure, View.OnClickListener starClickListener) {
         titleView.setText(cloudMeasure.title);
         versionView.setText(String.format("  v.%s", cloudMeasure.version));
-        authorView.setText(cloudMeasure.author);
         numStarsView.setText(String.valueOf(cloudMeasure.starCount));
         bodyView.setText(cloudMeasure.units_symbols);
-
-        starView.setOnClickListener(starClickListener);
+        authorView.setText(cloudMeasure.author);
+        if (starClickListener != null)
+            starView.setOnClickListener(starClickListener);
     }
 }

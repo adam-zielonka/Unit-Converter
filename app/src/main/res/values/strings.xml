@@ -153,6 +153,7 @@
     <string name="dialog_set_user_name">Set username</string>
     <string name="dialog_create">Create</string>
     <string name="error_name_already_exist">Name already exist.</string>
+    <string name="search">Search</string>
     <!-- -->
 
 </resources>
