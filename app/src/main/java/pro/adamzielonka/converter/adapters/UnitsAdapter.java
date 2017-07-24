@@ -29,11 +29,11 @@ public class UnitsAdapter extends ArrayAdapter<Unit> {
 
         Unit item = getItem(position);
         if (item != null) {
-            String unitName = item.getSymbol() + " - " + item.getDescriptionPrefix() + item.getDescription();
+            String unitName = item.symbol + " - " + item.descriptionPrefix + item.description;
 
             StringBuilder prefixes = new StringBuilder("");
-            for (Prefix prefix : item.getPrefixes()) {
-                prefixes.append(prefix.getSymbol()).append(item.getSymbol());
+            for (Prefix prefix : item.prefixes) {
+                prefixes.append(prefix.symbol).append(item.symbol);
                 prefixes.append(" ");
             }
 

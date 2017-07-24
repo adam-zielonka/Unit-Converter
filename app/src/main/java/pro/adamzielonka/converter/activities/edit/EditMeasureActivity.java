@@ -91,7 +91,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             }
         };
         super.onLoad();
-        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.getUnits());
+        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
@@ -110,11 +110,11 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(authorView, userMeasure.getAuthor());
-        updateView(versionView, userMeasure.getVersion().toString());
-        updateView(cloudView, userMeasure.getCloudID());
-        updateView(editMeasureNameView, userMeasure.getName());
-        if (userMeasure.getUnits().size() > 0) {
+        updateView(authorView, userMeasure.author);
+        updateView(versionView, userMeasure.version.toString());
+        updateView(cloudView, userMeasure.cloudID);
+        updateView(editMeasureNameView, userMeasure.getGlobalName());
+        if (userMeasure.units.size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
             updateView(editDefaultDisplay1, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
             updateView(editDefaultDisplay2, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
@@ -124,50 +124,50 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             hideView(editDefaultDisplay2);
         }
         unitsAdapter.clear();
-        unitsAdapter.addAll(userMeasure.getUnits());
+        unitsAdapter.addAll(userMeasure.units);
         unitsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getHeaderViewsCount(), userMeasure.getUnits().size())) {
+        if (isUnderItemClick(position, listView.getHeaderViewsCount(), userMeasure.units.size())) {
             unit = unitsAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {
-                EditText editText = getDialogEditText(userMeasure.getName());
+                EditText editText = getDialogEditText(userMeasure.getGlobalName());
                 getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
-                    userMeasure.setName(editText.getText().toString());
+                    userMeasure.name.put("en", editText.getText().toString());
                     onSave();
                 }).show();
 
             } else if (view.equals(editUnitOrder)) {
-                if (userMeasure.getUnits().size() <= 0) return;
+                if (userMeasure.units.size() <= 0) return;
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
                 intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editDefaultDisplay1)) {
-                if (userMeasure.getUnits().size() <= 0) return;
+                if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_1)
                         .setCancelable(true)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
-                            userMeasure.setDisplayFrom(i);
+                            userMeasure.displayFrom = i;
                             onSave();
                         }).show();
 
             } else if (view.equals(editDefaultDisplay2)) {
-                if (userMeasure.getUnits().size() <= 0) return;
+                if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.getConcreteUnits());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_2)
                         .setCancelable(true)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
-                            userMeasure.setDisplayTo(i);
+                            userMeasure.displayTo = i;
                             onSave();
                         }).show();
 
@@ -175,10 +175,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 EditText editText = getDialogEditText("");
                 getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
                     String newUnitName = editText.getText().toString();
-                    if (!isSymbolUnitExist(newUnitName, userMeasure.getUnits())) {
+                    if (!isSymbolUnitExist(newUnitName, userMeasure.units)) {
                         unit = new Unit();
-                        unit.setSymbol(newUnitName);
-                        userMeasure.getUnits().add(unit);
+                        unit.symbol = newUnitName;
+                        userMeasure.units.add(unit);
                         Intent intent = setEditIntent(EditUnitActivity.class);
                         onSave();
                         startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
@@ -267,7 +267,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, userMeasure.getName(), concreteMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.username, userMeasure.getGlobalName(), concreteMeasure.getUnitsOrder());
                         }
                     }
 
@@ -279,7 +279,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     }
 
     private void updateMeasure(String userId, String username, String title, String body) {
-        if (userMeasure.getCloudID().equals("")) {
+        if (userMeasure.cloudID.equals("")) {
             String key = mDatabase.child("measures").push().getKey();
             CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
             doUpdateMeasure(key, cloudMeasure);
@@ -289,14 +289,14 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.hasChild(userMeasure.getCloudID())) {
-                        CloudMeasure cloudMeasure = snapshot.child(userMeasure.getCloudID()).getValue(CloudMeasure.class);
+                    if (snapshot.hasChild(userMeasure.cloudID)) {
+                        CloudMeasure cloudMeasure = snapshot.child(userMeasure.cloudID).getValue(CloudMeasure.class);
                         if (cloudMeasure.uid.equals(getUid())) {
                             cloudMeasure.version++;
                             cloudMeasure.title = title;
                             cloudMeasure.units_symbols = body;
                             cloudMeasure.units_names = body;
-                            doUpdateMeasure(userMeasure.getCloudID(), cloudMeasure);
+                            doUpdateMeasure(userMeasure.cloudID, cloudMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
                             cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
@@ -328,7 +328,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-        userMeasure.setCloudID(key);
+        userMeasure.cloudID = key;
         onSave(false);
         File file = new File(getFilesDir() + "/" + concreteMeasure.getUserFileName());
         uploadFromUri(Uri.parse(file.toURI().toString()));

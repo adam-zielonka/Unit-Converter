@@ -49,7 +49,7 @@ public abstract class EditActivity extends ListActivity {
 
     protected void onSave(boolean reload) {
         try {
-            FileTools.saveMeasure(this, concreteMeasure,  userMeasure);
+            FileTools.saveMeasure(this, concreteMeasure, userMeasure);
             setResultCode(RESULT_OK);
             if (reload) onUpdate();
         } catch (Exception e) {
@@ -104,16 +104,16 @@ public abstract class EditActivity extends ListActivity {
     }
 
     private Unit openUnit(String unitName, Measure measure) {
-        for (Unit unit : measure.getUnits()) {
-            if (unit.getSymbol().equals(unitName))
+        for (Unit unit : measure.units) {
+            if (unit.symbol.equals(unitName))
                 return unit;
         }
         return null;
     }
 
     private Prefix openPrefix(String prefixName, Unit unit) {
-        for (Prefix prefix : unit.getPrefixes()) {
-            if (prefix.getSymbol().equals(prefixName))
+        for (Prefix prefix : unit.prefixes) {
+            if (prefix.symbol.equals(prefixName))
                 return prefix;
         }
         return null;
@@ -123,14 +123,14 @@ public abstract class EditActivity extends ListActivity {
     //region isTrueOrFalse
     protected boolean isSymbolPrefixExist(String newName, List<Prefix> prefixes) {
         for (Prefix prefix : prefixes) {
-            if (prefix.getSymbol().equals(newName)) return true;
+            if (prefix.symbol.equals(newName)) return true;
         }
         return false;
     }
 
     protected boolean isSymbolUnitExist(String newName, List<Unit> units) {
         for (Unit unit : units) {
-            if (unit.getSymbol().equals(newName)) return true;
+            if (unit.symbol.equals(newName)) return true;
         }
         return false;
     }
@@ -139,8 +139,8 @@ public abstract class EditActivity extends ListActivity {
     protected Intent setEditIntent(Class<?> cls) {
         Intent intent = new Intent(getApplicationContext(), cls);
         intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
-        intent.putExtra("unitName", unit != null ? unit.getSymbol() : "");
-        intent.putExtra("prefixName", prefix != null ? prefix.getSymbol() : "");
+        intent.putExtra("unitName", unit != null ? unit.symbol : "");
+        intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
         return intent;
     }
 }

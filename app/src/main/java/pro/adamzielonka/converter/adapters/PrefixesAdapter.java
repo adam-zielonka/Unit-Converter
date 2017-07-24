@@ -18,7 +18,7 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
     private final Unit unit;
 
     public PrefixesAdapter(@NonNull Context context, Unit unit) {
-        super(context, R.layout.item_pref, unit.getPrefixes());
+        super(context, R.layout.item_pref, unit.prefixes);
         this.unit = unit;
     }
 
@@ -31,8 +31,8 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
 
         Prefix item = getItem(position);
         if (item != null) {
-            String prefixName = item.getSymbol() + " - " + item.getDescription();
-            String exponent = doubleToString(unit.getExpBase()) + "E" + doubleToString(item.getExp());
+            String prefixName = item.symbol + " - " + item.description;
+            String exponent = doubleToString(unit.expBase) + "E" + doubleToString(item.exp);
             ((TextView) result.findViewById(R.id.textPrimary)).setText(prefixName);
             ((TextView) result.findViewById(R.id.textSecondary)).setText(exponent);
         }

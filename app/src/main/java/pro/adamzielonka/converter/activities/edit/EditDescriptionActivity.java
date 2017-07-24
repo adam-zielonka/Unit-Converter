@@ -27,23 +27,23 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(unitEditBaseView, unit.getDescription());
-        updateView(unitEditPrefixView, unit.getDescriptionPrefix());
+        updateView(unitEditBaseView, unit.description);
+        updateView(unitEditPrefixView, unit.descriptionPrefix);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditBaseView)) {
-            EditText editText = getDialogEditText(unit.getDescription());
+            EditText editText = getDialogEditText(unit.description);
             getAlertDialogSave(R.string.dialog_unit_description_base, editText.getRootView(), (dialog, which) -> {
-                unit.setDescription(editText.getText().toString());
+                unit.description = editText.getText().toString();
                 onSave();
             }).show();
 
         } else if (view.equals(unitEditPrefixView)) {
-            EditText editText = getDialogEditText(unit.getDescriptionPrefix());
+            EditText editText = getDialogEditText(unit.descriptionPrefix);
             getAlertDialogSave(R.string.dialog_unit_description_global_prefix, editText.getRootView(), (dialog, which) -> {
-                unit.setDescriptionPrefix(editText.getText().toString());
+                unit.description = editText.getText().toString();
                 onSave();
             }).show();
         }

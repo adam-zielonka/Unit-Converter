@@ -43,14 +43,14 @@ public class EditOrderUnitsActivity extends EditActivity {
 
     private void changePosition(ConcreteUnit concreteUnit, int change) {
         String find = concreteUnit.getName();
-        for (Unit unit : userMeasure.getUnits()) {
-            if (unit.getSymbol().equals(find)) {
-                unit.setPosition(unit.getPosition() + change);
+        for (Unit unit : userMeasure.units) {
+            if (unit.symbol.equals(find)) {
+                unit.position += change;
                 return;
             }
-            for (Prefix prefix : unit.getPrefixes()) {
-                if (find.equals(prefix.getSymbol() + unit.getSymbol())) {
-                    prefix.setPosition(prefix.getPosition() + change);
+            for (Prefix prefix : unit.prefixes) {
+                if (find.equals(prefix.symbol + unit.symbol)) {
+                    prefix.position += change;
                     return;
                 }
             }

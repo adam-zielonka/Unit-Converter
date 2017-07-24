@@ -48,28 +48,28 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(editSymbolView, unit.getSymbol());
+        updateView(editSymbolView, unit.symbol);
         updateView(editDescriptionView, unit.getFullDescription());
-        updateView(editFormulaView, getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
-        updateView(editExpBaseView, doubleToString(unit.getExpBase()));
+        updateView(editFormulaView, getFormula(unit.one, unit.shift, unit.shift2, unit.symbol));
+        updateView(editExpBaseView, doubleToString(unit.expBase));
         prefixesAdapter.clear();
-        prefixesAdapter.addAll(unit.getPrefixes());
+        prefixesAdapter.addAll(unit.prefixes);
         prefixesAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getHeaderViewsCount(), unit.getPrefixes().size())) {
+        if (isUnderItemClick(position, listView.getHeaderViewsCount(), unit.prefixes.size())) {
             prefix = prefixesAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editSymbolView)) {
-                EditText editText = getDialogEditText(unit.getSymbol());
+                EditText editText = getDialogEditText(unit.symbol);
                 getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
                     String newName = editText.getText().toString();
                     if (!newName.equals(unitName)) {
-                        if (!isSymbolUnitExist(newName, userMeasure.getUnits())) {
-                            unit.setSymbol(newName);
+                        if (!isSymbolUnitExist(newName, userMeasure.units)) {
+                            unit.symbol = newName;
                             unitName = newName;
                             onSave();
                         } else {
@@ -87,11 +87,11 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
             } else if (view.equals(editExpBaseView)) {
                 final NumberPicker numberPicker = new NumberPicker(this);
                 numberPicker.setMaxValue(100);
-                numberPicker.setValue(Integer.parseInt(doubleToString(unit.getExpBase())));
+                numberPicker.setValue(Integer.parseInt(doubleToString(unit.expBase)));
                 numberPicker.setMinValue(2);
 
                 getAlertDialogSave(R.string.dialog_unit_exponentiation_base, numberPicker, (dialog, which) -> {
-                    unit.setExpBase(1.0 * numberPicker.getValue());
+                    unit.expBase = 1.0 * numberPicker.getValue();
                     onSave();
                 }).show();
 
@@ -99,10 +99,10 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 EditText editText = getDialogEditText("");
                 getAlertDialogSave(R.string.dialog_prefix_symbol, editText.getRootView(), (dialog, which) -> {
                     String newPrefixName = editText.getText().toString();
-                    if (!EditUnitActivity.this.isSymbolPrefixExist(newPrefixName, unit.getPrefixes())) {
+                    if (!isSymbolPrefixExist(newPrefixName, unit.prefixes)) {
                         prefix = new Prefix();
-                        prefix.setSymbol(newPrefixName);
-                        unit.getPrefixes().add(prefix);
+                        prefix.symbol = newPrefixName;
+                        unit.prefixes.add(prefix);
                         Intent intent = setEditIntent(EditPrefixActivity.class);
                         onSave();
                         startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
@@ -126,7 +126,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         switch (id) {
             case R.id.menu_delete:
                 getAlertDialogDelete(R.string.delete_unit_title, (dialog, which) -> {
-                    userMeasure.getUnits().remove(unit);
+                    userMeasure.units.remove(unit);
                     onSave(false);
                     onBackPressed();
                 }).show();

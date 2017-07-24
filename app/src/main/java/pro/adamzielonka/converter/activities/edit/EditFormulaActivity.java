@@ -35,32 +35,32 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(unitFormulaView, getFormula(unit.getOne(), unit.getShift(), unit.getShift2(), unit.getSymbol()));
-        updateView(unitEditOneView, doubleToString(unit.getOne()));
-        updateView(unitEditShift1View, doubleToString(unit.getShift()));
-        updateView(unitEditShift2View, doubleToString(unit.getShift2()));
+        updateView(unitFormulaView, getFormula(unit.one, unit.shift, unit.shift2, unit.symbol));
+        updateView(unitEditOneView, doubleToString(unit.one));
+        updateView(unitEditShift1View, doubleToString(unit.shift));
+        updateView(unitEditShift2View, doubleToString(unit.shift2));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditOneView)) {
-            EditText editText = getDialogEditNumber(unit.getOne());
+            EditText editText = getDialogEditNumber(unit.one);
             getAlertDialogSave(R.string.dialog_formula_one, editText.getRootView(), (dialog, which) -> {
-                unit.setOne(stringToDouble(editText.getText().toString()));
+                unit.one = stringToDouble(editText.getText().toString());
                 onSave();
             }).show();
 
         } else if (view.equals(unitEditShift1View)) {
-            EditText editText = getDialogEditNumber(unit.getShift());
+            EditText editText = getDialogEditNumber(unit.shift);
             getAlertDialogSave(R.string.dialog_formula_shift1, editText.getRootView(), (dialog, which) -> {
-                unit.setShift(stringToDouble(editText.getText().toString()));
+                unit.shift = stringToDouble(editText.getText().toString());
                 onSave();
             }).show();
 
         } else if (view.equals(unitEditShift2View)) {
-            EditText editText = getDialogEditNumber(unit.getShift2());
+            EditText editText = getDialogEditNumber(unit.shift2);
             getAlertDialogSave(R.string.dialog_formula_shift2, editText.getRootView(), (dialog, which) -> {
-                unit.setShift2(stringToDouble(editText.getText().toString()));
+                unit.shift2 = stringToDouble(editText.getText().toString());
                 onSave();
             }).show();
         }
