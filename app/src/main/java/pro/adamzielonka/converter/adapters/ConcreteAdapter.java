@@ -51,7 +51,7 @@ public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
 
         ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name : "");
         TextView textView = result.findViewById(R.id.unitsTextView2);
-        if (textView != null) textView.setText(item != null ? " " + item.description : "");
+        if (textView != null) textView.setText(item != null ? " " + getLanguageWords(item.description) : "");
 
         return result;
     }

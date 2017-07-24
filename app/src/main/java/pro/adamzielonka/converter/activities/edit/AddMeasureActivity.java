@@ -70,7 +70,8 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
             EditText editText = getDialogEditText("");
             getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
                 userMeasure = new Measure();
-                userMeasure.setName("en", editText.getText().toString());
+                userMeasure.setName(getLangCode(this), editText.getText().toString());
+                userMeasure.global = getLangCode(this);
                 concreteMeasure = userMeasure.getConcreteMeasure();
 
                 String concreteFileName = getNewFileInternalName(this,

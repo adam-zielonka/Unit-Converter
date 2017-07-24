@@ -57,40 +57,60 @@ public class Measure {
     private Map<String, String> getCUnitName(Map<String, String> descriptionPrefix, Map<String, String> description) {
         Map<String, String> map = new HashMap<>(descriptionPrefix);
         for (Map.Entry<String, String> e : description.entrySet())
-            map.put(e.getKey(), getKey(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
         return map;
     }
 
     private Map<String, String> getCPrefixName(Map<String, String> descriptionPrefix, Map<String, String> prefixDescription, Map<String, String> description) {
         Map<String, String> map = new HashMap<>(descriptionPrefix);
         for (Map.Entry<String, String> e : prefixDescription.entrySet())
-            map.put(e.getKey(), getKey(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
         for (Map.Entry<String, String> e : description.entrySet())
-            map.put(e.getKey(), getKey(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
         return map;
     }
 
-    private String getKey(Map<String, String> map, String key) {
+    private String getValue(Map<String, String> map, String key) {
         return map.containsKey(key) ? map.get(key) : "";
     }
 
+    private Integer getValueInt(Map<String, Integer> map, String key) {
+        return map.containsKey(key) ? map.get(key) : 0;
+    }
+
+    private Map<String, Integer> getLanguages(List<ConcreteUnit> concreteUnits, Map<String, String> name) {
+        Map<String, Integer> map = new HashMap<>();
+        for (ConcreteUnit concreteUnit : concreteUnits) {
+            for (Map.Entry<String, String> e : concreteUnit.description.entrySet()) {
+                map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
+            }
+        }
+        for (Map.Entry<String, String> e : name.entrySet()) {
+            map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
+        }
+        return map;
+    }
+
     public ConcreteMeasure getConcreteMeasure() {
+        List<ConcreteUnit> concreteUnits = getConcreteUnits();
         return new ConcreteMeasure(
                 name,
                 global,
                 getDisplayFrom(),
                 getDisplayTo(),
-                getConcreteUnits()
-        );
+                concreteUnits,
+                getLanguages(concreteUnits, name));
     }
 
     public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile) {
+        List<ConcreteUnit> concreteUnits = getConcreteUnits();
         return new ConcreteMeasure(
                 name,
                 global,
                 getDisplayFrom(),
                 getDisplayTo(),
-                getConcreteUnits(),
+                concreteUnits,
+                getLanguages(concreteUnits, name),
                 concreteFile,
                 userFile
         );

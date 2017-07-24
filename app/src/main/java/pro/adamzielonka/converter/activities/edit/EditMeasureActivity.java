@@ -49,10 +49,10 @@ import pro.adamzielonka.converter.services.MyUploadService;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
+import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
@@ -66,6 +66,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private View editDefaultDisplay1;
     private View editDefaultDisplay2;
     private View addUnit;
+    private View langView;
+    private View globalLangView;
     private View authorView;
     private View versionView;
     private View cloudView;
@@ -93,13 +95,16 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             }
         };
         super.onLoad();
-        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units, getLangCode(this), userMeasure.global);
+        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units, userMeasure.global, userMeasure.global);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
         authorView = listView.addHeaderItem(getString(R.string.list_item_author));
         versionView = listView.addHeaderItem(getString(R.string.list_item_version));
         cloudView = listView.addHeaderItem(getString(R.string.list_item_cloud));
+        listView.addHeaderTitle(getString(R.string.list_title_language));
+        langView = listView.addHeaderItem(getString(R.string.list_item_language_available));
+        globalLangView = listView.addHeaderItem(getString(R.string.list_item_language_global));
         listView.addHeaderTitle(getString(R.string.list_title_Measure));
         editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name));
         editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order));
@@ -115,7 +120,9 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         updateView(authorView, userMeasure.author);
         updateView(versionView, userMeasure.version.toString());
         updateView(cloudView, userMeasure.cloudID);
-        updateView(editMeasureNameView, userMeasure.getName(getLangCode(this)));
+        updateView(langView, concreteMeasure.languages.toString());
+        updateView(globalLangView, concreteMeasure.global);
+        updateView(editMeasureNameView, userMeasure.getName(userMeasure.global));
         if (userMeasure.units.size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
             updateView(editDefaultDisplay1, concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name);
@@ -126,6 +133,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             hideView(editDefaultDisplay2);
         }
         unitsAdapter.clear();
+        unitsAdapter.langCode = unitsAdapter.globalCode = userMeasure.global;
         unitsAdapter.addAll(userMeasure.units);
         unitsAdapter.notifyDataSetChanged();
     }
@@ -136,10 +144,22 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             unit = unitsAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
-            if (view.equals(editMeasureNameView)) {
-                EditText editText = getDialogEditText(userMeasure.getName(getLangCode(this)));
+            if (view.equals(globalLangView)) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.list_item_language_global)
+                        .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(), (dialogInterface, i) -> {
+                            int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                            userMeasure.global = concreteMeasure.getGlobalFromID(selectedPosition);
+                            dialogInterface.dismiss();
+                            onSave();
+                        })
+                        .setCancelable(true)
+                        .show();
+
+            } else if (view.equals(editMeasureNameView)) {
+                EditText editText = getDialogEditText(userMeasure.getName(userMeasure.global));
                 getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
-                    userMeasure.setName("en", editText.getText().toString());
+                    userMeasure.setName(concreteMeasure.global, editText.getText().toString());
                     onSave();
                 }).show();
 
@@ -153,7 +173,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        getLangCode(this),
+                        userMeasure.global,
                         userMeasure.global
                 );
                 new AlertDialog.Builder(this)
@@ -168,7 +188,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        getLangCode(this),
+                        userMeasure.global,
                         userMeasure.global
                 );
                 new AlertDialog.Builder(this)
@@ -248,7 +268,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             Gson gson = getGson();
             String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
-            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName(getLangCode(this))));
+            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName(userMeasure.global)));
             if (out != null) {
                 out.write(json.getBytes());
                 out.close();

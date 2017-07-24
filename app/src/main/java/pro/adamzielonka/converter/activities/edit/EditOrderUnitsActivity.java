@@ -9,8 +9,6 @@ import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
-
 public class EditOrderUnitsActivity extends EditActivity {
 
     private OrderAdapter orderAdapter;
@@ -19,7 +17,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     public void onLoad() throws Exception {
         setTitle(R.string.title_activity_edit_order_units);
         super.onLoad();
-        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, getLangCode(this), concreteMeasure.global);
+        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, userMeasure.global, concreteMeasure.global);
         listView.setAdapter(orderAdapter);
     }
 

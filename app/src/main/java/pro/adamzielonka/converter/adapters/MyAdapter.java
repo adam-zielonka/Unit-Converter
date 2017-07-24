@@ -11,8 +11,8 @@ import pro.adamzielonka.converter.tools.Language;
 
 abstract class MyAdapter<T> extends ArrayAdapter<T> {
 
-    private String langCode;
-    private String globalCode;
+    public String langCode;
+    public String globalCode;
 
     MyAdapter(String langCode, String globalCode, @NonNull Context context, int resource, @NonNull List<T> objects) {
         super(context, resource, objects);

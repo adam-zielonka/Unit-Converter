@@ -150,6 +150,9 @@
     <string name="error_name_already_exist">Name already exist.</string>
     <string name="search">Search</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="list_item_language_available">Available</string>
+    <string name="list_title_language">Language</string>
+    <string name="list_item_language_global">Global</string>
     <!-- -->
 
 </resources>

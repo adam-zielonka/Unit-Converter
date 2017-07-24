@@ -8,8 +8,6 @@ import android.widget.ListView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
-
 public class EditDescriptionActivity extends EditActivity implements ListView.OnItemClickListener {
 
     private View unitEditBaseView;
@@ -30,23 +28,23 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(unitEditBaseView, userMeasure.getWords(unit.description, getLangCode(this)));
-        updateView(unitEditPrefixView, userMeasure.getWords(unit.descriptionPrefix, getLangCode(this)));
+        updateView(unitEditBaseView, userMeasure.getWords(unit.description, userMeasure.global));
+        updateView(unitEditPrefixView, userMeasure.getWords(unit.descriptionPrefix, userMeasure.global));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditBaseView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(unit.description, getLangCode(this)));
+            EditText editText = getDialogEditText(userMeasure.getWords(unit.description, userMeasure.global));
             getAlertDialogSave(R.string.dialog_unit_description_base, editText.getRootView(), (dialog, which) -> {
-                unit.description.put(getLangCode(this), editText.getText().toString());
+                unit.description.put(userMeasure.global, editText.getText().toString());
                 onSave();
             }).show();
 
         } else if (view.equals(unitEditPrefixView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(unit.descriptionPrefix, getLangCode(this)));
+            EditText editText = getDialogEditText(userMeasure.getWords(unit.descriptionPrefix, userMeasure.global));
             getAlertDialogSave(R.string.dialog_unit_description_global_prefix, editText.getRootView(), (dialog, which) -> {
-                unit.description.put(getLangCode(this), editText.getText().toString());
+                unit.description.put(userMeasure.global, editText.getText().toString());
                 onSave();
             }).show();
         }
