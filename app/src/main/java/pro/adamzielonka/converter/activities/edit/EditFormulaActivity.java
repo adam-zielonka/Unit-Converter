@@ -21,6 +21,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onLoad() throws Exception {
+        setTitle(R.string.title_activity_formula_description);
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);

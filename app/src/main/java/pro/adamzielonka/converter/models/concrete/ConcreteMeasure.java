@@ -3,7 +3,7 @@ package pro.adamzielonka.converter.models.concrete;
 import java.util.List;
 import java.util.Map;
 
-import static pro.adamzielonka.converter.tools.Converter.getLanguageWords;
+import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 
 public class ConcreteMeasure {
     private final Map<String, String> name;

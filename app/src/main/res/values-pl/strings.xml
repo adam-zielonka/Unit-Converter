@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Przelicznik jednostek</string>
+    <string name="nav_converters">Przeliczniki</string>
+    <string name="pref_header_about">O programie</string>
+    <string name="pref_header_appearance">Wygląd</string>
+    <string name="pref_header_user">Użytkownik</string>
+    <string name="pref_title_language">Język</string>
+    <string name="pref_title_sign_in">Zaloguj</string>
+    <string name="pref_title_sign_out">Wyloguj</string>
+    <string name="pref_title_theme">Motyw</string>
+    <string name="pref_title_user_name">Nazwa</string>
+    <string name="pref_title_version">Wersja</string>
+    <string name="pref_title_website">Strona internetowa</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="title_activity_edit_measure">Edytuj miarę</string>
+</resources>

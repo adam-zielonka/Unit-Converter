@@ -2,13 +2,14 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.view.View;
 
+import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 
-import static pro.adamzielonka.converter.tools.Converter.getLangCode;
+import static pro.adamzielonka.converter.tools.Language.getLangCode;
 
 public class EditOrderUnitsActivity extends EditActivity {
 
@@ -16,8 +17,9 @@ public class EditOrderUnitsActivity extends EditActivity {
 
     @Override
     public void onLoad() throws Exception {
+        setTitle(R.string.title_activity_edit_order_units);
         super.onLoad();
-        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, getLangCode(), concreteMeasure.global);
+        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, getLangCode(this), concreteMeasure.global);
         listView.setAdapter(orderAdapter);
     }
 

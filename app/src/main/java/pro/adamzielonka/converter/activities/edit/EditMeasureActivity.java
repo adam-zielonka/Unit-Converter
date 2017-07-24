@@ -49,7 +49,7 @@ import pro.adamzielonka.converter.services.MyUploadService;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
-import static pro.adamzielonka.converter.tools.Converter.getLangCode;
+import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
@@ -76,6 +76,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onLoad() throws Exception {
+        setTitle(R.string.title_activity_edit_measure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -92,7 +93,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             }
         };
         super.onLoad();
-        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units, getLangCode(), userMeasure.global);
+        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units, getLangCode(this), userMeasure.global);
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
@@ -114,7 +115,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         updateView(authorView, userMeasure.author);
         updateView(versionView, userMeasure.version.toString());
         updateView(cloudView, userMeasure.cloudID);
-        updateView(editMeasureNameView, userMeasure.getName(getLangCode()));
+        updateView(editMeasureNameView, userMeasure.getName(getLangCode(this)));
         if (userMeasure.units.size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
             updateView(editDefaultDisplay1, concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name);
@@ -136,7 +137,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editMeasureNameView)) {
-                EditText editText = getDialogEditText(userMeasure.getName(getLangCode()));
+                EditText editText = getDialogEditText(userMeasure.getName(getLangCode(this)));
                 getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
                     userMeasure.setName("en", editText.getText().toString());
                     onSave();
@@ -152,7 +153,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        getLangCode(),
+                        getLangCode(this),
                         userMeasure.global
                 );
                 new AlertDialog.Builder(this)
@@ -167,7 +168,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        getLangCode(),
+                        getLangCode(this),
                         userMeasure.global
                 );
                 new AlertDialog.Builder(this)
@@ -247,7 +248,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             Gson gson = getGson();
             String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
-            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName(getLangCode())));
+            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName(getLangCode(this))));
             if (out != null) {
                 out.write(json.getBytes());
                 out.close();
@@ -274,7 +275,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, userMeasure.getName(getLangCode()), concreteMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.username, userMeasure.getName(getLangCode(EditMeasureActivity.this)), concreteMeasure.getUnitsOrder());
                         }
                     }
 

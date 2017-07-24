@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 import java.util.Map;
 
-import pro.adamzielonka.converter.tools.Converter;
+import pro.adamzielonka.converter.tools.Language;
 
 abstract class MyAdapter<T> extends ArrayAdapter<T> {
 
@@ -21,6 +21,6 @@ abstract class MyAdapter<T> extends ArrayAdapter<T> {
     }
 
     String getLanguageWords(Map<String, String> map) {
-        return Converter.getLanguageWords(map, langCode, globalCode);
+        return Language.getLanguageWords(map, langCode, globalCode);
     }
 }

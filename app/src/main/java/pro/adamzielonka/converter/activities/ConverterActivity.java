@@ -38,7 +38,7 @@ import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
-import static pro.adamzielonka.converter.tools.Converter.getLangCode;
+import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.converter.tools.Number.appendComma;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
@@ -136,7 +136,7 @@ public class ConverterActivity extends AppCompatActivity
         menuItems.clear();
         int i = 0;
         for (ConcreteMeasure measure : measureList) {
-            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName(getLangCode())));
+            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName(getLangCode(this))));
             menuItems.get(i).setCheckable(true);
             i++;
         }
@@ -149,9 +149,9 @@ public class ConverterActivity extends AppCompatActivity
             measureList = loadConverters(this);
             measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
 
-            setTitle(measure.getName(getLangCode()));
+            setTitle(measure.getName(getLangCode(this)));
             navigationView.setCheckedItem(this.converterID);
-            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.getName(getLangCode()));
+            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.getName(getLangCode(this)));
 
             if (measure.concreteUnits.size() > 0) {
 
@@ -165,12 +165,12 @@ public class ConverterActivity extends AppCompatActivity
                 setConverterLayout();
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode()));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode(this)));
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             } else {
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode()));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode(this)));
                 bundle.putString(FirebaseAnalytics.Param.VALUE, "empty");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 setEmptyLayout();
@@ -223,7 +223,7 @@ public class ConverterActivity extends AppCompatActivity
     void setAdapter() {
         adapter = new ConcreteAdapter(getApplicationContext(),
                 measureList.get(converterID - DEFAULT_CONVERTER_ID).concreteUnits,
-                getLangCode(),
+                getLangCode(this),
                 measure.global
         );
 
@@ -237,8 +237,8 @@ public class ConverterActivity extends AppCompatActivity
 
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
+        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode(this)) : "");
+        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode(this)) : "");
     }
     //endregion
 
@@ -258,8 +258,8 @@ public class ConverterActivity extends AppCompatActivity
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
+        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode(this)) : "");
+        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode(this)) : "");
         onCalculate();
     }
 

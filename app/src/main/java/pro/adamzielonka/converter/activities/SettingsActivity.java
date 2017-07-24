@@ -33,6 +33,10 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
 
+import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
+import static pro.adamzielonka.converter.tools.Language.getLanguageID;
+import static pro.adamzielonka.converter.tools.Language.getLanguages;
+import static pro.adamzielonka.converter.tools.Language.setLanguage;
 import static pro.adamzielonka.converter.tools.Theme.getThemeID;
 import static pro.adamzielonka.converter.tools.Theme.getThemeName;
 import static pro.adamzielonka.converter.tools.Theme.getThemes;
@@ -40,6 +44,7 @@ import static pro.adamzielonka.converter.tools.Theme.getThemes;
 public class SettingsActivity extends PreferenceActivity implements ListView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private View themeView;
+    private View langView;
     private View logInView;
     private View userNameView;
     private View websiteView;
@@ -50,6 +55,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     @Override
     public void onLoad() throws Exception {
+        setTitle(R.string.title_activity_settings);
         initAuth();
         super.onLoad();
         listView.setEmptyAdapter();
@@ -57,6 +63,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
         listView.addHeaderTitle(getString(R.string.pref_header_appearance));
         themeView = listView.addHeaderItem(getString(R.string.pref_title_theme));
+        langView = listView.addHeaderItem(getString(R.string.pref_title_language));
         listView.addHeaderTitle(getString(R.string.pref_header_user));
         logInView = listView.addHeaderItem(getString(R.string.pref_title_sign_in));
         userNameView = listView.addHeaderItem(getString(R.string.pref_title_user_name));
@@ -67,6 +74,8 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     public void onUpdate() {
         updateView(themeView, getThemeName(this));
+        updateView(langView, getResources().getConfiguration().locale.getLanguage());
+
         if (getUser() != null) {
             updateView(logInView, getString(R.string.pref_title_sign_out), getUser().getEmail());
             updateView(userNameView, getString(R.string.pref_title_user_name), getUserName());
@@ -91,6 +100,17 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
                     })
                     .setCancelable(true)
                     .show();
+        } else if (view.equals(langView)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.pref_title_language)
+                    .setSingleChoiceItems(getLanguages(this), getLanguageID(this), (dialogInterface, i) -> {
+                        int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                        setLanguage(this, getLanguageFromID(this, selectedPosition));
+                        dialogInterface.dismiss();
+                        restart();
+                    })
+                    .setCancelable(true)
+                    .show();
         } else if (view.equals(logInView)) {
             if (getUser() != null) signOut();
             else signIn();
@@ -108,11 +128,15 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals("theme")) {
-            Intent settings = new Intent(getBaseContext(), SettingsActivity.class);
-            startActivity(settings);
-            overridePendingTransition(0, 0);
-            finish();
+            restart();
         }
+    }
+
+    protected void restart(){
+        Intent settings = new Intent(getBaseContext(), SettingsActivity.class);
+        startActivity(settings);
+        overridePendingTransition(0, 0);
+        finish();
     }
 
     //region sign in out

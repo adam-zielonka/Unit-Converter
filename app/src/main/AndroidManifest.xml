@@ -36,47 +36,44 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.edit.AddMeasureActivity"
-            android:label="@string/title_activity_add_measure"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditMeasureActivity"
-            android:label="@string/title_activity_edit_measure"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditUnitActivity"
-            android:label="@string/title_activity_edit_unit"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditOrderUnitsActivity"
-            android:label="@string/title_activity_edit_order_units"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditPrefixActivity"
-            android:label="@string/title_activity_edit_prefix"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditDescriptionActivity"
-            android:label="@string/title_activity_edit_description"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditFormulaActivity"
-            android:label="@string/title_activity_formula_description"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.database.CloudActivity"
-            android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
-        <activity android:name=".activities.database.MeasureDetailActivity" />
+        <activity
+            android:name=".activities.database.MeasureDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/BlueTheme" />
 
         <service
             android:name=".services.MyDownloadService"

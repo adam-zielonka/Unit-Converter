@@ -10,7 +10,7 @@ import android.widget.ListView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
-import static pro.adamzielonka.converter.tools.Converter.getLangCode;
+import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
@@ -23,6 +23,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
 
     @Override
     public void onLoad() throws Exception {
+        setTitle(R.string.title_activity_edit_prefix);
         super.onLoad();
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
@@ -37,7 +38,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(prefixNameView, prefix.symbol);
-        updateView(prefixDescriptionView, userMeasure.getWords(prefix.description, getLangCode()));
+        updateView(prefixDescriptionView, userMeasure.getWords(prefix.description, getLangCode(this)));
         updateView(prefixExponentView, doubleToString(prefix.exp));
     }
 
@@ -59,9 +60,9 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             }).show();
 
         } else if (view.equals(prefixDescriptionView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(prefix.description, getLangCode()));
+            EditText editText = getDialogEditText(userMeasure.getWords(prefix.description, getLangCode(this)));
             getAlertDialogSave(R.string.dialog_prefix_description, editText.getRootView(), (dialog, which) -> {
-                prefix.description.put(getLangCode(), editText.getText().toString());
+                prefix.description.put(getLangCode(this), editText.getText().toString());
                 onSave();
             }).show();
 

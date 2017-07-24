@@ -9,7 +9,7 @@ import java.util.Map;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
-import static pro.adamzielonka.converter.tools.Converter.getLanguageWords;
+import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 
 public class Measure {
     public String global = "en";
