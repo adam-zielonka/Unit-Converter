@@ -1,65 +1,95 @@
 {
-  "name": "Volume",
+  "name": {
+    "en": "Volume"
+  },
   "version": 1,
   "author": "root",
   "units": [
     {
       "symbol": "m³",
-      "descriptionPrefix": "cubic ",
-      "description": "meter",
+      "descriptionPrefix": {
+        "en": "cubic "
+      },
+      "description": {
+        "en": "meter"
+      },
       "one": 1,
       "prefixes": [
         {
           "symbol": "d",
-          "description": "deci",
+          "description": {
+            "en": "deci"
+          },
           "exp": -3
         },
         {
           "symbol": "c",
-          "description": "centi",
+          "description": {
+            "en": "centi"
+          },
           "exp": -6
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli"
+          },
           "exp": -9
         }
       ]
     },
     {
       "symbol": "l",
-      "description": "liter",
+      "description": {
+        "en": "liter"
+      },
       "one": 0.001,
       "position": -1,
       "prefixes": [
         {
           "symbol": "h",
-          "description": "hecto",
+          "description": {
+            "en": "hecto"
+          },
           "exp": 2
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli"
+          },
           "exp": -3
         }
       ]
     },
     {
       "symbol": "yd³",
-      "descriptionPrefix": "cubic ",
-      "description": "yard",
+      "descriptionPrefix": {
+        "en": "cubic "
+      },
+      "description": {
+        "en": "yard"
+      },
       "one": 0.764554857984
     },
     {
       "symbol": "ft³",
-      "descriptionPrefix": "cubic ",
-      "description": "foot",
+      "descriptionPrefix": {
+        "en": "cubic "
+      },
+      "description": {
+        "en": "foot"
+      },
       "one": 0.028316846592
     },
     {
       "symbol": "in³",
-      "descriptionPrefix": "cubic ",
-      "description": "inch",
+      "descriptionPrefix": {
+        "en": "cubic "
+      },
+      "description": {
+        "en": "inch"
+      },
       "one": 0.000016387064
     }
   ]

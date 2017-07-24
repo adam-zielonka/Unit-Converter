@@ -1,5 +1,7 @@
 {
-  "name": "Length",
+  "name": {
+    "en": "Length"
+  },
   "version": 1,
   "author": "root",
   "displayFrom": 5,
@@ -7,65 +9,89 @@
   "units": [
     {
       "symbol": "m",
-      "description": "meter",
+      "description": {
+        "en": "meter"
+      },
       "position": -5,
       "one": 1,
       "prefixes": [
         {
           "symbol": "n",
-          "description": "nano",
+          "description": {
+            "en": "nano"
+          },
           "exp": -9
         },
         {
           "symbol": "μ",
-          "description": "micro",
+          "description": {
+            "en": "micro"
+          },
           "exp": -6
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli"
+          },
           "exp": -3
         },
         {
           "symbol": "c",
-          "description": "centi",
+          "description": {
+            "en": "centi"
+          },
           "exp": -2
         },
         {
           "symbol": "d",
-          "description": "deci",
+          "description": {
+            "en": "deci"
+          },
           "exp": -1
         },
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 3
         }
       ]
     },
     {
       "symbol": "mi",
-      "description": "mile",
+      "description": {
+        "en": "mile"
+      },
       "one": 1609.344
     },
     {
       "symbol": "nmi",
-      "description": "nautical mile",
+      "description": {
+        "en": "nautical mile"
+      },
       "one": 1852
     },
     {
       "symbol": "yd",
-      "description": "yard",
+      "description": {
+        "en": "yard"
+      },
       "one": 0.9144
     },
     {
       "symbol": "ft",
-      "description": "foot",
+      "description": {
+        "en": "foot"
+      },
       "one": 0.3048
     },
     {
       "symbol": "in",
-      "description": "inch",
+      "description": {
+        "en": "inch"
+      },
       "one": 0.0254
     }
   ]

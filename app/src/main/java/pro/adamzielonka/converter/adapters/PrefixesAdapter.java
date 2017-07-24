@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
@@ -14,11 +13,11 @@ import pro.adamzielonka.converter.models.user.Unit;
 
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
-public class PrefixesAdapter extends ArrayAdapter<Prefix> {
+public class PrefixesAdapter extends MyAdapter<Prefix> {
     private final Unit unit;
 
-    public PrefixesAdapter(@NonNull Context context, Unit unit) {
-        super(context, R.layout.item_pref, unit.prefixes);
+    public PrefixesAdapter(@NonNull Context context, Unit unit, String langCode, String globalCode) {
+        super(langCode, globalCode, context, R.layout.item_pref, unit.prefixes);
         this.unit = unit;
     }
 
@@ -31,7 +30,7 @@ public class PrefixesAdapter extends ArrayAdapter<Prefix> {
 
         Prefix item = getItem(position);
         if (item != null) {
-            String prefixName = item.symbol + " - " + item.description;
+            String prefixName = item.symbol + " - " + getLanguageWords(item.description);
             String exponent = doubleToString(unit.expBase) + "E" + doubleToString(item.exp);
             ((TextView) result.findViewById(R.id.textPrimary)).setText(prefixName);
             ((TextView) result.findViewById(R.id.textSecondary)).setText(exponent);

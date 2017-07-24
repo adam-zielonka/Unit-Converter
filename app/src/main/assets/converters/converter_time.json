@@ -1,5 +1,7 @@
 {
-  "name": "Time",
+  "name": {
+    "en": "Time"
+  },
   "version": 1,
   "author": "root",
   "displayFrom": 4,
@@ -7,45 +9,61 @@
   "units": [
     {
       "symbol": "s",
-      "description": "second",
+      "description": {
+        "en": "second"
+      },
       "position": -2,
       "one": 1,
       "prefixes": [
         {
           "symbol": "µ",
-          "description": "micro",
+          "description": {
+            "en": "micro"
+          },
           "exp": -6
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli"
+          },
           "exp": -3
         }
       ]
     },
     {
       "symbol": "m",
-      "description": "minute",
+      "description": {
+        "en": "minute"
+      },
       "one": 60
     },
     {
       "symbol": "h",
-      "description": "hour",
+      "description": {
+        "en": "hour"
+      },
       "one": 3600
     },
     {
       "symbol": "d",
-      "description": "day",
+      "description": {
+        "en": "day"
+      },
       "one": 86400
     },
     {
       "symbol": "w",
-      "description": "week",
+      "description": {
+        "en": "week"
+      },
       "one": 604800
     },
     {
       "symbol": "y",
-      "description": "year",
+      "description": {
+        "en": "year"
+      },
       "one": 31536000
     }
   ]

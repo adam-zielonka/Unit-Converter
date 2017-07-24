@@ -1,38 +1,52 @@
 {
-  "name": "Power",
+  "name": {
+    "en": "Power"
+  },
   "version": 1,
   "author": "root",
   "units": [
     {
       "symbol": "W",
-      "description": "watt",
+      "description": {
+        "en": "watt"
+      },
       "one": 1,
       "prefixes": [
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 3
         }
       ]
     },
     {
       "symbol": "hp(I)",
-      "description": "Mechanical horsepower",
+      "description": {
+        "en": "Mechanical horsepower"
+      },
       "one": 745.69987158227022
     },
     {
       "symbol": "hp(M)",
-      "description": "Metric horsepower",
+      "description": {
+        "en": "Metric horsepower"
+      },
       "one": 735.49875
     },
     {
       "symbol": "hp(E)",
-      "description": "Electrical horsepower",
+      "description": {
+        "en": "Electrical horsepower"
+      },
       "one": 746
     },
     {
       "symbol": "hp(S)",
-      "description": "Boiler horsepower",
+      "description": {
+        "en": "Boiler horsepower"
+      },
       "one": 9812.5
     }
   ]

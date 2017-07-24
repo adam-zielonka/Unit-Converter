@@ -30,6 +30,7 @@ import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
@@ -68,13 +69,13 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
             EditText editText = getDialogEditText("");
             getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
                 userMeasure = new Measure();
-                userMeasure.name.put("en", editText.getText().toString());
+                userMeasure.setName("en", editText.getText().toString());
                 concreteMeasure = userMeasure.getConcreteMeasure();
 
                 String concreteFileName = getNewFileInternalName(this,
-                        "concrete_", concreteMeasure.name);
+                        "concrete_", concreteMeasure.getName(getLangCode()));
                 String userFileName = getNewFileInternalName(this,
-                        "user_", concreteMeasure.name);
+                        "user_", concreteMeasure.getName(getLangCode()));
 
                 concreteMeasure.concreteFileName = concreteFileName;
                 concreteMeasure.userFileName = userFileName;
@@ -160,8 +161,8 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
                 return;
             }
 
-            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.name);
-            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.name);
+            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode()));
+            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode()));
 
             concreteMeasure.concreteFileName = concreteFileName;
             concreteMeasure.userFileName = userFileName;

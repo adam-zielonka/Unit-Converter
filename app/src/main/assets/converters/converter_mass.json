@@ -1,49 +1,67 @@
 {
-  "name": "Mass",
+  "name": {
+    "en": "Mass"
+  },
   "version": 1,
   "author": "root",
   "units": [
     {
       "symbol": "t",
-      "description": "tonne",
+      "description": {
+        "en": "tonne"
+      },
       "one": 1000000
     },
     {
       "symbol": "g",
-      "description": "gram",
+      "description": {
+        "en": "gram"
+      },
       "position": -2,
       "one": 1,
       "prefixes": [
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 3
         },
         {
           "symbol": "da",
-          "description": "deca",
+          "description": {
+            "en": "deca"
+          },
           "exp": 1
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli"
+          },
           "exp": -3
         }
       ]
     },
     {
       "symbol": "ct",
-      "description": "carat",
+      "description": {
+        "en": "carat"
+      },
       "one": 0.2
     },
     {
       "symbol": "oz",
-      "description": "ounce",
+      "description": {
+        "en": "ounce"
+      },
       "one": 28.34952981
     },
     {
       "symbol": "lb",
-      "description": "pound",
+      "description": {
+        "en": "pound"
+      },
       "one": 453.59237
     }
   ]

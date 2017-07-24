@@ -1,5 +1,7 @@
 {
-  "name": "Byte",
+  "name": {
+    "en": "Byte"
+  },
   "version": 1,
   "author": "root",
   "displayFrom": 0,
@@ -7,22 +9,30 @@
   "units": [
     {
       "symbol": "b",
-      "description": "bit",
+      "description": {
+        "en": "bit"
+      },
       "one": 0.125,
       "prefixes": [
         {
           "symbol": "K",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 10
         },
         {
           "symbol": "M",
-          "description": "mega",
+          "description": {
+            "en": "mega"
+          },
           "exp": 20
         },
         {
           "symbol": "G",
-          "description": "giga",
+          "description": {
+            "en": "giga"
+          },
           "exp": 30
         }
       ],
@@ -30,27 +40,37 @@
     },
     {
       "symbol": "B",
-      "description": "byte",
+      "description": {
+        "en": "byte"
+      },
       "one": 1,
       "prefixes": [
         {
           "symbol": "K",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 10
         },
         {
           "symbol": "M",
-          "description": "mega",
+          "description": {
+            "en": "mega"
+          },
           "exp": 20
         },
         {
           "symbol": "G",
-          "description": "giga",
+          "description": {
+            "en": "giga"
+          },
           "exp": 30
         },
         {
           "symbol": "T",
-          "description": "tera",
+          "description": {
+            "en": "tera"
+          },
           "exp": 40
         }
       ],

@@ -1,5 +1,7 @@
 {
-  "name": "Speed",
+  "name": {
+    "en": "Speed"
+  },
   "version": 1,
   "author": "root",
   "displayFrom": 1,
@@ -7,68 +9,92 @@
   "units": [
     {
       "symbol": "m/s",
-      "description": "meter per second",
+      "description": {
+        "en": "meter per second"
+      },
       "one": 1,
       "position": -1,
       "prefixes": [
         {
           "symbol": "c",
-          "description": "centi",
+          "description": {
+            "en": "centi"
+          },
           "exp": -2
         },
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 3
         }
       ]
     },
     {
       "symbol": "m/h",
-      "description": "meter per hour",
+      "description": {
+        "en": "meter per hour"
+      },
       "one": 0.000277777777777777777777777777777,
       "position": -1,
       "prefixes": [
         {
           "symbol": "c",
-          "description": "centi",
+          "description": {
+            "en": "centi"
+          },
           "exp": -2
         },
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 3
         }
       ]
     },
     {
       "symbol": "mi",
-      "description": "mile per hour",
+      "description": {
+        "en": "mile per hour"
+      },
       "one": 0.44704
     },
     {
       "symbol": "fps",
-      "description": "foot per second",
+      "description": {
+        "en": "foot per second"
+      },
       "one": 0.3048
     },
     {
       "symbol": "ips",
-      "description": "inch per second",
+      "description": {
+        "en": "inch per second"
+      },
       "one": 0.0254
     },
     {
       "symbol": "kn",
-      "description": "knot",
+      "description": {
+        "en": "knot"
+      },
       "one": 5.1444444444444444444444444444444
     },
     {
       "symbol": "Ma",
-      "description": "mach",
+      "description": {
+        "en": "mach"
+      },
       "one": 340.3
     },
     {
       "symbol": "c",
-      "description": "light speed",
+      "description": {
+        "en": "light speed"
+      },
       "one": 299792458
     }
   ]

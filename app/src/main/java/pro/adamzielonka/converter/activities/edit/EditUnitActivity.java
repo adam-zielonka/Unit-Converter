@@ -16,6 +16,7 @@ import pro.adamzielonka.converter.models.user.Prefix;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
@@ -32,7 +33,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     @Override
     public void onLoad() throws Exception {
         super.onLoad();
-        prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit);
+        prefixesAdapter = new PrefixesAdapter(getApplicationContext(), unit, getLangCode(), userMeasure.global);
         listView.setAdapter(prefixesAdapter);
         listView.setOnItemClickListener(this);
 
@@ -49,7 +50,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
     public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(editSymbolView, unit.symbol);
-        updateView(editDescriptionView, unit.getFullDescription());
+        updateView(editDescriptionView, userMeasure.getWords(unit.descriptionPrefix, getLangCode()) + userMeasure.getWords(unit.description, getLangCode()));
         updateView(editFormulaView, getFormula(unit.one, unit.shift, unit.shift2, unit.symbol));
         updateView(editExpBaseView, doubleToString(unit.expBase));
         prefixesAdapter.clear();

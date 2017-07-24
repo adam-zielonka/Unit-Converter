@@ -1,5 +1,7 @@
 package pro.adamzielonka.converter.tools;
 
+import java.util.Map;
+
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
@@ -14,5 +16,13 @@ public class Converter {
         String shift2F = shift2 != 0.0 ? (shift2 < 0.0) ? (" - " + doubleToString((-1) * shift2)) : (" + " + doubleToString(shift2)) : "";
         String oneF = one != 1.0 ? doubleToString(one) + " * " : "";
         return shift1 != 0.0 && one != 1.0 ? oneF + "(" + base + shift1F + ")" + shift2F : oneF + base + shift1F + shift2F;
+    }
+
+    public static String getLanguageWords(Map<String, String> map, String langCode, String globalCode) {
+        return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
+    }
+
+    public static String getLangCode() {
+        return "en";
     }
 }

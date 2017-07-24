@@ -10,6 +10,7 @@ import android.widget.ListView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 import static pro.adamzielonka.converter.tools.Number.stringToDouble;
@@ -36,7 +37,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     public void onUpdate() throws Exception {
         super.onUpdate();
         updateView(prefixNameView, prefix.symbol);
-        updateView(prefixDescriptionView, prefix.description);
+        updateView(prefixDescriptionView, userMeasure.getWords(prefix.description, getLangCode()));
         updateView(prefixExponentView, doubleToString(prefix.exp));
     }
 
@@ -58,9 +59,9 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
             }).show();
 
         } else if (view.equals(prefixDescriptionView)) {
-            EditText editText = getDialogEditText(prefix.description);
+            EditText editText = getDialogEditText(userMeasure.getWords(prefix.description, getLangCode()));
             getAlertDialogSave(R.string.dialog_prefix_description, editText.getRootView(), (dialog, which) -> {
-                prefix.description = editText.getText().toString();
+                prefix.description.put(getLangCode(), editText.getText().toString());
                 onSave();
             }).show();
 

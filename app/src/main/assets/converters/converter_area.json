@@ -1,89 +1,130 @@
 {
-  "name": "Area",
+  "name": {
+    "en": "Area",
+    "pl": "Powierzchnia"
+  },
   "version": 1,
   "author": "root",
   "units": [
     {
       "symbol": "a",
-      "description": "are",
+      "description": {
+        "en": "are",
+        "pl": "ar"
+      },
       "position": -1,
       "one": 100,
       "prefixes": [
         {
           "symbol": "h",
-          "description": "hect",
+          "description": {
+            "en": "hect",
+            "pl": "hekt"
+          },
           "exp": 2
         }
       ]
     },
     {
       "symbol": "m²",
-      "descriptionPrefix": "square ",
-      "description": "meter",
+      "descriptionPrefix": {
+        "en": "square ",
+        "pl": ""
+      },
+      "description": {
+        "en": "meter",
+        "pl": "metr kwadratowy"
+      },
       "one": 1,
       "prefixes": [
         {
           "symbol": "k",
-          "description": "kilo",
+          "description": {
+            "en": "kilo"
+          },
           "exp": 6,
           "position": 3
         },
         {
           "symbol": "d",
-          "description": "deci",
+          "description": {
+            "en": "deci",
+            "pl": "decy"
+          },
           "exp": -2
         },
         {
           "symbol": "c",
-          "description": "centi",
+          "description": {
+            "en": "centi",
+            "pl": "centy"
+          },
           "exp": -4
         },
         {
           "symbol": "m",
-          "description": "milli",
+          "description": {
+            "en": "milli",
+            "pl": "mili"
+          },
           "exp": -6
         },
         {
           "symbol": "µ",
-          "description": "micro",
+          "description": {
+            "en": "micro",
+            "pl": "mikro"
+          },
           "exp": -12
         }
       ]
     },
     {
       "symbol": "ac",
-      "description": "acre",
+      "description": {
+        "en": "acre",
+        "pl": "akr"
+      },
       "one": 4046.8564224
     },
     {
       "symbol": "mi²",
-      "descriptionPrefix": "square ",
-      "description": "mile",
+      "description": {
+        "en": "square mile",
+        "pl": "mila kwadratowa"
+      },
       "one": 2589988.110336
-
     },
     {
       "symbol": "nmi²",
-      "descriptionPrefix": "square ",
-      "description": "nautical mile",
+      "description": {
+        "en": "square nautical mile",
+        "pl": "mila morska kwadratowa"
+      },
       "one": 3429904
     },
     {
       "symbol": "yd²",
-      "descriptionPrefix": "square ",
-      "description": "yard",
+      "description": {
+        "en": "square yard",
+        "pl": "jard kwadratowy"
+      },
       "one": 0.83612736
     },
     {
       "symbol": "ft²",
-      "descriptionPrefix": "square ",
-      "description": "foot",
+      "description": {
+        "en": "square foot",
+        "pl": "stopa kwadratowa"
+      },
       "one": 0.09290304
     },
     {
       "symbol": "in²",
-      "descriptionPrefix": "square ",
-      "description": "inch",
+      "description": {
+        "en": "square inch",
+        "pl": "cal kwadratowy"
+      },
       "one": 0.00064516
     }
   ]

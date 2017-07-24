@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,10 +13,10 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 
-public class UnitsAdapter extends ArrayAdapter<Unit> {
+public class UnitsAdapter extends MyAdapter<Unit> {
 
-    public UnitsAdapter(@NonNull Context context, @NonNull List<Unit> objects) {
-        super(context, R.layout.item_pref, objects);
+    public UnitsAdapter(@NonNull Context context, @NonNull List<Unit> objects, String langCode, String globalCode) {
+        super(langCode, globalCode, context, R.layout.item_pref, objects);
     }
 
     @NonNull
@@ -29,7 +28,7 @@ public class UnitsAdapter extends ArrayAdapter<Unit> {
 
         Unit item = getItem(position);
         if (item != null) {
-            String unitName = item.symbol + " - " + item.descriptionPrefix + item.description;
+            String unitName = item.symbol + " - " + getLanguageWords(item.descriptionPrefix) + getLanguageWords(item.description);
 
             StringBuilder prefixes = new StringBuilder("");
             for (Prefix prefix : item.prefixes) {

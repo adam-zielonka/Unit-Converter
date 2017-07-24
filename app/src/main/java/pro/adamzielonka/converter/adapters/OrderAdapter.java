@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,11 +12,11 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
-public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
+public class OrderAdapter extends MyAdapter<ConcreteUnit> {
 
 
-    public OrderAdapter(@NonNull Context context, List<ConcreteUnit> concreteUnits) {
-        super(context, R.layout.item_order, concreteUnits);
+    public OrderAdapter(@NonNull Context context, List<ConcreteUnit> concreteUnits, String langCode, String globalCode) {
+        super(langCode, globalCode, context, R.layout.item_order, concreteUnits);
     }
 
     @NonNull
@@ -29,7 +28,7 @@ public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
 
         ConcreteUnit item = getItem(position);
         if (item != null) {
-            String unitName = item.name + " - " + item.description;
+            String unitName = item.name + " - " + getLanguageWords(item.description);
             ((TextView) result.findViewById(R.id.textPrimary)).setText(unitName);
             ((TextView) result.findViewById(R.id.textPos)).setText(getChangePosition(item));
         }

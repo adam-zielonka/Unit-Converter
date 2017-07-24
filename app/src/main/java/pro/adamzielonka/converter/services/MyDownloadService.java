@@ -22,6 +22,7 @@ import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
@@ -83,8 +84,8 @@ public class MyDownloadService extends MyBaseTaskService {
                             Measure userMeasure = gson.fromJson(reader, Measure.class);
                             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-                            concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.name);
-                            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.name);
+                            concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode()));
+                            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode()));
 
                             concreteMeasure.concreteFileName = concreteFileName;
                             concreteMeasure.userFileName = userFileName;

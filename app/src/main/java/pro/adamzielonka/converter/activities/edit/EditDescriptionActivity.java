@@ -8,6 +8,8 @@ import android.widget.ListView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
+
 public class EditDescriptionActivity extends EditActivity implements ListView.OnItemClickListener {
 
     private View unitEditBaseView;
@@ -27,23 +29,23 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(unitEditBaseView, unit.description);
-        updateView(unitEditPrefixView, unit.descriptionPrefix);
+        updateView(unitEditBaseView, userMeasure.getWords(unit.description, getLangCode()));
+        updateView(unitEditPrefixView, userMeasure.getWords(unit.descriptionPrefix, getLangCode()));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditBaseView)) {
-            EditText editText = getDialogEditText(unit.description);
+            EditText editText = getDialogEditText(userMeasure.getWords(unit.description, getLangCode()));
             getAlertDialogSave(R.string.dialog_unit_description_base, editText.getRootView(), (dialog, which) -> {
-                unit.description = editText.getText().toString();
+                unit.description.put(getLangCode(), editText.getText().toString());
                 onSave();
             }).show();
 
         } else if (view.equals(unitEditPrefixView)) {
-            EditText editText = getDialogEditText(unit.descriptionPrefix);
+            EditText editText = getDialogEditText(userMeasure.getWords(unit.descriptionPrefix, getLangCode()));
             getAlertDialogSave(R.string.dialog_unit_description_global_prefix, editText.getRootView(), (dialog, which) -> {
-                unit.description = editText.getText().toString();
+                unit.description.put(getLangCode(), editText.getText().toString());
                 onSave();
             }).show();
         }

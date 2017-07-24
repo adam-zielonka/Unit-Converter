@@ -21,6 +21,7 @@ import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import static pro.adamzielonka.converter.tools.Converter.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
@@ -68,8 +69,8 @@ public class StartActivity extends AppCompatActivity {
         for (Measure userMeasure : measureList) {
             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.name);
-            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.name);
+            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode()));
+            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode()));
             concreteMeasure.concreteFileName = concreteFileName;
             concreteMeasure.userFileName = userFileName;
             saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));

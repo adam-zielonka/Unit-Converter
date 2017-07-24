@@ -1,50 +1,68 @@
 {
-  "name": "Temperature",
+  "name": {
+    "en": "Temperature"
+  },
   "version": 1,
   "author": "root",
   "units": [
     {
       "symbol": "°C",
-      "description": "Celsius",
+      "description": {
+        "en": "Celsius"
+      },
       "one": 1
     },
     {
       "symbol": "°F",
-      "description": "Fahrenheit",
+      "description": {
+        "en": "Fahrenheit"
+      },
       "one": 0.555555555555555555555555,
       "shift": -32
     },
     {
       "symbol": "K",
-      "description": "Kelvin",
+      "description": {
+        "en": "Kelvin"
+      },
       "one": 1,
       "shift": -273.15
     },
     {
       "symbol": "°R",
-      "description": "Rankine",
+      "description": {
+        "en": "Rankine"
+      },
       "one": 0.555555555555555555555555,
       "shift": -491.67
     },
     {
       "symbol": "°N",
-      "description": "Newton",
+      "description": {
+        "en": "Newton"
+      },
       "one": 3.030303030303030303030303
     },
     {
       "symbol": "°Ré",
-      "description": "Réaumur",
+      "description": {
+        "en": "Réaumur"
+      },
       "one": 1.25
     },
     {
       "symbol": "°Rø",
-      "description": "Rømer",
+      "description": {
+        "en": "Rømer"
+      },
       "one": 1.904761904761904761904761,
       "shift": -7.5
     },
     {
       "symbol": "°De",
-      "description": "Delisle",
+      "description": {
+        "en": "Delisle"
+      },
       "one": -0.666666666666666666666666,
       "shift2": 100
     }

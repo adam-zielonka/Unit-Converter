@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,17 +12,17 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
-public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
+public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
 
-    int resource;
+    private int resource;
 
-    public ConcreteAdapter(@NonNull Context context, int resource, @NonNull List<ConcreteUnit> objects) {
-        super(context, resource, objects);
+    public ConcreteAdapter(@NonNull Context context, int resource, @NonNull List<ConcreteUnit> objects, String langCode, String globalCode) {
+        super(langCode, globalCode, context, resource, objects);
         this.resource = resource;
     }
 
-    public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects) {
-        super(context, R.layout.spiner_units_small, objects);
+    public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects, String langCode, String globalCode) {
+        super(langCode, globalCode, context, R.layout.spiner_units_small, objects);
         this.resource = R.layout.spiner_units_small;
     }
 
@@ -36,7 +35,7 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
         ConcreteUnit item = getItem(position);
 
         ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name + " " : "");
-        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + item.description : "");
+        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + getLanguageWords(item.description) : "");
 
         return result;
     }
