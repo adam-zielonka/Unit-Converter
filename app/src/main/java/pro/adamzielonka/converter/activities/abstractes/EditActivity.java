@@ -73,7 +73,7 @@ public abstract class EditActivity extends ListActivity {
 
     private void onOpen() throws Exception {
         concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.getUserFileName());
+        userMeasure = openMeasure(concreteMeasure.userFileName);
         unit = userMeasure != null ? openUnit(unitName, userMeasure) : null;
         prefix = unit != null ? openPrefix(prefixName, unit) : null;
     }
@@ -138,7 +138,7 @@ public abstract class EditActivity extends ListActivity {
 
     protected Intent setEditIntent(Class<?> cls) {
         Intent intent = new Intent(getApplicationContext(), cls);
-        intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
+        intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
         intent.putExtra("unitName", unit != null ? unit.symbol : "");
         intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
         return intent;

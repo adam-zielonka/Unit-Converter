@@ -35,8 +35,8 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
 
         ConcreteUnit item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.getName() + " " : "");
-        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + item.getDescription() : "");
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name + " " : "");
+        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + item.description : "");
 
         return result;
     }
@@ -50,9 +50,9 @@ public class ConcreteAdapter extends ArrayAdapter<ConcreteUnit> {
 
         ConcreteUnit item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.getName() : "");
+        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name : "");
         TextView textView = result.findViewById(R.id.unitsTextView2);
-        if (textView != null) textView.setText(item != null ? " " + item.getDescription() : "");
+        if (textView != null) textView.setText(item != null ? " " + item.description : "");
 
         return result;
     }

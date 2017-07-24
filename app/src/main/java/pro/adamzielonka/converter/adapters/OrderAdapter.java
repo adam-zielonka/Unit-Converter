@@ -29,7 +29,7 @@ public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
 
         ConcreteUnit item = getItem(position);
         if (item != null) {
-            String unitName = item.getName() + " - " + item.getDescription();
+            String unitName = item.name + " - " + item.description;
             ((TextView) result.findViewById(R.id.textPrimary)).setText(unitName);
             ((TextView) result.findViewById(R.id.textPos)).setText(getChangePosition(item));
         }
@@ -37,7 +37,7 @@ public class OrderAdapter extends ArrayAdapter<ConcreteUnit> {
     }
 
     private String getChangePosition(ConcreteUnit item) {
-        Integer result = item.getBasicPosition() - item.getPosition();
+        Integer result = item.basicPosition - item.position;
         if (result == 0) return "";
 
         result = (result + 1) / 2;

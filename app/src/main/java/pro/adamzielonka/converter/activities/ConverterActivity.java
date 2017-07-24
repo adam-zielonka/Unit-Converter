@@ -123,7 +123,7 @@ public class ConverterActivity extends AppCompatActivity
     private int getIDFromFileName(String fileName) {
         int i = 0;
         for (ConcreteMeasure concreteMeasure : measureList) {
-            if (concreteMeasure.getConcreteFileName().equals(fileName))
+            if (concreteMeasure.concreteFileName.equals(fileName))
                 return i + DEFAULT_CONVERTER_ID;
             i++;
         }
@@ -135,7 +135,7 @@ public class ConverterActivity extends AppCompatActivity
         menuItems.clear();
         int i = 0;
         for (ConcreteMeasure measure : measureList) {
-            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName()));
+            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.name));
             menuItems.get(i).setCheckable(true);
             i++;
         }
@@ -148,11 +148,11 @@ public class ConverterActivity extends AppCompatActivity
             measureList = loadConverters(this);
             measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
 
-            setTitle(measure.getName());
+            setTitle(measure.name);
             navigationView.setCheckedItem(this.converterID);
-            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.getName());
+            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.name);
 
-            if (measure.getConcreteUnits().size() > 0) {
+            if (measure.concreteUnits.size() > 0) {
 
                 findConverterViews();
                 setConverterListeners();
@@ -164,12 +164,12 @@ public class ConverterActivity extends AppCompatActivity
                 setConverterLayout();
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.name);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             } else {
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.name);
                 bundle.putString(FirebaseAnalytics.Param.VALUE, "empty");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 setEmptyLayout();
@@ -221,20 +221,20 @@ public class ConverterActivity extends AppCompatActivity
 
     void setAdapter() {
         adapter = new ConcreteAdapter(getApplicationContext(),
-                measureList.get(converterID - DEFAULT_CONVERTER_ID).getConcreteUnits());
+                measureList.get(converterID - DEFAULT_CONVERTER_ID).concreteUnits);
 
         spinnerFrom.setAdapter(adapter);
         spinnerTo.setAdapter(adapter);
     }
 
     void setSelection() {
-        spinnerFrom.setSelection(measure.getDisplayFrom());
-        spinnerTo.setSelection(measure.getDisplayTo());
+        spinnerFrom.setSelection(measure.displayFrom);
+        spinnerTo.setSelection(measure.displayTo);
 
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? from.getDescription() : "");
-        textViewTo.setText(to != null ? to.getDescription() : "");
+        textViewFrom.setText(from != null ? from.description : "");
+        textViewTo.setText(to != null ? to.description : "");
     }
     //endregion
 
@@ -254,8 +254,8 @@ public class ConverterActivity extends AppCompatActivity
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? from.getDescription() : "");
-        textViewTo.setText(to != null ? to.getDescription() : "");
+        textViewFrom.setText(from != null ? from.description : "");
+        textViewTo.setText(to != null ? to.description : "");
         onCalculate();
     }
 
@@ -367,7 +367,7 @@ public class ConverterActivity extends AppCompatActivity
         switch (id) {
             case R.id.menu_edit_converter:
                 Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, measure.getConcreteFileName());
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, measure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;
         }

@@ -116,8 +116,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         updateView(editMeasureNameView, userMeasure.getGlobalName());
         if (userMeasure.units.size() > 0) {
             updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
-            updateView(editDefaultDisplay1, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayFrom()).getName());
-            updateView(editDefaultDisplay2, concreteMeasure.getConcreteUnits().get(concreteMeasure.getDisplayTo()).getName());
+            updateView(editDefaultDisplay1, concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name);
+            updateView(editDefaultDisplay2, concreteMeasure.concreteUnits.get(concreteMeasure.displayTo).name);
         } else {
             hideView(editUnitOrder);
             hideView(editDefaultDisplay1);
@@ -144,13 +144,13 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editUnitOrder)) {
                 if (userMeasure.units.size() <= 0) return;
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.getConcreteFileName());
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editDefaultDisplay1)) {
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.spiner_units, concreteMeasure.getConcreteUnits());
+                        R.layout.spiner_units, concreteMeasure.concreteUnits);
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_1)
                         .setCancelable(true)
@@ -162,7 +162,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editDefaultDisplay2)) {
                 if (userMeasure.units.size() <= 0) return;
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.spiner_units, concreteMeasure.getConcreteUnits());
+                        R.layout.spiner_units, concreteMeasure.concreteUnits);
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_measure_default_2)
                         .setCancelable(true)
@@ -202,8 +202,8 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         switch (id) {
             case R.id.menu_delete_converter:
                 getAlertDialogDelete(R.string.delete_measure_title, (dialog, which) -> {
-                    if (getFileStreamPath(concreteMeasure.getConcreteFileName()).delete() &&
-                            getFileStreamPath(concreteMeasure.getUserFileName()).delete()) {
+                    if (getFileStreamPath(concreteMeasure.concreteFileName).delete() &&
+                            getFileStreamPath(concreteMeasure.userFileName).delete()) {
                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -235,12 +235,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     private void saveToDownloads() {
         try {
-            FileInputStream in = openFileInput(concreteMeasure.getUserFileName());
+            FileInputStream in = openFileInput(concreteMeasure.userFileName);
             Reader reader = new BufferedReader(new InputStreamReader(in));
             Gson gson = getGson();
             String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
-            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName()));
+            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.name));
             if (out != null) {
                 out.write(json.getBytes());
                 out.close();
@@ -320,7 +320,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     }
 
     private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
-        cloudMeasure.file = concreteMeasure.getUserFileName();
+        cloudMeasure.file = concreteMeasure.userFileName;
         Map<String, Object> postValues = cloudMeasure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -330,7 +330,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         mDatabase.updateChildren(childUpdates);
         userMeasure.cloudID = key;
         onSave(false);
-        File file = new File(getFilesDir() + "/" + concreteMeasure.getUserFileName());
+        File file = new File(getFilesDir() + "/" + concreteMeasure.userFileName);
         uploadFromUri(Uri.parse(file.toURI().toString()));
     }
 
@@ -338,7 +338,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         startService(new Intent(this, MyUploadService.class)
                 .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)
                 .putExtra(MyUploadService.EXTRA_FILE_USER, getUid())
-                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, concreteMeasure.getConcreteFileName())
+                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, concreteMeasure.concreteFileName)
                 .setAction(MyUploadService.ACTION_UPLOAD));
 
         showProgressDialog(getString(R.string.progress_uploading));

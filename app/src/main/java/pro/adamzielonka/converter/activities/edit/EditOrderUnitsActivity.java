@@ -15,7 +15,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     @Override
     public void onLoad() throws Exception {
         super.onLoad();
-        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.getConcreteUnits());
+        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits);
         listView.setAdapter(orderAdapter);
     }
 
@@ -23,7 +23,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     public void onUpdate() throws Exception {
         super.onUpdate();
         orderAdapter.clear();
-        orderAdapter.addAll(concreteMeasure.getConcreteUnits());
+        orderAdapter.addAll(concreteMeasure.concreteUnits);
         orderAdapter.notifyDataSetChanged();
     }
 
@@ -42,7 +42,7 @@ public class EditOrderUnitsActivity extends EditActivity {
     }
 
     private void changePosition(ConcreteUnit concreteUnit, int change) {
-        String find = concreteUnit.getName();
+        String find = concreteUnit.name;
         for (Unit unit : userMeasure.units) {
             if (unit.symbol.equals(find)) {
                 unit.position += change;

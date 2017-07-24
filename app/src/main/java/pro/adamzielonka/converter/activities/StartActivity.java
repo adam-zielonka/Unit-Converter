@@ -68,10 +68,10 @@ public class StartActivity extends AppCompatActivity {
         for (Measure userMeasure : measureList) {
             ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
 
-            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName());
-            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName());
-            concreteMeasure.setConcreteFileName(concreteFileName);
-            concreteMeasure.setUserFileName(userFileName);
+            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.name);
+            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.name);
+            concreteMeasure.concreteFileName = concreteFileName;
+            concreteMeasure.userFileName = userFileName;
             saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
             saveToInternal(this, userFileName, gson.toJson(userMeasure));
         }

@@ -48,7 +48,7 @@ public class Measure {
                 i++;
             }
         }
-        Collections.sort(concreteUnits, (unit1, unit2) -> ((Integer) unit1.getPosition()).compareTo(unit2.getPosition()));
+        Collections.sort(concreteUnits, (unit1, unit2) -> ((Integer) unit1.position).compareTo(unit2.position));
         return concreteUnits;
     }
 
@@ -100,6 +100,14 @@ public class Measure {
     }
 
     public String getGlobalName() {
-        return name.containsKey(global) ? name.get(global) : "";
+        return getGlobalName("en");
+    }
+
+    public String getGlobalName(String langCode) {
+        return getLanguageWords(name, langCode, global);
+    }
+
+    public static String getLanguageWords(Map<String, String> map, String langCode, String globalCode) {
+        return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
     }
 }
