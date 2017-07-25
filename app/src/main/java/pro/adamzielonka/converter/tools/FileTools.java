@@ -90,11 +90,13 @@ public class FileTools {
 
     public static void saveMeasure(Context context, ConcreteMeasure concreteMeasure, Measure userMeasure) throws IOException {
         Gson gson = getGson();
-        String concreteFileName = concreteMeasure.concreteFileName;
-        String userFileName = concreteMeasure.userFileName;
-        concreteMeasure = userMeasure.getConcreteMeasure(concreteFileName, userFileName);
-        saveToInternal(context, concreteFileName, gson.toJson(concreteMeasure));
-        saveToInternal(context, userFileName, gson.toJson(userMeasure));
+        concreteMeasure = userMeasure.getConcreteMeasure(
+                concreteMeasure.concreteFileName, concreteMeasure.userFileName,
+                concreteMeasure.isOwnName, concreteMeasure.ownName,
+                concreteMeasure.isOwnLang, concreteMeasure.ownLang
+        );
+        saveToInternal(context, concreteMeasure.concreteFileName, gson.toJson(concreteMeasure));
+        saveToInternal(context, concreteMeasure.userFileName, gson.toJson(userMeasure));
     }
 
 }

@@ -15,7 +15,7 @@ public class CloudMeasure {
     public String title;
     public String title_small;
     public String file;
-    public Integer version;
+    public Long version;
     public String units_symbols;
     public String units_names;
     public int starCount = 0;
@@ -25,7 +25,7 @@ public class CloudMeasure {
 
     }
 
-    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Integer version) {
+    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Long version) {
         this.uid = uid;
         this.author = author;
         this.author_small = author.toLowerCase();

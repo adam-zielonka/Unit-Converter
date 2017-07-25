@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
@@ -18,6 +19,7 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public abstract class ListActivity extends BaseActivity {
     protected MyListView listView;
+    protected boolean isUserCheckedChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,12 @@ public abstract class ListActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        isUserCheckedChanged = true;
+
         try {
             onLoad();
         } catch (Exception e) {
+            e.printStackTrace();
             finish();
         }
     }
@@ -39,10 +44,12 @@ public abstract class ListActivity extends BaseActivity {
         listView.setActivity(this);
     }
 
-    protected void updateView(View view, String text) {
-        ((TextView) view.findViewById(R.id.textSecondary)).setText(text);
-        if (text.equals("")) view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
+    protected void updateView(View view, String textSecondary) {
+        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
+        if (textSecondary.equals(""))
+            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         else view.findViewById(R.id.textSecondary).setVisibility(View.VISIBLE);
+        enabledView(view);
     }
 
     protected void updateView(View view, String textPrimary, String textSecondary) {
@@ -50,8 +57,45 @@ public abstract class ListActivity extends BaseActivity {
         updateView(view, textSecondary);
     }
 
+    protected void updateView(View view, String textSecondary, Boolean isEnabled) {
+        updateView(view, textSecondary);
+        if (!isEnabled) disableView(view);
+    }
+
+    protected void updateView(View view, String textPrimary, String textSecondary, Boolean isEnabled) {
+        updateView(view, textPrimary, textSecondary);
+        if (!isEnabled) disableView(view);
+    }
+
     protected void hideView(View view) {
         updateView(view, "");
+        disableView(view);
+    }
+
+    protected void setSwitchState(View view, boolean state) {
+        isUserCheckedChanged = false;
+        ((Switch) view.findViewById(R.id.textPrimary)).setChecked(state);
+        isUserCheckedChanged = true;
+    }
+
+    protected boolean getSwitchState(View view) {
+        return ((Switch) view.findViewById(R.id.textPrimary)).isChecked();
+    }
+
+    protected void disableView(View view) {
+        view.setEnabled(false);
+        ((TextView) view.findViewById(R.id.textPrimary))
+                .setTextColor(getResources().getColor(R.color.colorGreyAccent));
+        ((TextView) view.findViewById(R.id.textSecondary))
+                .setTextColor(getResources().getColor(R.color.colorGreyPrimary));
+    }
+
+    protected void enabledView(View view) {
+        view.setEnabled(true);
+        ((TextView) view.findViewById(R.id.textPrimary))
+                .setTextColor(getResources().getColor(R.color.black));
+        ((TextView) view.findViewById(R.id.textSecondary))
+                .setTextColor(getResources().getColor(R.color.colorGreyPrimaryDark));
     }
 
     protected boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {

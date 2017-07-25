@@ -74,6 +74,7 @@
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
+        <activity android:name=".activities.edit.SetMeasureActivity" />
 
         <service
             android:name=".services.MyDownloadService"

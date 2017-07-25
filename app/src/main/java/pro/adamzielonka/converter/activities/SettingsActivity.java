@@ -68,7 +68,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         logInView = listView.addHeaderItem(getString(R.string.pref_title_sign_in));
         userNameView = listView.addHeaderItem(getString(R.string.pref_title_user_name));
         listView.addHeaderTitle(getString(R.string.pref_header_about));
-        listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version), false);
+        disableView(listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version)));
         websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
     }
 
@@ -132,7 +132,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         }
     }
 
-    protected void restart(){
+    protected void restart() {
         Intent settings = new Intent(getBaseContext(), SettingsActivity.class);
         startActivity(settings);
         overridePendingTransition(0, 0);

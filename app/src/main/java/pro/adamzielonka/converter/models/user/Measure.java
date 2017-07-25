@@ -15,7 +15,7 @@ public class Measure {
     public String global = "en";
     private Map<String, String> name = new HashMap<>();
     public String author = "";
-    public Integer version = 0;
+    public Long version = 0L;
     public String cloudID = "";
     public List<Unit> units = new ArrayList<>();
     public Integer displayFrom = 0;
@@ -102,18 +102,17 @@ public class Measure {
                 getLanguages(concreteUnits, name));
     }
 
-    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile) {
+    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
         List<ConcreteUnit> concreteUnits = getConcreteUnits();
         return new ConcreteMeasure(
                 name,
                 global,
-                getDisplayFrom(),
-                getDisplayTo(),
+                getDisplayFrom(), getDisplayTo(),
                 concreteUnits,
                 getLanguages(concreteUnits, name),
-                concreteFile,
-                userFile
-        );
+                concreteFile, userFile,
+                isOwnName, ownName,
+                isOwnLang, ownLang);
     }
 
     private Integer getDisplayFrom() {

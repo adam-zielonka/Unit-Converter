@@ -21,24 +21,22 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
-import pro.adamzielonka.converter.activities.edit.EditMeasureActivity;
+import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.tools.Theme;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.converter.tools.Number.appendComma;
 import static pro.adamzielonka.converter.tools.Number.appendDigit;
@@ -74,8 +72,6 @@ public class ConverterActivity extends AppCompatActivity
     private static final int DEFAULT_CONVERTER_ID = 1000;
     private List<MenuItem> menuItems = new ArrayList<>();
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -96,8 +92,6 @@ public class ConverterActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         measureList = loadConverters(this);
 
         converterLayout = findViewById(R.id.converter_content);
@@ -113,11 +107,6 @@ public class ConverterActivity extends AppCompatActivity
             emptyText.setText(R.string.empty_converters);
             hideMenu = true;
             invalidateOptionsMenu();
-
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "empty");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }
 
@@ -136,7 +125,8 @@ public class ConverterActivity extends AppCompatActivity
         menuItems.clear();
         int i = 0;
         for (ConcreteMeasure measure : measureList) {
-            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0, measure.getName(getLangCode(this))));
+            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0,
+                    measure.getName(measure.isOwnLang ? measure.ownLang : Language.getLangCode(this))));
             menuItems.get(i).setCheckable(true);
             i++;
         }
@@ -148,10 +138,8 @@ public class ConverterActivity extends AppCompatActivity
             this.converterID = converterID;
             measureList = loadConverters(this);
             measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
-
-            setTitle(measure.getName(getLangCode(this)));
-            navigationView.setCheckedItem(this.converterID);
-            menuItems.get(this.converterID - DEFAULT_CONVERTER_ID).setTitle(measure.getName(getLangCode(this)));
+            setConverterTitle();
+            navigationView.setCheckedItem(converterID);
 
             if (measure.concreteUnits.size() > 0) {
 
@@ -163,16 +151,7 @@ public class ConverterActivity extends AppCompatActivity
 
                 onClear();
                 setConverterLayout();
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode(this)));
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             } else {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "converter");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, measure.getName(getLangCode(this)));
-                bundle.putString(FirebaseAnalytics.Param.VALUE, "empty");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 setEmptyLayout();
             }
 
@@ -182,6 +161,16 @@ public class ConverterActivity extends AppCompatActivity
             if (DEFAULT_CONVERTER_ID != converterID) setupConverter(DEFAULT_CONVERTER_ID);
             else finish();
         }
+    }
+
+    String getLangCode() {
+        return measure.isOwnLang ? measure.ownLang : Language.getLangCode(this);
+    }
+
+    void setConverterTitle() {
+        String title = measure.isOwnName ? measure.ownName : measure.getName(getLangCode());
+        setTitle(title);
+        menuItems.get(converterID - DEFAULT_CONVERTER_ID).setTitle(title);
     }
 
     void setConverterLayout() {
@@ -223,7 +212,7 @@ public class ConverterActivity extends AppCompatActivity
     void setAdapter() {
         adapter = new ConcreteAdapter(getApplicationContext(),
                 measureList.get(converterID - DEFAULT_CONVERTER_ID).concreteUnits,
-                getLangCode(this),
+                getLangCode(),
                 measure.global
         );
 
@@ -237,8 +226,8 @@ public class ConverterActivity extends AppCompatActivity
 
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode(this)) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode(this)) : "");
+        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
+        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
     }
     //endregion
 
@@ -258,8 +247,8 @@ public class ConverterActivity extends AppCompatActivity
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode(this)) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode(this)) : "");
+        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
+        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
         onCalculate();
     }
 
@@ -369,8 +358,8 @@ public class ConverterActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.menu_edit_converter:
-                Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
+            case R.id.menu_set_converter:
+                Intent intent = new Intent(getApplicationContext(), SetMeasureActivity.class);
                 intent.putExtra(EXTRA_MEASURE_FILE_NAME, measure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;

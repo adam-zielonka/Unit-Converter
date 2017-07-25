@@ -68,9 +68,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private View addUnit;
     private View langView;
     private View globalLangView;
-    private View authorView;
-    private View versionView;
-    private View cloudView;
 
     private DatabaseReference mDatabase;
     private static final String TAG = "EditMeasureActivity";
@@ -99,9 +96,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
-        authorView = listView.addHeaderItem(getString(R.string.list_item_author));
-        versionView = listView.addHeaderItem(getString(R.string.list_item_version));
-        cloudView = listView.addHeaderItem(getString(R.string.list_item_cloud));
         listView.addHeaderTitle(getString(R.string.list_title_language));
         langView = listView.addHeaderItem(getString(R.string.list_item_language_available));
         globalLangView = listView.addHeaderItem(getString(R.string.list_item_language_global));
@@ -117,9 +111,6 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(authorView, userMeasure.author);
-        updateView(versionView, userMeasure.version.toString());
-        updateView(cloudView, userMeasure.cloudID);
         updateView(langView, concreteMeasure.languages.toString());
         updateView(globalLangView, concreteMeasure.global);
         updateView(editMeasureNameView, userMeasure.getName(userMeasure.global));
@@ -163,14 +154,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                     onSave();
                 }).show();
 
-            } else if (view.equals(editUnitOrder)) {
-                if (userMeasure.units.size() <= 0) return;
+            } else if (view.equals(editUnitOrder) && editUnitOrder.isEnabled()) {
                 Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
                 intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
 
-            } else if (view.equals(editDefaultDisplay1)) {
-                if (userMeasure.units.size() <= 0) return;
+            } else if (view.equals(editDefaultDisplay1) && editDefaultDisplay1.isEnabled()) {
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
                         userMeasure.global,
@@ -184,8 +173,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                             onSave();
                         }).show();
 
-            } else if (view.equals(editDefaultDisplay2)) {
-                if (userMeasure.units.size() <= 0) return;
+            } else if (view.equals(editDefaultDisplay2) && editDefaultDisplay2.isEnabled()) {
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
                         userMeasure.global,
@@ -309,7 +297,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
     private void updateMeasure(String userId, String username, String title, String body) {
         if (userMeasure.cloudID.equals("")) {
             String key = mDatabase.child("measures").push().getKey();
-            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
             doUpdateMeasure(key, cloudMeasure);
         } else {
             Query query = mDatabase.child("measures");
@@ -327,12 +315,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                             doUpdateMeasure(userMeasure.cloudID, cloudMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
-                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
                             doUpdateMeasure(key, cloudMeasure);
                         }
                     } else {
                         String key = mDatabase.child("measures").push().getKey();
-                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1);
+                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
                         doUpdateMeasure(key, cloudMeasure);
                     }
                 }
@@ -356,10 +344,23 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-        userMeasure.cloudID = key;
-        onSave(false);
-        File file = new File(getFilesDir() + "/" + concreteMeasure.userFileName);
-        uploadFromUri(Uri.parse(file.toURI().toString()));
+        DatabaseReference ref = mDatabase.child("measures").child(key).child("version");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long version = dataSnapshot.getValue(Long.class);
+                userMeasure.cloudID = key;
+                userMeasure.version = version;
+                onSave(false);
+                File file = new File(getFilesDir() + "/" + concreteMeasure.userFileName);
+                uploadFromUri(Uri.parse(file.toURI().toString()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void uploadFromUri(Uri fileUri) {

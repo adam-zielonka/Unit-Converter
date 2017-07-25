@@ -14,6 +14,10 @@ public class ConcreteMeasure {
     public final Map<String, Integer> languages;
     public String concreteFileName;
     public String userFileName;
+    public Boolean isOwnName = false;
+    public String ownName = "";
+    public Boolean isOwnLang = false;
+    public String ownLang = "";
 
     public ConcreteMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, Map<String, Integer> languages) {
         this.name = name;
@@ -24,7 +28,8 @@ public class ConcreteMeasure {
         this.languages = languages;
     }
 
-    public ConcreteMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, Map<String, Integer> languages, String concreteFileName, String userFileName) {
+    public ConcreteMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, Map<String, Integer> languages,
+                           String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
         this.name = name;
         this.global = global;
         this.displayFrom = displayFrom;
@@ -33,6 +38,10 @@ public class ConcreteMeasure {
         this.languages = languages;
         this.concreteFileName = concreteFileName;
         this.userFileName = userFileName;
+        this.isOwnName = isOwnName;
+        this.ownName = ownName;
+        this.isOwnLang = isOwnLang;
+        this.ownLang = ownLang;
     }
 
     public boolean isCorrect() {
@@ -70,6 +79,15 @@ public class ConcreteMeasure {
         int i = 0;
         for (Map.Entry<String, Integer> e : languages.entrySet()) {
             if (e.getKey().equals(global)) return i;
+            i++;
+        }
+        return 0;
+    }
+
+    public int getOwnLangID() {
+        int i = 0;
+        for (Map.Entry<String, Integer> e : languages.entrySet()) {
+            if (e.getKey().equals(ownLang)) return i;
             i++;
         }
         return 0;

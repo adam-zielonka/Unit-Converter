@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_set_converter"
-        android:icon="@drawable/ic_settings_white_24dp"
-        android:title="@string/set_converter"
+        android:id="@+id/menu_edit_converter"
+        android:icon="@drawable/ic_edit_white_24dp"
+        android:title="@string/edit_converter"
         app:showAsAction="always" />
 </menu>

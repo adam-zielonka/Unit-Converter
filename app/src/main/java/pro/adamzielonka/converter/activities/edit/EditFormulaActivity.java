@@ -27,7 +27,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
         listView.setOnItemClickListener(this);
 
         listView.addHeaderTitle(getString(R.string.list_title_formula));
-        unitFormulaView = listView.addHeaderItemNotSelectable(getString(R.string.list_item_formula_description));
+        unitFormulaView = listView.addHeaderItem(getString(R.string.list_item_formula_description));
         unitEditOneView = listView.addHeaderItem(getString(R.string.list_item_formula_one));
         unitEditShift1View = listView.addHeaderItem(getString(R.string.list_item_formula_shift1));
         unitEditShift2View = listView.addHeaderItem(getString(R.string.list_item_formula_shift2));
@@ -36,7 +36,7 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onUpdate() throws Exception {
         super.onUpdate();
-        updateView(unitFormulaView, getFormula(unit.one, unit.shift, unit.shift2, unit.symbol));
+        updateView(unitFormulaView, getFormula(unit.one, unit.shift, unit.shift2, unit.symbol), false);
         updateView(unitEditOneView, doubleToString(unit.one));
         updateView(unitEditShift1View, doubleToString(unit.shift));
         updateView(unitEditShift2View, doubleToString(unit.shift2));

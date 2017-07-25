@@ -6,13 +6,16 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
 
 public class MyListView extends ListView {
     private Activity activity;
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
 
     public MyListView(Context context) {
         super(context);
@@ -61,30 +64,26 @@ public class MyListView extends ListView {
     }
 
     public View addHeaderItem(String textPrimary) {
-        return addHeaderItem(textPrimary, "", true);
+        return addHeaderItem(textPrimary, "");
     }
 
-    public View addHeaderItemNotSelectable(String textPrimary) {
-        return addHeaderItem(textPrimary, "", false);
+    public View addHeaderItem(int layout, String textPrimary, String textSecondary) {
+        View view = activity.getLayoutInflater().inflate(layout, null);
+        ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
+        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
+        if (textSecondary.equals(""))
+            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
+        addHeaderView(view);
+        return view;
     }
 
     public View addHeaderItem(String textPrimary, String textSecondary) {
-        return addHeaderItem(textPrimary, textSecondary, true);
+        return addHeaderItem(R.layout.item_pref, textPrimary, textSecondary);
     }
 
-    public View addHeaderItem(String textPrimary, String textSecondary, boolean isSelectable) {
-        View view = activity.getLayoutInflater().inflate(R.layout.item_pref, null);
-        ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
-        ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
-        if (!isSelectable) {
-            ((TextView) view.findViewById(R.id.textPrimary))
-                    .setTextColor(activity.getResources().getColor(R.color.colorGreyAccent));
-            ((TextView) view.findViewById(R.id.textSecondary))
-                    .setTextColor(activity.getResources().getColor(R.color.colorGreyPrimary));
-        }
-        if (textSecondary.equals(""))
-            view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
-        addHeaderView(view, false, isSelectable);
+    public View addHeaderSwitch(String textPrimary, String textSecondary) {
+        View view = addHeaderItem(R.layout.item_switch, textPrimary, textSecondary);
+        ((Switch) view.findViewById(R.id.textPrimary)).setOnCheckedChangeListener(onCheckedChangeListener);
         return view;
     }
 
@@ -94,5 +93,9 @@ public class MyListView extends ListView {
         view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
         addFooterView(view, false, true);
         return view;
+    }
+
+    public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
     }
 }
