@@ -2,7 +2,6 @@ package pro.adamzielonka.converter.activities.abstractes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -144,11 +143,5 @@ public abstract class EditActivity extends ListActivity {
         intent.putExtra("unitName", unit != null ? unit.symbol : "");
         intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
         return intent;
-    }
-
-    @Override
-    protected void setSwitchState(View view, boolean state) {
-        super.setSwitchState(view, state);
-        onSave();
     }
 }

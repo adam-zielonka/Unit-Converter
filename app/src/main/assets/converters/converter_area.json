@@ -5,6 +5,7 @@
   },
   "version": 1,
   "author": "root",
+  "global": "en",
   "units": [
     {
       "symbol": "a",

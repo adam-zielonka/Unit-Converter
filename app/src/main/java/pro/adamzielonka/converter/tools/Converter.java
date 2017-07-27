@@ -6,7 +6,7 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class Converter {
     public static double doConversion(double number, ConcreteUnit from, ConcreteUnit to) {
-        return ((((number + from.shift1) * from.one) + from.shift2 - to.shift2) / to.one) - to.shift2;
+        return ((((number + from.shift1) * from.one) + from.shift2 - to.shift2) / to.one) - to.shift1;
     }
 
     public static String getFormula(Double one, Double shift1, Double shift2, String base) {

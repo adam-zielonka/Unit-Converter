@@ -50,44 +50,60 @@ public class Measure {
                 i++;
             }
         }
-        Collections.sort(concreteUnits, (unit1, unit2) -> ((Integer) unit1.position).compareTo(unit2.position));
+        Collections.sort(concreteUnits, (unit1, unit2) -> unit1.position.compareTo(unit2.position));
         return concreteUnits;
     }
 
-    private Map<String, String> getCUnitName(Map<String, String> descriptionPrefix, Map<String, String> description) {
-        Map<String, String> map = new HashMap<>(descriptionPrefix);
+    private Map<String, String> getCUnitName(Map<String, String> descriptionPrefix,
+                                             Map<String, String> description) {
+        Map<String, String> map = new HashMap<>();
+        for (Map.Entry<String, String> e : descriptionPrefix.entrySet())
+            map.put(e.getKey(), e.getValue() + getValue(description, e.getKey()));
         for (Map.Entry<String, String> e : description.entrySet())
-            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(descriptionPrefix, e.getKey()) + e.getValue());
         return map;
     }
 
-    private Map<String, String> getCPrefixName(Map<String, String> descriptionPrefix, Map<String, String> prefixDescription, Map<String, String> description) {
-        Map<String, String> map = new HashMap<>(descriptionPrefix);
+    private Map<String, String> getCPrefixName(Map<String, String> descriptionPrefix,
+                                               Map<String, String> prefixDescription,
+                                               Map<String, String> description) {
+        Map<String, String> map = new HashMap<>();
+        for (Map.Entry<String, String> e : descriptionPrefix.entrySet())
+            map.put(e.getKey(), e.getValue()
+                    + getValue(prefixDescription, e.getKey())
+                    + getValue(description, e.getKey()));
         for (Map.Entry<String, String> e : prefixDescription.entrySet())
-            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(descriptionPrefix, e.getKey())
+                    + e.getValue()
+                    + getValue(description, e.getKey()));
         for (Map.Entry<String, String> e : description.entrySet())
-            map.put(e.getKey(), getValue(map, e.getKey()) + e.getValue());
+            map.put(e.getKey(), getValue(descriptionPrefix, e.getKey())
+                    + getValue(prefixDescription, e.getKey())
+                    + e.getValue());
         return map;
     }
 
     private String getValue(Map<String, String> map, String key) {
-        return map.containsKey(key) ? map.get(key) : "";
+        return map.containsKey(key) ? map.get(key) : (map.containsKey(global) ? map.get(global) : "");
     }
 
     private Integer getValueInt(Map<String, Integer> map, String key) {
         return map.containsKey(key) ? map.get(key) : 0;
     }
 
-    private Map<String, Integer> getLanguages(List<ConcreteUnit> concreteUnits, Map<String, String> name) {
+    private Map<String, Integer> getLanguages(List<Unit> units, Map<String, String> name) {
         Map<String, Integer> map = new HashMap<>();
-        for (ConcreteUnit concreteUnit : concreteUnits) {
-            for (Map.Entry<String, String> e : concreteUnit.description.entrySet()) {
+        for (Unit unit : units) {
+            for (Map.Entry<String, String> e : unit.description.entrySet())
                 map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
-            }
+            for (Map.Entry<String, String> e : unit.descriptionPrefix.entrySet())
+                map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
+            for (Prefix prefix : unit.prefixes)
+                for (Map.Entry<String, String> e : prefix.description.entrySet())
+                    map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
         }
-        for (Map.Entry<String, String> e : name.entrySet()) {
+        for (Map.Entry<String, String> e : name.entrySet())
             map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
-        }
         return map;
     }
 
@@ -99,17 +115,19 @@ public class Measure {
                 getDisplayFrom(),
                 getDisplayTo(),
                 concreteUnits,
-                getLanguages(concreteUnits, name));
+                getLanguages(units, name));
     }
 
-    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
+    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile,
+                                              Boolean isOwnName, String ownName,
+                                              Boolean isOwnLang, String ownLang) {
         List<ConcreteUnit> concreteUnits = getConcreteUnits();
         return new ConcreteMeasure(
                 name,
                 global,
                 getDisplayFrom(), getDisplayTo(),
                 concreteUnits,
-                getLanguages(concreteUnits, name),
+                getLanguages(units, name),
                 concreteFile, userFile,
                 isOwnName, ownName,
                 isOwnLang, ownLang);
