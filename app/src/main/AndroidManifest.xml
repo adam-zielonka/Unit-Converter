@@ -20,14 +20,12 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.StartActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.ConverterActivity"
@@ -36,43 +34,33 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.edit.AddMeasureActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditMeasureActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditUnitActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditOrderUnitsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditPrefixActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditDescriptionActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.edit.EditFormulaActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.database.CloudActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.database.MeasureDetailActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme" />
         <activity android:name=".activities.edit.SetMeasureActivity" />
 

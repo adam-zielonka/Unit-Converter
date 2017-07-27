@@ -20,7 +20,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_empty" />
+    <include
+        layout="@layout/content_empty"
+        android:visibility="gone" />
+
     <include layout="@layout/content_converter" />
 
 </android.support.design.widget.CoordinatorLayout>

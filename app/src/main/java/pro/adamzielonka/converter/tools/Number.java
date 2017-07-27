@@ -56,7 +56,7 @@ public class Number {
     }
 
     public static String deleteLast(String number) {
-        if (number.contains("∞") || number.equals("NaN")) return "0";
+        if (number.contains("∞") || number.equals("NaN") || number.isEmpty()) return "0";
         String result = number.substring(0, number.length() - 1);
         return result.isEmpty() ? "0" : result;
     }
