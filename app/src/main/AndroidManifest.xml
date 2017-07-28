@@ -29,7 +29,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.ConverterActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.edit.AddMeasureActivity" />

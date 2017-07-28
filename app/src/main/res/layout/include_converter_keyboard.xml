@@ -1,153 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:columnCount="4"
-    app:orientation="horizontal"
-    app:rowCount="4"
     tools:showIn="@layout/content_converter">
 
-    <Button
-        android:id="@+id/button7"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="7"
-        android:text="7"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:columnCount="4"
+        app:orientation="horizontal"
+        app:rowCount="4">
 
-    <Button
-        android:id="@+id/button8"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="8"
-        android:text="8"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button7"
+            android:contentDescription="7"
+            android:onClick="onClickDigit"
+            android:tag="7"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_7_seven_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button9"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="9"
-        android:text="9"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button8"
+            android:contentDescription="8"
+            android:onClick="onClickDigit"
+            android:tag="8"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_8_eight_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <ImageButton
-        android:id="@+id/buttonClearOutput"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:contentDescription="@string/clear_text"
-        android:onClick="onClick"
-        app:layout_columnWeight="1"
-        app:layout_gravity="fill_vertical"
-        app:layout_rowSpan="2"
-        app:layout_rowWeight="1"
-        app:srcCompat="@drawable/ic_clear_white_24dp" />
+        <ImageButton
+            android:id="@+id/button9"
+            android:contentDescription="9"
+            android:onClick="onClickDigit"
+            android:tag="9"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_9_nine_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button4"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="4"
-        android:text="4"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/buttonClearOutput"
+            android:contentDescription="@string/clear_text"
+            android:onClick="onClick"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_vertical"
+            app:layout_rowSpan="2"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_clear_white_24dp" />
 
-    <Button
-        android:id="@+id/button5"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="5"
-        android:text="5"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button4"
+            android:contentDescription="4"
+            android:onClick="onClickDigit"
+            android:tag="4"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_4_four_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button6"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="6"
-        android:text="6"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button5"
+            android:contentDescription="5"
+            android:onClick="onClickDigit"
+            android:tag="5"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_5_five_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button1"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="1"
-        android:text="1"
-        android:textSize="14sp"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button6"
+            android:contentDescription="6"
+            android:onClick="onClickDigit"
+            android:tag="6"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_6_six_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="2"
-        android:text="2"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button1"
+            android:contentDescription="1"
+            android:onClick="onClickDigit"
+            android:tag="1"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_1_one_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/button3"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="3"
-        android:text="3"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button2"
+            android:contentDescription="2"
+            android:onClick="onClickDigit"
+            android:tag="2"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_2_two_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <ImageButton
-        android:id="@+id/buttonDeleteLast"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:contentDescription="@string/delete_last_digit"
-        android:onClick="onClick"
-        app:layout_columnWeight="1"
-        app:layout_gravity="fill_vertical"
-        app:layout_rowSpan="2"
-        app:layout_rowWeight="1"
-        app:srcCompat="@drawable/ic_backspace_white_24dp" />
+        <ImageButton
+            android:id="@+id/button3"
+            android:contentDescription="3"
+            android:onClick="onClickDigit"
+            android:tag="3"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_3_three_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/buttonPlusMinus"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClick"
-        android:text="±"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/buttonDeleteLast"
+            android:contentDescription="@string/delete_last_digit"
+            android:onClick="onClick"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_vertical"
+            app:layout_rowSpan="2"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_backspace_white_24dp" />
 
-    <Button
-        android:id="@+id/button0"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClickDigit"
-        android:tag="0"
-        android:text="0"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/buttonPlusMinus"
+            android:contentDescription="±"
+            android:onClick="onClick"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_plus_minus_white_24dp"
+            tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/buttonComa"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="onClick"
-        android:text="."
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
-        tools:ignore="HardcodedText" />
+        <ImageButton
+            android:id="@+id/button0"
+            android:contentDescription="0"
+            android:onClick="onClickDigit"
+            android:tag="0"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_0_zero_white_24dp"
+            tools:ignore="HardcodedText" />
 
-</android.support.v7.widget.GridLayout>
+        <ImageButton
+            android:id="@+id/buttonComa"
+            android:contentDescription="."
+            android:onClick="onClick"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:srcCompat="@drawable/ic_comma_white_24dp"
+            tools:ignore="HardcodedText" />
+
+    </android.support.v7.widget.GridLayout>
+
+
+</RelativeLayout>
