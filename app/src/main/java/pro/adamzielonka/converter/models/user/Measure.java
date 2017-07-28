@@ -1,11 +1,14 @@
 package pro.adamzielonka.converter.models.user;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
@@ -105,6 +108,28 @@ public class Measure {
         for (Map.Entry<String, String> e : name.entrySet())
             map.put(e.getKey(), getValueInt(map, e.getKey()) + 1);
         return map;
+    }
+
+    private void getTranslation(Context context, ArrayList<String[]> list, Map<String, String> map, String langCode) {
+        String[] s = new String[2];
+        s[0] = map.containsKey(global) ? map.get(global) : "";
+        s[1] = map.containsKey(langCode) ? map.get(langCode) : context.getString(R.string.language_reperat_tag);
+        if (!s[0].isEmpty() || !s[1].equals(context.getString(R.string.language_reperat_tag))) {
+            if (s[1].isEmpty()) s[1] = context.getString(R.string.language_empty_tag);
+            list.add(s);
+        }
+    }
+
+    public ArrayList<String[]> getLanguagesStr(Context context, String langCode) {
+        ArrayList<String[]> list = new ArrayList<>();
+        getTranslation(context, list, name, langCode);
+        for (Unit unit : units) {
+            getTranslation(context, list, unit.description, langCode);
+            getTranslation(context, list, unit.descriptionPrefix, langCode);
+            for (Prefix prefix : unit.prefixes)
+                getTranslation(context, list, prefix.description, langCode);
+        }
+        return list;
     }
 
     public ConcreteMeasure getConcreteMeasure() {

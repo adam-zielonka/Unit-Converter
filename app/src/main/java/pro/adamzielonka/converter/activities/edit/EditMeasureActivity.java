@@ -46,7 +46,6 @@ import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
@@ -81,14 +80,15 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             @Override
             public void onReceive(Context context, Intent intent) {
                 hideProgressDialog();
-                switch (intent.getAction()) {
-                    case MyUploadService.UPLOAD_COMPLETED:
-                        showSuccess(EditMeasureActivity.this, R.string.success_upload);
-                        break;
-                    case MyUploadService.UPLOAD_ERROR:
-                        showError(EditMeasureActivity.this, R.string.msg_error_upload);
-                        break;
-                }
+                if (intent.getAction() != null)
+                    switch (intent.getAction()) {
+                        case MyUploadService.UPLOAD_COMPLETED:
+                            showSuccess(EditMeasureActivity.this, R.string.success_upload);
+                            break;
+                        case MyUploadService.UPLOAD_ERROR:
+                            showError(EditMeasureActivity.this, R.string.msg_error_upload);
+                            break;
+                    }
             }
         };
         super.onLoad();
@@ -135,7 +135,10 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             unit = unitsAdapter.getItem(position - listView.getHeaderViewsCount());
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
-            if (view.equals(globalLangView)) {
+            if (view.equals(langView)) {
+                startActivityForResult(setEditIntent(EditLanguagesActivity.class), REQUEST_EDIT_ACTIVITY);
+
+            } else if (view.equals(globalLangView)) {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.list_item_language_global)
                         .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(), (dialogInterface, i) -> {
@@ -155,9 +158,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 }).show();
 
             } else if (view.equals(editUnitOrder) && editUnitOrder.isEnabled()) {
-                Intent intent = new Intent(getApplicationContext(), EditOrderUnitsActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
-                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+                startActivityForResult(setEditIntent(EditOrderUnitsActivity.class), REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editDefaultDisplay1) && editDefaultDisplay1.isEnabled()) {
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),

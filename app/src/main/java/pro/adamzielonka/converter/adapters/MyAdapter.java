@@ -20,6 +20,10 @@ abstract class MyAdapter<T> extends ArrayAdapter<T> {
         this.globalCode = globalCode;
     }
 
+    MyAdapter(@NonNull Context context, int resource, @NonNull List<T> objects) {
+        super(context, resource, objects);
+    }
+
     String getLanguageWords(Map<String, String> map) {
         return Language.getLanguageWords(map, langCode, globalCode);
     }

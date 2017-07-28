@@ -27,6 +27,7 @@ public abstract class EditActivity extends ListActivity {
     protected ConcreteMeasure concreteMeasure;
     protected Unit unit;
     protected Prefix prefix;
+    protected String language;
 
     private String measureFileName;
     protected String unitName;
@@ -64,6 +65,7 @@ public abstract class EditActivity extends ListActivity {
         measureFileName = intent.getStringExtra(EXTRA_MEASURE_FILE_NAME);
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
+        language = intent.getStringExtra("language");
         super.onLoad();
         onOpen();
     }
@@ -142,6 +144,7 @@ public abstract class EditActivity extends ListActivity {
         intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
         intent.putExtra("unitName", unit != null ? unit.symbol : "");
         intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
+        intent.putExtra("language", language != null ? language : "en");
         return intent;
     }
 }

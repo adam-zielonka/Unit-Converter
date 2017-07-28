@@ -32,37 +32,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.edit.AddMeasureActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditMeasureActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditUnitActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditOrderUnitsActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditPrefixActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditDescriptionActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.edit.EditFormulaActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.database.CloudActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.database.MeasureDetailActivity"
-            android:theme="@style/BlueTheme" />
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:theme="@style/BlueTheme" />
+        <activity android:name=".activities.edit.AddMeasureActivity" />
         <activity android:name=".activities.edit.SetMeasureActivity" />
+        <activity android:name=".activities.edit.EditMeasureActivity" />
+        <activity android:name=".activities.edit.EditUnitActivity" />
+        <activity android:name=".activities.edit.EditOrderUnitsActivity" />
+        <activity android:name=".activities.edit.EditPrefixActivity" />
+        <activity android:name=".activities.edit.EditDescriptionActivity" />
+        <activity android:name=".activities.edit.EditFormulaActivity" />
+        <activity android:name=".activities.edit.EditLanguagesActivity" />
+        <activity android:name=".activities.edit.EditTranslationActivity" />
+        <activity android:name=".activities.database.CloudActivity" />
+        <activity android:name=".activities.database.MeasureDetailActivity" />
+        <activity android:name=".activities.SettingsActivity" />
 
         <service
             android:name=".services.MyDownloadService"

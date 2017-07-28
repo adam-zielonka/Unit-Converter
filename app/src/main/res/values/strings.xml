@@ -161,6 +161,12 @@
     <string name="list_own_name_measure">Own name</string>
     <string name="list_own_lang_measure">Own language</string>
     <string name="local_settings">Local settings</string>
+    <string name="title_activity_edit_languages">Edit languages</string>
+    <string name="list_title_translations">Translations</string>
+    <string name="list_item_add_translation">Add translation</string>
+    <string name="title_activity_edit_translation">Edit translation</string>
+    <string name="language_reperat_tag"><![CDATA[<repeat>]]></string>
+    <string name="language_empty_tag"><![CDATA[<empty>]]></string>
     <!-- -->
 
 </resources>
