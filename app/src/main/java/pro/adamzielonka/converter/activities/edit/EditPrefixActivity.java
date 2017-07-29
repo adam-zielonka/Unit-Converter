@@ -4,15 +4,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
-import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
-import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public class EditPrefixActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -44,35 +41,17 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(prefixNameView)) {
-            EditText editText = getDialogEditText(prefix.symbol);
-            getAlertDialogSave(R.string.dialog_prefix_symbol, editText.getRootView(), (dialog, which) -> {
-                String newName = editText.getText().toString();
-                if (!newName.equals(prefixName)) {
-                    if (!isSymbolPrefixExist(newName, unit.prefixes)) {
-                        prefix.symbol = newName;
-                        prefixName = newName;
-                        onSave();
-                    } else {
-                        showError(this, R.string.error_symbol_prefix_already_exist);
-                    }
-                }
-            }).show();
+            newAlertDialogTextExist(R.string.dialog_prefix_symbol, prefix.symbol,
+                    this::isSymbolPrefixExist, unit.prefixes, R.string.error_symbol_prefix_already_exist,
+                    newName -> prefix.symbol = prefixName = newName);
 
         } else if (view.equals(prefixDescriptionView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(prefix.description, userMeasure.global));
-            getAlertDialogSave(R.string.dialog_prefix_description, editText.getRootView(), (dialog, which) -> {
-                prefix.description.put(userMeasure.global, editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogText(R.string.dialog_prefix_description, userMeasure.getWords(prefix.description, userMeasure.global),
+                    string -> prefix.description.put(userMeasure.global, string));
 
         } else if (view.equals(prefixExponentView)) {
-            EditText editText = getDialogEditNumber(prefix.exp);
-            getAlertDialogSave(R.string.dialog_prefix_exponent, editText.getRootView(), (dialog, which) -> {
-                prefix.exp = stringToDouble(editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogNumber(R.string.dialog_prefix_exponent, prefix.exp, exp -> prefix.exp = exp);
         }
-
     }
 
     @Override
@@ -86,11 +65,7 @@ public class EditPrefixActivity extends EditActivity implements ListView.OnItemC
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_delete:
-                getAlertDialogDelete(R.string.delete_unit_title, (dialog, which) -> {
-                    unit.prefixes.remove(prefix);
-                    onSave(false);
-                    onBackPressed();
-                }).show();
+                newAlertDialogDelete(R.string.delete_prefix_title, () -> unit.prefixes.remove(prefix));
                 return true;
         }
         return super.onOptionsItemSelected(item);

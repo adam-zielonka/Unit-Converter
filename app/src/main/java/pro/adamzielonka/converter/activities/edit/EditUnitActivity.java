@@ -1,13 +1,10 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
@@ -16,7 +13,6 @@ import pro.adamzielonka.converter.models.user.Prefix;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
-import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity implements ListView.OnItemClickListener {
@@ -65,19 +61,9 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
             startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(editSymbolView)) {
-                EditText editText = getDialogEditText(unit.symbol);
-                getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
-                    String newName = editText.getText().toString();
-                    if (!newName.equals(unitName)) {
-                        if (!isSymbolUnitExist(newName, userMeasure.units)) {
-                            unit.symbol = newName;
-                            unitName = newName;
-                            onSave();
-                        } else {
-                            showError(this, R.string.error_symbol_unit_already_exist);
-                        }
-                    }
-                }).show();
+                newAlertDialogTextExist(R.string.dialog_unit_symbol, unit.symbol,
+                        this::isSymbolUnitExist, userMeasure.units, R.string.error_symbol_unit_already_exist,
+                        newName -> unit.symbol = unitName = newName);
 
             } else if (view.equals(editDescriptionView)) {
                 startActivityForResult(setEditIntent(EditDescriptionActivity.class), REQUEST_EDIT_ACTIVITY);
@@ -86,33 +72,20 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
                 startActivityForResult(setEditIntent(EditFormulaActivity.class), REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(editExpBaseView)) {
-                final NumberPicker numberPicker = new NumberPicker(this);
-                numberPicker.setMaxValue(100);
-                numberPicker.setValue(Integer.parseInt(doubleToString(unit.expBase)));
-                numberPicker.setMinValue(2);
-
-                getAlertDialogSave(R.string.dialog_unit_exponentiation_base, numberPicker, (dialog, which) -> {
-                    unit.expBase = 1.0 * numberPicker.getValue();
-                    onSave();
-                }).show();
+                newAlertDialogNumber(R.string.dialog_unit_exponentiation_base, unit.expBase, number -> unit.expBase = number);
 
             } else if (view.equals(addPrefix)) {
-                EditText editText = getDialogEditText("");
-                getAlertDialogSave(R.string.dialog_prefix_symbol, editText.getRootView(), (dialog, which) -> {
-                    String newPrefixName = editText.getText().toString();
-                    if (!isSymbolPrefixExist(newPrefixName, unit.prefixes)) {
-                        prefix = new Prefix();
-                        prefix.symbol = newPrefixName;
-                        unit.prefixes.add(prefix);
-                        Intent intent = setEditIntent(EditPrefixActivity.class);
-                        onSave();
-                        startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
-                    } else {
-                        showError(this, R.string.error_symbol_prefix_already_exist);
-                    }
-                }).show();
+                newAlertDialogTextCreate(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
+                        this::isSymbolPrefixExist, unit.prefixes, R.string.error_symbol_prefix_already_exist,
+                        this::newPrefix);
             }
         }
+    }
+
+    private void newPrefix(String symbol) {
+        prefix = new Prefix();
+        prefix.symbol = symbol;
+        unit.prefixes.add(prefix);
     }
 
     @Override
@@ -126,11 +99,7 @@ public class EditUnitActivity extends EditActivity implements ListView.OnItemCli
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_delete:
-                getAlertDialogDelete(R.string.delete_unit_title, (dialog, which) -> {
-                    userMeasure.units.remove(unit);
-                    onSave(false);
-                    onBackPressed();
-                }).show();
+                newAlertDialogDelete(R.string.delete_unit_title, () -> userMeasure.units.remove(unit));
                 return true;
         }
         return super.onOptionsItemSelected(item);

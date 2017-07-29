@@ -8,13 +8,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -139,20 +137,12 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                 startActivityForResult(setEditIntent(EditLanguagesActivity.class), REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(globalLangView)) {
-                getAlertDialog(R.string.list_item_language_global)
-                        .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(), (dialogInterface, i) -> {
-                            int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
-                            userMeasure.global = concreteMeasure.getGlobalFromID(selectedPosition);
-                            dialogInterface.dismiss();
-                            onSave();
-                        }).show();
+                newAlertDialogList(R.string.list_item_language_global, concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(),
+                        id -> userMeasure.global = concreteMeasure.getGlobalFromID(id));
 
             } else if (view.equals(editMeasureNameView)) {
-                EditText editText = getDialogEditText(userMeasure.getName(userMeasure.global));
-                getAlertDialogSave(R.string.dialog_measure_name, editText.getRootView(), (dialog, which) -> {
-                    userMeasure.setName(concreteMeasure.global, editText.getText().toString());
-                    onSave();
-                }).show();
+                newAlertDialogText(R.string.dialog_measure_name, userMeasure.getName(userMeasure.global),
+                        name -> userMeasure.setName(concreteMeasure.global, name));
 
             } else if (view.equals(editUnitOrder) && editUnitOrder.isEnabled()) {
                 startActivityForResult(setEditIntent(EditOrderUnitsActivity.class), REQUEST_EDIT_ACTIVITY);
@@ -160,44 +150,29 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
             } else if (view.equals(editDefaultDisplay1) && editDefaultDisplay1.isEnabled()) {
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        userMeasure.global,
-                        userMeasure.global
+                        userMeasure.global, userMeasure.global
                 );
-                getAlertDialog(R.string.dialog_measure_default_1)
-                        .setAdapter(concreteAdapter, (dialogInterface, i) -> {
-                            userMeasure.displayFrom = i;
-                            onSave();
-                        }).show();
+                newAlertDialogAdapter(R.string.dialog_measure_default_1, concreteAdapter, id -> userMeasure.displayFrom = id);
 
             } else if (view.equals(editDefaultDisplay2) && editDefaultDisplay2.isEnabled()) {
                 ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
                         R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        userMeasure.global,
-                        userMeasure.global
+                        userMeasure.global, userMeasure.global
                 );
-                getAlertDialog(R.string.dialog_measure_default_2)
-                        .setAdapter(concreteAdapter, (dialogInterface, i) -> {
-                            userMeasure.displayTo = i;
-                            onSave();
-                        }).show();
+                newAlertDialogAdapter(R.string.dialog_measure_default_2, concreteAdapter, id -> userMeasure.displayTo = id);
 
             } else if (view.equals(addUnit)) {
-                EditText editText = getDialogEditText("");
-                getAlertDialogSave(R.string.dialog_unit_symbol, editText.getRootView(), (dialog, which) -> {
-                    String newUnitName = editText.getText().toString();
-                    if (!isSymbolUnitExist(newUnitName, userMeasure.units)) {
-                        unit = new Unit();
-                        unit.symbol = newUnitName;
-                        userMeasure.units.add(unit);
-                        Intent intent = setEditIntent(EditUnitActivity.class);
-                        onSave();
-                        startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
-                    } else {
-                        showError(this, R.string.error_symbol_unit_already_exist);
-                    }
-                }).show();
+                newAlertDialogTextCreate(R.string.dialog_unit_symbol, EditUnitActivity.class,
+                        this::isSymbolUnitExist, userMeasure.units, R.string.error_symbol_unit_already_exist,
+                        this::newUnit);
             }
         }
+    }
+
+    private void newUnit(String symbol) {
+        unit = new Unit();
+        unit.symbol = symbol;
+        userMeasure.units.add(unit);
     }
 
     @Override
@@ -211,7 +186,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_delete_converter:
-                getAlertDialogDelete(R.string.delete_measure_title, (dialog, which) -> {
+                newAlertDialogDelete(R.string.delete_measure_title, () -> {
                     if (getFileStreamPath(concreteMeasure.concreteFileName).delete() &&
                             getFileStreamPath(concreteMeasure.userFileName).delete()) {
                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
@@ -219,7 +194,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                         startActivity(intent);
                         finish();
                     }
-                }).show();
+                });
                 return true;
             case R.id.menu_save_converter:
                 ActivityCompat.requestPermissions(this,

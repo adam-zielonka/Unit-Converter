@@ -2,6 +2,9 @@ package pro.adamzielonka.converter.activities.abstractes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.widget.EditText;
+import android.widget.ListAdapter;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -11,6 +14,7 @@ import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.interfaces.IAlert;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Prefix;
@@ -18,8 +22,10 @@ import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.tools.FileTools;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.Message.showError;
+import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public abstract class EditActivity extends ListActivity {
 
@@ -147,4 +153,77 @@ public abstract class EditActivity extends ListActivity {
         intent.putExtra("language", language != null ? language : "en");
         return intent;
     }
+
+    //region dialog
+    protected void newAlertDialogText(int title, String text, IAlert.ITextAlert alert) {
+        EditText editText = getDialogEditText(text);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            alert.onResult(editText.getText().toString());
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogTextExist(int title, String text, IAlert.IExistTest test, List list, int error, IAlert.ITextAlert alert) {
+        EditText editText = getDialogEditText(text);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (!newText.equals(text)) {
+                if (!test.onTest(newText, list)) {
+                    alert.onResult(newText);
+                    onSave();
+                } else {
+                    showError(this, error);
+                }
+            }
+        }).show();
+    }
+
+    protected void newAlertDialogTextCreate(int title, Class<?> intentClass, IAlert.IExistTest test, List list, int error, IAlert.ITextAlert alert) {
+        EditText editText = getDialogEditText("");
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (!test.onTest(newText, list)) {
+                alert.onResult(newText);
+                Intent intent = setEditIntent(intentClass);
+                onSave();
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+            } else {
+                showError(this, error);
+            }
+        }).show();
+    }
+
+    protected void newAlertDialogNumber(int title, Double number, IAlert.INumberAlert alert) {
+        EditText editText = getDialogEditNumber(number);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            alert.onResult(stringToDouble(editText.getText().toString()));
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogList(int title, String[] strings, int position, IAlert.IListAlert alert) {
+        getAlertDialog(title).setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
+            int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+            alert.onResult(selectedPosition);
+            dialogInterface.dismiss();
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogAdapter(int title, ListAdapter adapter, IAlert.IListAlert alert) {
+        getAlertDialog(title)
+                .setAdapter(adapter, (dialogInterface, i) -> {
+                    alert.onResult(i);
+                    onSave();
+                }).show();
+    }
+
+    protected void newAlertDialogDelete(int title, IAlert.IVoidAlert alert) {
+        getAlertDialogDelete(title, (dialog, which) -> {
+            alert.onResult();
+            onSave(false);
+            onBackPressed();
+        }).show();
+    }
+    //endregion
 }

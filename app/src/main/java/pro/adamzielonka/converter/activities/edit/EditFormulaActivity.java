@@ -2,7 +2,6 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import pro.adamzielonka.converter.R;
@@ -10,7 +9,6 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
-import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
 public class EditFormulaActivity extends EditActivity implements ListView.OnItemClickListener {
 
@@ -45,25 +43,13 @@ public class EditFormulaActivity extends EditActivity implements ListView.OnItem
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditOneView)) {
-            EditText editText = getDialogEditNumber(unit.one);
-            getAlertDialogSave(R.string.dialog_formula_one, editText.getRootView(), (dialog, which) -> {
-                unit.one = stringToDouble(editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogNumber(R.string.dialog_formula_one, unit.one, number -> unit.one = number);
 
         } else if (view.equals(unitEditShift1View)) {
-            EditText editText = getDialogEditNumber(unit.shift);
-            getAlertDialogSave(R.string.dialog_formula_shift1, editText.getRootView(), (dialog, which) -> {
-                unit.shift = stringToDouble(editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogNumber(R.string.dialog_formula_shift1, unit.shift, number -> unit.shift = number);
 
         } else if (view.equals(unitEditShift2View)) {
-            EditText editText = getDialogEditNumber(unit.shift2);
-            getAlertDialogSave(R.string.dialog_formula_shift2, editText.getRootView(), (dialog, which) -> {
-                unit.shift2 = stringToDouble(editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogNumber(R.string.dialog_formula_shift2, unit.shift2, number -> unit.shift2 = number);
         }
     }
 }

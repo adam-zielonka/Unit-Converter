@@ -48,12 +48,14 @@ public class SettingsActivity extends PreferenceActivity
     private View websiteView;
     private static final int RC_SIGN_IN = 9001;
 
+    private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onLoad() throws Exception {
         setTitle(R.string.title_activity_settings);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         initAuth();
         super.onLoad();
         listView.setEmptyAdapter();
@@ -70,6 +72,7 @@ public class SettingsActivity extends PreferenceActivity
         websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
     }
 
+    @Override
     public void onUpdate() {
         updateView(themeView, theme.getName());
         updateView(langView, getResources().getConfiguration().locale.getLanguage());
@@ -175,12 +178,8 @@ public class SettingsActivity extends PreferenceActivity
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            } else {
-                onUpdate();
-            }
+            if (result.isSuccess()) firebaseAuthWithGoogle(result.getSignInAccount());
+            else onUpdate();
         }
     }
 
@@ -191,7 +190,6 @@ public class SettingsActivity extends PreferenceActivity
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        mFirebaseAuth.getCurrentUser();
                         onAuthSuccess();
                     } else {
                         Toast.makeText(SettingsActivity.this, "Authentication failed.",
@@ -242,7 +240,6 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     private void createUserName(String name) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> map = new HashMap<>();
         map.put(name, getUid());
         mDatabase.child("usernames").updateChildren(map);
@@ -250,7 +247,6 @@ public class SettingsActivity extends PreferenceActivity
 
     private void writeNewUser(boolean changeName, String userId, String name) {
         User user = new User(name);
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(userId).setValue(user)
                 .addOnSuccessListener(aVoid -> finishCreateUser(name))
                 .addOnFailureListener(e -> createUser(changeName, name, getString(R.string.error_name_already_exist)));

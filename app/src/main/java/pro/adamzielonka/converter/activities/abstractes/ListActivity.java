@@ -158,3 +158,4 @@ public abstract class ListActivity extends BaseActivity {
     //endregion
 
 }
+

@@ -2,7 +2,6 @@ package pro.adamzielonka.converter.activities.edit;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import pro.adamzielonka.converter.R;
@@ -35,18 +34,12 @@ public class EditDescriptionActivity extends EditActivity implements ListView.On
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(unitEditBaseView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(unit.description, userMeasure.global));
-            getAlertDialogSave(R.string.dialog_unit_description_base, editText.getRootView(), (dialog, which) -> {
-                unit.description.put(userMeasure.global, editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogText(R.string.dialog_unit_description_base, userMeasure.getWords(unit.description, userMeasure.global),
+                    text -> unit.description.put(userMeasure.global, text));
 
         } else if (view.equals(unitEditPrefixView)) {
-            EditText editText = getDialogEditText(userMeasure.getWords(unit.descriptionPrefix, userMeasure.global));
-            getAlertDialogSave(R.string.dialog_unit_description_global_prefix, editText.getRootView(), (dialog, which) -> {
-                unit.description.put(userMeasure.global, editText.getText().toString());
-                onSave();
-            }).show();
+            newAlertDialogText(R.string.dialog_unit_description_global_prefix, userMeasure.getWords(unit.descriptionPrefix, userMeasure.global),
+                    text -> unit.descriptionPrefix.put(userMeasure.global, text));
         }
     }
 }
