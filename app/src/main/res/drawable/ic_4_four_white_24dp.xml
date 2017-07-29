@@ -10,6 +10,6 @@
         android:translateY="153.6">
         <path
             android:fillColor="#ffffff"
-            android:pathData="M954 548h165v-233h-165v-315h-289v315h-597l-13 182l607 959h292v-908zM343 548h322v514l-19 -33z" />
+            android:pathData="M931 519h181v-195h-181v-324h-243v324h-629l-7 148l628 984h251v-937zM307 519h381v608l-18 -32z" />
     </group>
 </vector>
