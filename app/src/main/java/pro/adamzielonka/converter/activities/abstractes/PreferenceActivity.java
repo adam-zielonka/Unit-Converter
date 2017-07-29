@@ -45,4 +45,10 @@ public abstract class PreferenceActivity extends ListActivity implements SharedP
         startActivity(intent);
         finish();
     }
+
+    public void setPreferences(String name, String value) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(name, value + "");
+        editor.apply();
+    }
 }

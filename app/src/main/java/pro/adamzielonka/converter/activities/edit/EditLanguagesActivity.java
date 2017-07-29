@@ -50,8 +50,8 @@ public class EditLanguagesActivity extends EditActivity implements ListView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getHeaderViewsCount(), adapter.getCount())) {
-            String[] strings = adapter.getItem(position - listView.getHeaderViewsCount());
+        if (isAdapterItemClick(position)) {
+            String[] strings = adapter.getItem(getAdapterPosition(position));
             language = strings != null ? strings[0] : "en";
             startActivityForResult(setEditIntent(EditTranslationActivity.class), REQUEST_EDIT_ACTIVITY);
         }

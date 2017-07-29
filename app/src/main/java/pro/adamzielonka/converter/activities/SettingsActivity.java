@@ -37,11 +37,9 @@ import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;
 import static pro.adamzielonka.converter.tools.Language.getLanguages;
 import static pro.adamzielonka.converter.tools.Language.setLanguage;
-import static pro.adamzielonka.converter.tools.Theme.getThemeID;
-import static pro.adamzielonka.converter.tools.Theme.getThemeName;
-import static pro.adamzielonka.converter.tools.Theme.getThemes;
 
-public class SettingsActivity extends PreferenceActivity implements ListView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsActivity extends PreferenceActivity
+        implements ListView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private View themeView;
     private View langView;
@@ -73,7 +71,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     }
 
     public void onUpdate() {
-        updateView(themeView, getThemeName(this));
+        updateView(themeView, theme.getName());
         updateView(langView, getResources().getConfiguration().locale.getLanguage());
 
         if (getUser() != null) {
@@ -88,35 +86,32 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if (view.equals(themeView)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.pref_title_theme)
-                    .setSingleChoiceItems(getThemes(this), getThemeID(this), (dialogInterface, i) -> {
+            getAlertDialog(R.string.pref_title_theme)
+                    .setSingleChoiceItems(theme.getArray(), theme.getID(), (dialogInterface, i) -> {
                         int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("theme", selectedPosition + "");
-                        editor.apply();
+                        theme.setID(selectedPosition);
                         dialogInterface.dismiss();
                         onUpdate();
                     })
-                    .setCancelable(true)
                     .show();
+
         } else if (view.equals(langView)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.pref_title_language)
+            getAlertDialog(R.string.pref_title_language)
                     .setSingleChoiceItems(getLanguages(this), getLanguageID(this), (dialogInterface, i) -> {
                         int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                         setLanguage(this, getLanguageFromID(this, selectedPosition));
                         dialogInterface.dismiss();
                         restart();
                     })
-                    .setCancelable(true)
                     .show();
+
         } else if (view.equals(logInView)) {
             if (getUser() != null) signOut();
             else signIn();
+
         } else if (view.equals(websiteView)) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/"));
-            startActivity(browserIntent);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/")));
+
         } else if (view.equals(userNameView)) {
             if (getUser() != null) {
                 showProgressDialog();
@@ -141,20 +136,26 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     //region sign in out
     private void initAuth() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        mGoogleApiClient = newGoogleApiClient();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
+    private GoogleSignInOptions newGoogleSignInOptions() {
+        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+    }
+
+    private GoogleApiClient newGoogleApiClient() {
+        return new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, newGoogleSignInOptions())
+                .build();
+    }
+
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), RC_SIGN_IN);
     }
 
     private void signOut() {
@@ -227,9 +228,7 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
 
     private void createUser(boolean changeName, String name, String error) {
         EditText editText = getDialogEditText(name, error);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.dialog_set_user_name)
-                .setCancelable(false)
+        getAlertDialog(R.string.dialog_set_user_name)
                 .setView(editText.getRootView())
                 .setPositiveButton(R.string.dialog_create, (dialogInterface, i) -> {
                     String newUnitName = editText.getText().toString();
@@ -253,19 +252,19 @@ public class SettingsActivity extends PreferenceActivity implements ListView.OnI
         User user = new User(name);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(userId).setValue(user)
-                .addOnSuccessListener(aVoid -> {
-                    createUserName(name);
-                    setUserName(name);
-                    onUpdate();
-                    hideProgressDialog();
-                })
+                .addOnSuccessListener(aVoid -> finishCreateUser(name))
                 .addOnFailureListener(e -> createUser(changeName, name, getString(R.string.error_name_already_exist)));
     }
 
+    private void finishCreateUser(String name) {
+        createUserName(name);
+        setUserName(name);
+        onUpdate();
+        hideProgressDialog();
+    }
+
     private void setUserName(String name) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("username", name);
-        editor.apply();
+        setPreferences("username", name);
     }
 
     private String getUserName() {

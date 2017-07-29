@@ -44,6 +44,7 @@ public abstract class ListActivity extends BaseActivity {
         listView.setActivity(this);
     }
 
+    //region views
     protected void updateView(View view, String textSecondary) {
         ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
         if (textSecondary.equals(""))
@@ -97,16 +98,20 @@ public abstract class ListActivity extends BaseActivity {
         ((TextView) view.findViewById(R.id.textSecondary))
                 .setTextColor(getResources().getColor(R.color.colorGreyPrimaryDark));
     }
+    //endregion
 
-    protected boolean isUnderItemClick(int position, int countHeaderItems, int countUnderItems) {
-        return (position - countHeaderItems >= 0 && position - countHeaderItems < countUnderItems);
+    //region adapter
+    protected boolean isAdapterItemClick(int position) {
+        return (position - listView.getHeaderViewsCount() >= 0 && position - listView.getHeaderViewsCount()
+                < listView.getCount() - listView.getHeaderViewsCount() - listView.getFooterViewsCount());
     }
+
+    protected int getAdapterPosition(int position) {
+        return position - listView.getHeaderViewsCount();
+    }
+    //endregion
 
     //region dialog
-    protected EditText getDialogEditText(String text) {
-        return getDialogEditText(text, "");
-    }
-
     protected EditText getDialogEditText(String text, String error) {
         View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
         EditText editText = layout.findViewById(R.id.editText);
@@ -120,30 +125,35 @@ public abstract class ListActivity extends BaseActivity {
         return editText;
     }
 
+    protected EditText getDialogEditText(String text) {
+        return getDialogEditText(text, "");
+    }
+
     protected EditText getDialogEditNumber(Double number) {
-        View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
-        EditText editText = layout.findViewById(R.id.editText);
+        EditText editText = getDialogEditText(doubleToString(number));
         editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-        editText.setText(doubleToString(number));
-        editText.setSelection(editText.length());
         return editText;
     }
 
     protected AlertDialog.Builder getAlertDialogSave(int title, View view, DialogInterface.OnClickListener onClickListener) {
-        return getAlertDialog(title, onClickListener, R.string.dialog_save).setView(view);
+        return getAlertDialogCancel(title, onClickListener, R.string.dialog_save).setView(view);
     }
 
     protected AlertDialog.Builder getAlertDialogDelete(int title, DialogInterface.OnClickListener onClickListener) {
-        return getAlertDialog(title, onClickListener, R.string.dialog_delete);
+        return getAlertDialogCancel(title, onClickListener, R.string.dialog_delete);
     }
 
-    private AlertDialog.Builder getAlertDialog(int dialogTitle, DialogInterface.OnClickListener onClickListener, int positiveButtonTitle) {
-        return new AlertDialog.Builder(this)
-                .setTitle(dialogTitle)
-                .setCancelable(true)
-                .setPositiveButton(positiveButtonTitle, onClickListener)
+    protected AlertDialog.Builder getAlertDialogCancel(int title, DialogInterface.OnClickListener onClickListener, int positiveText) {
+        return getAlertDialog(title)
+                .setPositiveButton(positiveText, onClickListener)
                 .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                 });
+    }
+
+    protected AlertDialog.Builder getAlertDialog(int title) {
+        return new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setCancelable(true);
     }
     //endregion
 

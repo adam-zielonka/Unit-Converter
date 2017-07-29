@@ -102,15 +102,13 @@ public class SetMeasureActivity extends EditActivity implements ListView.OnItemC
             }).show();
 
         } else if (view.equals(ownLangView)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.list_title_language)
+            getAlertDialog(R.string.list_title_language)
                     .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getOwnLangID(), (dialogInterface, i) -> {
                         int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                         concreteMeasure.ownLang = concreteMeasure.getGlobalFromID(selectedPosition);
                         dialogInterface.dismiss();
                         onSave();
                     })
-                    .setCancelable(true)
                     .show();
         }
     }

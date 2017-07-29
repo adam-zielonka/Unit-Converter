@@ -131,24 +131,21 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isUnderItemClick(position, listView.getHeaderViewsCount(), userMeasure.units.size())) {
-            unit = unitsAdapter.getItem(position - listView.getHeaderViewsCount());
+        if (isAdapterItemClick(position)) {
+            unit = unitsAdapter.getItem(getAdapterPosition(position));
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         } else {
             if (view.equals(langView)) {
                 startActivityForResult(setEditIntent(EditLanguagesActivity.class), REQUEST_EDIT_ACTIVITY);
 
             } else if (view.equals(globalLangView)) {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.list_item_language_global)
+                getAlertDialog(R.string.list_item_language_global)
                         .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(), (dialogInterface, i) -> {
                             int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                             userMeasure.global = concreteMeasure.getGlobalFromID(selectedPosition);
                             dialogInterface.dismiss();
                             onSave();
-                        })
-                        .setCancelable(true)
-                        .show();
+                        }).show();
 
             } else if (view.equals(editMeasureNameView)) {
                 EditText editText = getDialogEditText(userMeasure.getName(userMeasure.global));
@@ -166,9 +163,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                         userMeasure.global,
                         userMeasure.global
                 );
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_measure_default_1)
-                        .setCancelable(true)
+                getAlertDialog(R.string.dialog_measure_default_1)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
                             userMeasure.displayFrom = i;
                             onSave();
@@ -180,9 +175,7 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                         userMeasure.global,
                         userMeasure.global
                 );
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_measure_default_2)
-                        .setCancelable(true)
+                getAlertDialog(R.string.dialog_measure_default_2)
                         .setAdapter(concreteAdapter, (dialogInterface, i) -> {
                             userMeasure.displayTo = i;
                             onSave();

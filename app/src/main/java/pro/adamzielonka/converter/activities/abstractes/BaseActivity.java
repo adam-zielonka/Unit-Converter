@@ -1,26 +1,24 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import pro.adamzielonka.converter.tools.Theme;
+import pro.adamzielonka.converter.tools.theme.Theme;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private int resultCode;
     private ProgressDialog mProgressDialog;
+    protected Theme theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        setTheme(Theme.getStyleID(preferences.getString("theme", "")));
+        theme = new Theme(this);
         super.onCreate(savedInstanceState);
 
         resultCode = RESULT_CANCELED;

@@ -1,10 +1,8 @@
 package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
@@ -30,8 +28,9 @@ import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.converter.tools.Theme;
+import pro.adamzielonka.converter.tools.theme.Theme;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
@@ -53,7 +52,7 @@ public class ConverterActivity extends AppCompatActivity
     private NavigationView navigationView;
     private List<ConcreteMeasure> measureList;
     private int converterID;
-    private String themeID;
+    private Theme theme;
 
     private EditText textFrom;
     private EditText textTo;
@@ -74,10 +73,7 @@ public class ConverterActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        themeID = preferences.getString("theme", "");
-        setTheme(Theme.getConverterStyleID(themeID));
-
+        theme = new ConverterTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -195,7 +191,7 @@ public class ConverterActivity extends AppCompatActivity
     }
 
     void setTextFocus() {
-        textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
+        textFrom.setTextColor(theme.getTextColor());
         textTo.setTextColor(Color.BLACK);
 
         textFrom.requestFocus();
@@ -238,8 +234,7 @@ public class ConverterActivity extends AppCompatActivity
             textFrom = (EditText) getItself(textTo, textTo = textFrom);
             spinnerFrom = (Spinner) getItself(spinnerTo, spinnerTo = spinnerFrom);
             textViewFrom = (TextView) getItself(textViewTo, textViewTo = textViewFrom);
-            textFrom.setTextColor(getResources().getColor(Theme.getTextColorID(themeID)));
-            textTo.setTextColor(Color.BLACK);
+            setTextFocus();
         }
     }
 
