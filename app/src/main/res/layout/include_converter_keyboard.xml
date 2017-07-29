@@ -1,157 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:showIn="@layout/content_converter">
 
-    <android.support.v7.widget.GridLayout
-        android:layout_width="match_parent"
+    <TableLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:columnCount="4"
-        app:orientation="horizontal"
-        app:rowCount="4">
+        android:layout_weight="3">
 
-        <ImageButton
-            android:id="@+id/button7"
-            android:contentDescription="7"
-            android:onClick="onClickDigit"
-            android:tag="7"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_7_seven_white_24dp"
-            tools:ignore="HardcodedText" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/button8"
-            android:contentDescription="8"
-            android:onClick="onClickDigit"
-            android:tag="8"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_8_eight_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="7"
+                android:onClick="onClickDigit"
+                android:tag="7"
+                app:srcCompat="@drawable/ic_7_seven_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/button9"
-            android:contentDescription="9"
-            android:onClick="onClickDigit"
-            android:tag="9"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_9_nine_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="8"
+                android:onClick="onClickDigit"
+                android:tag="8"
+                app:srcCompat="@drawable/ic_8_eight_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/buttonClearOutput"
-            android:contentDescription="@string/clear_text"
-            android:onClick="onClick"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill_vertical"
-            app:layout_rowSpan="2"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_clear_white_24dp" />
+            <ImageButton
+                android:id="@+id/button9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="9"
+                android:onClick="onClickDigit"
+                android:tag="9"
+                app:srcCompat="@drawable/ic_9_nine_white_24dp"
+                tools:ignore="HardcodedText" />
+        </TableRow>
 
-        <ImageButton
-            android:id="@+id/button4"
-            android:contentDescription="4"
-            android:onClick="onClickDigit"
-            android:tag="4"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_4_four_white_24dp"
-            tools:ignore="HardcodedText" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/button5"
-            android:contentDescription="5"
-            android:onClick="onClickDigit"
-            android:tag="5"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_5_five_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="5"
+                android:onClick="onClickDigit"
+                android:tag="5"
+                app:srcCompat="@drawable/ic_5_five_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/button6"
-            android:contentDescription="6"
-            android:onClick="onClickDigit"
-            android:tag="6"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_6_six_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="6"
+                android:onClick="onClickDigit"
+                android:tag="6"
+                app:srcCompat="@drawable/ic_6_six_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/button1"
-            android:contentDescription="1"
-            android:onClick="onClickDigit"
-            android:tag="1"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_1_one_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="4"
+                android:onClick="onClickDigit"
+                android:tag="4"
+                app:srcCompat="@drawable/ic_4_four_white_24dp"
+                tools:ignore="HardcodedText" />
+        </TableRow>
 
-        <ImageButton
-            android:id="@+id/button2"
-            android:contentDescription="2"
-            android:onClick="onClickDigit"
-            android:tag="2"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_2_two_white_24dp"
-            tools:ignore="HardcodedText" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/button3"
-            android:contentDescription="3"
-            android:onClick="onClickDigit"
-            android:tag="3"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_3_three_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="1"
+                android:onClick="onClickDigit"
+                android:tag="1"
+                app:srcCompat="@drawable/ic_1_one_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/buttonDeleteLast"
-            android:contentDescription="@string/delete_last_digit"
-            android:onClick="onClick"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill_vertical"
-            app:layout_rowSpan="2"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_backspace_white_24dp" />
+            <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="3"
+                android:onClick="onClickDigit"
+                android:tag="3"
+                app:srcCompat="@drawable/ic_3_three_white_24dp"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/buttonPlusMinus"
-            android:contentDescription="±"
-            android:onClick="onClick"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_plus_minus_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="2"
+                android:onClick="onClickDigit"
+                android:tag="2"
+                app:srcCompat="@drawable/ic_2_two_white_24dp"
+                tools:ignore="HardcodedText" />
+        </TableRow>
 
-        <ImageButton
-            android:id="@+id/button0"
-            android:contentDescription="0"
-            android:onClick="onClickDigit"
-            android:tag="0"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_0_zero_white_24dp"
-            tools:ignore="HardcodedText" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/buttonComa"
-            android:contentDescription="."
-            android:onClick="onClick"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ic_comma_white_24dp"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/buttonPlusMinus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="±"
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_plus_minus_white_24dp"
+                tools:ignore="HardcodedText" />
 
-    </android.support.v7.widget.GridLayout>
+            <ImageButton
+                android:id="@+id/button0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="0"
+                android:onClick="onClickDigit"
+                android:tag="0"
+                app:srcCompat="@drawable/ic_0_zero_white_24dp"
+                tools:ignore="HardcodedText" />
 
+            <ImageButton
+                android:id="@+id/buttonComa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="."
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_comma_white_24dp"
+                tools:ignore="HardcodedText" />
+        </TableRow>
+    </TableLayout>
 
-</RelativeLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/buttonClearOutput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/clear_text"
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_clear_white_24dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/buttonDeleteLast"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/delete_last_digit"
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_backspace_white_24dp" />
+        </TableRow>
+    </TableLayout>
+</TableRow>
