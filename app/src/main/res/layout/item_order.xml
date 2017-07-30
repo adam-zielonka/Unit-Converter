@@ -13,9 +13,9 @@
         android:id="@+id/textPos"
         android:layout_width="32dp"
         android:layout_height="match_parent"
+        android:gravity="center|start"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:gravity="center|start"
         android:text="+10"
         android:textColor="?colorPrimaryDark"
         android:textSize="18sp"
@@ -23,7 +23,7 @@
 
     <ImageButton
         android:id="@+id/buttonUp"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:contentDescription="@string/set_unit_up"
@@ -32,7 +32,7 @@
 
     <ImageButton
         android:id="@+id/buttonDown"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:contentDescription="@string/set_unit_down"

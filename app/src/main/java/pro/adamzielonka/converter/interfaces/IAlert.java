@@ -16,6 +16,14 @@ public interface IAlert {
         void onResult(int position);
     }
 
+    interface IReturnNumber {
+        Double onResult();
+    }
+
+    interface IReturnText {
+        String onResult();
+    }
+
     interface IVoidAlert {
         void onResult();
     }

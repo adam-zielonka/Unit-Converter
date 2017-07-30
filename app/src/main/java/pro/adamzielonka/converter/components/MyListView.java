@@ -11,11 +11,16 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.interfaces.IAlert;
 
 public class MyListView extends ListView {
     private Activity activity;
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
+    private List<MyView> myViews = new ArrayList<>();
 
     public MyListView(Context context) {
         super(context);
@@ -98,4 +103,21 @@ public class MyListView extends ListView {
     public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
+
+    public void addItem(View view, IAlert.IVoidAlert update, IAlert.IVoidAlert alert) {
+        myViews.add(new MyView(view, update, alert));
+    }
+
+    public void onAlert(View view) {
+        for (MyView myView : myViews) {
+            if (myView.view.equals(view)) myView.onAlert();
+        }
+    }
+
+    public void onUpdate() {
+        for (MyView myView : myViews) {
+            myView.onUpdate();
+        }
+    }
 }
+

@@ -15,15 +15,11 @@ public abstract class PreferenceActivity extends ListActivity implements SharedP
     protected void onCreate(Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         super.onCreate(savedInstanceState);
-        try {
-            onUpdate();
-        } catch (Exception e) {
-            finish();
-        }
     }
 
-    protected void onUpdate() {
-
+    @Override
+    protected void onUpdate() throws Exception {
+        super.onUpdate();
     }
 
     @Override

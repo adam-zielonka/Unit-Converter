@@ -4,20 +4,31 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.List;
+
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.bool.Unique;
 import pro.adamzielonka.converter.components.MyListView;
+import pro.adamzielonka.converter.interfaces.IAlert;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
+import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.converter.tools.Number.stringToDouble;
 
-public abstract class ListActivity extends BaseActivity {
+public abstract class ListActivity extends BaseActivity implements ListView.OnItemClickListener {
     protected MyListView listView;
     protected boolean isUserCheckedChanged;
 
@@ -37,11 +48,40 @@ public abstract class ListActivity extends BaseActivity {
             e.printStackTrace();
             finish();
         }
+
+        try {
+            onUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            finish();
+        }
     }
 
     protected void onLoad() throws Exception {
         listView = findViewById(R.id.ListView);
         listView.setActivity(this);
+        listView.setEmptyAdapter();
+        listView.setOnItemClickListener(this);
+        addItems();
+    }
+
+    protected void addItems() {
+    }
+
+    protected void onUpdate() throws Exception {
+        listView.onUpdate();
+    }
+
+    protected void onSave() {
+        onSave(true);
+    }
+
+    protected void onSave(boolean reload) {
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        listView.onAlert(view);
     }
 
     //region views
@@ -157,5 +197,146 @@ public abstract class ListActivity extends BaseActivity {
     }
     //endregion
 
+    //region new dialog
+    protected void newAlertDialogText(int title, String text, IAlert.ITextAlert alert) {
+        EditText editText = getDialogEditText(text);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            alert.onResult(editText.getText().toString());
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogTextExist(int title, String text, IAlert.IExistTest test, List list, int error, IAlert.ITextAlert alert) {
+        EditText editText = getDialogEditText(text);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (!newText.equals(text)) {
+                if (!test.onTest(newText, list)) {
+                    alert.onResult(newText);
+                    onSave();
+                } else {
+                    showError(this, error);
+                }
+            }
+        }).show();
+    }
+
+    protected void newAlertDialogTextUnique(int title, String text, IAlert.ITextAlert alert, Unique unique) {
+        EditText editText = getDialogEditText(text);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (!newText.equals(text)) {
+                if (unique.isUnique(newText)) {
+                    alert.onResult(newText);
+                    onSave();
+                } else {
+                    showError(this, unique.error);
+                }
+            }
+        }).show();
+    }
+
+    protected void newAlertDialogNumber(int title, Double number, IAlert.INumberAlert alert) {
+        EditText editText = getDialogEditNumber(number);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            alert.onResult(stringToDouble(editText.getText().toString()));
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogList(int title, String[] strings, int position, IAlert.IListAlert alert) {
+        getAlertDialog(title).setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
+            int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+            alert.onResult(selectedPosition);
+            dialogInterface.dismiss();
+            onSave();
+        }).show();
+    }
+
+    protected void newAlertDialogAdapter(int title, ListAdapter adapter, IAlert.IListAlert alert) {
+        getAlertDialog(title)
+                .setAdapter(adapter, (dialogInterface, i) -> {
+                    alert.onResult(i);
+                    onSave();
+                }).show();
+    }
+
+    protected void newAlertDialogDelete(int title, IAlert.IVoidAlert alert) {
+        getAlertDialogDelete(title, (dialog, which) -> {
+            alert.onResult();
+            onSave(false);
+            onBackPressed();
+        }).show();
+    }
+    //endregion
+
+    //region add items
+    protected void addItemTitle(int title) {
+        listView.addHeaderTitle(getString(title));
+    }
+
+    protected void addItemNumber(int title, IAlert.IReturnNumber returnValue, IAlert.INumberAlert alert) {
+        View view = listView.addHeaderItem(getString(title));
+        listView.addItem(view,
+                () -> updateView(view, doubleToString(returnValue.onResult())),
+                () -> newAlertDialogNumber(title, returnValue.onResult(), alert));
+    }
+
+    protected void addItemText(int title, IAlert.IReturnText returnValue) {
+        IAlert.ITextAlert alert = null;
+        addItemText(title, returnValue, alert);
+    }
+
+    protected void addItemText(int title, IAlert.IReturnText returnValue, IAlert.ITextAlert alert) {
+        View view = listView.addHeaderItem(getString(title));
+        listView.addItem(view,
+                () -> updateView(view, returnValue.onResult(), alert != null),
+                alert != null ? () -> newAlertDialogText(title, returnValue.onResult(), alert) : null);
+    }
+
+    protected void addItemText(int title, IAlert.IReturnText returnValue, IAlert.IVoidAlert alert) {
+        View view = listView.addHeaderItem(getString(title));
+        listView.addItem(view,
+                () -> updateView(view, returnValue.onResult(), alert != null),
+                alert);
+    }
+
+    protected void addItemTextUnique(int title, IAlert.IReturnText returnValue, IAlert.ITextAlert alert, Unique unique) {
+        View view = listView.addHeaderItem(getString(title));
+        listView.addItem(view,
+                () -> updateView(view, returnValue.onResult(), alert != null),
+                alert != null ? () -> newAlertDialogTextUnique(title, returnValue.onResult(), alert, unique) : null);
+    }
+    //endregion
+
+    //region menu
+    Menu menu;
+    IAlert.IVoidAlert actionDelete;
+
+    protected void addActions() {
+    }
+
+    protected void addActionDelete(int title, IAlert.IVoidAlert alert) {
+        actionDelete = () -> newAlertDialogDelete(title, alert);
+        menu.findItem(R.id.menu_delete).setVisible(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_empty, menu);
+        this.menu = menu;
+        addActions();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_delete) {
+            if (actionDelete != null) actionDelete.onResult();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    //endregion
 }
 

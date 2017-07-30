@@ -9,7 +9,7 @@ import java.util.Map;
 
 import pro.adamzielonka.converter.tools.Language;
 
-abstract class MyAdapter<T> extends ArrayAdapter<T> {
+public abstract class MyAdapter<T> extends ArrayAdapter<T> {
 
     public String langCode;
     public String globalCode;
