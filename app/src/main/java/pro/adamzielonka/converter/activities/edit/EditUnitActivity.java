@@ -6,8 +6,9 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.bool.Unique;
+import pro.adamzielonka.converter.tools.Test;
 import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
@@ -44,7 +45,7 @@ public class EditUnitActivity extends EditActivity {
         addItemNumber(R.string.list_title_exponentiation_base, () -> unit.expBase, number -> unit.expBase = number);
         addItemTitle(R.string.list_title_prefixes);
         addItemFooter(R.string.list_item_add_prefix, () -> newAlertDialogCreateUnique(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
-                this::newPrefix, new Unique<>(unit.prefixes, R.string.error_symbol_prefix_already_exist)));
+                this::newPrefix, new Test(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)));
     }
 
     private void newPrefix(String symbol) {

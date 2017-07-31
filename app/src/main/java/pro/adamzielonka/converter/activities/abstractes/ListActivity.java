@@ -16,7 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.bool.Test;
+import pro.adamzielonka.converter.tools.Test;
 import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.interfaces.AlertInterface;
 

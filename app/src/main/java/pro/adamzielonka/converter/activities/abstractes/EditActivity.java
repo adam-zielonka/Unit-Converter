@@ -12,7 +12,7 @@ import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.bool.Test;
+import pro.adamzielonka.converter.tools.Test;
 import pro.adamzielonka.converter.interfaces.AlertInterface;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
