@@ -1,13 +1,12 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.bool.UniqueSymbol;
+import pro.adamzielonka.converter.bool.Unique;
 import pro.adamzielonka.converter.models.user.Prefix;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
@@ -17,15 +16,11 @@ import static pro.adamzielonka.converter.tools.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity {
 
-    private View addPrefix;
-
-    private ArrayAdapter<Prefix> adapter;
-
     @Override
     protected void addItems() {
         setTitle(R.string.title_activity_edit_unit);
 
-        adapter = new MyArrayAdapter<Prefix>(getApplicationContext(), unit.prefixes) {
+        ArrayAdapter<Prefix> adapter = new MyArrayAdapter<Prefix>(getApplicationContext(), unit.prefixes) {
             @Override
             public void setView(Prefix item, TextView textPrimary, TextView textSecondary) {
                 String description = getLanguageWords(item.description, userMeasure.global);
@@ -49,7 +44,7 @@ public class EditUnitActivity extends EditActivity {
         addItemNumber(R.string.list_title_exponentiation_base, () -> unit.expBase, number -> unit.expBase = number);
         addItemTitle(R.string.list_title_prefixes);
         addItemFooter(R.string.list_item_add_prefix, () -> newAlertDialogCreateUnique(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
-                this::newPrefix, new UniqueSymbol(unit.prefixes, R.string.error_symbol_prefix_already_exist)));
+                this::newPrefix, new Unique<>(unit.prefixes, R.string.error_symbol_prefix_already_exist)));
     }
 
     private void newPrefix(String symbol) {

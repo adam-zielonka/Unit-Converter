@@ -2,12 +2,12 @@ package pro.adamzielonka.converter.components;
 
 import android.view.View;
 
-import pro.adamzielonka.converter.interfaces.IAlert;
+import pro.adamzielonka.converter.interfaces.AlertInterface;
 
 class MyView {
     public View view;
-    private IAlert.IVoidAlert update;
-    private IAlert.IVoidAlert alert;
+    private AlertInterface.VoidAlert update;
+    private AlertInterface.VoidAlert alert;
 
     void onUpdate() {
         if (update != null) update.onResult();
@@ -17,7 +17,7 @@ class MyView {
         if (alert != null) alert.onResult();
     }
 
-    MyView(View view, IAlert.IVoidAlert update, IAlert.IVoidAlert alert) {
+    MyView(View view, AlertInterface.VoidAlert update, AlertInterface.VoidAlert alert) {
         this.view = view;
         this.update = update;
         this.alert = alert;

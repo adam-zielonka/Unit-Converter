@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.interfaces.ArrayAdapterInterface;
 
-public abstract class MyArrayAdapter<T> extends ArrayAdapter<T> implements IArrayAdapter<T> {
+public abstract class MyArrayAdapter<T> extends ArrayAdapter<T> implements ArrayAdapterInterface<T> {
     protected MyArrayAdapter(@NonNull Context context, @NonNull List<T> objects) {
         super(context, R.layout.item_pref, objects);
     }
@@ -32,6 +32,3 @@ public abstract class MyArrayAdapter<T> extends ArrayAdapter<T> implements IArra
     }
 }
 
-interface IArrayAdapter<T> {
-    void setView(T item, TextView textPrimary, TextView textSecondary);
-}

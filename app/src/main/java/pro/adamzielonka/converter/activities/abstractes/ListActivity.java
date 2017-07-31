@@ -16,9 +16,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.bool.Unique;
+import pro.adamzielonka.converter.bool.Test;
 import pro.adamzielonka.converter.components.MyListView;
-import pro.adamzielonka.converter.interfaces.IAlert;
+import pro.adamzielonka.converter.interfaces.AlertInterface;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
@@ -197,7 +197,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     //endregion
 
     //region new dialog
-    protected void newAlertDialogText(int title, String text, IAlert.ITextAlert alert) {
+    protected void newAlertDialogText(int title, String text, AlertInterface.TextAlert alert) {
         EditText editText = getDialogEditText(text);
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             alert.onResult(editText.getText().toString());
@@ -205,22 +205,22 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
-    protected void newAlertDialogTextUnique(int title, String text, IAlert.ITextAlert alert, Unique unique) {
+    protected void newAlertDialogText(int title, String text, AlertInterface.TextAlert alert, Test test) {
         EditText editText = getDialogEditText(text);
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             String newText = editText.getText().toString();
             if (!newText.equals(text)) {
-                if (unique.isUnique(newText)) {
+                if (test.isTest(newText)) {
                     alert.onResult(newText);
                     onSave();
                 } else {
-                    showError(this, unique.error);
+                    showError(this, test.error);
                 }
             }
         }).show();
     }
 
-    protected void newAlertDialogNumber(int title, Double number, IAlert.INumberAlert alert) {
+    protected void newAlertDialogNumber(int title, Double number, AlertInterface.NumberAlert alert) {
         EditText editText = getDialogEditNumber(number);
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             alert.onResult(stringToDouble(editText.getText().toString()));
@@ -228,7 +228,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
-    protected void newAlertDialogList(int title, String[] strings, int position, IAlert.IListAlert alert) {
+    protected void newAlertDialogList(int title, String[] strings, int position, AlertInterface.ListAlert alert) {
         getAlertDialog(title).setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
             int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
             alert.onResult(selectedPosition);
@@ -237,7 +237,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
-    protected void newAlertDialogAdapter(int title, ListAdapter adapter, IAlert.IListAlert alert) {
+    protected void newAlertDialogAdapter(int title, ListAdapter adapter, AlertInterface.ListAlert alert) {
         getAlertDialog(title)
                 .setAdapter(adapter, (dialogInterface, i) -> {
                     alert.onResult(i);
@@ -245,7 +245,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
                 }).show();
     }
 
-    protected void newAlertDialogDelete(int title, IAlert.IVoidAlert alert) {
+    protected void newAlertDialogDelete(int title, AlertInterface.VoidAlert alert) {
         getAlertDialogDelete(title, (dialog, which) -> {
             alert.onResult();
             onSave(false);
@@ -259,44 +259,44 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         listView.addHeaderTitle(getString(title));
     }
 
-    protected void addItemNumber(int title, IAlert.IReturnNumber returnValue, IAlert.INumberAlert alert) {
+    protected void addItemNumber(int title, AlertInterface.ReturnNumber returnValue, AlertInterface.NumberAlert alert) {
         View view = listView.addHeaderItem(getString(title));
         listView.addItem(view,
                 () -> updateView(view, doubleToString(returnValue.onResult())),
                 () -> newAlertDialogNumber(title, returnValue.onResult(), alert));
     }
 
-    protected void addItemText(int title, IAlert.IReturnText returnValue) {
-        IAlert.ITextAlert alert = null;
-        addItemText(title, returnValue, alert);
+    protected void addItemText(int title, AlertInterface.ReturnText returnValue) {
+        addItemText(title, returnValue, null, null);
     }
 
-    protected void addItemText(int title, IAlert.IReturnText returnValue, IAlert.ITextAlert alert) {
+    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert) {
+        addItemText(title, returnValue, alert, null);
+    }
+
+    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert, Test test) {
         View view = listView.addHeaderItem(getString(title));
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
-                alert != null ? () -> newAlertDialogText(title, returnValue.onResult(), alert) : null);
+                alert != null ? (
+                        test != null
+                                ? () -> newAlertDialogText(title, returnValue.onResult(), alert, test)
+                                : () -> newAlertDialogText(title, returnValue.onResult(), alert)
+                ) : null);
     }
 
-    protected void addItemText(int title, IAlert.IReturnText returnValue, IAlert.IVoidAlert alert) {
+    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
         View view = listView.addHeaderItem(getString(title));
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
                 alert);
     }
 
-    protected void addItemTextUnique(int title, IAlert.IReturnText returnValue, IAlert.ITextAlert alert, Unique unique) {
-        View view = listView.addHeaderItem(getString(title));
-        listView.addItem(view,
-                () -> updateView(view, returnValue.onResult(), alert != null),
-                alert != null ? () -> newAlertDialogTextUnique(title, returnValue.onResult(), alert, unique) : null);
-    }
-
-    protected void addItemsAdapter(ArrayAdapter adapter, IAlert.IReturnList update, IAlert.IListAlert alert) {
+    protected void addItemsAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {
         listView.setAdapter(adapter, update, alert);
     }
 
-    protected void addItemFooter(int title, IAlert.IVoidAlert alert) {
+    protected void addItemFooter(int title, AlertInterface.VoidAlert alert) {
         View view = listView.addFooterItem(getString(title));
         listView.addItem(view, null, alert);
     }
@@ -304,19 +304,19 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
 
     //region menu
     Menu menu;
-    IAlert.IVoidAlert actionDelete;
+    AlertInterface.VoidAlert actionDelete;
 
     protected void addActions() {
     }
 
-    protected void addActionDelete(int title, IAlert.IVoidAlert alert) {
+    protected void addActionDelete(int title, AlertInterface.VoidAlert alert) {
         actionDelete = () -> newAlertDialogDelete(title, alert);
         menu.findItem(R.id.menu_delete).setVisible(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_empty, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
         this.menu = menu;
         addActions();
         return true;

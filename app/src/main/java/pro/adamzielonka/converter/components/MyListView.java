@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.interfaces.IAlert;
+import pro.adamzielonka.converter.interfaces.AlertInterface;
 
 public class MyListView extends ListView {
     private Activity activity;
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
     private List<MyView> myViews = new ArrayList<>();
-    private IAlert.IReturnList adapterUpdate;
-    private IAlert.IListAlert adapterAlert;
+    private AlertInterface.ReturnList adapterUpdate;
+    private AlertInterface.ListAlert adapterAlert;
     private ArrayAdapter adapter;
 
     public MyListView(Context context) {
@@ -108,7 +108,7 @@ public class MyListView extends ListView {
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
 
-    public void addItem(View view, IAlert.IVoidAlert update, IAlert.IVoidAlert alert) {
+    public void addItem(View view, AlertInterface.VoidAlert update, AlertInterface.VoidAlert alert) {
         myViews.add(new MyView(view, update, alert));
     }
 
@@ -132,7 +132,7 @@ public class MyListView extends ListView {
         }
     }
 
-    public void setAdapter(ArrayAdapter adapter, IAlert.IReturnList update, IAlert.IListAlert alert) {
+    public void setAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {
         super.setAdapter(adapter);
         this.adapterUpdate = update;
         this.adapterAlert = alert;

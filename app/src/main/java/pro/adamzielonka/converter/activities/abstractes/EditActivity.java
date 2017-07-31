@@ -12,8 +12,8 @@ import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.bool.Unique;
-import pro.adamzielonka.converter.interfaces.IAlert;
+import pro.adamzielonka.converter.bool.Test;
+import pro.adamzielonka.converter.interfaces.AlertInterface;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Prefix;
@@ -145,7 +145,7 @@ public abstract class EditActivity extends ListActivity {
     }
 
     //region new dialog
-    protected void newAlertDialogTextCreate(int title, Class<?> intentClass, IAlert.IExistTest test, List list, int error, IAlert.ITextAlert alert) {
+    protected void newAlertDialogTextCreate(int title, Class<?> intentClass, AlertInterface.ExistTest test, List list, int error, AlertInterface.TextAlert alert) {
         EditText editText = getDialogEditText("");
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             String newText = editText.getText().toString();
@@ -160,17 +160,17 @@ public abstract class EditActivity extends ListActivity {
         }).show();
     }
 
-    protected void newAlertDialogCreateUnique(int title, Class<?> intentClass, IAlert.ITextAlert alert, Unique unique) {
+    protected void newAlertDialogCreateUnique(int title, Class<?> intentClass, AlertInterface.TextAlert alert, Test test) {
         EditText editText = getDialogEditText("");
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             String newText = editText.getText().toString();
-            if (unique.isUnique(newText)) {
+            if (test.isTest(newText)) {
                 alert.onResult(newText);
                 Intent intent = setEditIntent(intentClass);
                 onSave();
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
             } else {
-                showError(this, unique.error);
+                showError(this, test.error);
             }
         }).show();
     }

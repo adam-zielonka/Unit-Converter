@@ -2,14 +2,19 @@ package pro.adamzielonka.converter.bool;
 
 import java.util.List;
 
-public abstract class Unique {
-    public List list;
-    public int error;
+public class Unique<T> extends Test {
+    public List<T> list;
 
-    Unique(List list, int error) {
+    public Unique(List<T> list, int error) {
+        super(error);
         this.list = list;
-        this.error = error;
     }
 
-    public abstract boolean isUnique(String text);
+    @Override
+    public boolean isTest(Object o) {
+        for (T t : list) {
+            if (t.equals(o)) return false;
+        }
+        return true;
+    }
 }

@@ -2,37 +2,37 @@ package pro.adamzielonka.converter.interfaces;
 
 import java.util.List;
 
-public interface IAlert {
+public interface AlertInterface {
 
-    interface ITextAlert {
+    interface TextAlert {
         void onResult(String string);
     }
 
-    interface INumberAlert {
+    interface NumberAlert {
         void onResult(Double number);
     }
 
-    interface IListAlert {
+    interface ListAlert {
         void onResult(int position);
     }
 
-    interface IReturnNumber {
+    interface ReturnNumber {
         Double onResult();
     }
 
-    interface IReturnText {
+    interface ReturnText {
         String onResult();
     }
 
-    interface IReturnList {
+    interface ReturnList {
         List onResult();
     }
 
-    interface IVoidAlert {
+    interface VoidAlert {
         void onResult();
     }
 
-    interface IExistTest {
+    interface ExistTest {
         boolean onTest(String newText, List list);
     }
 }

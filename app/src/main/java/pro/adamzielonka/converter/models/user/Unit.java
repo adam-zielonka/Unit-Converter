@@ -15,4 +15,11 @@ public class Unit {
     public Double shift = 0.0;
     public Double shift2 = 0.0;
     public List<Prefix> prefixes = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof String)
+            return symbol.equals(obj);
+        return super.equals(obj);
+    }
 }

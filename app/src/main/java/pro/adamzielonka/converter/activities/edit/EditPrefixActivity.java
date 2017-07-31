@@ -2,7 +2,7 @@ package pro.adamzielonka.converter.activities.edit;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.converter.bool.UniqueSymbol;
+import pro.adamzielonka.converter.bool.Unique;
 
 public class EditPrefixActivity extends EditActivity {
 
@@ -11,8 +11,8 @@ public class EditPrefixActivity extends EditActivity {
         setTitle(R.string.title_activity_edit_prefix);
 
         addItemTitle(R.string.list_title_prefix);
-        addItemTextUnique(R.string.list_item_symbol, () -> prefix.symbol, symbol -> prefix.symbol = prefixName = symbol,
-                new UniqueSymbol(unit.prefixes, R.string.error_symbol_prefix_already_exist));
+        addItemText(R.string.list_item_symbol, () -> prefix.symbol, symbol -> prefix.symbol = prefixName = symbol,
+                new Unique<>(unit.prefixes, R.string.error_symbol_prefix_already_exist));
         addItemText(R.string.list_item_description, () -> userMeasure.getWords(prefix.description, userMeasure.global),
                 text -> prefix.description.put(userMeasure.global, text));
         addItemNumber(R.string.list_item_exponent, () -> prefix.exp, exp -> prefix.exp = exp);
