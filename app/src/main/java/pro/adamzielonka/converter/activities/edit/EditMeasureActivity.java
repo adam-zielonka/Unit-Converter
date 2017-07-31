@@ -94,15 +94,15 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
         listView.setAdapter(unitsAdapter);
         listView.setOnItemClickListener(this);
 
-        listView.addHeaderTitle(getString(R.string.list_title_language));
-        langView = listView.addHeaderItem(getString(R.string.list_item_language_available));
-        globalLangView = listView.addHeaderItem(getString(R.string.list_item_language_global));
-        listView.addHeaderTitle(getString(R.string.list_title_Measure));
-        editMeasureNameView = listView.addHeaderItem(getString(R.string.list_item_name));
-        editUnitOrder = listView.addHeaderItem(getString(R.string.list_item_units_order));
-        editDefaultDisplay1 = listView.addHeaderItem(getString(R.string.list_item_measure_default_1));
-        editDefaultDisplay2 = listView.addHeaderItem(getString(R.string.list_item_measure_default_2));
-        listView.addHeaderTitle(getString(R.string.list_title_units));
+        listView.addItemTitle(false,getString(R.string.list_title_language));
+        langView = listView.addItem(false,getString(R.string.list_item_language_available));
+        globalLangView = listView.addItem(false,getString(R.string.list_item_language_global));
+        listView.addItemTitle(false,getString(R.string.list_title_Measure));
+        editMeasureNameView = listView.addItem(false,getString(R.string.list_item_name));
+        editUnitOrder = listView.addItem(false,getString(R.string.list_item_units_order));
+        editDefaultDisplay1 = listView.addItem(false,getString(R.string.list_item_measure_default_1));
+        editDefaultDisplay2 = listView.addItem(false,getString(R.string.list_item_measure_default_2));
+        listView.addItemTitle(false,getString(R.string.list_title_units));
         addUnit = listView.addFooterItem(getString(R.string.list_item_add_unit));
     }
 

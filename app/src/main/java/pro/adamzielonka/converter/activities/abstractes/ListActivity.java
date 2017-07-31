@@ -255,12 +255,14 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     //endregion
 
     //region add items
+    private boolean isAdapter = false;
+
     protected void addItemTitle(int title) {
-        listView.addHeaderTitle(getString(title));
+        listView.addItemTitle(isAdapter, getString(title));
     }
 
     protected void addItemNumber(int title, AlertInterface.ReturnNumber returnValue, AlertInterface.NumberAlert alert) {
-        View view = listView.addHeaderItem(getString(title));
+        View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view,
                 () -> updateView(view, doubleToString(returnValue.onResult())),
                 () -> newAlertDialogNumber(title, returnValue.onResult(), alert));
@@ -275,7 +277,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     }
 
     protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert, Test test) {
-        View view = listView.addHeaderItem(getString(title));
+        View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
                 alert != null ? (
@@ -286,7 +288,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     }
 
     protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
-        View view = listView.addHeaderItem(getString(title));
+        View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
                 alert);
@@ -294,10 +296,11 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
 
     protected void addItemsAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {
         listView.setAdapter(adapter, update, alert);
+        isAdapter = true;
     }
 
-    protected void addItemFooter(int title, AlertInterface.VoidAlert alert) {
-        View view = listView.addFooterItem(getString(title));
+    protected void addItem(int title, AlertInterface.VoidAlert alert) {
+        View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view, null, alert);
     }
     //endregion

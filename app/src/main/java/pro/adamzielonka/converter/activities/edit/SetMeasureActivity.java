@@ -44,13 +44,13 @@ public class SetMeasureActivity extends EditActivity implements ListView.OnItemC
         listView.setOnCheckedChangeListener(this);
         listView.setOnItemClickListener(this);
 
-        authorView = listView.addHeaderItem(getString(R.string.list_item_author), userMeasure.author);
-        versionView = listView.addHeaderItem(getString(R.string.list_item_version));
-        listView.addHeaderTitle(getString(R.string.local_settings));
-        ownNameSwitchView = listView.addHeaderSwitch(getString(R.string.list_own_name_measure), "");
-        ownNameView = listView.addHeaderItem(getString(R.string.list_item_name));
-        ownLangSwitchView = listView.addHeaderSwitch(getString(R.string.list_own_lang_measure), "");
-        ownLangView = listView.addHeaderItem(getString(R.string.list_title_language));
+        authorView = listView.addItem(false, getString(R.string.list_item_author), userMeasure.author);
+        versionView = listView.addItem(false, getString(R.string.list_item_version));
+        listView.addItemTitle(false, getString(R.string.local_settings));
+        ownNameSwitchView = listView.addItemSwitch(false, getString(R.string.list_own_name_measure), "");
+        ownNameView = listView.addItem(false, getString(R.string.list_item_name));
+        ownLangSwitchView = listView.addItemSwitch(false, getString(R.string.list_own_lang_measure), "");
+        ownLangView = listView.addItem(false, getString(R.string.list_title_language));
     }
 
     @Override

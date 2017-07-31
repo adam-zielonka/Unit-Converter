@@ -61,15 +61,15 @@ public class SettingsActivity extends PreferenceActivity
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
 
-        listView.addHeaderTitle(getString(R.string.pref_header_appearance));
-        themeView = listView.addHeaderItem(getString(R.string.pref_title_theme));
-        langView = listView.addHeaderItem(getString(R.string.pref_title_language));
-        listView.addHeaderTitle(getString(R.string.pref_header_user));
-        logInView = listView.addHeaderItem(getString(R.string.pref_title_sign_in));
-        userNameView = listView.addHeaderItem(getString(R.string.pref_title_user_name));
-        listView.addHeaderTitle(getString(R.string.pref_header_about));
-        disableView(listView.addHeaderItem(getString(R.string.pref_title_version), getString(R.string.app_version)));
-        websiteView = listView.addHeaderItem(getString(R.string.pref_title_website), getString(R.string.website));
+        listView.addItemTitle(false, getString(R.string.pref_header_appearance));
+        themeView = listView.addItem(false, getString(R.string.pref_title_theme));
+        langView = listView.addItem(false, getString(R.string.pref_title_language));
+        listView.addItemTitle(false, getString(R.string.pref_header_user));
+        logInView = listView.addItem(false, getString(R.string.pref_title_sign_in));
+        userNameView = listView.addItem(false, getString(R.string.pref_title_user_name));
+        listView.addItemTitle(false, getString(R.string.pref_header_about));
+        disableView(listView.addItem(false, getString(R.string.pref_title_version), getString(R.string.app_version)));
+        websiteView = listView.addItem(false, getString(R.string.pref_title_website), getString(R.string.website));
     }
 
     @Override

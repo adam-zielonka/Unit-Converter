@@ -57,11 +57,11 @@ public class AddMeasureActivity extends ListActivity implements ListView.OnItemC
         listView.setEmptyAdapter();
         listView.setOnItemClickListener(this);
 
-        listView.addHeaderTitle(getString(R.string.list_add_measure));
-        addByCreateView = listView.addHeaderItem(getString(R.string.list_item_create), getString(R.string.list_item_create_description));
-        addFromFileView = listView.addHeaderItem(getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
-        getFileView = listView.addHeaderItem(getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
-        addFromCloudView = listView.addHeaderItem(getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
+        listView.addItemTitle(false, getString(R.string.list_add_measure));
+        addByCreateView = listView.addItem(false, getString(R.string.list_item_create), getString(R.string.list_item_create_description));
+        addFromFileView = listView.addItem(false,getString(R.string.list_item_load_from_json), getString(R.string.list_item_load_from_json_description));
+        getFileView = listView.addItem(false,getString(R.string.list_item_json_repo), getString(R.string.list_item_json_repo_description));
+        addFromCloudView = listView.addItem(false,getString(R.string.list_item_load_form_cloud), getString(R.string.list_item_load_form_cloud_description));
     }
 
     @Override

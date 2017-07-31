@@ -36,9 +36,9 @@ public class EditLanguagesActivity extends EditActivity implements ListView.OnIt
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
-        listView.addHeaderTitle(getString(R.string.list_item_language_global));
-        globalView = listView.addHeaderItem(concreteMeasure.global);
-        listView.addHeaderTitle(getString(R.string.list_title_translations));
+        listView.addItemTitle(false, getString(R.string.list_item_language_global));
+        globalView = listView.addItem(false, concreteMeasure.global);
+        listView.addItemTitle(false, getString(R.string.list_title_translations));
         addTranslationView = listView.addFooterItem(getString(R.string.list_item_add_translation));
     }
 

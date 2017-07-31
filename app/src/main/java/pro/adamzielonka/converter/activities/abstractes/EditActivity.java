@@ -160,7 +160,7 @@ public abstract class EditActivity extends ListActivity {
         }).show();
     }
 
-    protected void newAlertDialogCreateUnique(int title, Class<?> intentClass, AlertInterface.TextAlert alert, Test test) {
+    protected void newAlertDialogCreate(int title, Class<?> intentClass, AlertInterface.TextAlert alert, Test test) {
         EditText editText = getDialogEditText("");
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
             String newText = editText.getText().toString();

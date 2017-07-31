@@ -31,10 +31,6 @@ public class EditUnitActivity extends EditActivity {
                 textSecondary.setText(exponent);
             }
         };
-        addItemsAdapter(adapter, () -> unit.prefixes, position -> {
-            prefix = adapter.getItem(position);
-            startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
-        });
 
         addItemTitle(R.string.list_title_unit);
         addItemText(R.string.list_item_symbol, () -> unit.symbol, symbol -> unit.symbol = unitName = symbol);
@@ -44,7 +40,11 @@ public class EditUnitActivity extends EditActivity {
                 () -> startActivityForResult(setEditIntent(EditFormulaActivity.class), REQUEST_EDIT_ACTIVITY));
         addItemNumber(R.string.list_title_exponentiation_base, () -> unit.expBase, number -> unit.expBase = number);
         addItemTitle(R.string.list_title_prefixes);
-        addItemFooter(R.string.list_item_add_prefix, () -> newAlertDialogCreateUnique(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
+        addItemsAdapter(adapter, () -> unit.prefixes, position -> {
+            prefix = adapter.getItem(position);
+            startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
+        });
+        addItem(R.string.list_item_add_prefix, () -> newAlertDialogCreate(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
                 this::newPrefix, new Test(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)));
     }
 
