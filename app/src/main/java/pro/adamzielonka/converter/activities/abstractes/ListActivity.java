@@ -75,6 +75,12 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     }
 
     protected void onSave(boolean reload) {
+        try {
+            onUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            finish();
+        }
     }
 
     @Override

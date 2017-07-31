@@ -14,19 +14,10 @@ public class EditOrderUnitsActivity extends EditActivity {
     private OrderAdapter orderAdapter;
 
     @Override
-    public void onLoad() throws Exception {
+    public void addItems() {
         setTitle(R.string.title_activity_edit_order_units);
-        super.onLoad();
         orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, userMeasure.global, concreteMeasure.global);
-        listView.setAdapter(orderAdapter);
-    }
-
-    @Override
-    public void onUpdate() throws Exception {
-        super.onUpdate();
-        orderAdapter.clear();
-        orderAdapter.addAll(concreteMeasure.concreteUnits);
-        orderAdapter.notifyDataSetChanged();
+        addItemsAdapter(orderAdapter, () -> concreteMeasure.concreteUnits, null);
     }
 
     public void setUp(View v) {
