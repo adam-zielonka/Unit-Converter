@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.bool.Unique;
 import pro.adamzielonka.converter.interfaces.IAlert;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.user.Measure;
@@ -65,8 +66,8 @@ public abstract class EditActivity extends ListActivity {
 
     @Override
     protected void onUpdate() throws Exception {
-        super.onUpdate();
         onOpen();
+        super.onUpdate();
     }
 
     private void onOpen() throws Exception {
@@ -155,6 +156,21 @@ public abstract class EditActivity extends ListActivity {
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
             } else {
                 showError(this, error);
+            }
+        }).show();
+    }
+
+    protected void newAlertDialogCreateUnique(int title, Class<?> intentClass, IAlert.ITextAlert alert, Unique unique) {
+        EditText editText = getDialogEditText("");
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (unique.isUnique(newText)) {
+                alert.onResult(newText);
+                Intent intent = setEditIntent(intentClass);
+                onSave();
+                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+            } else {
+                showError(this, unique.error);
             }
         }).show();
     }

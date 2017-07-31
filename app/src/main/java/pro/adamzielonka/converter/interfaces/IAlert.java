@@ -24,6 +24,10 @@ public interface IAlert {
         String onResult();
     }
 
+    interface IReturnList {
+        List onResult();
+    }
+
     interface IVoidAlert {
         void onResult();
     }

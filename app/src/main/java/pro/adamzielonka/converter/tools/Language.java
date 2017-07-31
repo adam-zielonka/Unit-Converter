@@ -13,6 +13,10 @@ public class Language {
         return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
     }
 
+    public static String getLanguageWords(Map<String, String> map, String globalCode) {
+        return (map.containsKey(globalCode) ? map.get(globalCode) : "");
+    }
+
     public static String getLangCode(Context context) {
         return context.getResources().getConfiguration().locale.getLanguage();
     }

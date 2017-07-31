@@ -8,13 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import java.util.List;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.bool.Unique;
@@ -81,7 +80,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        listView.onAlert(view);
+        listView.onAlert(view, position);
     }
 
     //region views
@@ -206,21 +205,6 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
-    protected void newAlertDialogTextExist(int title, String text, IAlert.IExistTest test, List list, int error, IAlert.ITextAlert alert) {
-        EditText editText = getDialogEditText(text);
-        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
-            String newText = editText.getText().toString();
-            if (!newText.equals(text)) {
-                if (!test.onTest(newText, list)) {
-                    alert.onResult(newText);
-                    onSave();
-                } else {
-                    showError(this, error);
-                }
-            }
-        }).show();
-    }
-
     protected void newAlertDialogTextUnique(int title, String text, IAlert.ITextAlert alert, Unique unique) {
         EditText editText = getDialogEditText(text);
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
@@ -306,6 +290,15 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
                 alert != null ? () -> newAlertDialogTextUnique(title, returnValue.onResult(), alert, unique) : null);
+    }
+
+    protected void addItemsAdapter(ArrayAdapter adapter, IAlert.IReturnList update, IAlert.IListAlert alert) {
+        listView.setAdapter(adapter, update, alert);
+    }
+
+    protected void addItemFooter(int title, IAlert.IVoidAlert alert) {
+        View view = listView.addFooterItem(getString(title));
+        listView.addItem(view, null, alert);
     }
     //endregion
 

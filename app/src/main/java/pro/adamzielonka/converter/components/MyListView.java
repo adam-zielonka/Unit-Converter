@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -21,6 +22,9 @@ public class MyListView extends ListView {
     private Activity activity;
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
     private List<MyView> myViews = new ArrayList<>();
+    private IAlert.IReturnList adapterUpdate;
+    private IAlert.IListAlert adapterAlert;
+    private ArrayAdapter adapter;
 
     public MyListView(Context context) {
         super(context);
@@ -108,16 +112,40 @@ public class MyListView extends ListView {
         myViews.add(new MyView(view, update, alert));
     }
 
-    public void onAlert(View view) {
-        for (MyView myView : myViews) {
-            if (myView.view.equals(view)) myView.onAlert();
-        }
+    public void onAlert(View view, int position) {
+        if (isAdapterItemClick(position)) {
+            if (adapterAlert != null) adapterAlert.onResult(getAdapterPosition(position));
+        } else
+            for (MyView myView : myViews) {
+                if (myView.view.equals(view)) myView.onAlert();
+            }
     }
 
     public void onUpdate() {
         for (MyView myView : myViews) {
             myView.onUpdate();
         }
+        if (adapterUpdate != null && adapter != null) {
+            adapter.clear();
+            adapter.addAll(adapterUpdate.onResult());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setAdapter(ArrayAdapter adapter, IAlert.IReturnList update, IAlert.IListAlert alert) {
+        super.setAdapter(adapter);
+        this.adapterUpdate = update;
+        this.adapterAlert = alert;
+        this.adapter = adapter;
+    }
+
+    protected boolean isAdapterItemClick(int position) {
+        return (position - getHeaderViewsCount() >= 0 && position - getHeaderViewsCount()
+                < getCount() - getHeaderViewsCount() - getFooterViewsCount());
+    }
+
+    protected int getAdapterPosition(int position) {
+        return position - getHeaderViewsCount();
     }
 }
 
