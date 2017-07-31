@@ -101,4 +101,12 @@ public class ConcreteMeasure {
         }
         return "";
     }
+
+    public String[] getUnitsSymbol() {
+        String[] symbols = new String[concreteUnits.size()];
+        for (int i = 0; i < concreteUnits.size(); i++) {
+            symbols[i] = concreteUnits.get(i).name;
+        }
+        return symbols;
+    }
 }

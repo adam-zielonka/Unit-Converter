@@ -10,15 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.tools.Test;
 import pro.adamzielonka.converter.components.MyListView;
 import pro.adamzielonka.converter.interfaces.AlertInterface;
+import pro.adamzielonka.converter.tools.Test;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
@@ -237,14 +236,6 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
-    protected void newAlertDialogAdapter(int title, ListAdapter adapter, AlertInterface.ListAlert alert) {
-        getAlertDialog(title)
-                .setAdapter(adapter, (dialogInterface, i) -> {
-                    alert.onResult(i);
-                    onSave();
-                }).show();
-    }
-
     protected void newAlertDialogDelete(int title, AlertInterface.VoidAlert alert) {
         getAlertDialogDelete(title, (dialog, which) -> {
             alert.onResult();
@@ -288,10 +279,30 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     }
 
     protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
+        addItemTextIf(title, () -> true, returnValue, alert);
+    }
+
+    protected void addItemTextIf(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
         View view = listView.addItem(isAdapter, getString(title));
-        listView.addItem(view,
-                () -> updateView(view, returnValue.onResult(), alert != null),
-                alert);
+        listView.addItem(view, () -> {
+            if (bool.onResult()) updateView(view, returnValue.onResult(), alert != null);
+            else hideView(view);
+        }, alert);
+    }
+
+    protected void addItemList(int title, AlertInterface.ReturnText returnValue, AlertInterface.StringArrayAlert stringArray,
+                               AlertInterface.ReturnInteger position, AlertInterface.ListAlert alert) {
+        addItemListIF(title, () -> true, returnValue, stringArray, position, alert);
+    }
+
+    protected void addItemListIF(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue,
+                                 AlertInterface.StringArrayAlert stringArray, AlertInterface.ReturnInteger position,
+                                 AlertInterface.ListAlert alert) {
+        View view = listView.addItem(isAdapter, getString(title));
+        listView.addItem(view, () -> {
+            if (bool.onResult()) updateView(view, returnValue.onResult(), alert != null);
+            else hideView(view);
+        }, () -> newAlertDialogList(title, stringArray.onResult(), position.onResult(), alert));
     }
 
     protected void addItemsAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {

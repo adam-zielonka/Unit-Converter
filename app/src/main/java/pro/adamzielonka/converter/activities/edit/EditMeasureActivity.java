@@ -11,9 +11,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,13 +35,15 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.converter.adapters.ConcreteAdapter;
-import pro.adamzielonka.converter.adapters.UnitsAdapter;
+import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
+import pro.adamzielonka.converter.tools.Test;
+import pro.adamzielonka.converter.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
@@ -50,28 +51,19 @@ import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.FileTools.isExternalStorageWritable;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
+import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
 
-public class EditMeasureActivity extends EditActivity implements ListView.OnItemClickListener {
-
-    private UnitsAdapter unitsAdapter;
-
-    private View editMeasureNameView;
-    private View editUnitOrder;
-    private View editDefaultDisplay1;
-    private View editDefaultDisplay2;
-    private View addUnit;
-    private View langView;
-    private View globalLangView;
+public class EditMeasureActivity extends EditActivity {
 
     private DatabaseReference mDatabase;
     private static final String TAG = "EditMeasureActivity";
     private BroadcastReceiver mBroadcastReceiver;
 
     @Override
-    public void onLoad() throws Exception {
+    public void addItems() {
         setTitle(R.string.title_activity_edit_measure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mBroadcastReceiver = new BroadcastReceiver() {
@@ -89,84 +81,43 @@ public class EditMeasureActivity extends EditActivity implements ListView.OnItem
                     }
             }
         };
-        super.onLoad();
-        unitsAdapter = new UnitsAdapter(getApplicationContext(), userMeasure.units, userMeasure.global, userMeasure.global);
-        listView.setAdapter(unitsAdapter);
-        listView.setOnItemClickListener(this);
+        ArrayAdapter<Unit> adapter = new MyArrayAdapter<Unit>(getApplicationContext(), userMeasure.units) {
+            @Override
+            public void setView(Unit item, TextView textPrimary, TextView textSecondary) {
+                String description = getLanguageWords(item.descriptionPrefix, userMeasure.global)
+                        + getLanguageWords(item.description, userMeasure.global);
+                String unitName = item.symbol + (!description.isEmpty() ? " - " + description : "");
 
-        listView.addItemTitle(false,getString(R.string.list_title_language));
-        langView = listView.addItem(false,getString(R.string.list_item_language_available));
-        globalLangView = listView.addItem(false,getString(R.string.list_item_language_global));
-        listView.addItemTitle(false,getString(R.string.list_title_Measure));
-        editMeasureNameView = listView.addItem(false,getString(R.string.list_item_name));
-        editUnitOrder = listView.addItem(false,getString(R.string.list_item_units_order));
-        editDefaultDisplay1 = listView.addItem(false,getString(R.string.list_item_measure_default_1));
-        editDefaultDisplay2 = listView.addItem(false,getString(R.string.list_item_measure_default_2));
-        listView.addItemTitle(false,getString(R.string.list_title_units));
-        addUnit = listView.addFooterItem(getString(R.string.list_item_add_unit));
-    }
-
-    @Override
-    public void onUpdate() throws Exception {
-        super.onUpdate();
-        updateView(langView, concreteMeasure.languages.toString());
-        updateView(globalLangView, concreteMeasure.global);
-        updateView(editMeasureNameView, userMeasure.getName(userMeasure.global));
-        if (userMeasure.units.size() > 0) {
-            updateView(editUnitOrder, concreteMeasure.getUnitsOrder());
-            updateView(editDefaultDisplay1, concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name);
-            updateView(editDefaultDisplay2, concreteMeasure.concreteUnits.get(concreteMeasure.displayTo).name);
-        } else {
-            hideView(editUnitOrder);
-            hideView(editDefaultDisplay1);
-            hideView(editDefaultDisplay2);
-        }
-        unitsAdapter.clear();
-        unitsAdapter.langCode = unitsAdapter.globalCode = userMeasure.global;
-        unitsAdapter.addAll(userMeasure.units);
-        unitsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (isAdapterItemClick(position)) {
-            unit = unitsAdapter.getItem(getAdapterPosition(position));
-            startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
-        } else {
-            if (view.equals(langView)) {
-                startActivityForResult(setEditIntent(EditLanguagesActivity.class), REQUEST_EDIT_ACTIVITY);
-
-            } else if (view.equals(globalLangView)) {
-                newAlertDialogList(R.string.list_item_language_global, concreteMeasure.getGlobalLangs(), concreteMeasure.getGlobalID(),
-                        id -> userMeasure.global = concreteMeasure.getGlobalFromID(id));
-
-            } else if (view.equals(editMeasureNameView)) {
-                newAlertDialogText(R.string.dialog_measure_name, userMeasure.getName(userMeasure.global),
-                        name -> userMeasure.setName(concreteMeasure.global, name));
-
-            } else if (view.equals(editUnitOrder) && editUnitOrder.isEnabled()) {
-                startActivityForResult(setEditIntent(EditOrderUnitsActivity.class), REQUEST_EDIT_ACTIVITY);
-
-            } else if (view.equals(editDefaultDisplay1) && editDefaultDisplay1.isEnabled()) {
-                ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        userMeasure.global, userMeasure.global
-                );
-                newAlertDialogAdapter(R.string.dialog_measure_default_1, concreteAdapter, id -> userMeasure.displayFrom = id);
-
-            } else if (view.equals(editDefaultDisplay2) && editDefaultDisplay2.isEnabled()) {
-                ConcreteAdapter concreteAdapter = new ConcreteAdapter(getApplicationContext(),
-                        R.layout.spiner_units, concreteMeasure.concreteUnits,
-                        userMeasure.global, userMeasure.global
-                );
-                newAlertDialogAdapter(R.string.dialog_measure_default_2, concreteAdapter, id -> userMeasure.displayTo = id);
-
-            } else if (view.equals(addUnit)) {
-                newAlertDialogTextCreate(R.string.dialog_unit_symbol, EditUnitActivity.class,
-                        this::isSymbolUnitExist, userMeasure.units, R.string.error_symbol_unit_already_exist,
-                        this::newUnit);
+                StringBuilder prefixes = new StringBuilder("");
+                for (Prefix prefix : item.prefixes) {
+                    prefixes.append(prefix.symbol).append(item.symbol);
+                    prefixes.append(" ");
+                }
+                textPrimary.setText(unitName);
+                textSecondary.setText(prefixes.toString());
             }
-        }
+        };
+
+        addItemTitle(R.string.list_title_language);
+        addItemText(R.string.list_item_language_available, () -> concreteMeasure.languages.toString(),
+                () -> startActivityForResult(setEditIntent(EditLanguagesActivity.class), REQUEST_EDIT_ACTIVITY));
+        addItemList(R.string.list_item_language_global, () -> concreteMeasure.global, () -> concreteMeasure.getGlobalLangs(),
+                () -> concreteMeasure.getGlobalID(), id -> userMeasure.global = concreteMeasure.getGlobalFromID(id));
+        addItemTitle(R.string.list_title_Measure);
+        addItemText(R.string.list_item_name, () -> userMeasure.getName(userMeasure.global), name -> userMeasure.setName(concreteMeasure.global, name));
+        addItemTextIf(R.string.list_item_units_order, () -> userMeasure.units.size() > 0, () -> concreteMeasure.getUnitsOrder(),
+                () -> startActivityForResult(setEditIntent(EditOrderUnitsActivity.class), REQUEST_EDIT_ACTIVITY));
+        addItemListIF(R.string.list_item_measure_default_1, () -> userMeasure.units.size() > 0, () -> concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name,
+                () -> concreteMeasure.getUnitsSymbol(), () -> userMeasure.displayFrom, id -> userMeasure.displayFrom = id);
+        addItemListIF(R.string.list_item_measure_default_2, () -> userMeasure.units.size() > 0, () -> concreteMeasure.concreteUnits.get(concreteMeasure.displayTo).name,
+                () -> concreteMeasure.getUnitsSymbol(), () -> userMeasure.displayTo, id -> userMeasure.displayTo = id);
+        addItemTitle(R.string.list_title_units);
+        addItemsAdapter(adapter, () -> userMeasure.units, position -> {
+            unit = adapter.getItem(position);
+            startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
+        });
+        addItem(R.string.list_item_add_unit, () -> newAlertDialogCreate(R.string.dialog_unit_symbol, EditUnitActivity.class,
+                this::newUnit, new Test(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist)));
     }
 
     private void newUnit(String symbol) {

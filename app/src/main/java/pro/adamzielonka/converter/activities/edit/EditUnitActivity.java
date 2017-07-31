@@ -33,7 +33,8 @@ public class EditUnitActivity extends EditActivity {
         };
 
         addItemTitle(R.string.list_title_unit);
-        addItemText(R.string.list_item_symbol, () -> unit.symbol, symbol -> unit.symbol = unitName = symbol);
+        addItemText(R.string.list_item_symbol, () -> unit.symbol, symbol -> unit.symbol = unitName = symbol,
+                new Test(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist));
         addItemText(R.string.list_item_description, () -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global) + userMeasure.getWords(unit.description, userMeasure.global),
                 () -> startActivityForResult(setEditIntent(EditDescriptionActivity.class), REQUEST_EDIT_ACTIVITY));
         addItemText(R.string.list_item_formula, () -> getFormula(unit.one, unit.shift, unit.shift2, unit.symbol),

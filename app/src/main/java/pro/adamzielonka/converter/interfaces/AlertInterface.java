@@ -16,8 +16,24 @@ public interface AlertInterface {
         void onResult(int position);
     }
 
+    interface StringArrayAlert {
+        String[] onResult();
+    }
+
+    interface VoidAlert {
+        void onResult();
+    }
+
     interface ReturnNumber {
         Double onResult();
+    }
+
+    interface ReturnInteger {
+        int onResult();
+    }
+
+    interface ReturnBoolean {
+        boolean onResult();
     }
 
     interface ReturnText {
@@ -26,10 +42,6 @@ public interface AlertInterface {
 
     interface ReturnList {
         List onResult();
-    }
-
-    interface VoidAlert {
-        void onResult();
     }
 
     interface ExistTest {

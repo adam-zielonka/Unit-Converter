@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -26,7 +27,10 @@ public abstract class MyArrayAdapter<T> extends ArrayAdapter<T> implements Array
 
         T item = getItem(position);
         if (item != null) {
-            setView(item, result.findViewById(R.id.textPrimary), result.findViewById(R.id.textSecondary));
+            TextView textSecondary = result.findViewById(R.id.textSecondary);
+            setView(item, result.findViewById(R.id.textPrimary), textSecondary);
+            if (textSecondary.getText().toString().equals(""))
+                textSecondary.setVisibility(View.GONE);
         }
         return result;
     }

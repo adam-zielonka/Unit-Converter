@@ -119,7 +119,7 @@ public class MyListView extends ListView {
             if (adapterAlert != null) adapterAlert.onResult(getAdapterPosition(position));
         } else
             for (MyView myView : myViews) {
-                if (myView.view.equals(view)) myView.onAlert();
+                if (myView.view.equals(view) && view.isEnabled()) myView.onAlert();
             }
     }
 
