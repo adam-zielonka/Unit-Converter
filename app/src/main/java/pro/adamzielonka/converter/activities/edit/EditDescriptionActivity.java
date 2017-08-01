@@ -2,6 +2,7 @@ package pro.adamzielonka.converter.activities.edit;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
+import pro.adamzielonka.converter.tools.Item;
 
 public class EditDescriptionActivity extends EditActivity {
 
@@ -9,10 +10,12 @@ public class EditDescriptionActivity extends EditActivity {
     protected void addItems() {
         setTitle(R.string.title_activity_edit_description);
 
-        addItemTitle(R.string.list_title_description);
-        addItemText(R.string.list_item_description_base, () -> userMeasure.getWords(unit.description, userMeasure.global),
-                text -> unit.description.put(userMeasure.global, text));
-        addItemText(R.string.list_item_description_global_prefix, () -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global),
-                text -> unit.descriptionPrefix.put(userMeasure.global, text));
+        Item.Builder(R.string.list_title_description).add(this);
+        Item.Builder(R.string.list_item_description_base)
+                .update(() -> userMeasure.getWords(unit.description, userMeasure.global))
+                .alert(text -> unit.description.put(userMeasure.global, (String) text)).add(this);
+        Item.Builder(R.string.list_item_description_global_prefix)
+                .update(() -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global))
+                .alert(text -> unit.descriptionPrefix.put(userMeasure.global, (String) text)).add(this);
     }
 }

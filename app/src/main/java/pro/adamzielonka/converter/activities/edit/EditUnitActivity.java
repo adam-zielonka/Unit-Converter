@@ -6,6 +6,7 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
+import pro.adamzielonka.converter.tools.Item;
 import pro.adamzielonka.converter.tools.Test;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.tools.Tests;
@@ -32,15 +33,24 @@ public class EditUnitActivity extends EditActivity {
             }
         };
 
-        addItemTitle(R.string.list_title_unit);
-        addItemText(R.string.list_item_symbol, () -> unit.symbol, symbol -> unit.symbol = unitName = symbol,
-                new Test(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist));
-        addItemText(R.string.list_item_description, () -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global) + userMeasure.getWords(unit.description, userMeasure.global),
-                () -> startActivityForResult(setEditIntent(EditDescriptionActivity.class), REQUEST_EDIT_ACTIVITY));
-        addItemText(R.string.list_item_formula, () -> getFormula(unit.one, unit.shift, unit.shift2, unit.symbol),
-                () -> startActivityForResult(setEditIntent(EditFormulaActivity.class), REQUEST_EDIT_ACTIVITY));
-        addItemNumber(R.string.list_title_exponentiation_base, () -> unit.expBase, number -> unit.expBase = number);
-        addItemTitle(R.string.list_title_prefixes);
+        Item.Builder(R.string.list_title_unit).add(this);
+        Item.Builder(R.string.list_item_symbol)
+                .update(() -> unit.symbol)
+                .alert(symbol -> unit.symbol = unitName = (String) symbol)
+                .validate(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist)
+                .add(this);
+        Item.Builder(R.string.list_item_description)
+                .update(() -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global) + userMeasure.getWords(unit.description, userMeasure.global))
+                .alert(() -> startActivityForResult(setEditIntent(EditDescriptionActivity.class), REQUEST_EDIT_ACTIVITY))
+                .add(this);
+        Item.Builder(R.string.list_item_formula)
+                .update(() -> getFormula(unit.one, unit.shift, unit.shift2, unit.symbol))
+                .alert(() -> startActivityForResult(setEditIntent(EditFormulaActivity.class), REQUEST_EDIT_ACTIVITY))
+                .add(this);
+        Item.Builder(R.string.list_title_exponentiation_base)
+                .update(() -> unit.expBase)
+                .alert(number -> unit.expBase = (Double) number).add(this);
+        Item.Builder(R.string.list_title_prefixes).add(this);
         addItemsAdapter(adapter, () -> unit.prefixes, position -> {
             prefix = adapter.getItem(position);
             startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);

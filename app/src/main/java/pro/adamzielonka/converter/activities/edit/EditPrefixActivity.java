@@ -2,7 +2,7 @@ package pro.adamzielonka.converter.activities.edit;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.converter.tools.Test;
+import pro.adamzielonka.converter.tools.Item;
 import pro.adamzielonka.converter.tools.Tests;
 
 public class EditPrefixActivity extends EditActivity {
@@ -11,12 +11,18 @@ public class EditPrefixActivity extends EditActivity {
     protected void addItems() {
         setTitle(R.string.title_activity_edit_prefix);
 
-        addItemTitle(R.string.list_title_prefix);
-        addItemText(R.string.list_item_symbol, () -> prefix.symbol, symbol -> prefix.symbol = prefixName = symbol,
-                new Test(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist));
-        addItemText(R.string.list_item_description, () -> userMeasure.getWords(prefix.description, userMeasure.global),
-                text -> prefix.description.put(userMeasure.global, text));
-        addItemNumber(R.string.list_item_exponent, () -> prefix.exp, exp -> prefix.exp = exp);
+        Item.Builder(R.string.list_title_prefix).add(this);
+        Item.Builder(R.string.list_item_symbol)
+                .update(() -> prefix.symbol)
+                .alert(symbol -> prefix.symbol = prefixName = (String) symbol)
+                .validate(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)
+                .add(this);
+        Item.Builder(R.string.list_item_description)
+                .update(() -> userMeasure.getWords(prefix.description, userMeasure.global))
+                .alert(text -> prefix.description.put(userMeasure.global, (String) text)).add(this);
+        Item.Builder(R.string.list_item_exponent)
+                .update(() -> prefix.exp)
+                .alert(exp -> prefix.exp = (Double) exp).add(this);
     }
 
     @Override

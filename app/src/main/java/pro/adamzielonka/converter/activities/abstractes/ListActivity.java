@@ -233,6 +233,21 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }).show();
     }
 
+    protected void newAlertDialogNumber(int title, Double number, AlertInterface.NumberAlert alert, Test test) {
+        EditText editText = getDialogEditNumber(number);
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newNumber = editText.getText().toString();
+            if (!newNumber.equals(doubleToString(number))) {
+                if (test.isTest(newNumber)) {
+                    alert.onResult(stringToDouble(editText.getText().toString()));
+                    onSave();
+                } else {
+                    showError(this, test.error);
+                }
+            }
+        }).show();
+    }
+
     protected void newAlertDialogList(int title, String[] strings, int position, AlertInterface.ListAlert alert) {
         getAlertDialog(title).setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
             int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
@@ -254,26 +269,34 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     //region add items
     private boolean isAdapter = false;
 
-    protected void addItemTitle(int title) {
+    public void addItemTitle(int title) {
         listView.addItemTitle(isAdapter, getString(title));
     }
 
-    protected void addItemNumber(int title, AlertInterface.ReturnNumber returnValue, AlertInterface.NumberAlert alert) {
+    public void addItemNumber(int title, AlertInterface.ReturnNumber returnValue, AlertInterface.NumberAlert alert) {
+        addItemNumber(title, returnValue, alert, null);
+    }
+
+    public void addItemNumber(int title, AlertInterface.ReturnNumber returnValue, AlertInterface.NumberAlert alert, Test test) {
         View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view,
                 () -> updateView(view, doubleToString(returnValue.onResult())),
-                () -> newAlertDialogNumber(title, returnValue.onResult(), alert));
+                alert != null ? (
+                        test != null
+                                ? () -> newAlertDialogNumber(title, returnValue.onResult(), alert, test)
+                                : () -> newAlertDialogNumber(title, returnValue.onResult(), alert)
+                ) : null);
     }
 
-    protected void addItemText(int title, AlertInterface.ReturnText returnValue) {
+    public void addItemText(int title, AlertInterface.ReturnText returnValue) {
         addItemText(title, returnValue, null, null);
     }
 
-    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert) {
+    public void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert) {
         addItemText(title, returnValue, alert, null);
     }
 
-    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert, Test test) {
+    public void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.TextAlert alert, Test test) {
         View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view,
                 () -> updateView(view, returnValue.onResult(), alert != null),
@@ -284,11 +307,11 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
                 ) : null);
     }
 
-    protected void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
+    public void addItemText(int title, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
         addItemTextIf(title, () -> true, returnValue, alert);
     }
 
-    protected void addItemTextIf(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
+    public void addItemTextIf(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue, AlertInterface.VoidAlert alert) {
         View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view, () -> {
             if (bool.onResult()) updateView(view, returnValue.onResult(), alert != null);
@@ -296,14 +319,14 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }, alert);
     }
 
-    protected void addItemList(int title, AlertInterface.ReturnText returnValue, AlertInterface.StringArrayAlert stringArray,
-                               AlertInterface.ReturnInteger position, AlertInterface.ListAlert alert) {
+    public void addItemList(int title, AlertInterface.ReturnText returnValue, AlertInterface.StringArrayAlert stringArray,
+                            AlertInterface.ReturnInteger position, AlertInterface.ListAlert alert) {
         addItemListIF(title, () -> true, returnValue, stringArray, position, alert);
     }
 
-    protected void addItemListIF(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue,
-                                 AlertInterface.StringArrayAlert stringArray, AlertInterface.ReturnInteger position,
-                                 AlertInterface.ListAlert alert) {
+    public void addItemListIF(int title, AlertInterface.ReturnBoolean bool, AlertInterface.ReturnText returnValue,
+                              AlertInterface.StringArrayAlert stringArray, AlertInterface.ReturnInteger position,
+                              AlertInterface.ListAlert alert) {
         View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view, () -> {
             if (bool.onResult()) updateView(view, returnValue.onResult(), alert != null);
@@ -311,14 +334,34 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         }, () -> newAlertDialogList(title, stringArray.onResult(), position.onResult(), alert));
     }
 
-    protected void addItemsAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {
+    public void addItemsAdapter(ArrayAdapter adapter, AlertInterface.ReturnList update, AlertInterface.ListAlert alert) {
         listView.setAdapter(adapter, update, alert);
         isAdapter = true;
     }
 
-    protected void addItem(int title, AlertInterface.VoidAlert alert) {
+    public void addItem(int title, AlertInterface.VoidAlert alert) {
         View view = listView.addItem(isAdapter, getString(title));
         listView.addItem(view, null, alert);
+    }
+
+    public void addItem(int title, AlertInterface.Return returnValue, AlertInterface.Alert alert, Test test) {
+        if (returnValue == null) {
+
+        } else if (returnValue.onResult() instanceof String) {
+            addItemText(title, () -> (String) returnValue.onResult(), alert != null ? alert::onResult : null, test);
+        } else if (returnValue.onResult() instanceof Double) {
+            addItemNumber(title, () -> (Double) returnValue.onResult(), alert != null ? alert::onResult : null, test);
+        }
+    }
+
+    public void addItem(int title, AlertInterface.Return returnValue, AlertInterface.VoidAlert alert) {
+        if (returnValue == null) {
+
+        } else if (returnValue.onResult() instanceof String) {
+            addItemText(title, () -> (String) returnValue.onResult(), alert);
+        } else if (returnValue.onResult() instanceof Double) {
+//            addItemNumber(title, () -> (Double) returnValue.onResult(), alert);
+        }
     }
     //endregion
 

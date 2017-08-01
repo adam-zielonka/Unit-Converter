@@ -24,6 +24,14 @@ public interface AlertInterface {
         void onResult();
     }
 
+    interface Alert {
+        void onResult(Object o);
+    }
+
+    interface Return {
+        Object onResult();
+    }
+
     interface ReturnNumber {
         Double onResult();
     }
