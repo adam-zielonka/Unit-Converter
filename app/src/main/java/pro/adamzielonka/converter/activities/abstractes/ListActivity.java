@@ -202,6 +202,21 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     //endregion
 
     //region new dialog
+    protected void newAlertDialog(int title, Object object, AlertInterface.TextAlert alert, Test test) {
+        EditText editText = object instanceof Double ? getDialogEditNumber((Double) object) : getDialogEditText(object.toString());
+        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+            String newText = editText.getText().toString();
+            if (!newText.equals(object instanceof Double ? doubleToString((Double) object) : object)) {
+                if (test == null || test.isTest(newText)) {
+                    alert.onResult(newText);
+                    onSave();
+                } else {
+                    showError(this, test.error);
+                }
+            }
+        }).show();
+    }
+
     protected void newAlertDialogText(int title, String text, AlertInterface.TextAlert alert) {
         EditText editText = getDialogEditText(text);
         getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
@@ -267,7 +282,7 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
     //endregion
 
     //region add items
-    private boolean isAdapter = false;
+    public boolean isAdapter = false;
 
     public void addItemTitle(int title) {
         listView.addItemTitle(isAdapter, getString(title));
@@ -362,6 +377,13 @@ public abstract class ListActivity extends BaseActivity implements ListView.OnIt
         } else if (returnValue.onResult() instanceof Double) {
 //            addItemNumber(title, () -> (Double) returnValue.onResult(), alert);
         }
+    }
+
+    public void addItem(int title, AlertInterface.Return returnValue, AlertInterface.Alert alert, Test test) {
+        View view = listView.addItem(isAdapter, getString(title));
+        listView.addItem(view,
+                () -> updateView(view, returnValue.onResult(), alert != null),
+                alert != null ? () -> newAlertDialog(title, returnValue.onResult(), alert::onResult, test) : null);
     }
     //endregion
 

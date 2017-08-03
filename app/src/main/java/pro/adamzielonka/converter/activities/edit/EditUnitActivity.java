@@ -50,11 +50,17 @@ public class EditUnitActivity extends EditActivity {
         Item.Builder(R.string.list_title_exponentiation_base)
                 .update(() -> unit.expBase)
                 .alert(number -> unit.expBase = (Double) number).add(this);
-        Item.Builder(R.string.list_title_prefixes).add(this);
-        addItemsAdapter(adapter, () -> unit.prefixes, position -> {
-            prefix = adapter.getItem(position);
-            startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY);
-        });
+        Item.Builder(R.string.list_title_prefixes)
+                .adapter(adapter)
+                .update(() -> unit.prefixes)
+                .alert(position -> prefix = adapter.getItem((int) position))
+                .startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY)
+                .add(this);
+//        Item.Builder(R.string.list_item_add_prefix)
+//                .alert(symbol1 -> newPrefix((String) symbol1))
+//                .validate(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)
+//                .startActivityForResult(setEditIntent(EditPrefixActivity.class), REQUEST_EDIT_ACTIVITY)
+//                .add(this);
         addItem(R.string.list_item_add_prefix, () -> newAlertDialogCreate(R.string.dialog_prefix_symbol, EditPrefixActivity.class,
                 this::newPrefix, new Test(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)));
     }

@@ -13,7 +13,7 @@ public interface AlertInterface {
     }
 
     interface ListAlert {
-        void onResult(int position);
+        void onResult(Integer position);
     }
 
     interface StringArrayAlert {
@@ -37,11 +37,11 @@ public interface AlertInterface {
     }
 
     interface ReturnInteger {
-        int onResult();
+        Integer onResult();
     }
 
     interface ReturnBoolean {
-        boolean onResult();
+        Boolean onResult();
     }
 
     interface ReturnText {
@@ -53,6 +53,6 @@ public interface AlertInterface {
     }
 
     interface ExistTest {
-        boolean onTest(String newText, List list);
+        Boolean onTest(String newText, List list);
     }
 }

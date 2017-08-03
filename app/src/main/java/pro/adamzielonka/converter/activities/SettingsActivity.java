@@ -31,6 +31,7 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
+import pro.adamzielonka.converter.tools.Item;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;
@@ -54,7 +55,7 @@ public class SettingsActivity extends PreferenceActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initAuth();
 
-        addItemTitle(R.string.pref_header_appearance);
+        Item.Builder(R.string.pref_header_appearance).add(this);
         addItemList(R.string.pref_title_theme, () -> theme.getName(), () -> theme.getArray(), () -> theme.getID(), position -> theme.setID(position));
         addItemList(R.string.pref_title_language, () -> getResources().getConfiguration().locale.getLanguage(),
                 () -> getLanguages(this), () -> getLanguageID(this), position -> {
@@ -62,6 +63,15 @@ public class SettingsActivity extends PreferenceActivity
                     restart();
                 });
         addItemTitle(R.string.pref_header_user);
+        Item.Builder(R.string.pref_title_sign_in)
+                .condition(() -> getUser() != null)
+                .update(() -> getUser().getEmail())
+                .elseUpdate(() -> "")
+                .alert(() -> {
+                    if (getUser() != null) signOut();
+                    else signIn();
+                })
+                .add(this);
         logInView = listView.addItem(false, getString(R.string.pref_title_sign_in));
         userNameView = listView.addItem(false, getString(R.string.pref_title_user_name));
         addItemTitle(R.string.pref_header_about);
