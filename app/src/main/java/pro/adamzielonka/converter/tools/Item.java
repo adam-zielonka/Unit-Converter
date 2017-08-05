@@ -12,8 +12,8 @@ public class Item {
     private AlertInterface.Return update;
     private AlertInterface.ReturnList listUpdate;
     private AlertInterface.Alert alert;
-    private AlertInterface.VoidAlert voidAlert;
-    private Test test;
+    private AlertInterface.VoidAlert action;
+    private Test validation;
     private ArrayAdapter adapter;
     private Intent intent;
     private int requestCode;
@@ -49,12 +49,12 @@ public class Item {
     }
 
     public Item alert(AlertInterface.VoidAlert voidAlert) {
-        this.voidAlert = voidAlert;
+        this.action = voidAlert;
         return this;
     }
 
     public Item validate(TestInterface test, int error) {
-        this.test = new Test(test, error);
+        this.validation = new Test(test, error);
         return this;
     }
 
@@ -74,33 +74,94 @@ public class Item {
         return this;
     }
 
-    private void create() {
-
-    }
-
     public void add(ListActivity activity) {
-
-        AlertInterface.Return aReturn = condition != null ? condition.onTest() ? update : elseUpdate != null ? elseUpdate : () -> "" : update;
-
-        if (listUpdate != null && alert != null && adapter != null) {
-            activity.addItemTitle(title);
-            activity.addItemsAdapter(adapter, listUpdate, position -> {
-                alert.onResult(position);
-                if (intent != null)
-                    startActivityForResult(intent, requestCode);
-            });
-        } else if (aReturn != null && alert != null) {
-            activity.addItem(title, aReturn, s -> {
-                alert.onResult(s);
-                if (intent != null)
-                    startActivityForResult(intent, requestCode);
-            }, test);
-        } else if (aReturn != null && voidAlert != null) {
-            activity.addItem(title, aReturn, voidAlert);
-        } else if (aReturn != null) {
-            activity.addItem(title, aReturn, null, test);
-        } else {
-            activity.addItemTitle(title);
-        }
+//        MyListView listView = activity.listView;
+//        View view = listView.addItem(activity.getString(title));
+//        AlertInterface.Return aReturn = prepareReturn(update, elseUpdate, condition);
+//        listView.addItem(view,
+//                prepareUpdate(view, aReturn, alert != null),
+//                prepareAlert(title, aReturn, alert, action, validation));
     }
+
+//    private AlertInterface.Return prepareReturn(AlertInterface.Return returnValue,
+//                                                AlertInterface.Return elseValue,
+//                                                TestInterface.Test Test) {
+//        return Test.onTest() ? returnValue : elseValue;
+//    }
+//
+//    private AlertInterface.VoidAlert prepareUpdate(View view, AlertInterface.Return aReturn, boolean isEnabled) {
+//        return aReturn != null ? () -> updateView(view, (String) aReturn.onResult(), isEnabled) : null;
+//    }
+//
+//    private AlertInterface.VoidAlert prepareAlert(int title,
+//                                                  AlertInterface.Return returnValue,
+//                                                  AlertInterface.Alert alert,
+//                                                  AlertInterface.VoidAlert action,
+//                                                  Test validation) {
+//        return alert != null ? () -> {
+//            newAlertDialog(title, returnValue != null ? returnValue.onResult() : null, alert::onResult, validation);
+//            action.onResult();
+//        } : action;
+//    }
+//
+//    private void newAlertDialog(int title, Object object, AlertInterface.TextAlert alert, Test test) {
+//        EditText editText = object instanceof Double ? getDialogEditNumber((Double) object) : getDialogEditText(object.toString());
+//        getAlertDialogSave(title, editText.getRootView(), (dialog, which) -> {
+//            String newText = editText.getText().toString();
+//            if (!newText.equals(object instanceof Double ? doubleToString((Double) object) : object.toString())) {
+//                if (test == null || test.isTest(newText)) {
+//                    alert.onResult(newText);
+//                    onSave();
+//                } else {
+//                    showError(this, test.error);
+//                }
+//            }
+//        }).show();
+//    }
+//
+//    //region dialog
+//    private EditText getDialogEditText(String text, String error) {
+//        View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
+//        EditText editText = layout.findViewById(R.id.editText);
+//        editText.setText(text);
+//        editText.setSelection(editText.length());
+//        if (!error.equals("")) {
+//            TextView textView = layout.findViewById(R.id.textView);
+//            textView.setVisibility(View.VISIBLE);
+//            textView.setText(error);
+//        }
+//        return editText;
+//    }
+//
+//    private EditText getDialogEditText(String text) {
+//        return getDialogEditText(text, "");
+//    }
+//
+//    private EditText getDialogEditNumber(Double number) {
+//        EditText editText = getDialogEditText(doubleToString(number));
+//        editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
+//        return editText;
+//    }
+//
+//    private AlertDialog.Builder getAlertDialogSave(int title, View view, DialogInterface.OnClickListener onClickListener) {
+//        return getAlertDialogCancel(title, onClickListener, R.string.dialog_save).setView(view);
+//    }
+//
+//    private AlertDialog.Builder getAlertDialogDelete(int title, DialogInterface.OnClickListener onClickListener) {
+//        return getAlertDialogCancel(title, onClickListener, R.string.dialog_delete);
+//    }
+//
+//    private AlertDialog.Builder getAlertDialogCancel(int title, DialogInterface.OnClickListener onClickListener, int positiveText) {
+//        return getAlertDialog(title)
+//                .setPositiveButton(positiveText, onClickListener)
+//                .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+//                });
+//    }
+//
+//    private AlertDialog.Builder getAlertDialog(int title) {
+//        return new AlertDialog.Builder(this)
+//                .setTitle(title)
+//                .setCancelable(true);
+//    }
+    //endregion
 }

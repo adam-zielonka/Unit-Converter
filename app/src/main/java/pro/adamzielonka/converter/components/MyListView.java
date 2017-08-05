@@ -66,34 +66,34 @@ public class MyListView extends ListView {
         this.activity = activity;
     }
 
-    public void addItemTitle(boolean inFooter, String text) {
+    public void addItemTitle(String text) {
         View view = activity.getLayoutInflater().inflate(R.layout.item_header, null);
         ((TextView) view.findViewById(R.id.textHeader)).setText(text);
-        if (!inFooter) addHeaderView(view, false, false);
+        if (adapter == null) addHeaderView(view, false, false);
         else addFooterView(view, false, false);
     }
 
-    public View addItem(boolean inFooter, String textPrimary) {
-        return addItem(inFooter, textPrimary, "");
+    public View addItem(String textPrimary) {
+        return addItem(textPrimary, "");
     }
 
-    public View addItem(boolean inFooter, int layout, String textPrimary, String textSecondary) {
+    public View addItem(int layout, String textPrimary, String textSecondary) {
         View view = activity.getLayoutInflater().inflate(layout, null);
         ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
         ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
         if (textSecondary.equals(""))
             view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
-        if (!inFooter) addHeaderView(view);
+        if (adapter == null) addHeaderView(view);
         else addFooterView(view);
         return view;
     }
 
-    public View addItem(boolean inFooter, String textPrimary, String textSecondary) {
-        return addItem(inFooter, R.layout.item_pref, textPrimary, textSecondary);
+    public View addItem(String textPrimary, String textSecondary) {
+        return addItem(R.layout.item_pref, textPrimary, textSecondary);
     }
 
-    public View addItemSwitch(boolean inFooter, String textPrimary, String textSecondary) {
-        View view = addItem(inFooter, R.layout.item_switch, textPrimary, textSecondary);
+    public View addItemSwitch(String textPrimary, String textSecondary) {
+        View view = addItem(R.layout.item_switch, textPrimary, textSecondary);
         ((Switch) view.findViewById(R.id.textPrimary)).setOnCheckedChangeListener(onCheckedChangeListener);
         return view;
     }

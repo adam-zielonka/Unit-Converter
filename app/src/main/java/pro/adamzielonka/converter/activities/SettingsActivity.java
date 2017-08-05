@@ -72,8 +72,8 @@ public class SettingsActivity extends PreferenceActivity
                     else signIn();
                 })
                 .add(this);
-        logInView = listView.addItem(false, getString(R.string.pref_title_sign_in));
-        userNameView = listView.addItem(false, getString(R.string.pref_title_user_name));
+        logInView = listView.addItem(getString(R.string.pref_title_sign_in));
+        userNameView = listView.addItem(getString(R.string.pref_title_user_name));
         addItemTitle(R.string.pref_header_about);
         addItemText(R.string.pref_title_version, () -> getString(R.string.app_version));
         addItemText(R.string.pref_title_website, () -> getString(R.string.website), () ->

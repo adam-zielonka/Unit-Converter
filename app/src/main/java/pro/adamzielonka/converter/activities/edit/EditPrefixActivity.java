@@ -3,7 +3,7 @@ package pro.adamzielonka.converter.activities.edit;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.tools.Item;
-import pro.adamzielonka.converter.tools.Tests;
+import pro.adamzielonka.items.Tests;
 
 public class EditPrefixActivity extends EditActivity {
 

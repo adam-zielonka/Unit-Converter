@@ -42,8 +42,6 @@ import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
-import pro.adamzielonka.converter.tools.Test;
-import pro.adamzielonka.converter.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
@@ -116,8 +114,8 @@ public class EditMeasureActivity extends EditActivity {
             unit = adapter.getItem(position);
             startActivityForResult(setEditIntent(EditUnitActivity.class), REQUEST_EDIT_ACTIVITY);
         });
-        addItem(R.string.list_item_add_unit, () -> newAlertDialogCreate(R.string.dialog_unit_symbol, EditUnitActivity.class,
-                this::newUnit, new Test(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist)));
+//        addItem(R.string.list_item_add_unit, () -> newAlertDialogCreate(R.string.dialog_unit_symbol, EditUnitActivity.class,
+//                this::newUnit, new Test(symbol -> Tests.isUnique(symbol, userMeasure.units), R.string.error_symbol_unit_already_exist)));
     }
 
     private void newUnit(String symbol) {
