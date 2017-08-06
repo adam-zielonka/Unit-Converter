@@ -168,6 +168,7 @@
     <string name="language_reperat_tag"><![CDATA[<repeat>]]></string>
     <string name="language_empty_tag"><![CDATA[<empty>]]></string>
     <string name="delete_prefix_title">Delete prefix</string>
+    <string name="error_symbol_empty">Not allow empty symbole value</string>
     <!-- -->
 
 </resources>

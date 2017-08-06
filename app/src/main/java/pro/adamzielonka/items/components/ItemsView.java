@@ -117,6 +117,7 @@ public class ItemsView extends ListView {
 
     public void onSave() {
         if (onItemsSave != null) onItemsSave.onSave();
+        onUpdate();
     }
 
     public void onUpdate() {

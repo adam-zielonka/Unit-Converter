@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:paddingBottom="8dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,18 +11,37 @@
 
     <TextView
         android:id="@+id/textPrimary"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="S - Sample"
+        android:text="Primary text"
         android:textColor="@color/black"
         android:textSize="18sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/switcher"
+        android:layout_toStartOf="@+id/switcher" />
 
     <TextView
         android:id="@+id/textSecondary"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="kS MS mS"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textPrimary"
+        android:text="Secondary text"
         android:textColor="@color/colorGreyPrimaryDark"
-        tools:ignore="HardcodedText" />
-</LinearLayout>
+        tools:ignore="HardcodedText"
+        android:layout_toLeftOf="@+id/switcher"
+        android:layout_toStartOf="@+id/switcher" />
+
+    <Switch
+        android:id="@+id/switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:focusable="false" />
+</RelativeLayout>

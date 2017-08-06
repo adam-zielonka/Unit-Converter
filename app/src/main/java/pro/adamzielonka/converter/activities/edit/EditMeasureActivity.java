@@ -121,17 +121,17 @@ public class EditMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitle(R.string.list_item_add_unit)
                 .setAction(this::addUnit)
-                .setValidator(symbol -> Tests.isUnique(symbol, userMeasure.units), getString(R.string.error_symbol_unit_already_exist))
+                .addValidator(symbol -> Tests.isUnique(symbol, userMeasure.units), getString(R.string.error_symbol_unit_already_exist))
+                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
                 .add(itemsView);
     }
 
     private void addUnit(Object symbol) {
-        unit = new Unit();
+        Unit unitTemp = unit = new Unit();
         unit.symbol = (String) symbol;
         userMeasure.units.add(unit);
         itemsView.onSave();
-        itemsView.onUpdate();
-        unitName = (String) symbol;
+        unit = unitTemp;
         startEditActivity(EditUnitActivity.class);
     }
 

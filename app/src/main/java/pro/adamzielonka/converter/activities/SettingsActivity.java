@@ -199,7 +199,7 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
     private void createUser(boolean changeName, String name, String error) {
         new Item.Builder(this)
                 .setTitle(R.string.dialog_set_user_name)
-                .setValidator(o -> error.isEmpty(), error)
+                .setError(error)
                 .setUpdate(() -> name)
                 .setAction(newUserName -> writeNewUser(changeName, getUid(), (String) newUserName))
                 .setCancelAction(() -> {

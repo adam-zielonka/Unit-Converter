@@ -35,7 +35,7 @@ public class ListViewActivity extends AppCompatActivity implements ItemsView.OnI
                 .setTitle("Number")
                 .setUpdate(() -> number)
                 .setAction(number -> this.number = (Double) number)
-                .setValidator(number -> (Double) number > 0.0, "error")
+                .addValidator(number -> (Double) number > 0.0, "error")
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle("Text")

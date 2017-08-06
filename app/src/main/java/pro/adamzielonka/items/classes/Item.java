@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.items.components.ItemsView;
 import pro.adamzielonka.items.interfaces.ActionInterface;
@@ -43,12 +46,6 @@ public class Item {
         this.isEnabled = true;
     }
 
-    private Item(View view, ActionInterface.Action update) {
-        this.view = view;
-        this.update = update;
-        this.isEnabled = true;
-    }
-
     private Item(View view, boolean isEnabled) {
         this.view = view;
         this.isEnabled = isEnabled;
@@ -60,14 +57,17 @@ public class Item {
         private UpdateInterface.ObjectUpdate titleUpdate;
         private String titleHeader;
         private UpdateInterface.ObjectUpdate update;
+        private UpdateInterface.ObjectUpdate switcherUpdate;
         private UpdateInterface.ObjectUpdate elseUpdate;
+        private ActionInterface.ObjectAction switcherAction;
         private ActionInterface.ObjectAction action;
         private ActionInterface.Action cancelAction;
         private ActionInterface.Action voidAction;
         private UpdateInterface.ObjectsUpdate objectsUpdate;
         private UpdateInterface.PositionUpdate positionUpdate;
         private TestInterface.Test test;
-        private Test validator;
+        private String error;
+        private List<Test> validators;
         private ArrayAdapter adapter;
         private UpdateInterface.ListUpdate listUpdate;
 
@@ -75,8 +75,9 @@ public class Item {
             this.activity = activity;
             update = () -> "";
             test = () -> true;
-            validator = new Test(o -> true, "");
+            error = "";
             positionUpdate = () -> 0;
+            validators = new ArrayList<>();
         }
 
         public Builder setTitle(String title) {
@@ -144,13 +145,23 @@ public class Item {
             return this;
         }
 
+        public Builder setSwitcherUpdate(UpdateInterface.ObjectUpdate switcherUpdate) {
+            this.switcherUpdate = switcherUpdate;
+            return this;
+        }
+
+        public Builder setSwitcherAction(ActionInterface.ObjectAction switcherAction) {
+            this.switcherAction = switcherAction;
+            return this;
+        }
+
         public Builder setIf(TestInterface.Test test) {
             this.test = test;
             return this;
         }
 
-        public Builder setValidator(TestInterface.ObjectTest validator, String error) {
-            this.validator = new Test(validator, error);
+        public Builder addValidator(TestInterface.ObjectTest validator, String error) {
+            this.validators.add(new Test(validator, error));
             return this;
         }
 
@@ -164,21 +175,26 @@ public class Item {
             return this;
         }
 
+        public Builder setError(String error) {
+            this.error = error;
+            return this;
+        }
+
         public void add(ItemsView itemsView) {
             if (titleHeader != null) createItemHeader(itemsView);
             if (adapter != null && listUpdate != null) {
                 createItemAdapter(itemsView);
             } else if (getTitle() != null) {
-                if (getUpdate() instanceof Boolean)
-                    createItemSwitch(itemsView);
-                else if (objectsUpdate != null)
-                    createItemList(itemsView);
-                else createItem(itemsView);
+                if (objectsUpdate != null)
+                    createItem(itemsView, action != null ? () -> newAlertDialogList(itemsView,
+                            (String[]) objectsUpdate.onUpdate(), positionUpdate.onUpdate()) : null);
+                else createItem(itemsView, action != null ? () -> newAlertDialog(itemsView,
+                        getUpdate(), "") : null);
             }
         }
 
         public void show() {
-            EditText editText = getDialogEditText(update.onUpdate(), validator.error);
+            EditText editText = getDialogEditText(update.onUpdate(), error);
             getAlertDialogSave(editText.getRootView(), (dialog, which) -> {
                 String newText = editText.getText().toString();
                 action.onAction(newText);
@@ -187,6 +203,14 @@ public class Item {
 
         private Object getUpdate() {
             return !test.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
+        }
+
+        private String getValue() {
+            return getUpdate() instanceof Double ? doubleToString((Double) getUpdate()) : getUpdate().toString();
+        }
+
+        private boolean isEnabled() {
+            return (action != null || voidAction != null) && test.onTest();
         }
 
         public String getTitle() {
@@ -204,34 +228,10 @@ public class Item {
             itemsView.addItem(new Item(view, false));
         }
 
-        private void createItem(ItemsView itemsView) {
-            View view = addItem(getTitle(), "");
-            itemsView.addItem(new Item(view,
-                    () -> updateView(view, getUpdate() instanceof Double
-                                    ? doubleToString((Double) getUpdate())
-                                    : getUpdate().toString(),
-                            (action != null || voidAction != null) && test.onTest()),
-                    voidAction != null
-                            ? () -> voidAction.onAction()
-                            : () -> newAlertDialog(itemsView, getUpdate(), "")
-            ));
-        }
-
-        private void createItemSwitch(ItemsView itemsView) {
-            View view = addItemSwitch(getTitle(), "", itemsView);
-            itemsView.addItem(new Item(view, () -> setSwitchState(view, (Boolean) getUpdate())));
-        }
-
-        private void createItemList(ItemsView itemsView) {
-            View view = addItem(getTitle(), "");
-            itemsView.addItem(new Item(view,
-                    () -> updateView(view, getUpdate() instanceof Double
-                                    ? doubleToString((Double) getUpdate())
-                                    : getUpdate().toString(),
-                            (action != null || voidAction != null) && test.onTest()),
-                    voidAction != null
-                            ? () -> voidAction.onAction()
-                            : () -> newAlertDialogList(itemsView, (String[]) objectsUpdate.onUpdate(), positionUpdate.onUpdate())
+        private void createItem(ItemsView itemsView, ActionInterface.Action action) {
+            View view = addItem(itemsView);
+            itemsView.addItem(new Item(view, () -> updateView(view),
+                    voidAction != null ? () -> voidAction.onAction() : action
             ));
         }
 
@@ -294,12 +294,19 @@ public class Item {
             getAlertDialogSave(editText.getRootView(), (dialog, which) -> {
                 String newText = editText.getText().toString();
                 Object newObject = object instanceof Double ? stringToDouble(newText) : newText;
-                if (validator.isTest(newObject)) {
+
+                StringBuilder errors = new StringBuilder();
+                for (Test test : validators) {
+                    if (!test.isTest(newObject)) {
+                        if (!errors.toString().isEmpty()) errors.append('\n');
+                        errors.append(test.error);
+                    }
+                }
+                if (errors.toString().isEmpty()) {
                     action.onAction(newObject);
                     itemsView.onSave();
-                    itemsView.onUpdate();
                 } else {
-                    newAlertDialog(itemsView, newObject, validator.error);
+                    newAlertDialog(itemsView, newObject, errors.toString());
                 }
             }).show();
             return editText.getRootView();
@@ -311,7 +318,6 @@ public class Item {
                 action.onAction(selectedPosition);
                 dialogInterface.dismiss();
                 itemsView.onSave();
-                itemsView.onUpdate();
             }).show();
         }
         //endregion
@@ -323,51 +329,28 @@ public class Item {
             return view;
         }
 
-        private View addItem(int layout, String textPrimary, String textSecondary) {
-            View view = activity.getLayoutInflater().inflate(layout, null);
-            ((TextView) view.findViewById(R.id.textPrimary)).setText(textPrimary);
-            ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
-            if (textSecondary.equals(""))
-                view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
-            return view;
-        }
-
-        private View addItem(String textPrimary, String textSecondary) {
-            return addItem(R.layout.item_pref, textPrimary, textSecondary);
-        }
-
-        public View addItemSwitch(String textPrimary, String textSecondary, ItemsView itemsView) {
-            View view = addItem(R.layout.item_switch, textPrimary, textSecondary);
-            ((Switch) view.findViewById(R.id.textPrimary)).setOnCheckedChangeListener((compoundButton, b) -> {
-                action.onAction(getSwitchState(view));
-                itemsView.onSave();
-                itemsView.onUpdate();
-            });
+        private View addItem(ItemsView itemsView) {
+            View view = activity.getLayoutInflater().inflate(R.layout.item_pref, null);
+            if (switcherAction != null) {
+                ((Switch) view.findViewById(R.id.switcher)).setOnCheckedChangeListener((compoundButton, b) -> {
+                    switcherAction.onAction(getSwitchState(view));
+                    itemsView.onSave();
+                });
+            } else
+                view.findViewById(R.id.switcher).setVisibility(View.GONE);
             return view;
         }
         //endregion
 
         //region update view
-        private void setSwitchState(View view, boolean state) {
-            ((Switch) view.findViewById(R.id.textPrimary)).setChecked(state);
-        }
-
-        private boolean getSwitchState(View view) {
-            return ((Switch) view.findViewById(R.id.textPrimary)).isChecked();
-        }
-
-        private void updateView(View view, String textSecondary) {
+        private void updateView(View view) {
             ((TextView) view.findViewById(R.id.textPrimary)).setText(getTitle());
-            ((TextView) view.findViewById(R.id.textSecondary)).setText(textSecondary);
-            if (textSecondary.equals(""))
-                view.findViewById(R.id.textSecondary).setVisibility(View.GONE);
-            else view.findViewById(R.id.textSecondary).setVisibility(View.VISIBLE);
-            enabledView(view);
-        }
-
-        private void updateView(View view, String textSecondary, Boolean isEnabled) {
-            updateView(view, textSecondary);
-            if (!isEnabled) disableView(view);
+            ((TextView) view.findViewById(R.id.textSecondary)).setText(getValue());
+            view.findViewById(R.id.textSecondary).setVisibility(
+                    getValue().equals("") ? View.GONE : View.VISIBLE);
+            if (switcherAction != null) setSwitchState(view, (Boolean) switcherUpdate.onUpdate());
+            if (isEnabled()) enabledView(view);
+            else disableView(view);
         }
 
         private void disableView(View view) {
@@ -384,6 +367,14 @@ public class Item {
                     .setTextColor(activity.getResources().getColor(R.color.black));
             ((TextView) view.findViewById(R.id.textSecondary))
                     .setTextColor(activity.getResources().getColor(R.color.colorGreyPrimaryDark));
+        }
+
+        private void setSwitchState(View view, boolean state) {
+            ((Switch) view.findViewById(R.id.switcher)).setChecked(state);
+        }
+
+        private boolean getSwitchState(View view) {
+            return ((Switch) view.findViewById(R.id.switcher)).isChecked();
         }
         //endregion
     }

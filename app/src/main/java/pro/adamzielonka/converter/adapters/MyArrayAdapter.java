@@ -31,6 +31,7 @@ public abstract class MyArrayAdapter<T> extends ArrayAdapter<T> implements Array
             setView(item, result.findViewById(R.id.textPrimary), textSecondary);
             if (textSecondary.getText().toString().equals(""))
                 textSecondary.setVisibility(View.GONE);
+            result.findViewById(R.id.switcher).setVisibility(View.GONE);
         }
         return result;
     }
