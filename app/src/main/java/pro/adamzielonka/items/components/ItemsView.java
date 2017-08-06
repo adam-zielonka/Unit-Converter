@@ -1,4 +1,4 @@
-package pro.adamzielonka.items;
+package pro.adamzielonka.items.components;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,20 +12,34 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import pro.adamzielonka.items.classes.Item;
+import pro.adamzielonka.items.interfaces.ActionInterface;
+import pro.adamzielonka.items.interfaces.UpdateInterface;
+
 public class ItemsView extends ListView {
 
     List<Item> items = new ArrayList<>();
-    ActionInterface.ListAction listAction;
+    ArrayAdapter adapter;
+    ActionInterface.ObjectAction listAction;
     UpdateInterface.ListUpdate listUpdate;
     OnItemsUpdate onItemsUpdate;
+    OnItemsSave onItemsSave;
     public boolean isUpdateProcess;
 
     public interface OnItemsUpdate {
         void onUpdate();
     }
 
+    public interface OnItemsSave {
+        void onSave();
+    }
+
     public void setOnItemsUpdate(OnItemsUpdate onItemsUpdate) {
         this.onItemsUpdate = onItemsUpdate;
+    }
+
+    public void setOnItemsSave(OnItemsSave onItemsSave) {
+        this.onItemsSave = onItemsSave;
     }
 
     @Override
@@ -80,8 +94,16 @@ public class ItemsView extends ListView {
         });
     }
 
+    public void setAdapter(ArrayAdapter adapter, UpdateInterface.ListUpdate listUpdate,
+                           ActionInterface.ObjectAction listAction) {
+        super.setAdapter(adapter);
+        this.adapter = adapter;
+        this.listAction = listAction;
+        this.listUpdate = listUpdate;
+    }
+
     public void addItem(Item item) {
-        if (getAdapter() == null) addHeaderView(item.view, false, item.isEnabled);
+        if (adapter == null) addHeaderView(item.view, false, item.isEnabled);
         else addFooterView(item.view, false, item.isEnabled);
         items.add(item);
     }
@@ -93,18 +115,20 @@ public class ItemsView extends ListView {
             if (item.view.equals(view) && view.isEnabled()) item.onAction();
     }
 
+    public void onSave() {
+        if (onItemsSave != null) onItemsSave.onSave();
+    }
+
     public void onUpdate() {
         if (isUpdateProcess) return;
         isUpdateProcess = true;
-        for (Item item : items) item.onUpdate();
-        if (listUpdate != null && getAdapter() != null) {
-            if (getAdapter() instanceof ArrayAdapter) {
-                ((ArrayAdapter) getAdapter()).clear();
-                ((ArrayAdapter) getAdapter()).addAll(listUpdate.onUpdate());
-                ((ArrayAdapter) getAdapter()).notifyDataSetChanged();
-            }
-        }
         if (onItemsUpdate != null) onItemsUpdate.onUpdate();
+        for (Item item : items) item.onUpdate();
+        if (listUpdate != null && adapter != null) {
+            adapter.clear();
+            adapter.addAll(listUpdate.onUpdate());
+            adapter.notifyDataSetChanged();
+        }
         isUpdateProcess = false;
     }
 

@@ -1,4 +1,6 @@
-package pro.adamzielonka.items;
+package pro.adamzielonka.items.classes;
+
+import pro.adamzielonka.items.interfaces.TestInterface;
 
 public class Test {
     public String error;

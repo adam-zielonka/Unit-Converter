@@ -2,12 +2,7 @@ package pro.adamzielonka.converter.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -31,18 +26,15 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.converter.tools.Item;
+import pro.adamzielonka.items.classes.Item;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;
 import static pro.adamzielonka.converter.tools.Language.getLanguages;
 import static pro.adamzielonka.converter.tools.Language.setLanguage;
 
-public class SettingsActivity extends PreferenceActivity
-        implements ListView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsActivity extends PreferenceActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private View logInView;
-    private View userNameView;
     private static final int RC_SIGN_IN = 9001;
 
     private DatabaseReference mDatabase;
@@ -55,56 +47,50 @@ public class SettingsActivity extends PreferenceActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initAuth();
 
-        Item.Builder(R.string.pref_header_appearance).add(this);
-        addItemList(R.string.pref_title_theme, () -> theme.getName(), () -> theme.getArray(), () -> theme.getID(), position -> theme.setID(position));
-        addItemList(R.string.pref_title_language, () -> getResources().getConfiguration().locale.getLanguage(),
-                () -> getLanguages(this), () -> getLanguageID(this), position -> {
-                    setLanguage(this, getLanguageFromID(this, position));
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_appearance)
+                .setTitle(R.string.pref_title_theme)
+                .setUpdate(() -> theme.getName())
+                .setArray(() -> theme.getArray())
+                .setPosition(() -> theme.getID())
+                .setAction(id -> theme.setID((Integer) id))
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.pref_title_language)
+                .setUpdate(() -> getResources().getConfiguration().locale.getLanguage())
+                .setArray(() -> getLanguages(this))
+                .setPosition(() -> getLanguageID(this))
+                .setAction(position -> {
+                    setLanguage(this, getLanguageFromID(this, (Integer) position));
                     restart();
-                });
-        addItemTitle(R.string.pref_header_user);
-        Item.Builder(R.string.pref_title_sign_in)
-                .condition(() -> getUser() != null)
-                .update(() -> getUser().getEmail())
-                .elseUpdate(() -> "")
-                .alert(() -> {
-                    if (getUser() != null) signOut();
-                    else signIn();
-                })
-                .add(this);
-        logInView = listView.addItem(getString(R.string.pref_title_sign_in));
-        userNameView = listView.addItem(getString(R.string.pref_title_user_name));
-        addItemTitle(R.string.pref_header_about);
-        addItemText(R.string.pref_title_version, () -> getString(R.string.app_version));
-        addItemText(R.string.pref_title_website, () -> getString(R.string.website), () ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://adamzielonka.pro/"))));
-    }
+                }).add(itemsView);
 
-    @Override
-    public void onUpdate() throws Exception {
-        super.onUpdate();
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_user)
+                .setTitle(() -> getUser() != null ? R.string.pref_title_sign_out : R.string.pref_title_sign_in)
+                .setUpdate(() -> getUser() != null ? getUser().getEmail() : "")
+                .setAction(() -> getUser() != null ? signOut() : signIn())
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(getString(R.string.pref_title_user_name))
+                .setIf(() -> getUser() != null)
+                .setUpdate(this::getUserName)
+                .setElseUpdate(() -> "")
+                .setAction(() -> {
+                    showProgressDialog();
+                    createUser(true, getUserName(), "");
+                }).add(itemsView);
 
-        if (getUser() != null) {
-            updateView(logInView, getString(R.string.pref_title_sign_out), getUser().getEmail());
-            updateView(userNameView, getString(R.string.pref_title_user_name), getUserName());
-        } else {
-            updateView(logInView, getString(R.string.pref_title_sign_in), "");
-            hideView(userNameView);
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (view.equals(logInView)) {
-            if (getUser() != null) signOut();
-            else signIn();
-
-        } else if (view.equals(userNameView)) {
-            if (getUser() != null) {
-                showProgressDialog();
-                createUser(true, getUserName(), "");
-            }
-        } else super.onItemClick(adapterView, view, position, l);
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_about)
+                .setTitle(R.string.pref_title_version)
+                .setUpdate(() -> getString(R.string.app_version))
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.pref_title_website)
+                .setUpdate(() -> getString(R.string.website))
+                .setAction(() -> startWebsite("https://adamzielonka.pro/"))
+                .add(itemsView);
     }
 
     @Override
@@ -141,14 +127,16 @@ public class SettingsActivity extends PreferenceActivity
                 .build();
     }
 
-    private void signIn() {
+    private boolean signIn() {
         startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), RC_SIGN_IN);
+        return true;
     }
 
-    private void signOut() {
+    private boolean signOut() {
         setUserName("");
         mFirebaseAuth.signOut();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> onSave());
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> onUpdate());
+        return true;
     }
 
     @Override
@@ -163,7 +151,7 @@ public class SettingsActivity extends PreferenceActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) firebaseAuthWithGoogle(result.getSignInAccount());
-            else onSave();
+            else onUpdate();
         }
     }
 
@@ -195,30 +183,28 @@ public class SettingsActivity extends PreferenceActivity
                             createUser(false, "", "");
                         } else {
                             setUserName(user.username);
-                            onSave();
+                            onUpdate();
                             hideProgressDialog();
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        onSave();
+                        onUpdate();
                         hideProgressDialog();
                     }
                 });
     }
 
     private void createUser(boolean changeName, String name, String error) {
-        EditText editText = getDialogEditText(name, error);
-        getAlertDialog(R.string.dialog_set_user_name)
-                .setView(editText.getRootView())
-                .setPositiveButton(R.string.dialog_create, (dialogInterface, i) -> {
-                    String newUnitName = editText.getText().toString();
-                    writeNewUser(changeName, getUid(), newUnitName);
-                })
-                .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+        new Item.Builder(this)
+                .setTitle(R.string.dialog_set_user_name)
+                .setValidator(o -> error.isEmpty(), error)
+                .setUpdate(() -> name)
+                .setAction(newUserName -> writeNewUser(changeName, getUid(), (String) newUserName))
+                .setCancelAction(() -> {
                     if (!changeName) signOut();
-                    onSave();
+                    onUpdate();
                     hideProgressDialog();
                 }).show();
     }
@@ -239,7 +225,7 @@ public class SettingsActivity extends PreferenceActivity
     private void finishCreateUser(String name) {
         createUserName(name);
         setUserName(name);
-        onSave();
+        onUpdate();
         hideProgressDialog();
     }
 
@@ -249,6 +235,11 @@ public class SettingsActivity extends PreferenceActivity
 
     private String getUserName() {
         return preferences.getString("username", "");
+    }
+
+    @Override
+    public void onUpdate() {
+        itemsView.onUpdate();
     }
     //endregion
 

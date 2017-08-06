@@ -1,14 +1,7 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,117 +11,99 @@ import com.google.firebase.database.ValueEventListener;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
+import pro.adamzielonka.items.classes.Item;
 
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 
-public class SetMeasureActivity extends EditActivity implements ListView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
-
-    private View authorView;
-    private View versionView;
-    private View ownNameSwitchView;
-    private View ownNameView;
-    private View ownLangSwitchView;
-    private View ownLangView;
+public class SetMeasureActivity extends EditActivity {
 
     private DatabaseReference mDatabase;
 
     private Long version;
+    private String versionInfo;
 
     @Override
-    public void onLoad() throws Exception {
+    public void addItems() {
         setTitle(R.string.title_activity_set_measure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        super.onLoad();
-        listView.setEmptyAdapter();
-        listView.setOnCheckedChangeListener(this);
-        listView.setOnItemClickListener(this);
+        super.addItems();
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_author)
+                .setUpdate(() -> userMeasure.author)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_version)
+                .setIf(() -> !userMeasure.cloudID.equals(""))
+                .setUpdate(this::getVersionInfo)
+                .setAction(this::versionAction)
+                .add(itemsView);
 
-        authorView = listView.addItem(getString(R.string.list_item_author), userMeasure.author);
-        versionView = listView.addItem(getString(R.string.list_item_version));
-        listView.addItemTitle(getString(R.string.local_settings));
-        ownNameSwitchView = listView.addItemSwitch(getString(R.string.list_own_name_measure), "");
-        ownNameView = listView.addItem(getString(R.string.list_item_name));
-        ownLangSwitchView = listView.addItemSwitch(getString(R.string.list_own_lang_measure), "");
-        ownLangView = listView.addItem(getString(R.string.list_title_language));
+        new Item.Builder(this)
+                .setTitleHeader(R.string.local_settings)
+                .setTitle(R.string.list_own_name_measure)
+                .setUpdate(() -> concreteMeasure.isOwnName)
+                .setAction(isOwnName -> concreteMeasure.isOwnName = (Boolean) isOwnName)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_name)
+                .setIf(() -> concreteMeasure.isOwnName)
+                .setUpdate(() -> concreteMeasure.ownName)
+                .setAction(ownName -> concreteMeasure.ownName = (String) ownName)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_own_lang_measure)
+                .setUpdate(() -> concreteMeasure.isOwnLang)
+                .setAction(isOwnLang -> concreteMeasure.isOwnLang = (Boolean) isOwnLang)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_title_language)
+                .setIf(() -> concreteMeasure.isOwnLang)
+                .setUpdate(() -> concreteMeasure.ownLang)
+                .setArray(() -> concreteMeasure.getGlobalLangs())
+                .setPosition(() -> concreteMeasure.getOwnLangID())
+                .setAction(position -> concreteMeasure.ownLang = concreteMeasure.getGlobalFromID((Integer) position))
+                .add(itemsView);
     }
 
-    @Override
-    public void onUpdate() throws Exception {
-        super.onUpdate();
-        updateView(authorView, userMeasure.author, false);
+    //region version
+    public String getVersionInfo() {
         if (!userMeasure.cloudID.equals("")) {
-            updateView(versionView, userMeasure.version.toString());
-            checkVersion();
-        } else {
-            updateView(versionView, getString(R.string.local_measure));
-        }
-        setSwitchState(ownNameSwitchView, concreteMeasure.isOwnName);
-        updateView(ownNameView, concreteMeasure.ownName, concreteMeasure.isOwnName);
-        setSwitchState(ownLangSwitchView, concreteMeasure.isOwnLang);
-        updateView(ownLangView, concreteMeasure.ownLang, concreteMeasure.isOwnLang);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (isUserCheckedChanged) {
-            concreteMeasure.isOwnName = getSwitchState(ownNameSwitchView);
-            concreteMeasure.isOwnLang = getSwitchState(ownLangSwitchView);
-            onSave();
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if (!view.isEnabled()) return;
-
-        if (view.equals(versionView)) {
-            if (version != null) {
-                if (version > userMeasure.version) {
-                    //download update
-                }
-            } else {
-                if (!userMeasure.cloudID.equals("")) {
-                    version = userMeasure.version;
-                    checkVersion();
-                }
+            if (versionInfo != null) {
+                checkOnlineVersion();
+                versionInfo = userMeasure.version.toString();
             }
+        } else versionInfo = getString(R.string.local_measure);
+        return versionInfo;
+    }
 
-        } else if (view.equals(ownNameView)) {
-            EditText editText = getDialogEditText(concreteMeasure.ownName);
-            getAlertDialogSave(R.string.list_item_name, editText.getRootView(), (d, i) -> {
-                concreteMeasure.ownName = editText.getText().toString();
-                onSave();
-            }).show();
-
-        } else if (view.equals(ownLangView)) {
-            getAlertDialog(R.string.list_title_language)
-                    .setSingleChoiceItems(concreteMeasure.getGlobalLangs(), concreteMeasure.getOwnLangID(), (dialogInterface, i) -> {
-                        int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
-                        concreteMeasure.ownLang = concreteMeasure.getGlobalFromID(selectedPosition);
-                        dialogInterface.dismiss();
-                        onSave();
-                    })
-                    .show();
+    public void versionAction() {
+        if (version != null) {
+            if (version > userMeasure.version) {
+                //TODO: download update
+            }
+        } else {
+            if (!userMeasure.cloudID.equals("")) {
+                version = userMeasure.version;
+                checkOnlineVersion();
+            }
         }
     }
 
-    private void checkVersion() {
+    private void checkOnlineVersion() {
         DatabaseReference ref = mDatabase.child("measures").child(userMeasure.cloudID).child("version");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Long version = dataSnapshot.getValue(Long.class);
-                if (version != null) {
-                    if (version > userMeasure.version) {
-                        updateView(versionView, String.format(getString(R.string.new_version), userMeasure.version.toString(), version));
-                    } else {
-                        updateView(versionView, String.format(getString(R.string.current_version), userMeasure.version.toString()));
-                    }
-                } else {
-                    updateView(versionView, getString(R.string.local_measure));
-                }
-                SetMeasureActivity.this.version = version;
+                Long versionOnline = dataSnapshot.getValue(Long.class);
+                if (versionOnline != null) {
+                    if (versionOnline > userMeasure.version)
+                        versionInfo = String.format(getString(R.string.new_version),
+                                userMeasure.version.toString(), versionOnline);
+                    else versionInfo = String.format(getString(R.string.current_version),
+                            userMeasure.version.toString());
+                } else versionInfo = getString(R.string.local_measure);
+                version = versionOnline;
+                onSave();
             }
 
             @Override
@@ -137,6 +112,7 @@ public class SetMeasureActivity extends EditActivity implements ListView.OnItemC
             }
         });
     }
+    //endregion
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,9 +126,7 @@ public class SetMeasureActivity extends EditActivity implements ListView.OnItemC
 
         switch (id) {
             case R.id.menu_edit_converter:
-                Intent intent = new Intent(getApplicationContext(), EditMeasureActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
-                startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
+                startActivityForResult(setEditIntent(EditMeasureActivity.class), REQUEST_EDIT_ACTIVITY);
                 return true;
         }
 

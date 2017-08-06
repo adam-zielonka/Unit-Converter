@@ -1,4 +1,4 @@
-package pro.adamzielonka.items;
+package pro.adamzielonka.items.tools;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package pro.adamzielonka.items;
+package pro.adamzielonka.items.interfaces;
 
 public interface TestInterface {
     interface Test {

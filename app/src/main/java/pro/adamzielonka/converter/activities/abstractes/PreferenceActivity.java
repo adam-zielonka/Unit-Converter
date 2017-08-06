@@ -18,11 +18,6 @@ public abstract class PreferenceActivity extends ListActivity implements SharedP
     }
 
     @Override
-    protected void onUpdate() throws Exception {
-        super.onUpdate();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         preferences.registerOnSharedPreferenceChangeListener(this);

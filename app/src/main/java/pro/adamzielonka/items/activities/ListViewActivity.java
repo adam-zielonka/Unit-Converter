@@ -1,10 +1,12 @@
-package pro.adamzielonka.items;
+package pro.adamzielonka.items.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.items.classes.Item;
+import pro.adamzielonka.items.components.ItemsView;
 
 public class ListViewActivity extends AppCompatActivity implements ItemsView.OnItemsUpdate {
 

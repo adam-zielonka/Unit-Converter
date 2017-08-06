@@ -1,6 +1,8 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -77,6 +79,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static FirebaseUser getUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public void startWebsite(String website) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(website)));
     }
 
 }
