@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/unitsTextView"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="S"

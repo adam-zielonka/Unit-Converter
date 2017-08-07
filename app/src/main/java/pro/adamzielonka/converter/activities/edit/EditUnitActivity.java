@@ -1,5 +1,8 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -83,8 +86,28 @@ public class EditUnitActivity extends EditActivity {
         startEditActivity(EditPrefixActivity.class);
     }
 
-//    @Override
-//    protected void addActions() {
-//        addActionDelete(R.string.delete_unit_title, () -> userMeasure.units.remove(unit));
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_delete:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_unit_title)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_delete, (d, i) -> {
+                            userMeasure.units.remove(unit);
+                            onSave();
+                            onBackPressed();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

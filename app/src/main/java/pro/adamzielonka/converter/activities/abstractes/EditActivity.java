@@ -83,7 +83,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
         if (resultCode == RESULT_OK) {
             try {
                 setResultCode(RESULT_OK);
-                onUpdate();
+                itemsView.onUpdate();
             } catch (Exception e) {
                 finish();
             }

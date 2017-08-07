@@ -2,6 +2,7 @@ package pro.adamzielonka.items.classes;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,35 +47,49 @@ public class Item {
         this.isEnabled = true;
     }
 
-    private Item(View view, boolean isEnabled) {
+    private Item(View view) {
         this.view = view;
-        this.isEnabled = isEnabled;
+        this.isEnabled = false;
     }
 
     public static class Builder {
         private Activity activity;
-        private String title;
+
+        //Title
         private UpdateInterface.ObjectUpdate titleUpdate;
+        private String title;
         private String titleHeader;
+
+        //Value
         private UpdateInterface.ObjectUpdate update;
-        private UpdateInterface.ObjectUpdate switcherUpdate;
         private UpdateInterface.ObjectUpdate elseUpdate;
-        private ActionInterface.ObjectAction switcherAction;
+
+        //Action
         private ActionInterface.ObjectAction action;
-        private ActionInterface.Action cancelAction;
         private ActionInterface.Action voidAction;
+        private ActionInterface.Action cancelAction;
+
+        //Switcher
+        private UpdateInterface.ObjectUpdate switcherUpdate;
+        private ActionInterface.ObjectAction switcherAction;
+
+        //Check list
         private UpdateInterface.ObjectsUpdate objectsUpdate;
         private UpdateInterface.PositionUpdate positionUpdate;
-        private TestInterface.Test test;
-        private String error;
+
+        //Tests
+        private TestInterface.Test actionEnabled;
         private List<Test> validators;
+        private String error;
+
+        //Adapter
         private ArrayAdapter adapter;
         private UpdateInterface.ListUpdate listUpdate;
 
         public Builder(Activity activity) {
             this.activity = activity;
             update = () -> "";
-            test = () -> true;
+            actionEnabled = () -> true;
             error = "";
             positionUpdate = () -> 0;
             validators = new ArrayList<>();
@@ -85,7 +100,7 @@ public class Item {
             return this;
         }
 
-        public Builder setTitle(int title) {
+        public Builder setTitle(@StringRes int title) {
             this.title = activity.getString(title);
             return this;
         }
@@ -100,7 +115,7 @@ public class Item {
             return this;
         }
 
-        public Builder setTitleHeader(int titleHeader) {
+        public Builder setTitleHeader(@StringRes int titleHeader) {
             this.titleHeader = activity.getString(titleHeader);
             return this;
         }
@@ -156,7 +171,7 @@ public class Item {
         }
 
         public Builder setIf(TestInterface.Test test) {
-            this.test = test;
+            this.actionEnabled = test;
             return this;
         }
 
@@ -195,14 +210,14 @@ public class Item {
 
         public void show() {
             EditText editText = getDialogEditText(update.onUpdate(), error);
-            getAlertDialogSave(editText.getRootView(), (dialog, which) -> {
+            getAlertDialog(editText.getRootView(), (dialog, which) -> {
                 String newText = editText.getText().toString();
                 action.onAction(newText);
             }).show();
         }
 
         private Object getUpdate() {
-            return !test.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
+            return !actionEnabled.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
         }
 
         private String getValue() {
@@ -210,7 +225,7 @@ public class Item {
         }
 
         private boolean isEnabled() {
-            return (action != null || voidAction != null) && test.onTest();
+            return (action != null || voidAction != null) && actionEnabled.onTest();
         }
 
         public String getTitle() {
@@ -225,7 +240,7 @@ public class Item {
         //region create item
         private void createItemHeader(ItemsView itemsView) {
             View view = addItemHeader(titleHeader);
-            itemsView.addItem(new Item(view, false));
+            itemsView.addItem(new Item(view));
         }
 
         private void createItem(ItemsView itemsView, ActionInterface.Action action) {
@@ -265,17 +280,10 @@ public class Item {
         //endregion
 
         //region alert dialog
-        private AlertDialog.Builder getAlertDialogSave(View view, DialogInterface.OnClickListener onClickListener) {
-            return getAlertDialogCancel(onClickListener, R.string.dialog_save).setView(view);
-        }
-
-        private AlertDialog.Builder getAlertDialogDelete(DialogInterface.OnClickListener onClickListener) {
-            return getAlertDialogCancel(onClickListener, R.string.dialog_delete);
-        }
-
-        private AlertDialog.Builder getAlertDialogCancel(DialogInterface.OnClickListener onClickListener, int positiveText) {
+        private AlertDialog.Builder getAlertDialog(View view, DialogInterface.OnClickListener onClickListener) {
             return getAlertDialog()
-                    .setPositiveButton(positiveText, onClickListener)
+                    .setView(view)
+                    .setPositiveButton(R.string.dialog_save, onClickListener)
                     .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
                         if (cancelAction != null) cancelAction.onAction();
                     });
@@ -291,7 +299,7 @@ public class Item {
         //region alert dialog + edit text
         private View newAlertDialog(ItemsView itemsView, Object object, String error) {
             EditText editText = getDialogEditText(object, error);
-            getAlertDialogSave(editText.getRootView(), (dialog, which) -> {
+            getAlertDialog(editText.getRootView(), (dialog, which) -> {
                 String newText = editText.getText().toString();
                 Object newObject = object instanceof Double ? stringToDouble(newText) : newText;
 

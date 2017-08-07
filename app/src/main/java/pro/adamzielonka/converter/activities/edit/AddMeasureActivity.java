@@ -1,5 +1,6 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.ListActivity;
 
 public class AddMeasureActivity extends ListActivity {
@@ -10,7 +11,7 @@ public class AddMeasureActivity extends ListActivity {
 
     @Override
     public void addItems() {
-
+        setTitle(R.string.title_activity_add_measure);
     }
 
 //    private View addByCreateView;

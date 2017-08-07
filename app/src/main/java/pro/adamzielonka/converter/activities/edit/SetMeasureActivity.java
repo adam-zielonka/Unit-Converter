@@ -60,7 +60,7 @@ public class SetMeasureActivity extends EditActivity {
     //region version
     public String getVersionInfo() {
         if (!userMeasure.cloudID.equals("")) {
-            if (versionInfo != null) {
+            if (versionInfo == null) {
                 checkOnlineVersion();
                 versionInfo = userMeasure.version.toString();
             }
@@ -69,19 +69,18 @@ public class SetMeasureActivity extends EditActivity {
     }
 
     public void versionAction() {
-        if (version != null) {
-            if (version > userMeasure.version) {
-                //TODO: download update
-            }
-        } else {
-            if (!userMeasure.cloudID.equals("")) {
-                version = userMeasure.version;
-                checkOnlineVersion();
-            }
+        if (version != null && version > userMeasure.version) {
+            //TODO: download update
+        } else if (!userMeasure.cloudID.equals("")) {
+            version = userMeasure.version;
+            checkOnlineVersion();
         }
     }
 
     private void checkOnlineVersion() {
+        versionInfo = String.format(getString(R.string.checking_version), userMeasure.version.toString());
+        itemsView.onSave();
+
         DatabaseReference ref = mDatabase.child("measures").child(userMeasure.cloudID).child("version");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -95,7 +94,7 @@ public class SetMeasureActivity extends EditActivity {
                             userMeasure.version.toString());
                 } else versionInfo = getString(R.string.local_measure);
                 version = versionOnline;
-                onSave();
+                itemsView.onSave();
             }
 
             @Override

@@ -1,5 +1,9 @@
 package pro.adamzielonka.converter.activities.edit;
 
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.items.classes.Item;
@@ -30,9 +34,29 @@ public class EditPrefixActivity extends EditActivity {
                 .setAction(exp -> prefix.exp = (Double) exp)
                 .add(itemsView);
     }
-//
-//    @Override
-//    protected void addActions() {
-//        addActionDelete(R.string.delete_prefix_title, () -> unit.prefixes.remove(prefix));
-//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_delete:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_unit_title)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.dialog_delete, (d, i) -> {
+                            unit.prefixes.remove(prefix);
+                            onSave();
+                            onBackPressed();
+                        }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+                }).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

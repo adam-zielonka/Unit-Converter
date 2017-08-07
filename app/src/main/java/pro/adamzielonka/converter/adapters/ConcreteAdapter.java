@@ -14,16 +14,8 @@ import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
 public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
 
-    private int resource;
-
-    public ConcreteAdapter(@NonNull Context context, int resource, @NonNull List<ConcreteUnit> objects, String langCode, String globalCode) {
-        super(langCode, globalCode, context, resource, objects);
-        this.resource = resource;
-    }
-
     public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects, String langCode, String globalCode) {
         super(langCode, globalCode, context, R.layout.spiner_units_small, objects);
-        this.resource = R.layout.spiner_units_small;
     }
 
     @Override
@@ -34,9 +26,10 @@ public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
 
         ConcreteUnit item = getItem(position);
 
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name + " " : "");
-        ((TextView) result.findViewById(R.id.unitsTextView2)).setText(item != null ? " " + getLanguageWords(item.description) : "");
-
+        ((TextView) result.findViewById(R.id.textView)).setText(
+                item != null ? item.name : "");
+        ((TextView) result.findViewById(R.id.textView2)).setText(
+                item != null ? getLanguageWords(item.description) : "");
         return result;
     }
 
@@ -44,15 +37,11 @@ public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View result = (convertView == null)
-                ? LayoutInflater.from(parent.getContext()).inflate(resource, parent, false)
+                ? LayoutInflater.from(parent.getContext()).inflate(R.layout.spiner_units_small, parent, false)
                 : convertView;
 
         ConcreteUnit item = getItem(position);
-
-        ((TextView) result.findViewById(R.id.unitsTextView)).setText(item != null ? item.name : "");
-        TextView textView = result.findViewById(R.id.unitsTextView2);
-        if (textView != null) textView.setText(item != null ? " " + getLanguageWords(item.description) : "");
-
+        ((TextView) result.findViewById(R.id.textView)).setText(item != null ? item.name : "");
         return result;
     }
 }

@@ -9,19 +9,15 @@ import java.util.Map;
 
 import pro.adamzielonka.converter.tools.Language;
 
-public abstract class MyAdapter<T> extends ArrayAdapter<T> {
+abstract class MyAdapter<T> extends ArrayAdapter<T> {
 
-    public String langCode;
-    public String globalCode;
+    private String langCode;
+    private String globalCode;
 
     MyAdapter(String langCode, String globalCode, @NonNull Context context, int resource, @NonNull List<T> objects) {
         super(context, resource, objects);
         this.langCode = langCode;
         this.globalCode = globalCode;
-    }
-
-    MyAdapter(@NonNull Context context, int resource, @NonNull List<T> objects) {
-        super(context, resource, objects);
     }
 
     String getLanguageWords(Map<String, String> map) {
