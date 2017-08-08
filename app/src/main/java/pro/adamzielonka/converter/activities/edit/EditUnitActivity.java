@@ -74,6 +74,7 @@ public class EditUnitActivity extends EditActivity {
                 .setAction(this::newPrefix)
                 .addValidator(symbol -> Tests.isUnique(symbol, unit.prefixes),
                         getString(R.string.error_symbol_prefix_already_exist))
+                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
                 .add(itemsView);
     }
 

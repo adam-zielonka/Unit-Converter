@@ -72,8 +72,8 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     }
 
     private void onOpen() throws Exception {
-        concreteMeasure = openConcreteMeasure(measureFileName);
-        userMeasure = openMeasure(concreteMeasure.userFileName);
+        concreteMeasure = measureFileName != null ? openConcreteMeasure(measureFileName) : null;
+        userMeasure = concreteMeasure != null ? openMeasure(concreteMeasure.userFileName) : null;
         unit = userMeasure != null ? openUnit(unitName, userMeasure) : null;
         prefix = unit != null ? openPrefix(prefixName, unit) : null;
     }
