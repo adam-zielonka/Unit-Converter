@@ -28,21 +28,21 @@ import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
 import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
-import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.theme.Theme;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
-import static pro.adamzielonka.converter.tools.Common.getItself;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
-import static pro.adamzielonka.converter.tools.Number.appendComma;
-import static pro.adamzielonka.converter.tools.Number.appendDigit;
-import static pro.adamzielonka.converter.tools.Number.changeSign;
-import static pro.adamzielonka.converter.tools.Number.deleteLast;
-import static pro.adamzielonka.converter.tools.Number.doubleToString;
-import static pro.adamzielonka.converter.tools.Number.stringToDouble;
+import static pro.adamzielonka.lib.Common.getItself;
+import static pro.adamzielonka.lib.Number.appendComma;
+import static pro.adamzielonka.lib.Number.appendDigit;
+import static pro.adamzielonka.lib.Number.changeSign;
+import static pro.adamzielonka.lib.Number.deleteLast;
+import static pro.adamzielonka.lib.Number.doubleToString;
+import static pro.adamzielonka.lib.Number.stringToDouble;
 
 public class ConverterActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

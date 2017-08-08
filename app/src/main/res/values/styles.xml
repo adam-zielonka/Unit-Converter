@@ -40,9 +40,9 @@
     </style>
 
     <style name="GreyTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/colorGreyPrimary</item>
-        <item name="colorPrimaryDark">@color/colorGreyPrimaryDark</item>
-        <item name="colorAccent">@color/colorGreyAccent</item>
+        <item name="colorPrimary">@color/secondaryTextDisable</item>
+        <item name="colorPrimaryDark">@color/secondaryColor</item>
+        <item name="colorAccent">@color/primaryTextDisable</item>
         <item name="background">@drawable/side_nav_bar_grey</item>
     </style>
 

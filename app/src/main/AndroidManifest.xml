@@ -52,8 +52,6 @@
         <service
             android:name=".services.MyUploadService"
             android:exported="false" />
-
-        <activity android:name="pro.adamzielonka.items.activities.ListViewActivity" />
     </application>
 
 </manifest>

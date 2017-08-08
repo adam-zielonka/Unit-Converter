@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.items.classes.Item;
+import pro.adamzielonka.itemsview.classes.Item;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 

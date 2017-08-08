@@ -42,8 +42,8 @@ import pro.adamzielonka.converter.models.user.Measure;
 import pro.adamzielonka.converter.models.user.Prefix;
 import pro.adamzielonka.converter.models.user.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
-import pro.adamzielonka.items.classes.Item;
-import pro.adamzielonka.items.tools.Tests;
+import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;

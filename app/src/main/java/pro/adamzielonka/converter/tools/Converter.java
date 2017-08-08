@@ -2,7 +2,7 @@ package pro.adamzielonka.converter.tools;
 
 import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
 
-import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.lib.Number.doubleToString;
 
 public class Converter {
     public static double doConversion(double number, ConcreteUnit from, ConcreteUnit to) {

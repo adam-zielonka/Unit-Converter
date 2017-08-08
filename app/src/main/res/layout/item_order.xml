@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
 
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+    android:paddingLeft="@dimen/item_horizontal_margin"
+    android:paddingRight="@dimen/item_horizontal_margin">
 
     <TextView
         android:id="@+id/textPos"
@@ -46,7 +46,7 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:text="S - Sample"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryColor"
         android:textSize="18sp"
         tools:ignore="HardcodedText" />
 

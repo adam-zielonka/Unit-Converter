@@ -6,8 +6,8 @@ import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.items.classes.Item;
-import pro.adamzielonka.items.tools.Tests;
+import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.tools.Tests;
 
 public class EditPrefixActivity extends EditActivity {
 

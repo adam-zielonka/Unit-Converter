@@ -10,12 +10,12 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.user.Prefix;
-import pro.adamzielonka.items.classes.Item;
-import pro.adamzielonka.items.tools.Tests;
+import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
-import static pro.adamzielonka.converter.tools.Number.doubleToString;
+import static pro.adamzielonka.lib.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity {
 

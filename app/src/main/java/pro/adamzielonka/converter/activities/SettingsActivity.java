@@ -26,7 +26,7 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.items.classes.Item;
+import pro.adamzielonka.itemsview.classes.Item;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;

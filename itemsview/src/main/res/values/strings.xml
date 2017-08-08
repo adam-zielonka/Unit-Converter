@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ItemsView</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
+</resources>

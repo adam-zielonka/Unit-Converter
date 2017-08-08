@@ -6,7 +6,7 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.items.classes.Item;
+import pro.adamzielonka.itemsview.classes.Item;
 
 public class EditTranslationActivity extends EditActivity {
 
