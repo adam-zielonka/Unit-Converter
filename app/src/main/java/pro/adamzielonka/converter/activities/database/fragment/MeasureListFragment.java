@@ -25,13 +25,13 @@ import com.google.firebase.database.Transaction;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.database.MeasureDetailActivity;
 import pro.adamzielonka.converter.activities.database.viewholder.MeasureViewHolder;
-import pro.adamzielonka.converter.models.database.CloudMeasure;
+import pro.adamzielonka.converter.models.database.DataBaseMeasure;
 
 public abstract class MeasureListFragment extends Fragment {
 
     private DatabaseReference mDatabase;
 
-    private FirebaseRecyclerAdapter<CloudMeasure, MeasureViewHolder> mAdapter;
+    private FirebaseRecyclerAdapter<DataBaseMeasure, MeasureViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private EditText editSearch;
     private ImageButton buttonSearch;
@@ -67,10 +67,10 @@ public abstract class MeasureListFragment extends Fragment {
     public void onQuery(String searchText) {
         Query postsQuery = getQuery(mDatabase, searchText);
         if (postsQuery != null) {
-            mAdapter = new FirebaseRecyclerAdapter<CloudMeasure, MeasureViewHolder>(CloudMeasure.class, R.layout.item_measure,
+            mAdapter = new FirebaseRecyclerAdapter<DataBaseMeasure, MeasureViewHolder>(DataBaseMeasure.class, R.layout.item_measure,
                     MeasureViewHolder.class, postsQuery) {
                 @Override
-                protected void populateViewHolder(final MeasureViewHolder viewHolder, final CloudMeasure model, final int position) {
+                protected void populateViewHolder(final MeasureViewHolder viewHolder, final DataBaseMeasure model, final int position) {
                     final DatabaseReference postRef = getRef(position);
 
                     final String postKey = postRef.getKey();
@@ -119,7 +119,7 @@ public abstract class MeasureListFragment extends Fragment {
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                CloudMeasure p = mutableData.getValue(CloudMeasure.class);
+                DataBaseMeasure p = mutableData.getValue(DataBaseMeasure.class);
                 if (p == null) {
                     return Transaction.success(mutableData);
                 }

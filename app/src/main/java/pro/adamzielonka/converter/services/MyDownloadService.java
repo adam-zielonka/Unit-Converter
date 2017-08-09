@@ -18,8 +18,8 @@ import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.file.Measure;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
@@ -81,17 +81,17 @@ public class MyDownloadService extends MyBaseTaskService {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, Uri.parse(localFile.toURI().toString()))));
 
                             Gson gson = getGson();
-                            Measure userMeasure = gson.fromJson(reader, Measure.class);
-                            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
+                            Measure measure = gson.fromJson(reader, Measure.class);
+                            CMeasure cMeasure = measure.getConcreteMeasure();
 
-                            concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode(this)));
-                            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode(this)));
+                            concreteFileName = getNewFileInternalName(this, "concrete_", cMeasure.getName(getLangCode(this)));
+                            String userFileName = getNewFileInternalName(this, "user_", cMeasure.getName(getLangCode(this)));
 
-                            concreteMeasure.concreteFileName = concreteFileName;
-                            concreteMeasure.userFileName = userFileName;
+                            cMeasure.concreteFileName = concreteFileName;
+                            cMeasure.userFileName = userFileName;
 
-                            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
-                            saveToInternal(this, userFileName, gson.toJson(userMeasure));
+                            saveToInternal(this, concreteFileName, gson.toJson(cMeasure));
+                            saveToInternal(this, userFileName, gson.toJson(measure));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -18,8 +18,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.activities.database.CloudActivity;
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.itemsview.classes.Item;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
@@ -68,20 +68,20 @@ public class AddMeasureActivity extends EditActivity {
     }
 
     private void createByEditor(Object object) {
-        userMeasure = new Measure();
-        userMeasure.setName(getLangCode(this), (String) object);
-        userMeasure.global = getLangCode(this);
-        concreteMeasure = userMeasure.getConcreteMeasure();
+        measure = new Measure();
+        measure.setName(getLangCode(this), (String) object);
+        measure.global = getLangCode(this);
+        cMeasure = measure.getConcreteMeasure();
 
         String concreteFileName = getNewFileInternalName(this,
-                "concrete_", concreteMeasure.getName(getLangCode(this)));
+                "concrete_", cMeasure.getName(getLangCode(this)));
         String userFileName = getNewFileInternalName(this,
-                "user_", concreteMeasure.getName(getLangCode(this)));
+                "user_", cMeasure.getName(getLangCode(this)));
 
-        concreteMeasure.concreteFileName = concreteFileName;
-        concreteMeasure.userFileName = userFileName;
+        cMeasure.concreteFileName = concreteFileName;
+        cMeasure.userFileName = userFileName;
         try {
-            saveMeasure(this, concreteMeasure, userMeasure);
+            saveMeasure(this, cMeasure, measure);
             setResultCode(RESULT_OK);
             startEditActivity(EditMeasureActivity.class);
         } catch (Exception e) {
@@ -134,25 +134,25 @@ public class AddMeasureActivity extends EditActivity {
             BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, uri)));
 
             Gson gson = getGson();
-            Measure userMeasure = gson.fromJson(reader, Measure.class);
-            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
+            Measure measure = gson.fromJson(reader, Measure.class);
+            CMeasure cMeasure = measure.getConcreteMeasure();
 
-            if (!concreteMeasure.isCorrect()) {
+            if (!cMeasure.isCorrect()) {
                 showError(this, R.string.error_no_units);
                 return;
             }
 
-            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode(this)));
-            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode(this)));
+            String concreteFileName = getNewFileInternalName(this, "concrete_", cMeasure.getName(getLangCode(this)));
+            String userFileName = getNewFileInternalName(this, "user_", cMeasure.getName(getLangCode(this)));
 
-            concreteMeasure.concreteFileName = concreteFileName;
-            concreteMeasure.userFileName = userFileName;
+            cMeasure.concreteFileName = concreteFileName;
+            cMeasure.userFileName = userFileName;
 
-            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
-            saveToInternal(this, userFileName, gson.toJson(userMeasure));
+            saveToInternal(this, concreteFileName, gson.toJson(cMeasure));
+            saveToInternal(this, userFileName, gson.toJson(measure));
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
+            intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
             startActivity(intent);
             finish();
         } catch (FileNotFoundException e) {

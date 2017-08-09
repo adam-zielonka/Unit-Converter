@@ -10,10 +10,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.user.Measure;
-import pro.adamzielonka.converter.models.user.Prefix;
-import pro.adamzielonka.converter.models.user.Unit;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.file.Measure;
+import pro.adamzielonka.converter.models.file.Prefix;
+import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.tools.FileTools;
 import pro.adamzielonka.itemsview.ItemsView;
 
@@ -24,8 +24,8 @@ import static pro.adamzielonka.converter.tools.Message.showError;
 
 public abstract class EditActivity extends ListActivity implements ItemsView.OnItemsSave {
 
-    protected Measure userMeasure;
-    protected ConcreteMeasure concreteMeasure;
+    protected Measure measure;
+    protected CMeasure cMeasure;
     protected Unit unit;
     protected Prefix prefix;
     protected String language;
@@ -42,7 +42,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     @Override
     public void onSave() {
         try {
-            FileTools.saveMeasure(this, concreteMeasure, userMeasure);
+            FileTools.saveMeasure(this, cMeasure, measure);
             setResultCode(RESULT_OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,9 +72,9 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     }
 
     private void onOpen() throws Exception {
-        concreteMeasure = measureFileName != null ? openConcreteMeasure(measureFileName) : null;
-        userMeasure = concreteMeasure != null ? openMeasure(concreteMeasure.userFileName) : null;
-        unit = userMeasure != null ? openUnit(unitName, userMeasure) : null;
+        cMeasure = measureFileName != null ? openConcreteMeasure(measureFileName) : null;
+        measure = cMeasure != null ? openMeasure(cMeasure.userFileName) : null;
+        unit = measure != null ? openUnit(unitName, measure) : null;
         prefix = unit != null ? openPrefix(prefixName, unit) : null;
     }
 
@@ -91,10 +91,10 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     }
 
     //region open and save
-    private ConcreteMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
+    private CMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
         FileInputStream in = openFileInput(fileName);
         Reader reader = new BufferedReader(new InputStreamReader(in));
-        return getGson().fromJson(reader, ConcreteMeasure.class);
+        return getGson().fromJson(reader, CMeasure.class);
     }
 
     private Measure openMeasure(String fileName) throws FileNotFoundException {
@@ -126,7 +126,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
 
     protected Intent setEditIntent(Class<?> cls) {
         Intent intent = new Intent(getApplicationContext(), cls);
-        intent.putExtra(EXTRA_MEASURE_FILE_NAME, concreteMeasure.concreteFileName);
+        intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
         intent.putExtra("unitName", unit != null ? unit.symbol : "");
         intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
         intent.putExtra("language", language != null ? language : "en");

@@ -56,8 +56,7 @@ public class Item {
         private Activity activity;
 
         //Title
-        private UpdateInterface.ObjectUpdate titleUpdate;
-        private String title;
+        private UpdateInterface.ObjectUpdate title;
         private String titleHeader;
 
         //Value
@@ -95,36 +94,45 @@ public class Item {
             validators = new ArrayList<>();
         }
 
-        public Builder setTitle(String title) {
-            this.title = title;
+        //region Title
+        public Builder setTitle(@StringRes int title) {
+            setTitle(activity.getString(title));
             return this;
         }
 
-        public Builder setTitle(@StringRes int title) {
-            this.title = activity.getString(title);
+        public Builder setTitle(String title) {
+            setTitle(() -> title);
+            return this;
+        }
+
+        public Builder setTitle(UpdateInterface.StringResUpdate title) {
+            setTitle(() -> activity.getString(title.onUpdate()));
             return this;
         }
 
         public Builder setTitle(UpdateInterface.ObjectUpdate title) {
-            this.titleUpdate = title;
+            this.title = title;
             return this;
         }
 
-        public Builder setTitleHeader(String titleHeader) {
-            this.titleHeader = titleHeader;
+        public String getTitle() {
+            return title != null ? title.onUpdate().toString() : "";
+        }
+        //endregion
+
+        //region Title Header
+        public Builder setTitleHeader(@StringRes int title) {
+            setTitleHeader(activity.getString(title));
             return this;
         }
 
-        public Builder setTitleHeader(@StringRes int titleHeader) {
-            this.titleHeader = activity.getString(titleHeader);
+        public Builder setTitleHeader(String title) {
+            this.titleHeader = title;
             return this;
         }
+        //endregion
 
-        public Builder setAdapter(ArrayAdapter adapter) {
-            this.adapter = adapter;
-            return this;
-        }
-
+        //region Update
         public Builder setUpdate(UpdateInterface.ObjectUpdate update) {
             this.update = update;
             return this;
@@ -140,6 +148,12 @@ public class Item {
             return this;
         }
 
+        private Object getUpdate() {
+            return !actionEnabled.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
+        }
+        //endregion
+
+        //region Action
         public Builder setAction(ActionInterface.ObjectAction action) {
             this.action = action;
             return this;
@@ -159,7 +173,9 @@ public class Item {
             this.cancelAction = cancelAction;
             return this;
         }
+        //endregion
 
+        //region Switcher
         public Builder setSwitcherUpdate(UpdateInterface.ObjectUpdate switcherUpdate) {
             this.switcherUpdate = switcherUpdate;
             return this;
@@ -169,6 +185,19 @@ public class Item {
             this.switcherAction = switcherAction;
             return this;
         }
+        //endregion
+
+        //region Array
+        public Builder setArray(UpdateInterface.ObjectsUpdate objectsUpdate) {
+            this.objectsUpdate = objectsUpdate;
+            return this;
+        }
+
+        public Builder setPosition(UpdateInterface.PositionUpdate positionUpdate) {
+            this.positionUpdate = positionUpdate;
+            return this;
+        }
+        //endregion
 
         public Builder setIf(TestInterface.Test test) {
             this.actionEnabled = test;
@@ -180,13 +209,8 @@ public class Item {
             return this;
         }
 
-        public Builder setArray(UpdateInterface.ObjectsUpdate objectsUpdate) {
-            this.objectsUpdate = objectsUpdate;
-            return this;
-        }
-
-        public Builder setPosition(UpdateInterface.PositionUpdate positionUpdate) {
-            this.positionUpdate = positionUpdate;
+        public Builder setAdapter(ArrayAdapter adapter) {
+            this.adapter = adapter;
             return this;
         }
 
@@ -216,25 +240,12 @@ public class Item {
             }).show();
         }
 
-        private Object getUpdate() {
-            return !actionEnabled.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
-        }
-
         private String getValue() {
             return getUpdate() instanceof Double ? doubleToString((Double) getUpdate()) : getUpdate().toString();
         }
 
         private boolean isEnabled() {
             return (action != null || voidAction != null) && actionEnabled.onTest();
-        }
-
-        public String getTitle() {
-            if (titleUpdate != null) {
-                if (titleUpdate.onUpdate() instanceof Integer)
-                    return activity.getString((Integer) titleUpdate.onUpdate());
-                else titleUpdate.onUpdate();
-            }
-            return title;
         }
 
         //region create item
@@ -258,14 +269,14 @@ public class Item {
         //region dialog edit text
         private EditText getDialogEditText(String text, String error) {
             View layout = activity.getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
+
+            TextView textView = layout.findViewById(R.id.textView);
+            textView.setVisibility(!error.equals("") ? View.VISIBLE : View.GONE);
+            textView.setText(error);
+
             EditText editText = layout.findViewById(R.id.editText);
             editText.setText(text);
             editText.setSelection(editText.length());
-            if (!error.equals("")) {
-                TextView textView = layout.findViewById(R.id.textView);
-                textView.setVisibility(View.VISIBLE);
-                textView.setText(error);
-            }
             return editText;
         }
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.models.user.Prefix;
+import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.itemsview.classes.Item;
 import pro.adamzielonka.itemsview.tools.Tests;
 
@@ -27,7 +27,7 @@ public class EditUnitActivity extends EditActivity {
         ArrayAdapter<Prefix> adapter = new MyArrayAdapter<Prefix>(getApplicationContext(), unit.prefixes) {
             @Override
             public void setView(Prefix item, TextView textPrimary, TextView textSecondary) {
-                String description = getLanguageWords(item.description, userMeasure.global);
+                String description = getLanguageWords(item.description, measure.global);
                 String prefixName = item.symbol + (!description.isEmpty() ? " - " + description : "");
                 String exponent = doubleToString(unit.expBase) + "E" + doubleToString(item.exp);
                 textPrimary.setText(prefixName);
@@ -40,13 +40,13 @@ public class EditUnitActivity extends EditActivity {
                 .setTitle(R.string.list_item_symbol)
                 .setUpdate(() -> unit.symbol)
                 .setAction(symbol -> unit.symbol = unitName = (String) symbol)
-                .addValidator(symbol -> Tests.isUnique(symbol, userMeasure.units),
+                .addValidator(symbol -> Tests.isUnique(symbol, measure.units),
                         getString(R.string.error_symbol_unit_already_exist))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_description)
-                .setUpdate(() -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global)
-                        + userMeasure.getWords(unit.description, userMeasure.global))
+                .setUpdate(() -> measure.getWords(unit.descriptionPrefix, measure.global)
+                        + measure.getWords(unit.description, measure.global))
                 .setAction(() -> startEditActivity(EditDescriptionActivity.class))
                 .add(itemsView);
         new Item.Builder(this)
@@ -102,7 +102,7 @@ public class EditUnitActivity extends EditActivity {
                         .setTitle(R.string.delete_unit_title)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_delete, (d, i) -> {
-                            userMeasure.units.remove(unit);
+                            measure.units.remove(unit);
                             onSave();
                             onBackPressed();
                         }).setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {

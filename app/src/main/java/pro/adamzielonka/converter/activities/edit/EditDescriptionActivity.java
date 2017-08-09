@@ -14,13 +14,13 @@ public class EditDescriptionActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_description)
                 .setTitle(R.string.list_item_description_base)
-                .setUpdate(() -> userMeasure.getWords(unit.description, userMeasure.global))
-                .setAction(text -> unit.description.put(userMeasure.global, (String) text))
+                .setUpdate(() -> measure.getWords(unit.description, measure.global))
+                .setAction(text -> unit.description.put(measure.global, (String) text))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_description_global_prefix)
-                .setUpdate(() -> userMeasure.getWords(unit.descriptionPrefix, userMeasure.global))
-                .setAction(text -> unit.descriptionPrefix.put(userMeasure.global, (String) text))
+                .setUpdate(() -> measure.getWords(unit.descriptionPrefix, measure.global))
+                .setAction(text -> unit.descriptionPrefix.put(measure.global, (String) text))
                 .add(itemsView);
     }
 }

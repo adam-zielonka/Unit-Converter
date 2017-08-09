@@ -16,7 +16,7 @@ public class EditTranslationActivity extends EditActivity {
         super.addItems();
 
         ArrayAdapter<String[]> adapter = new MyArrayAdapter<String[]>(getApplicationContext(),
-                userMeasure.getLanguagesStr(this, language)) {
+                measure.getLanguagesStr(this, language)) {
             @Override
             public void setView(String[] item, TextView textPrimary, TextView textSecondary) {
                 textPrimary.setText(item[0]);
@@ -26,7 +26,7 @@ public class EditTranslationActivity extends EditActivity {
 
         new Item.Builder(this)
                 .setAdapter(adapter)
-                .setUpdate(() -> userMeasure.getLanguagesStr(this, language))
+                .setUpdate(() -> measure.getLanguagesStr(this, language))
                 .add(itemsView);
     }
 }

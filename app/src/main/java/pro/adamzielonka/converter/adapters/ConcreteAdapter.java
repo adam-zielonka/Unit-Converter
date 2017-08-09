@@ -10,11 +10,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.CUnit;
 
-public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
+public class ConcreteAdapter extends MyAdapter<CUnit> {
 
-    public ConcreteAdapter(@NonNull Context context, @NonNull List<ConcreteUnit> objects, String langCode, String globalCode) {
+    public ConcreteAdapter(@NonNull Context context, @NonNull List<CUnit> objects, String langCode, String globalCode) {
         super(langCode, globalCode, context, R.layout.spiner_units_small, objects);
     }
 
@@ -24,7 +24,7 @@ public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
                 ? LayoutInflater.from(parent.getContext()).inflate(R.layout.spiner_units, parent, false)
                 : convertView;
 
-        ConcreteUnit item = getItem(position);
+        CUnit item = getItem(position);
 
         ((TextView) result.findViewById(R.id.textView)).setText(
                 item != null ? item.name : "");
@@ -40,7 +40,7 @@ public class ConcreteAdapter extends MyAdapter<ConcreteUnit> {
                 ? LayoutInflater.from(parent.getContext()).inflate(R.layout.spiner_units_small, parent, false)
                 : convertView;
 
-        ConcreteUnit item = getItem(position);
+        CUnit item = getItem(position);
         ((TextView) result.findViewById(R.id.textView)).setText(item != null ? item.name : "");
         return result;
     }

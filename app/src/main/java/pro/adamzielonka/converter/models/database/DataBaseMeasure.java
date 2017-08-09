@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreExtraProperties
-public class CloudMeasure {
+public class DataBaseMeasure {
 
     public String uid;
     public String author;
@@ -21,11 +21,11 @@ public class CloudMeasure {
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public CloudMeasure() {
+    public DataBaseMeasure() {
 
     }
 
-    public CloudMeasure(String uid, String author, String title, String units_symbols, String units_names, Long version) {
+    public DataBaseMeasure(String uid, String author, String title, String units_symbols, String units_names, Long version) {
         this.uid = uid;
         this.author = author;
         this.author_small = author.toLowerCase();

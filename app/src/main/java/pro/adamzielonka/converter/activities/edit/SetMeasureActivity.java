@@ -29,11 +29,11 @@ public class SetMeasureActivity extends EditActivity {
         super.addItems();
         new Item.Builder(this)
                 .setTitle(R.string.list_item_author)
-                .setUpdate(() -> userMeasure.author)
+                .setUpdate(() -> measure.author)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_version)
-                .setIf(() -> !userMeasure.cloudID.equals(""))
+                .setIf(() -> !measure.cloudID.equals(""))
                 .setUpdate(this::getVersionInfo)
                 .setAction(this::versionAction)
                 .add(itemsView);
@@ -41,57 +41,57 @@ public class SetMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.local_settings)
                 .setTitle(R.string.list_own_name_measure)
-                .setSwitcherUpdate(() -> concreteMeasure.isOwnName)
-                .setSwitcherAction(isOwnName -> concreteMeasure.isOwnName = (Boolean) isOwnName)
-                .setUpdate(() -> concreteMeasure.ownName)
-                .setAction(ownName -> concreteMeasure.ownName = (String) ownName)
+                .setSwitcherUpdate(() -> cMeasure.isOwnName)
+                .setSwitcherAction(isOwnName -> cMeasure.isOwnName = (Boolean) isOwnName)
+                .setUpdate(() -> cMeasure.ownName)
+                .setAction(ownName -> cMeasure.ownName = (String) ownName)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_own_lang_measure)
-                .setSwitcherUpdate(() -> concreteMeasure.isOwnLang)
-                .setSwitcherAction(isOwnLang -> concreteMeasure.isOwnLang = (Boolean) isOwnLang)
-                .setUpdate(() -> concreteMeasure.ownLang)
-                .setArray(() -> concreteMeasure.getGlobalLangs())
-                .setPosition(() -> concreteMeasure.getOwnLangID())
-                .setAction(position -> concreteMeasure.ownLang = concreteMeasure.getGlobalFromID((Integer) position))
+                .setSwitcherUpdate(() -> cMeasure.isOwnLang)
+                .setSwitcherAction(isOwnLang -> cMeasure.isOwnLang = (Boolean) isOwnLang)
+                .setUpdate(() -> cMeasure.ownLang)
+                .setArray(() -> cMeasure.getGlobalLangs())
+                .setPosition(() -> cMeasure.getOwnLangID())
+                .setAction(position -> cMeasure.ownLang = cMeasure.getGlobalFromID((Integer) position))
                 .add(itemsView);
     }
 
     //region version
     public String getVersionInfo() {
-        if (!userMeasure.cloudID.equals("")) {
+        if (!measure.cloudID.equals("")) {
             if (versionInfo == null) {
                 checkOnlineVersion();
-                versionInfo = userMeasure.version.toString();
+                versionInfo = measure.version.toString();
             }
         } else versionInfo = getString(R.string.local_measure);
         return versionInfo;
     }
 
     public void versionAction() {
-        if (version != null && version > userMeasure.version) {
+        if (version != null && version > measure.version) {
             //TODO: download update
-        } else if (!userMeasure.cloudID.equals("")) {
-            version = userMeasure.version;
+        } else if (!measure.cloudID.equals("")) {
+            version = measure.version;
             checkOnlineVersion();
         }
     }
 
     private void checkOnlineVersion() {
-        versionInfo = String.format(getString(R.string.checking_version), userMeasure.version.toString());
+        versionInfo = String.format(getString(R.string.checking_version), measure.version.toString());
         itemsView.onSave();
 
-        DatabaseReference ref = mDatabase.child("measures").child(userMeasure.cloudID).child("version");
+        DatabaseReference ref = mDatabase.child("measures").child(measure.cloudID).child("version");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Long versionOnline = dataSnapshot.getValue(Long.class);
                 if (versionOnline != null) {
-                    if (versionOnline > userMeasure.version)
+                    if (versionOnline > measure.version)
                         versionInfo = String.format(getString(R.string.new_version),
-                                userMeasure.version.toString(), versionOnline);
+                                measure.version.toString(), versionOnline);
                     else versionInfo = String.format(getString(R.string.current_version),
-                            userMeasure.version.toString());
+                            measure.version.toString());
                 } else versionInfo = getString(R.string.local_measure);
                 version = versionOnline;
                 itemsView.onSave();

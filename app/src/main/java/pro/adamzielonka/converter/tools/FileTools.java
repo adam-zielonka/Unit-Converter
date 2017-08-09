@@ -19,8 +19,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.file.Measure;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -68,35 +68,35 @@ public class FileTools {
         return new GsonBuilder().serializeSpecialFloatingPointValues().create();
     }
 
-    public static List<ConcreteMeasure> loadConverters(Context context) {
+    public static List<CMeasure> loadConverters(Context context) {
         File[] files = context.getFilesDir().listFiles();
 
         Gson gson = getGson();
-        List<ConcreteMeasure> concreteMeasureList = new ArrayList<>();
+        List<CMeasure> cMeasureList = new ArrayList<>();
         for (File file : files) {
             if (file.getName().contains("concrete_")) {
                 try {
                     FileInputStream in = context.openFileInput(file.getName());
                     Reader reader = new BufferedReader(new InputStreamReader(in));
-                    concreteMeasureList.add(gson.fromJson(reader, ConcreteMeasure.class));
+                    cMeasureList.add(gson.fromJson(reader, CMeasure.class));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        return concreteMeasureList;
+        return cMeasureList;
     }
 
-    public static void saveMeasure(Context context, ConcreteMeasure concreteMeasure, Measure userMeasure) throws IOException {
+    public static void saveMeasure(Context context, CMeasure cMeasure, Measure measure) throws IOException {
         Gson gson = getGson();
-        concreteMeasure = userMeasure.getConcreteMeasure(
-                concreteMeasure.concreteFileName, concreteMeasure.userFileName,
-                concreteMeasure.isOwnName, concreteMeasure.ownName,
-                concreteMeasure.isOwnLang, concreteMeasure.ownLang
+        cMeasure = measure.getConcreteMeasure(
+                cMeasure.concreteFileName, cMeasure.userFileName,
+                cMeasure.isOwnName, cMeasure.ownName,
+                cMeasure.isOwnLang, cMeasure.ownLang
         );
-        saveToInternal(context, concreteMeasure.concreteFileName, gson.toJson(concreteMeasure));
-        saveToInternal(context, concreteMeasure.userFileName, gson.toJson(userMeasure));
+        saveToInternal(context, cMeasure.concreteFileName, gson.toJson(cMeasure));
+        saveToInternal(context, cMeasure.userFileName, gson.toJson(measure));
     }
 
 }

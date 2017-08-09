@@ -17,8 +17,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.user.Measure;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.file.Measure;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
@@ -66,15 +66,15 @@ public class StartActivity extends AppCompatActivity {
             }
         }
 
-        for (Measure userMeasure : measureList) {
-            ConcreteMeasure concreteMeasure = userMeasure.getConcreteMeasure();
+        for (Measure measure : measureList) {
+            CMeasure cMeasure = measure.getConcreteMeasure();
 
-            String concreteFileName = getNewFileInternalName(this, "concrete_", concreteMeasure.getName(getLangCode(this)));
-            String userFileName = getNewFileInternalName(this, "user_", concreteMeasure.getName(getLangCode(this)));
-            concreteMeasure.concreteFileName = concreteFileName;
-            concreteMeasure.userFileName = userFileName;
-            saveToInternal(this, concreteFileName, gson.toJson(concreteMeasure));
-            saveToInternal(this, userFileName, gson.toJson(userMeasure));
+            String concreteFileName = getNewFileInternalName(this, "concrete_", cMeasure.getName(getLangCode(this)));
+            String userFileName = getNewFileInternalName(this, "user_", cMeasure.getName(getLangCode(this)));
+            cMeasure.concreteFileName = concreteFileName;
+            cMeasure.userFileName = userFileName;
+            saveToInternal(this, concreteFileName, gson.toJson(cMeasure));
+            saveToInternal(this, userFileName, gson.toJson(measure));
         }
 
         SharedPreferences.Editor editor = preferences.edit();

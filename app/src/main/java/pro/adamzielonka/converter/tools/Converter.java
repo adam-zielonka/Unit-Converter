@@ -1,11 +1,11 @@
 package pro.adamzielonka.converter.tools;
 
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.CUnit;
 
 import static pro.adamzielonka.lib.Number.doubleToString;
 
 public class Converter {
-    public static double doConversion(double number, ConcreteUnit from, ConcreteUnit to) {
+    public static double doConversion(double number, CUnit from, CUnit to) {
         return ((((number + from.shift1) * from.one) + from.shift2 - to.shift2) / to.one) - to.shift1;
     }
 

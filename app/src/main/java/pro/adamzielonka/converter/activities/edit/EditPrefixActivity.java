@@ -25,8 +25,8 @@ public class EditPrefixActivity extends EditActivity {
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_description)
-                .setUpdate(() -> userMeasure.getWords(prefix.description, userMeasure.global))
-                .setAction(text -> prefix.description.put(userMeasure.global, (String) text))
+                .setUpdate(() -> measure.getWords(prefix.description, measure.global))
+                .setAction(text -> prefix.description.put(measure.global, (String) text))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_exponent)

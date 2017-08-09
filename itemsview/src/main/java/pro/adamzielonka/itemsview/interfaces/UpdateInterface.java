@@ -1,5 +1,7 @@
 package pro.adamzielonka.itemsview.interfaces;
 
+import android.support.annotation.StringRes;
+
 import java.util.List;
 
 public interface UpdateInterface {
@@ -13,6 +15,11 @@ public interface UpdateInterface {
 
     interface ObjectsUpdate {
         Object[] onUpdate();
+    }
+
+    interface StringResUpdate {
+        @StringRes
+        int onUpdate();
     }
 
     interface PositionUpdate {

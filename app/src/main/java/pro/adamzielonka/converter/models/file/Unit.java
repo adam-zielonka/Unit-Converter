@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.models.user;
+package pro.adamzielonka.converter.models.file;
 
 import java.util.ArrayList;
 import java.util.HashMap;

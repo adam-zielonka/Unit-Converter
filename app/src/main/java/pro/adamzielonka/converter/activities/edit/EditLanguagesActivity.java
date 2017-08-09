@@ -28,8 +28,8 @@ public class EditLanguagesActivity extends EditActivity {
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_item_language_global)
-                .setTitle(concreteMeasure.global)
-                .setUpdate(() -> concreteMeasure.languages.get(concreteMeasure.global).toString())
+                .setTitle(cMeasure.global)
+                .setUpdate(() -> cMeasure.languages.get(cMeasure.global).toString())
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_translations)
@@ -47,8 +47,8 @@ public class EditLanguagesActivity extends EditActivity {
 
     private ArrayList<String[]> getArrayList() {
         ArrayList<String[]> list = new ArrayList<>();
-        for (Map.Entry<String, Integer> e : concreteMeasure.languages.entrySet()) {
-            if (!e.getKey().equals(concreteMeasure.global)) {
+        for (Map.Entry<String, Integer> e : cMeasure.languages.entrySet()) {
+            if (!e.getKey().equals(cMeasure.global)) {
                 String[] s = new String[2];
                 s[0] = e.getKey();
                 s[1] = e.getValue().toString();

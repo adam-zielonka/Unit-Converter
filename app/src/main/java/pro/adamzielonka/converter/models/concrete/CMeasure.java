@@ -5,12 +5,12 @@ import java.util.Map;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 
-public class ConcreteMeasure {
+public class CMeasure {
     private final Map<String, String> name;
     public final String global;
     public final Integer displayFrom;
     public final Integer displayTo;
-    public final List<ConcreteUnit> concreteUnits;
+    public final List<CUnit> cUnits;
     public final Map<String, Integer> languages;
     public String concreteFileName;
     public String userFileName;
@@ -19,22 +19,22 @@ public class ConcreteMeasure {
     public Boolean isOwnLang = false;
     public String ownLang = "";
 
-    public ConcreteMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, Map<String, Integer> languages) {
+    public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages) {
         this.name = name;
         this.global = global;
         this.displayFrom = displayFrom;
         this.displayTo = displayTo;
-        this.concreteUnits = concreteUnits;
+        this.cUnits = cUnits;
         this.languages = languages;
     }
 
-    public ConcreteMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<ConcreteUnit> concreteUnits, Map<String, Integer> languages,
-                           String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
+    public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages,
+                    String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
         this.name = name;
         this.global = global;
         this.displayFrom = displayFrom;
         this.displayTo = displayTo;
-        this.concreteUnits = concreteUnits;
+        this.cUnits = cUnits;
         this.languages = languages;
         this.concreteFileName = concreteFileName;
         this.userFileName = userFileName;
@@ -45,13 +45,13 @@ public class ConcreteMeasure {
     }
 
     public boolean isCorrect() {
-        return concreteUnits.size() != 0;
+        return cUnits.size() != 0;
     }
 
     public String getUnitsOrder() {
         StringBuilder order = new StringBuilder("");
-        for (ConcreteUnit concreteUnit : concreteUnits) {
-            order.append(concreteUnit.name);
+        for (CUnit cUnit : cUnits) {
+            order.append(cUnit.name);
             order.append(" ");
         }
         return order.toString();
@@ -103,9 +103,9 @@ public class ConcreteMeasure {
     }
 
     public String[] getUnitsSymbol() {
-        String[] symbols = new String[concreteUnits.size()];
-        for (int i = 0; i < concreteUnits.size(); i++) {
-            symbols[i] = concreteUnits.get(i).name;
+        String[] symbols = new String[cUnits.size()];
+        for (int i = 0; i < cUnits.size(); i++) {
+            symbols[i] = cUnits.get(i).name;
         }
         return symbols;
     }

@@ -5,9 +5,9 @@ import android.view.View;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.OrderAdapter;
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
-import pro.adamzielonka.converter.models.user.Prefix;
-import pro.adamzielonka.converter.models.user.Unit;
+import pro.adamzielonka.converter.models.concrete.CUnit;
+import pro.adamzielonka.converter.models.file.Prefix;
+import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.itemsview.classes.Item;
 
 public class EditOrderUnitsActivity extends EditActivity {
@@ -18,10 +18,10 @@ public class EditOrderUnitsActivity extends EditActivity {
     public void addItems() {
         setTitle(R.string.title_activity_edit_order_units);
         super.addItems();
-        orderAdapter = new OrderAdapter(getApplicationContext(), concreteMeasure.concreteUnits, userMeasure.global, concreteMeasure.global);
+        orderAdapter = new OrderAdapter(getApplicationContext(), cMeasure.cUnits, measure.global, cMeasure.global);
         new Item.Builder(this)
                 .setAdapter(orderAdapter)
-                .setUpdate(() -> concreteMeasure.concreteUnits)
+                .setUpdate(() -> cMeasure.cUnits)
                 .add(itemsView);
     }
 
@@ -39,9 +39,9 @@ public class EditOrderUnitsActivity extends EditActivity {
         itemsView.onSave();
     }
 
-    private void changePosition(ConcreteUnit concreteUnit, int change) {
-        String find = concreteUnit.name;
-        for (Unit unit : userMeasure.units) {
+    private void changePosition(CUnit cUnit, int change) {
+        String find = cUnit.name;
+        for (Unit unit : measure.units) {
             if (unit.symbol.equals(find)) {
                 unit.position += change;
                 return;

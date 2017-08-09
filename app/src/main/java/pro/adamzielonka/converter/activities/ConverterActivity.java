@@ -26,8 +26,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConcreteAdapter;
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.theme.Theme;
@@ -50,7 +50,7 @@ public class ConverterActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private List<ConcreteMeasure> measureList;
+    private List<CMeasure> measureList;
     private int converterID;
     private Theme theme;
 
@@ -61,7 +61,7 @@ public class ConverterActivity extends AppCompatActivity
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private ConcreteAdapter adapter;
-    private ConcreteMeasure measure;
+    private CMeasure measure;
 
     private ConstraintLayout converterLayout;
     private ConstraintLayout emptyLayout;
@@ -108,8 +108,8 @@ public class ConverterActivity extends AppCompatActivity
 
     private int getIDFromFileName(String fileName) {
         int i = 0;
-        for (ConcreteMeasure concreteMeasure : measureList) {
-            if (concreteMeasure.concreteFileName.equals(fileName))
+        for (CMeasure cMeasure : measureList) {
+            if (cMeasure.concreteFileName.equals(fileName))
                 return i + DEFAULT_CONVERTER_ID;
             i++;
         }
@@ -120,7 +120,7 @@ public class ConverterActivity extends AppCompatActivity
         Menu convertersMenu = menu.addSubMenu(getString(R.string.nav_converters));
         menuItems.clear();
         int i = 0;
-        for (ConcreteMeasure measure : measureList) {
+        for (CMeasure measure : measureList) {
             menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0,
                     measure.getName(measure.isOwnLang ? measure.ownLang : Language.getLangCode(this))));
             menuItems.get(i).setCheckable(true);
@@ -137,7 +137,7 @@ public class ConverterActivity extends AppCompatActivity
             setConverterTitle();
             navigationView.setCheckedItem(converterID);
 
-            if (measure.concreteUnits.size() > 0) {
+            if (measure.cUnits.size() > 0) {
 
                 findConverterViews();
                 setConverterListeners();
@@ -207,7 +207,7 @@ public class ConverterActivity extends AppCompatActivity
 
     void setAdapter() {
         adapter = new ConcreteAdapter(getApplicationContext(),
-                measureList.get(converterID - DEFAULT_CONVERTER_ID).concreteUnits,
+                measureList.get(converterID - DEFAULT_CONVERTER_ID).cUnits,
                 getLangCode(),
                 measure.global
         );
@@ -220,8 +220,8 @@ public class ConverterActivity extends AppCompatActivity
         spinnerFrom.setSelection(measure.displayFrom);
         spinnerTo.setSelection(measure.displayTo);
 
-        ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
-        ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
+        CUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
+        CUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
         textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
         textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
     }
@@ -240,8 +240,8 @@ public class ConverterActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        ConcreteUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
-        ConcreteUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
+        CUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
+        CUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
         textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
         textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
         onCalculate();

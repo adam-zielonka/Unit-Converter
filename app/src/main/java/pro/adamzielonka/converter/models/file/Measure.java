@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.models.user;
+package pro.adamzielonka.converter.models.file;
 
 import android.content.Context;
 
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.concrete.ConcreteMeasure;
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.concrete.CUnit;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 
@@ -28,11 +28,11 @@ public class Measure {
         return (2 * i) + ((position != 0) ? (((-2) * position) + 1) : 0);
     }
 
-    private List<ConcreteUnit> getConcreteUnits() {
-        List<ConcreteUnit> concreteUnits = new ArrayList<>();
+    private List<CUnit> getConcreteUnits() {
+        List<CUnit> cUnits = new ArrayList<>();
         int i = 0;
         for (Unit unit : units) {
-            concreteUnits.add(new ConcreteUnit(
+            cUnits.add(new CUnit(
                     unit.one,
                     unit.shift,
                     unit.shift2,
@@ -42,7 +42,7 @@ public class Measure {
             );
             i++;
             for (Prefix prefix : unit.prefixes) {
-                concreteUnits.add(new ConcreteUnit(
+                cUnits.add(new CUnit(
                         unit.one * Math.pow(unit.expBase, prefix.exp),
                         unit.shift,
                         unit.shift2,
@@ -53,8 +53,8 @@ public class Measure {
                 i++;
             }
         }
-        Collections.sort(concreteUnits, (unit1, unit2) -> unit1.position.compareTo(unit2.position));
-        return concreteUnits;
+        Collections.sort(cUnits, (unit1, unit2) -> unit1.position.compareTo(unit2.position));
+        return cUnits;
     }
 
     private Map<String, String> getCUnitName(Map<String, String> descriptionPrefix,
@@ -132,26 +132,26 @@ public class Measure {
         return list;
     }
 
-    public ConcreteMeasure getConcreteMeasure() {
-        List<ConcreteUnit> concreteUnits = getConcreteUnits();
-        return new ConcreteMeasure(
+    public CMeasure getConcreteMeasure() {
+        List<CUnit> cUnits = getConcreteUnits();
+        return new CMeasure(
                 name,
                 global,
                 getDisplayFrom(),
                 getDisplayTo(),
-                concreteUnits,
+                cUnits,
                 getLanguages(units, name));
     }
 
-    public ConcreteMeasure getConcreteMeasure(String concreteFile, String userFile,
-                                              Boolean isOwnName, String ownName,
-                                              Boolean isOwnLang, String ownLang) {
-        List<ConcreteUnit> concreteUnits = getConcreteUnits();
-        return new ConcreteMeasure(
+    public CMeasure getConcreteMeasure(String concreteFile, String userFile,
+                                       Boolean isOwnName, String ownName,
+                                       Boolean isOwnLang, String ownLang) {
+        List<CUnit> cUnits = getConcreteUnits();
+        return new CMeasure(
                 name,
                 global,
                 getDisplayFrom(), getDisplayTo(),
-                concreteUnits,
+                cUnits,
                 getLanguages(units, name),
                 concreteFile, userFile,
                 isOwnName, ownName,

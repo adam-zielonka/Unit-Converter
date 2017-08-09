@@ -10,13 +10,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.concrete.ConcreteUnit;
+import pro.adamzielonka.converter.models.concrete.CUnit;
 
-public class OrderAdapter extends MyAdapter<ConcreteUnit> {
+public class OrderAdapter extends MyAdapter<CUnit> {
 
 
-    public OrderAdapter(@NonNull Context context, List<ConcreteUnit> concreteUnits, String langCode, String globalCode) {
-        super(langCode, globalCode, context, R.layout.item_order, concreteUnits);
+    public OrderAdapter(@NonNull Context context, List<CUnit> cUnits, String langCode, String globalCode) {
+        super(langCode, globalCode, context, R.layout.item_order, cUnits);
     }
 
     @NonNull
@@ -26,7 +26,7 @@ public class OrderAdapter extends MyAdapter<ConcreteUnit> {
                 ? LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false)
                 : convertView;
 
-        ConcreteUnit item = getItem(position);
+        CUnit item = getItem(position);
         if (item != null) {
             String unitName = item.name + " - " + getLanguageWords(item.description);
             ((TextView) result.findViewById(R.id.textPrimary)).setText(unitName);
@@ -35,7 +35,7 @@ public class OrderAdapter extends MyAdapter<ConcreteUnit> {
         return result;
     }
 
-    private String getChangePosition(ConcreteUnit item) {
+    private String getChangePosition(CUnit item) {
         Integer result = item.basicPosition - item.position;
         if (result == 0) return "";
 

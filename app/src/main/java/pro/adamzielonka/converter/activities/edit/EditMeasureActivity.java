@@ -36,11 +36,11 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.models.database.CloudMeasure;
+import pro.adamzielonka.converter.models.database.DataBaseMeasure;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.converter.models.user.Measure;
-import pro.adamzielonka.converter.models.user.Prefix;
-import pro.adamzielonka.converter.models.user.Unit;
+import pro.adamzielonka.converter.models.file.Measure;
+import pro.adamzielonka.converter.models.file.Prefix;
+import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.itemsview.classes.Item;
 import pro.adamzielonka.itemsview.tools.Tests;
@@ -80,11 +80,11 @@ public class EditMeasureActivity extends EditActivity {
             }
         };
         super.addItems();
-        ArrayAdapter<Unit> adapter = new MyArrayAdapter<Unit>(getApplicationContext(), userMeasure.units) {
+        ArrayAdapter<Unit> adapter = new MyArrayAdapter<Unit>(getApplicationContext(), measure.units) {
             @Override
             public void setView(Unit item, TextView textPrimary, TextView textSecondary) {
-                String description = getLanguageWords(item.descriptionPrefix, userMeasure.global)
-                        + getLanguageWords(item.description, userMeasure.global);
+                String description = getLanguageWords(item.descriptionPrefix, measure.global)
+                        + getLanguageWords(item.description, measure.global);
                 String unitName = item.symbol + (!description.isEmpty() ? " - " + description : "");
 
                 StringBuilder prefixes = new StringBuilder("");
@@ -100,52 +100,52 @@ public class EditMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_language)
                 .setTitle(R.string.list_item_language_available)
-                .setUpdate(() -> concreteMeasure.languages.toString())
+                .setUpdate(() -> cMeasure.languages.toString())
                 .setAction(() -> startEditActivity(EditLanguagesActivity.class))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_language_global)
-                .setUpdate(() -> concreteMeasure.global)
-                .setArray(() -> concreteMeasure.getGlobalLangs())
-                .setPosition(() -> concreteMeasure.getGlobalID())
-                .setAction(id -> userMeasure.global = concreteMeasure.getGlobalFromID((Integer) id))
+                .setUpdate(() -> cMeasure.global)
+                .setArray(() -> cMeasure.getGlobalLangs())
+                .setPosition(() -> cMeasure.getGlobalID())
+                .setAction(id -> measure.global = cMeasure.getGlobalFromID((Integer) id))
                 .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_Measure)
                 .setTitle(R.string.list_item_name)
-                .setUpdate(() -> userMeasure.getName(userMeasure.global))
-                .setAction(name -> userMeasure.setName(concreteMeasure.global, (String) name))
+                .setUpdate(() -> measure.getName(measure.global))
+                .setAction(name -> measure.setName(cMeasure.global, (String) name))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_units_order)
-                .setIf(() -> userMeasure.units.size() > 0)
-                .setUpdate(() -> concreteMeasure.getUnitsOrder())
+                .setIf(() -> measure.units.size() > 0)
+                .setUpdate(() -> cMeasure.getUnitsOrder())
                 .setAction(() -> startEditActivity(EditOrderUnitsActivity.class))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_measure_default_1)
-                .setIf(() -> userMeasure.units.size() > 0)
-                .setUpdate(() -> concreteMeasure.concreteUnits.get(concreteMeasure.displayFrom).name)
+                .setIf(() -> measure.units.size() > 0)
+                .setUpdate(() -> cMeasure.cUnits.get(cMeasure.displayFrom).name)
                 .setElseUpdate(() -> "")
-                .setArray(() -> concreteMeasure.getUnitsSymbol())
-                .setPosition(() -> userMeasure.displayFrom)
-                .setAction(id -> userMeasure.displayFrom = (Integer) id)
+                .setArray(() -> cMeasure.getUnitsSymbol())
+                .setPosition(() -> measure.displayFrom)
+                .setAction(id -> measure.displayFrom = (Integer) id)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_measure_default_2)
-                .setIf(() -> userMeasure.units.size() > 0)
-                .setUpdate(() -> concreteMeasure.concreteUnits.get(concreteMeasure.displayTo).name)
+                .setIf(() -> measure.units.size() > 0)
+                .setUpdate(() -> cMeasure.cUnits.get(cMeasure.displayTo).name)
                 .setElseUpdate(() -> "")
-                .setArray(() -> concreteMeasure.getUnitsSymbol())
-                .setPosition(() -> userMeasure.displayTo)
-                .setAction(id -> userMeasure.displayTo = (Integer) id)
+                .setArray(() -> cMeasure.getUnitsSymbol())
+                .setPosition(() -> measure.displayTo)
+                .setAction(id -> measure.displayTo = (Integer) id)
                 .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_units)
                 .setAdapter(adapter)
-                .setUpdate(() -> userMeasure.units)
+                .setUpdate(() -> measure.units)
                 .setAction(position -> {
                     unit = adapter.getItem((Integer) position);
                     startEditActivity(EditUnitActivity.class);
@@ -153,7 +153,7 @@ public class EditMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitle(R.string.list_item_add_unit)
                 .setAction(this::addUnit)
-                .addValidator(symbol -> Tests.isUnique(symbol, userMeasure.units), getString(R.string.error_symbol_unit_already_exist))
+                .addValidator(symbol -> Tests.isUnique(symbol, measure.units), getString(R.string.error_symbol_unit_already_exist))
                 .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
                 .add(itemsView);
     }
@@ -161,7 +161,7 @@ public class EditMeasureActivity extends EditActivity {
     private void addUnit(Object symbol) {
         Unit unitTemp = unit = new Unit();
         unit.symbol = (String) symbol;
-        userMeasure.units.add(unit);
+        measure.units.add(unit);
         itemsView.onSave();
         unit = unitTemp;
         startEditActivity(EditUnitActivity.class);
@@ -182,8 +182,8 @@ public class EditMeasureActivity extends EditActivity {
                         .setTitle(R.string.delete_measure_title)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_delete, (d, i) -> {
-                            if (getFileStreamPath(concreteMeasure.concreteFileName).delete() &&
-                                    getFileStreamPath(concreteMeasure.userFileName).delete()) {
+                            if (getFileStreamPath(cMeasure.concreteFileName).delete() &&
+                                    getFileStreamPath(cMeasure.userFileName).delete()) {
                                 Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
@@ -216,12 +216,12 @@ public class EditMeasureActivity extends EditActivity {
 
     private void saveToDownloads() {
         try {
-            FileInputStream in = openFileInput(concreteMeasure.userFileName);
+            FileInputStream in = openFileInput(cMeasure.userFileName);
             Reader reader = new BufferedReader(new InputStreamReader(in));
             Gson gson = getGson();
             String json = gson.toJson(gson.fromJson(reader, Measure.class));
 
-            OutputStream out = getContentResolver().openOutputStream(getFileUri(concreteMeasure.getName(userMeasure.global)));
+            OutputStream out = getContentResolver().openOutputStream(getFileUri(cMeasure.getName(measure.global)));
             if (out != null) {
                 out.write(json.getBytes());
                 out.close();
@@ -247,7 +247,7 @@ public class EditMeasureActivity extends EditActivity {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, userMeasure.getName(getLangCode(EditMeasureActivity.this)), concreteMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.username, measure.getName(getLangCode(EditMeasureActivity.this)), cMeasure.getUnitsOrder());
                         }
                     }
 
@@ -259,33 +259,33 @@ public class EditMeasureActivity extends EditActivity {
     }
 
     private void updateMeasure(String userId, String username, String title, String body) {
-        if (userMeasure.cloudID.equals("")) {
+        if (measure.cloudID.equals("")) {
             String key = mDatabase.child("measures").push().getKey();
-            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-            doUpdateMeasure(key, cloudMeasure);
+            DataBaseMeasure dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
+            doUpdateMeasure(key, dataBaseMeasure);
         } else {
             Query query = mDatabase.child("measures");
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.hasChild(userMeasure.cloudID)) {
-                        CloudMeasure cloudMeasure = snapshot.child(userMeasure.cloudID).getValue(CloudMeasure.class);
-                        if (cloudMeasure.uid.equals(getUid())) {
-                            cloudMeasure.version++;
-                            cloudMeasure.title = title;
-                            cloudMeasure.units_symbols = body;
-                            cloudMeasure.units_names = body;
-                            doUpdateMeasure(userMeasure.cloudID, cloudMeasure);
+                    if (snapshot.hasChild(measure.cloudID)) {
+                        DataBaseMeasure dataBaseMeasure = snapshot.child(measure.cloudID).getValue(DataBaseMeasure.class);
+                        if (dataBaseMeasure.uid.equals(getUid())) {
+                            dataBaseMeasure.version++;
+                            dataBaseMeasure.title = title;
+                            dataBaseMeasure.units_symbols = body;
+                            dataBaseMeasure.units_names = body;
+                            doUpdateMeasure(measure.cloudID, dataBaseMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
-                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-                            doUpdateMeasure(key, cloudMeasure);
+                            dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
+                            doUpdateMeasure(key, dataBaseMeasure);
                         }
                     } else {
                         String key = mDatabase.child("measures").push().getKey();
-                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-                        doUpdateMeasure(key, cloudMeasure);
+                        DataBaseMeasure dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
+                        doUpdateMeasure(key, dataBaseMeasure);
                     }
                 }
 
@@ -299,13 +299,13 @@ public class EditMeasureActivity extends EditActivity {
 
     }
 
-    private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
-        cloudMeasure.file = concreteMeasure.userFileName;
-        Map<String, Object> postValues = cloudMeasure.toMap();
+    private void doUpdateMeasure(String key, DataBaseMeasure dataBaseMeasure) {
+        dataBaseMeasure.file = cMeasure.userFileName;
+        Map<String, Object> postValues = dataBaseMeasure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/measures/" + key, postValues);
-        childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
+        childUpdates.put("/user-measures/" + dataBaseMeasure.uid + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
         DatabaseReference ref = mDatabase.child("measures").child(key).child("version");
@@ -313,10 +313,10 @@ public class EditMeasureActivity extends EditActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Long version = dataSnapshot.getValue(Long.class);
-                userMeasure.cloudID = key;
-                userMeasure.version = version;
+                measure.cloudID = key;
+                measure.version = version;
                 itemsView.onSave();
-                File file = new File(getFilesDir() + "/" + concreteMeasure.userFileName);
+                File file = new File(getFilesDir() + "/" + cMeasure.userFileName);
                 uploadFromUri(Uri.parse(file.toURI().toString()));
             }
 
@@ -331,7 +331,7 @@ public class EditMeasureActivity extends EditActivity {
         startService(new Intent(this, MyUploadService.class)
                 .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)
                 .putExtra(MyUploadService.EXTRA_FILE_USER, getUid())
-                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, concreteMeasure.concreteFileName)
+                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, cMeasure.concreteFileName)
                 .setAction(MyUploadService.ACTION_UPLOAD));
 
         showProgressDialog(getString(R.string.progress_uploading));
