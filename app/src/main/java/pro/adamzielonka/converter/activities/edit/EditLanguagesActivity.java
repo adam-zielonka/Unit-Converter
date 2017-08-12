@@ -42,6 +42,13 @@ public class EditLanguagesActivity extends EditActivity {
                 }).add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_add_translation)
+                .setAlertTitle(R.string.lang_put_code)
+                .setAction(code -> {
+                    cMeasure.newLangs.add((String) code);
+                    language = (String) code;
+                    startEditActivity(EditTranslationActivity.class);
+                })
+                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_lang_code_empty))
                 .add(itemsView);
     }
 
@@ -53,6 +60,20 @@ public class EditLanguagesActivity extends EditActivity {
                 s[0] = e.getKey();
                 s[1] = e.getValue().toString();
                 list.add(s);
+            }
+        }
+        for (String lang : cMeasure.newLangs) {
+            if (!lang.equals(cMeasure.global)) {
+                boolean exist = false;
+                for (String[] oldLang : list) {
+                    if (oldLang[0].equals(lang)) exist = true;
+                }
+                if (!exist) {
+                    String[] s = new String[2];
+                    s[0] = lang;
+                    s[1] = getString(R.string.lang_new);
+                    list.add(s);
+                }
             }
         }
         return list;

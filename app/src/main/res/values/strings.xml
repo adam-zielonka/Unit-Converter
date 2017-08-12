@@ -18,7 +18,7 @@
     <!-- [START] Settings -->
     <string name="pref_header_appearance">Appearance</string>
     <string name="pref_title_theme">Theme</string>
-    <string name="pref_title_language">Language</string>
+    <string name="pref_title_language">Interface language</string>
 
     <string name="pref_header_user">User</string>
     <string name="pref_title_sign_in">Sign In</string>
@@ -165,7 +165,7 @@
     <string name="list_title_translations">Translations</string>
     <string name="list_item_add_translation">Add translation</string>
     <string name="title_activity_edit_translation">Edit translation</string>
-    <string name="language_reperat_tag"><![CDATA[<repeat>]]></string>
+    <string name="language_repeat_tag"><![CDATA[<repeat>]]></string>
     <string name="language_empty_tag"><![CDATA[<empty>]]></string>
     <string name="delete_prefix_title">Delete prefix</string>
     <string name="error_symbol_empty">Not allow empty symbol value</string>
@@ -173,6 +173,13 @@
     <string name="measure_details">Details</string>
     <string name="pref_title_language_converter">Converter language</string>
     <string name="no_connection">%s (No connection)</string>
+    <string name="translation_set_empty">Set empty</string>
+    <string name="translation_set_repeat">Set repeat</string>
+    <string name="error_not_allowed">Not allowed</string>
+    <string name="lang_put_code">Put language code</string>
+    <string name="error_lang_code_empty">Language code not allow empty</string>
+    <string name="lang_new">New</string>
+    <string name="delete_translation_title">Delete translation</string>
     <!-- -->
 
 </resources>

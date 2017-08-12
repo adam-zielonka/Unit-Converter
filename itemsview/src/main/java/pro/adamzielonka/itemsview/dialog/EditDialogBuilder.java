@@ -3,6 +3,7 @@ package pro.adamzielonka.itemsview.dialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.itemsview.R;
-import pro.adamzielonka.itemsview.tools.Test;
 import pro.adamzielonka.itemsview.interfaces.ActionInterface;
+import pro.adamzielonka.itemsview.interfaces.TestInterface;
+import pro.adamzielonka.itemsview.tools.Test;
 
 import static pro.adamzielonka.lib.Number.stringToDouble;
 
@@ -21,7 +23,9 @@ public class EditDialogBuilder extends DialogBuilder {
     private EditText editText;
     private ActionInterface.ObjectAction action;
     private DialogInterface.OnClickListener negativeAction;
+    private DialogInterface.OnClickListener neutralAction;
     private List<Test> validators;
+    private int neutralText;
 
     public EditDialogBuilder setValue(Object value) {
         this.value = value;
@@ -53,20 +57,31 @@ public class EditDialogBuilder extends DialogBuilder {
         };
     }
 
-    public EditDialogBuilder setValidators(List<Test> validators) {
-        this.validators = validators;
+    public EditDialogBuilder setNeutralAction(@StringRes int text, DialogInterface.OnClickListener neutralAction) {
+        this.neutralAction = neutralAction;
+        this.neutralText = text;
+        return this;
+    }
+
+    public EditDialogBuilder addValidator(List<Test> validators) {
+        this.validators.addAll(validators);
+        return this;
+    }
+
+    public EditDialogBuilder addValidator(TestInterface.ObjectTest test, String error) {
+        this.validators.add(new Test(test, error));
         return this;
     }
 
     public EditDialogBuilder(@NonNull Activity activity) {
         super(activity);
+        validators = new ArrayList<>();
     }
 
     @Override
     public AlertDialog.Builder create() {
         value = value != null ? value : "";
         error = error != null ? error : "";
-        validators = validators != null ? validators : new ArrayList<>();
 
         editText = new EditTextBuilder(activity)
                 .setValue(value)
@@ -77,7 +92,7 @@ public class EditDialogBuilder extends DialogBuilder {
 
     @Override
     protected AlertDialog.Builder getAlert() {
-        return super.getAlert()
+        AlertDialog.Builder builder = super.getAlert()
                 .setView(editText.getRootView())
                 .setPositiveButton(R.string.dialog_save, (dialogInterface, i) -> {
                     String newText = editText.getText().toString();
@@ -98,5 +113,7 @@ public class EditDialogBuilder extends DialogBuilder {
                     }
                 }).setCancelable(negativeAction == null)
                 .setNegativeButton(R.string.dialog_cancel, getNegativeAction());
+        if (neutralAction != null) builder.setNeutralButton(neutralText, neutralAction);
+        return builder;
     }
 }

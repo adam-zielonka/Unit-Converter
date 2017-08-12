@@ -6,7 +6,7 @@
         <item>Green</item>
         <item>Grey</item>
     </string-array>
-    <string-array name="pref_theme_list_languages">
+    <string-array name="pref_theme_list_languages" translatable="false">
         <item>en</item>
         <item>pl</item>
     </string-array>

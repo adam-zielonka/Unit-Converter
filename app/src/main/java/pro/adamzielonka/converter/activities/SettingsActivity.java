@@ -52,6 +52,7 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
                 .setTitleHeader(R.string.pref_header_appearance)
                 .setTitle(R.string.pref_title_theme)
                 .setUpdate(() -> theme.getName())
+                .setEnabledUpdate(false)
                 .setArray(() -> theme.getArray())
                 .setPosition(() -> theme.getID())
                 .setAction(id -> theme.setID((Integer) id))
@@ -59,6 +60,7 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
                 .setUpdate(() -> getResources().getConfiguration().locale.getLanguage())
+                .setEnabledUpdate(false)
                 .setArray(() -> getLanguages(this))
                 .setPosition(() -> getLanguageID(this))
                 .setAction(position -> {
@@ -133,16 +135,16 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
                 .build();
     }
 
-    private boolean signIn() {
+    private Void signIn() {
         startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), RC_SIGN_IN);
-        return true;
+        return null;
     }
 
-    private boolean signOut() {
+    private Void signOut() {
         setUserName("");
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> onUpdate());
-        return true;
+        return null;
     }
 
     @Override

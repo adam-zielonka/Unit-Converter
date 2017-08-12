@@ -93,7 +93,7 @@ public class FileTools {
         cMeasure = measure.getConcreteMeasure(
                 cMeasure.concreteFileName, cMeasure.userFileName,
                 cMeasure.isOwnName, cMeasure.ownName,
-                cMeasure.isOwnLang, cMeasure.ownLang
+                cMeasure.isOwnLang, cMeasure.ownLang, cMeasure.newLangs
         );
         saveToInternal(context, cMeasure.concreteFileName, gson.toJson(cMeasure));
         saveToInternal(context, cMeasure.userFileName, gson.toJson(measure));

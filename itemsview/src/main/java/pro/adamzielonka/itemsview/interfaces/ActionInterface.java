@@ -13,6 +13,10 @@ public interface ActionInterface {
         boolean onAction();
     }
 
+    interface VoidAction {
+        Void onAction();
+    }
+
     interface ListAction {
         void onAction(Integer position);
     }

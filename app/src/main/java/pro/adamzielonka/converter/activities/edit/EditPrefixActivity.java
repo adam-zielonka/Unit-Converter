@@ -47,7 +47,7 @@ public class EditPrefixActivity extends EditActivity {
         switch (id) {
             case R.id.menu_delete:
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.delete_unit_title)
+                        .setTitle(R.string.delete_prefix_title)
                         .setCancelable(true)
                         .setPositiveButton(R.string.dialog_delete, (d, i) -> {
                             unit.prefixes.remove(prefix);

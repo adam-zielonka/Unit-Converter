@@ -12,9 +12,9 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 
-public class ConcreteAdapter extends MyAdapter<CUnit> {
+public class ConverterAdapter extends MyAdapter<CUnit> {
 
-    public ConcreteAdapter(@NonNull Context context, @NonNull List<CUnit> objects, String langCode, String globalCode) {
+    public ConverterAdapter(@NonNull Context context, @NonNull List<CUnit> objects, String langCode, String globalCode) {
         super(langCode, globalCode, context, R.layout.spiner_units_small, objects);
     }
 

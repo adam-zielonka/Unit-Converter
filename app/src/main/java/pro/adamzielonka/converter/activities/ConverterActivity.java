@@ -25,7 +25,7 @@ import java.util.List;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
-import pro.adamzielonka.converter.adapters.ConcreteAdapter;
+import pro.adamzielonka.converter.adapters.ConverterAdapter;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.tools.Language;
@@ -60,7 +60,7 @@ public class ConverterActivity extends AppCompatActivity
     private TextView textViewTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
-    private ConcreteAdapter adapter;
+    private ConverterAdapter adapter;
     private CMeasure cMeasure;
 
     private ConstraintLayout converterLayout;
@@ -206,7 +206,7 @@ public class ConverterActivity extends AppCompatActivity
     }
 
     void setAdapter() {
-        adapter = new ConcreteAdapter(getApplicationContext(),
+        adapter = new ConverterAdapter(getApplicationContext(),
                 measureList.get(converterID - DEFAULT_CONVERTER_ID).cUnits,
                 getLangCode(),
                 cMeasure.global

@@ -110,11 +110,12 @@ public class Measure {
         return map;
     }
 
-    private void getTranslation(Context context, ArrayList<String[]> list, Map<String, String> map, String langCode) {
-        String[] s = new String[2];
+    private void getTranslation(Context context, ArrayList<String[]> list, Integer id, Map<String, String> map, String langCode) {
+        String[] s = new String[3];
         s[0] = map.containsKey(global) ? map.get(global) : "";
-        s[1] = map.containsKey(langCode) ? map.get(langCode) : context.getString(R.string.language_reperat_tag);
-        if (!s[0].isEmpty() || !s[1].equals(context.getString(R.string.language_reperat_tag))) {
+        s[1] = map.containsKey(langCode) ? map.get(langCode) : context.getString(R.string.language_repeat_tag);
+        s[2] = id.toString();
+        if (!s[0].isEmpty() || !s[1].equals(context.getString(R.string.language_repeat_tag))) {
             if (s[1].isEmpty()) s[1] = context.getString(R.string.language_empty_tag);
             list.add(s);
         }
@@ -122,14 +123,71 @@ public class Measure {
 
     public ArrayList<String[]> getLanguagesStr(Context context, String langCode) {
         ArrayList<String[]> list = new ArrayList<>();
-        getTranslation(context, list, name, langCode);
+        int id = 0;
+        getTranslation(context, list, id++, name, langCode);
         for (Unit unit : units) {
-            getTranslation(context, list, unit.description, langCode);
-            getTranslation(context, list, unit.descriptionPrefix, langCode);
+            getTranslation(context, list, id++, unit.description, langCode);
+            getTranslation(context, list, id++, unit.descriptionPrefix, langCode);
             for (Prefix prefix : unit.prefixes)
-                getTranslation(context, list, prefix.description, langCode);
+                getTranslation(context, list, id++, prefix.description, langCode);
         }
         return list;
+    }
+
+    public void removeLang(String langCode) {
+        name.remove(langCode);
+        for (Unit unit : units) {
+            unit.description.remove(langCode);
+            unit.descriptionPrefix.remove(langCode);
+            for (Prefix prefix : unit.prefixes)
+                prefix.description.remove(langCode);
+        }
+    }
+
+    public void setLanguagesStr(String langCode, Integer id, String text) {
+        int i = 0;
+        if (id == i++) {
+            name.put(langCode, text);
+            return;
+        }
+        for (Unit unit : units) {
+            if (id == i++) {
+                unit.description.put(langCode, text);
+                return;
+            }
+            if (id == i++) {
+                unit.descriptionPrefix.put(langCode, text);
+                return;
+            }
+            for (Prefix prefix : unit.prefixes)
+                if (id == i++) {
+                    prefix.description.put(langCode, text);
+                    return;
+                }
+        }
+    }
+
+    public void setRepeatStr(String langCode, Integer id) {
+        int i = 0;
+        if (id == i++) {
+            name.remove(langCode);
+            return;
+        }
+        for (Unit unit : units) {
+            if (id == i++) {
+                unit.description.remove(langCode);
+                return;
+            }
+            if (id == i++) {
+                unit.descriptionPrefix.remove(langCode);
+                return;
+            }
+            for (Prefix prefix : unit.prefixes)
+                if (id == i++) {
+                    prefix.description.remove(langCode);
+                    return;
+                }
+        }
     }
 
     public CMeasure getConcreteMeasure() {
@@ -145,7 +203,7 @@ public class Measure {
 
     public CMeasure getConcreteMeasure(String concreteFile, String userFile,
                                        Boolean isOwnName, String ownName,
-                                       Boolean isOwnLang, String ownLang) {
+                                       Boolean isOwnLang, String ownLang, List<String> newLangs) {
         List<CUnit> cUnits = getConcreteUnits();
         return new CMeasure(
                 name,
@@ -155,7 +213,7 @@ public class Measure {
                 getLanguages(units, name),
                 concreteFile, userFile,
                 isOwnName, ownName,
-                isOwnLang, ownLang);
+                isOwnLang, ownLang, newLangs);
     }
 
     private Integer getDisplayFrom() {

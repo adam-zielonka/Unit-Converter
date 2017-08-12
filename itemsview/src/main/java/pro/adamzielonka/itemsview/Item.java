@@ -53,10 +53,12 @@ public class Item {
         //Title
         private UpdateInterface.ObjectUpdate title;
         private String titleHeader;
+        private String alertTitle;
 
         //Value
         private UpdateInterface.ObjectUpdate update;
         private UpdateInterface.ObjectUpdate elseUpdate;
+        private boolean enabledUpdate;
 
         //Action
         private ActionInterface.ObjectAction action;
@@ -84,6 +86,7 @@ public class Item {
             actionEnabled = () -> true;
             positionUpdate = () -> 0;
             validators = new ArrayList<>();
+            enabledUpdate = true;
         }
 
         //region Title
@@ -105,6 +108,20 @@ public class Item {
         public Builder setTitle(UpdateInterface.ObjectUpdate title) {
             this.title = title;
             return this;
+        }
+
+        public Builder setAlertTitle(@StringRes int alertTitle) {
+            setAlertTitle(activity.getString(alertTitle));
+            return this;
+        }
+
+        public Builder setAlertTitle(String alertTitle) {
+            this.alertTitle = alertTitle;
+            return this;
+        }
+
+        public String getAlertTitle() {
+            return alertTitle != null ? alertTitle : getTitle();
         }
 
         public String getTitle() {
@@ -140,6 +157,11 @@ public class Item {
             return this;
         }
 
+        public Builder setEnabledUpdate(boolean enabled){
+            this.enabledUpdate = enabled;
+            return this;
+        }
+
         private Object getUpdate() {
             return !actionEnabled.onTest() && elseUpdate != null ? elseUpdate.onUpdate() : update.onUpdate();
         }
@@ -157,6 +179,11 @@ public class Item {
         }
 
         public Builder setAction(ActionInterface.LogicAction action) {
+            this.voidAction = action::onAction;
+            return this;
+        }
+
+        public Builder setAction(ActionInterface.VoidAction action) {
             this.voidAction = action::onAction;
             return this;
         }
@@ -244,11 +271,11 @@ public class Item {
         private void newEditDialog(ItemsView itemsView, Object value) {
             new EditDialogBuilder(activity)
                     .setValue(value)
-                    .setValidators(validators)
+                    .addValidator(validators)
                     .setAction(newValue -> {
                         action.onAction(newValue);
-                        itemsView.onSave();
-                    }).setTitle(getTitle())
+                        if(enabledUpdate) itemsView.onSave();
+                    }).setTitle(getAlertTitle())
                     .create().show();
         }
 
@@ -258,7 +285,7 @@ public class Item {
                         int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                         action.onAction(selectedPosition);
                         dialogInterface.dismiss();
-                        itemsView.onSave();
+                        if(enabledUpdate) itemsView.onSave();
                     }).show();
         }
         //endregion
@@ -275,7 +302,7 @@ public class Item {
             if (switcherAction != null) {
                 ((Switch) view.findViewById(R.id.switcher)).setOnCheckedChangeListener((compoundButton, b) -> {
                     switcherAction.onAction(getSwitchState(view));
-                    itemsView.onSave();
+                    if(enabledUpdate) itemsView.onSave();
                 });
             } else
                 view.findViewById(R.id.switcher).setVisibility(View.GONE);

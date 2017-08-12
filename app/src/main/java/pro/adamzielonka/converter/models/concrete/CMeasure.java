@@ -1,5 +1,6 @@
 package pro.adamzielonka.converter.models.concrete;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class CMeasure {
     public String ownName = "";
     public Boolean isOwnLang = false;
     public String ownLang = "";
+    public List<String> newLangs = new ArrayList<>();
 
     public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages) {
         this.name = name;
@@ -26,10 +28,11 @@ public class CMeasure {
         this.displayTo = displayTo;
         this.cUnits = cUnits;
         this.languages = languages;
+        this.ownLang = global;
     }
 
     public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages,
-                    String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang) {
+                    String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang, List<String> newLangs) {
         this.name = name;
         this.global = global;
         this.displayFrom = displayFrom;
@@ -42,6 +45,7 @@ public class CMeasure {
         this.ownName = ownName;
         this.isOwnLang = isOwnLang;
         this.ownLang = ownLang;
+        this.newLangs = newLangs;
     }
 
     public boolean isCorrect() {
