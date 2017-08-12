@@ -12,7 +12,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.itemsview.classes.Item;
 import pro.adamzielonka.itemsview.interfaces.ActionInterface;
 import pro.adamzielonka.itemsview.interfaces.UpdateInterface;
 

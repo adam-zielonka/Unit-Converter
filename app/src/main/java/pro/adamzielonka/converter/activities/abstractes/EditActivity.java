@@ -29,6 +29,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     protected Unit unit;
     protected Prefix prefix;
     protected String language;
+    protected String translation;
 
     private String measureFileName;
     protected String unitName;
@@ -58,6 +59,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
         unitName = intent.getStringExtra("unitName");
         prefixName = intent.getStringExtra("prefixName");
         language = intent.getStringExtra("language");
+        translation = intent.getStringExtra("translation");
         onUpdate();
     }
 

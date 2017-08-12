@@ -1,4 +1,4 @@
-package pro.adamzielonka.itemsview.classes;
+package pro.adamzielonka.itemsview.tools;
 
 import pro.adamzielonka.itemsview.interfaces.TestInterface;
 

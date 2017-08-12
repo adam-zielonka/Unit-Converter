@@ -61,7 +61,7 @@ public class ConverterActivity extends AppCompatActivity
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private ConcreteAdapter adapter;
-    private CMeasure measure;
+    private CMeasure cMeasure;
 
     private ConstraintLayout converterLayout;
     private ConstraintLayout emptyLayout;
@@ -133,11 +133,11 @@ public class ConverterActivity extends AppCompatActivity
         try {
             this.converterID = converterID;
             measureList = loadConverters(this);
-            measure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
+            cMeasure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
             setConverterTitle();
             navigationView.setCheckedItem(converterID);
 
-            if (measure.cUnits.size() > 0) {
+            if (cMeasure.cUnits.size() > 0) {
 
                 findConverterViews();
                 setConverterListeners();
@@ -160,11 +160,11 @@ public class ConverterActivity extends AppCompatActivity
     }
 
     String getLangCode() {
-        return measure.isOwnLang ? measure.ownLang : Language.getLangCode(this);
+        return cMeasure.isOwnLang ? cMeasure.ownLang : Language.getLangCode(this);
     }
 
     void setConverterTitle() {
-        String title = measure.isOwnName ? measure.ownName : measure.getName(getLangCode());
+        String title = cMeasure.isOwnName ? cMeasure.ownName : cMeasure.getName(getLangCode());
         setTitle(title);
         menuItems.get(converterID - DEFAULT_CONVERTER_ID).setTitle(title);
     }
@@ -209,7 +209,7 @@ public class ConverterActivity extends AppCompatActivity
         adapter = new ConcreteAdapter(getApplicationContext(),
                 measureList.get(converterID - DEFAULT_CONVERTER_ID).cUnits,
                 getLangCode(),
-                measure.global
+                cMeasure.global
         );
 
         spinnerFrom.setAdapter(adapter);
@@ -217,13 +217,13 @@ public class ConverterActivity extends AppCompatActivity
     }
 
     void setSelection() {
-        spinnerFrom.setSelection(measure.displayFrom);
-        spinnerTo.setSelection(measure.displayTo);
+        spinnerFrom.setSelection(cMeasure.displayFrom);
+        spinnerTo.setSelection(cMeasure.displayTo);
 
         CUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         CUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
+        textViewFrom.setText(from != null ? cMeasure.getWords(from.description, getLangCode()) : "");
+        textViewTo.setText(to != null ? cMeasure.getWords(to.description, getLangCode()) : "");
     }
     //endregion
 
@@ -242,8 +242,8 @@ public class ConverterActivity extends AppCompatActivity
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         CUnit from = adapter.getItem(spinnerFrom.getSelectedItemPosition());
         CUnit to = adapter.getItem(spinnerTo.getSelectedItemPosition());
-        textViewFrom.setText(from != null ? measure.getWords(from.description, getLangCode()) : "");
-        textViewTo.setText(to != null ? measure.getWords(to.description, getLangCode()) : "");
+        textViewFrom.setText(from != null ? cMeasure.getWords(from.description, getLangCode()) : "");
+        textViewTo.setText(to != null ? cMeasure.getWords(to.description, getLangCode()) : "");
         onCalculate();
     }
 
@@ -355,7 +355,7 @@ public class ConverterActivity extends AppCompatActivity
         switch (id) {
             case R.id.menu_set_converter:
                 Intent intent = new Intent(getApplicationContext(), SetMeasureActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, measure.concreteFileName);
+                intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;
         }

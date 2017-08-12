@@ -1,29 +1,24 @@
-package pro.adamzielonka.itemsview.classes;
+package pro.adamzielonka.itemsview;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.itemsview.R;
-import pro.adamzielonka.itemsview.ItemsView;
+import pro.adamzielonka.itemsview.dialog.DialogBuilder;
+import pro.adamzielonka.itemsview.dialog.EditDialogBuilder;
 import pro.adamzielonka.itemsview.interfaces.ActionInterface;
 import pro.adamzielonka.itemsview.interfaces.TestInterface;
 import pro.adamzielonka.itemsview.interfaces.UpdateInterface;
+import pro.adamzielonka.itemsview.tools.Test;
 
-import static android.text.InputType.TYPE_CLASS_NUMBER;
-import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
-import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 import static pro.adamzielonka.lib.Number.doubleToString;
-import static pro.adamzielonka.lib.Number.stringToDouble;
 
 public class Item {
 
@@ -66,7 +61,6 @@ public class Item {
         //Action
         private ActionInterface.ObjectAction action;
         private ActionInterface.Action voidAction;
-        private ActionInterface.Action cancelAction;
 
         //Switcher
         private UpdateInterface.ObjectUpdate switcherUpdate;
@@ -79,7 +73,6 @@ public class Item {
         //Tests
         private TestInterface.Test actionEnabled;
         private List<Test> validators;
-        private String error;
 
         //Adapter
         private ArrayAdapter adapter;
@@ -89,7 +82,6 @@ public class Item {
             this.activity = activity;
             update = () -> "";
             actionEnabled = () -> true;
-            error = "";
             positionUpdate = () -> 0;
             validators = new ArrayList<>();
         }
@@ -168,11 +160,6 @@ public class Item {
             this.voidAction = action::onAction;
             return this;
         }
-
-        public Builder setCancelAction(ActionInterface.Action cancelAction) {
-            this.cancelAction = cancelAction;
-            return this;
-        }
         //endregion
 
         //region Switcher
@@ -214,30 +201,17 @@ public class Item {
             return this;
         }
 
-        public Builder setError(String error) {
-            this.error = error;
-            return this;
-        }
-
         public void add(ItemsView itemsView) {
             if (titleHeader != null) createItemHeader(itemsView);
             if (adapter != null && listUpdate != null) {
                 createItemAdapter(itemsView);
             } else if (getTitle() != null) {
                 if (objectsUpdate != null)
-                    createItem(itemsView, action != null ? () -> newAlertDialogList(itemsView,
+                    createItem(itemsView, action != null ? () -> newListDialog(itemsView,
                             (String[]) objectsUpdate.onUpdate(), positionUpdate.onUpdate()) : null);
-                else createItem(itemsView, action != null ? () -> newAlertDialog(itemsView,
-                        getUpdate(), "") : null);
+                else createItem(itemsView, action != null ? () -> newEditDialog(itemsView,
+                        getUpdate()) : null);
             }
-        }
-
-        public void show() {
-            EditText editText = getDialogEditText(update.onUpdate(), error);
-            getAlertDialog(editText.getRootView(), (dialog, which) -> {
-                String newText = editText.getText().toString();
-                action.onAction(newText);
-            }).show();
         }
 
         private String getValue() {
@@ -266,78 +240,26 @@ public class Item {
         }
         //endregion
 
-        //region dialog edit text
-        private EditText getDialogEditText(String text, String error) {
-            View layout = activity.getLayoutInflater().inflate(R.layout.dialog_edit_text, null);
-
-            TextView textView = layout.findViewById(R.id.textView);
-            textView.setVisibility(!error.equals("") ? View.VISIBLE : View.GONE);
-            textView.setText(error);
-
-            EditText editText = layout.findViewById(R.id.editText);
-            editText.setText(text);
-            editText.setSelection(editText.length());
-            return editText;
+        //region new dialogs
+        private void newEditDialog(ItemsView itemsView, Object value) {
+            new EditDialogBuilder(activity)
+                    .setValue(value)
+                    .setValidators(validators)
+                    .setAction(newValue -> {
+                        action.onAction(newValue);
+                        itemsView.onSave();
+                    }).setTitle(getTitle())
+                    .create().show();
         }
 
-        private EditText getDialogEditText(Object object, String error) {
-            EditText editText;
-            if (object instanceof Double) {
-                editText = getDialogEditText(doubleToString((Double) object), error);
-                editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
-            } else editText = getDialogEditText(object.toString(), error);
-            return editText;
-        }
-        //endregion
-
-        //region alert dialog
-        private AlertDialog.Builder getAlertDialog(View view, DialogInterface.OnClickListener onClickListener) {
-            return getAlertDialog()
-                    .setView(view)
-                    .setPositiveButton(R.string.dialog_save, onClickListener)
-                    .setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
-                        if (cancelAction != null) cancelAction.onAction();
-                    });
-        }
-
-        private AlertDialog.Builder getAlertDialog() {
-            return new AlertDialog.Builder(activity)
-                    .setTitle(getTitle())
-                    .setCancelable(cancelAction == null);
-        }
-        //endregion
-
-        //region alert dialog + edit text
-        private View newAlertDialog(ItemsView itemsView, Object object, String error) {
-            EditText editText = getDialogEditText(object, error);
-            getAlertDialog(editText.getRootView(), (dialog, which) -> {
-                String newText = editText.getText().toString();
-                Object newObject = object instanceof Double ? stringToDouble(newText) : newText;
-
-                StringBuilder errors = new StringBuilder();
-                for (Test test : validators) {
-                    if (!test.isTest(newObject)) {
-                        if (!errors.toString().isEmpty()) errors.append('\n');
-                        errors.append(test.error);
-                    }
-                }
-                if (errors.toString().isEmpty()) {
-                    action.onAction(newObject);
-                    itemsView.onSave();
-                } else {
-                    newAlertDialog(itemsView, newObject, errors.toString());
-                }
-            }).show();
-            return editText.getRootView();
-        }
-
-        private void newAlertDialogList(ItemsView itemsView, String[] strings, int position) {
-            getAlertDialog().setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
-                int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
-                action.onAction(selectedPosition);
-                dialogInterface.dismiss();
-                itemsView.onSave();
-            }).show();
+        private void newListDialog(ItemsView itemsView, String[] strings, int position) {
+            new DialogBuilder(activity).setTitle(getTitle()).create()
+                    .setSingleChoiceItems(strings, position, (dialogInterface, i) -> {
+                        int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                        action.onAction(selectedPosition);
+                        dialogInterface.dismiss();
+                        itemsView.onSave();
+                    }).show();
         }
         //endregion
 
@@ -397,4 +319,5 @@ public class Item {
         }
         //endregion
     }
+
 }

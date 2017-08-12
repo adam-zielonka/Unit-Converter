@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.Item;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 
@@ -27,6 +27,11 @@ public class SetMeasureActivity extends EditActivity {
         setTitle(R.string.title_activity_set_measure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         super.addItems();
+        new Item.Builder(this)
+                .setTitleHeader(R.string.measure_details)
+                .setTitle(R.string.list_item_name)
+                .setUpdate(() -> measure.getName(measure.global))
+                .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_author)
                 .setUpdate(() -> measure.author)

@@ -158,8 +158,8 @@
     <string name="local_measure">Local measure</string>
     <string name="new_version">%s (Newest version available: %d)</string>
     <string name="current_version">%s (Current version)</string>
-    <string name="list_own_name_measure">Own name</string>
-    <string name="list_own_lang_measure">Own language</string>
+    <string name="list_own_name_measure">Local name</string>
+    <string name="list_own_lang_measure">Local language</string>
     <string name="local_settings">Local settings</string>
     <string name="title_activity_edit_languages">Edit languages</string>
     <string name="list_title_translations">Translations</string>
@@ -170,6 +170,9 @@
     <string name="delete_prefix_title">Delete prefix</string>
     <string name="error_symbol_empty">Not allow empty symbol value</string>
     <string name="checking_version">%s (Checking version)</string>
+    <string name="measure_details">Details</string>
+    <string name="pref_title_language_converter">Converter language</string>
+    <string name="no_connection">%s (No connection)</string>
     <!-- -->
 
 </resources>

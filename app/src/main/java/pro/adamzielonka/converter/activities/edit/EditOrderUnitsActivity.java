@@ -8,7 +8,7 @@ import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.Item;
 
 public class EditOrderUnitsActivity extends EditActivity {
 

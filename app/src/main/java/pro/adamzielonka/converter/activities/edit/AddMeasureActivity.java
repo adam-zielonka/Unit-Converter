@@ -20,7 +20,7 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
-import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.Item;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;

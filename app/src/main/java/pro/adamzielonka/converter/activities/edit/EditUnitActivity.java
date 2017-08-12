@@ -10,7 +10,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.file.Prefix;
-import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.Item;
 import pro.adamzielonka.itemsview.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;

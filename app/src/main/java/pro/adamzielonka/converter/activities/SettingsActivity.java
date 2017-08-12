@@ -26,7 +26,8 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.itemsview.classes.Item;
+import pro.adamzielonka.itemsview.dialog.EditDialogBuilder;
+import pro.adamzielonka.itemsview.Item;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;
@@ -64,6 +65,11 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
                     setLanguage(this, getLanguageFromID(this, (Integer) position));
                     restart();
                 }).add(itemsView);
+
+        new Item.Builder(this)
+                .setTitle(R.string.pref_title_language_converter)
+                .setUpdate(() -> getResources().getConfiguration().locale.getLanguage())
+                .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.pref_header_user)
@@ -197,16 +203,17 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
     }
 
     private void createUser(boolean changeName, String name, String error) {
-        new Item.Builder(this)
-                .setTitle(R.string.dialog_set_user_name)
+        new EditDialogBuilder(this)
                 .setError(error)
-                .setUpdate(() -> name)
+                .setValue(name)
                 .setAction(newUserName -> writeNewUser(changeName, getUid(), (String) newUserName))
-                .setCancelAction(() -> {
+                .setNegativeAction((d, i) -> {
                     if (!changeName) signOut();
                     onUpdate();
                     hideProgressDialog();
-                }).show();
+                })
+                .setTitle(R.string.dialog_set_user_name)
+                .create().show();
     }
 
     private void createUserName(String name) {

@@ -8,7 +8,7 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.itemsview.Item;
 
-public class EditTranslationActivity extends EditActivity {
+public class EditTranslationItemActivity extends EditActivity {
 
     @Override
     public void addItems() {
