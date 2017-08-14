@@ -9,13 +9,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
+import pro.adamzielonka.converter.models.concrete.CUnit;
+import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.itemsview.Item;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 
-public class SetMeasureActivity extends EditActivity {
+public class DetailMeasureActivity extends EditActivity {
 
     private DatabaseReference mDatabase;
 
@@ -24,25 +28,9 @@ public class SetMeasureActivity extends EditActivity {
 
     @Override
     public void addItems() {
-        setTitle(R.string.title_activity_set_measure);
+        setTitle(R.string.title_activity_detail_measure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         super.addItems();
-        new Item.Builder(this)
-                .setTitleHeader(R.string.measure_details)
-                .setTitle(R.string.list_item_name)
-                .setUpdate(() -> measure.getName(measure.global))
-                .add(itemsView);
-        new Item.Builder(this)
-                .setTitle(R.string.list_item_author)
-                .setUpdate(() -> measure.author)
-                .add(itemsView);
-        new Item.Builder(this)
-                .setTitle(R.string.list_item_version)
-                .setIf(() -> !measure.cloudID.equals(""))
-                .setUpdate(this::getVersionInfo)
-                .setAction(this::versionAction)
-                .add(itemsView);
-
         new Item.Builder(this)
                 .setTitleHeader(R.string.local_settings)
                 .setTitle(R.string.list_own_name_measure)
@@ -55,11 +43,68 @@ public class SetMeasureActivity extends EditActivity {
                 .setTitle(R.string.list_own_lang_measure)
                 .setSwitcherUpdate(() -> cMeasure.isOwnLang)
                 .setSwitcherAction(isOwnLang -> cMeasure.isOwnLang = (Boolean) isOwnLang)
-                .setUpdate(() -> cMeasure.ownLang)
+                .setUpdate(() -> Language.getLanguage(cMeasure.ownLang))
                 .setArray(() -> cMeasure.getGlobalLangs())
                 .setPosition(() -> cMeasure.getOwnLangID())
                 .setAction(position -> cMeasure.ownLang = cMeasure.getGlobalFromID((Integer) position))
                 .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_version)
+                .setIf(() -> !measure.cloudID.equals(""))
+                .setUpdate(this::getVersionInfo)
+                .setAction(this::versionAction)
+                .add(itemsView);
+
+        new Item.Builder(this)
+                .setTitleHeader(R.string.measure_details)
+                .setTitle(R.string.list_item_name)
+                .setUpdate(() -> measure.getName(cMeasure.getOwnLang(this)))
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_author)
+                .setUpdate(this::getAuthors)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_units)
+                .setUpdate(this::getMeasures)
+                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_languages)
+                .setUpdate(this::getLanguages)
+                .add(itemsView);
+    }
+
+    private String getAuthors() {
+        StringBuilder builder = new StringBuilder();
+
+        for (String author : measure.author) {
+            if (builder.length() != 0) builder.append("\n");
+            builder.append(author);
+        }
+
+        return builder.toString();
+    }
+
+    private String getMeasures() {
+        StringBuilder builder = new StringBuilder();
+
+        for (CUnit cUnit : cMeasure.cUnits) {
+            if (builder.length() != 0) builder.append("\n");
+            builder.append(cUnit.name).append(" - ").append(cUnit.description.get(cMeasure.getOwnLang(this), cMeasure.global));
+        }
+
+        return builder.toString();
+    }
+
+    private String getLanguages() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Map.Entry<String, Integer> entry : cMeasure.languages.entrySet()) {
+            if (builder.length() != 0) builder.append("\n");
+            builder.append(entry.getKey()).append(" - ").append(Language.getLanguage(entry.getKey(), cMeasure.getOwnLang(this)));
+        }
+
+        return builder.toString();
     }
 
     //region version
@@ -128,4 +173,5 @@ public class SetMeasureActivity extends EditActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

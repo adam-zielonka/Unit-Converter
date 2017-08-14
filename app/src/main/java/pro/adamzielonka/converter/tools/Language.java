@@ -9,9 +9,9 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 
 public class Language {
-    public static String getLanguageWords(Map<String, String> map, String langCode, String globalCode) {
-        return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
-    }
+//    public static String getLanguageWords(Map<String, String> map, String langCode, String globalCode) {
+//        return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
+//    }
 
     public static String getLanguageWords(Map<String, String> map, String globalCode) {
         return (map.containsKey(globalCode) ? map.get(globalCode) : "");
@@ -21,8 +21,31 @@ public class Language {
         return context.getResources().getConfiguration().locale.getLanguage();
     }
 
-    public static String[] getLanguages(Context context) {
+    public static String getLanguage(String langCode) {
+        Locale locale = new Locale(langCode);
+        return locale.getDisplayLanguage();
+    }
+
+    public static String getLanguage(String langCode, String langConverter) {
+        Locale locale = new Locale(langCode);
+        return locale.getDisplayLanguage(new Locale(langConverter));
+    }
+
+    private static String[] getLanguages(Context context) {
         return context.getResources().getStringArray(R.array.pref_theme_list_languages);
+    }
+
+    public static String[] getDisplayLanguages(Context context) {
+        String[] languagesCode = getLanguages(context);
+        String[] languages = new String[languagesCode.length];
+        for (int i = 0; i < languagesCode.length; i++) {
+            languages[i] = getLanguage(languagesCode[i]);
+        }
+        return languages;
+    }
+
+    public static String getDisplayLanguage(Context context) {
+        return getLanguage(getLangCode(context));
     }
 
     public static int getLanguageID(Context context) {

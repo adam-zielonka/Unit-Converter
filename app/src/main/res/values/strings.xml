@@ -180,6 +180,10 @@
     <string name="error_lang_code_empty">Language code not allow empty</string>
     <string name="lang_new">New</string>
     <string name="delete_translation_title">Delete translation</string>
+    <string name="list_item_detail">Detail</string>
+    <string name="title_activity_detail_measure">Detail measure</string>
+    <string name="list_item_units">Units</string>
+    <string name="list_item_languages">Languages</string>
     <!-- -->
 
 </resources>

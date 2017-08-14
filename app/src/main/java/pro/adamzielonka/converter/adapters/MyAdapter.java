@@ -5,9 +5,8 @@ import android.support.annotation.NonNull;
 import android.widget.ArrayAdapter;
 
 import java.util.List;
-import java.util.Map;
 
-import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.tools.LanguageMap;
 
 abstract class MyAdapter<T> extends ArrayAdapter<T> {
 
@@ -20,7 +19,7 @@ abstract class MyAdapter<T> extends ArrayAdapter<T> {
         this.globalCode = globalCode;
     }
 
-    String getLanguageWords(Map<String, String> map) {
-        return Language.getLanguageWords(map, langCode, globalCode);
+    String getLanguageWords(LanguageMap map) {
+        return map.get(langCode, globalCode);
     }
 }

@@ -19,8 +19,8 @@ public class EditTranslationActivity extends EditActivity {
         setTitle(R.string.title_activity_edit_translation);
         super.addItems();
 
-        ArrayAdapter<String[]> adapter = new MyArrayAdapter<String[]>(getApplicationContext(),
-                measure.getLanguagesStr(this, language)) {
+        ArrayAdapter<String[]> adapter = new MyArrayAdapter<String[]>(
+                getApplicationContext(), measure.getLanguagesStr(this, language)) {
             @Override
             public void setView(String[] item, TextView textPrimary, TextView textSecondary) {
                 textPrimary.setText(item[0]);
@@ -33,23 +33,25 @@ public class EditTranslationActivity extends EditActivity {
                 .setUpdate(() -> measure.getLanguagesStr(this, language))
                 .setAction(position -> {
                     String[] item = adapter.getItem((Integer) position);
-                    if (item != null) {
-                        new EditDialogBuilder(this)
-                                .setValue(item[1].equals(getString(R.string.language_repeat_tag)) ? item[0] : item[1].equals(getString(R.string.language_empty_tag)) ? "" : item[1])
-                                .addValidator(text -> !text.equals(getString(R.string.language_repeat_tag)) && !text.equals(getString(R.string.language_empty_tag)), getString(R.string.error_not_allowed))
-                                .setAction(text -> {
-                                    measure.setLanguagesStr(language, Integer.parseInt(item[2]), (String) text);
-                                    itemsView.onSave();
-                                })
-                                .setNeutralAction(R.string.translation_set_repeat, (d, i) -> {
-                                    measure.setRepeatStr(language, Integer.parseInt(item[2]));
-                                    itemsView.onSave();
-                                })
-                                .setTitle(item[0])
-                                .create().show();
-                    }
+                    if (item != null) editTranslation(item);
                 })
                 .add(itemsView);
+    }
+
+    private void editTranslation(String[] item) {
+        new EditDialogBuilder(this)
+                .setValue(item[1].equals(getString(R.string.language_repeat_tag)) ? item[0] : item[1].equals(getString(R.string.language_empty_tag)) ? "" : item[1])
+                .addValidator(text -> !text.equals(getString(R.string.language_repeat_tag)) && !text.equals(getString(R.string.language_empty_tag)), getString(R.string.error_not_allowed))
+                .setAction(text -> {
+                    measure.setLanguagesStr(language, Integer.parseInt(item[2]), (String) text);
+                    itemsView.onSave();
+                })
+                .setNeutralAction(R.string.translation_set_repeat, (d, i) -> {
+                    measure.setRepeatStr(language, Integer.parseInt(item[2]));
+                    itemsView.onSave();
+                })
+                .setTitle(item[0])
+                .create().show();
     }
 
     @Override

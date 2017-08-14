@@ -9,6 +9,7 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
+import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.itemsview.Item;
 
 public class EditLanguagesActivity extends EditActivity {
@@ -21,14 +22,14 @@ public class EditLanguagesActivity extends EditActivity {
         ArrayAdapter<String[]> adapter = new MyArrayAdapter<String[]>(getApplicationContext(), getArrayList()) {
             @Override
             public void setView(String[] item, TextView textPrimary, TextView textSecondary) {
-                textPrimary.setText(item[0]);
+                textPrimary.setText(item[2]);
                 textSecondary.setText(item[1]);
             }
         };
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_item_language_global)
-                .setTitle(cMeasure.global)
+                .setTitle(Language.getLanguage(cMeasure.global))
                 .setUpdate(() -> cMeasure.languages.get(cMeasure.global).toString())
                 .add(itemsView);
         new Item.Builder(this)
@@ -56,9 +57,10 @@ public class EditLanguagesActivity extends EditActivity {
         ArrayList<String[]> list = new ArrayList<>();
         for (Map.Entry<String, Integer> e : cMeasure.languages.entrySet()) {
             if (!e.getKey().equals(cMeasure.global)) {
-                String[] s = new String[2];
+                String[] s = new String[3];
                 s[0] = e.getKey();
                 s[1] = e.getValue().toString();
+                s[2] = Language.getLanguage(e.getKey());
                 list.add(s);
             }
         }
@@ -69,9 +71,10 @@ public class EditLanguagesActivity extends EditActivity {
                     if (oldLang[0].equals(lang)) exist = true;
                 }
                 if (!exist) {
-                    String[] s = new String[2];
+                    String[] s = new String[3];
                     s[0] = lang;
                     s[1] = getString(R.string.lang_new);
+                    s[2] = Language.getLanguage(lang);
                     list.add(s);
                 }
             }

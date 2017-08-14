@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.BaseActivity;
-import pro.adamzielonka.converter.models.database.DataBaseMeasure;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.services.MyDownloadService;
 
 public class MeasureDetailActivity extends BaseActivity {
@@ -38,7 +38,7 @@ public class MeasureDetailActivity extends BaseActivity {
     private TextView mVersionView;
     private TextView mBodyView;
 
-    private DataBaseMeasure dataBaseMeasure;
+    private CloudMeasure cloudMeasure;
     private BroadcastReceiver mBroadcastReceiver;
 
     @Override
@@ -92,12 +92,12 @@ public class MeasureDetailActivity extends BaseActivity {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                dataBaseMeasure = dataSnapshot.getValue(DataBaseMeasure.class);
+                cloudMeasure = dataSnapshot.getValue(CloudMeasure.class);
 
-                mAuthorView.setText(dataBaseMeasure.author);
-                mTitleView.setText(dataBaseMeasure.title);
-                mVersionView.setText(String.format("  v.%s", dataBaseMeasure.version));
-                mBodyView.setText(dataBaseMeasure.units_symbols);
+                mAuthorView.setText(cloudMeasure.author);
+                mTitleView.setText(cloudMeasure.title);
+                mVersionView.setText(String.format("  v.%s", cloudMeasure.version));
+                mBodyView.setText(cloudMeasure.units_symbols);
             }
 
             @Override
@@ -143,7 +143,7 @@ public class MeasureDetailActivity extends BaseActivity {
     }
 
     private void beginDownload() {
-        String path = "users/" + dataBaseMeasure.uid + "/" + dataBaseMeasure.file;
+        String path = "users/" + cloudMeasure.uid + "/" + cloudMeasure.file;
 
         Intent intent = new Intent(this, MyDownloadService.class)
                 .putExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH, path)

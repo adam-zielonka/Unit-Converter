@@ -1,16 +1,20 @@
 {
   "name": {
-    "en": "Time"
+    "en": "Time",
+    "pl": "Czas"
   },
   "version": 1,
-  "author": "root",
+  "author": [
+    "root"
+  ],
   "displayFrom": 4,
   "displayTo": 2,
   "units": [
     {
       "symbol": "s",
       "description": {
-        "en": "second"
+        "en": "second",
+        "pl": "sekunda"
       },
       "position": -2,
       "one": 1,
@@ -18,14 +22,16 @@
         {
           "symbol": "µ",
           "description": {
-            "en": "micro"
+            "en": "micro",
+            "pl": "mikro"
           },
           "exp": -6
         },
         {
           "symbol": "m",
           "description": {
-            "en": "milli"
+            "en": "milli",
+            "pl": "mili"
           },
           "exp": -3
         }
@@ -34,35 +40,40 @@
     {
       "symbol": "m",
       "description": {
-        "en": "minute"
+        "en": "minute",
+        "pl": "minuta"
       },
       "one": 60
     },
     {
       "symbol": "h",
       "description": {
-        "en": "hour"
+        "en": "hour",
+        "pl": "godzina"
       },
       "one": 3600
     },
     {
       "symbol": "d",
       "description": {
-        "en": "day"
+        "en": "day",
+        "pl": "dzień"
       },
       "one": 86400
     },
     {
       "symbol": "w",
       "description": {
-        "en": "week"
+        "en": "week",
+        "pl": "tydzień"
       },
       "one": 604800
     },
     {
       "symbol": "y",
       "description": {
-        "en": "year"
+        "en": "year",
+        "pl": "rok"
       },
       "one": 31536000
     }

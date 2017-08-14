@@ -26,12 +26,13 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.itemsview.dialog.EditDialogBuilder;
 import pro.adamzielonka.itemsview.Item;
+import pro.adamzielonka.itemsview.dialog.EditDialogBuilder;
 
+import static pro.adamzielonka.converter.tools.Language.getDisplayLanguage;
+import static pro.adamzielonka.converter.tools.Language.getDisplayLanguages;
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
 import static pro.adamzielonka.converter.tools.Language.getLanguageID;
-import static pro.adamzielonka.converter.tools.Language.getLanguages;
 import static pro.adamzielonka.converter.tools.Language.setLanguage;
 
 public class SettingsActivity extends PreferenceActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -59,18 +60,17 @@ public class SettingsActivity extends PreferenceActivity implements GoogleApiCli
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
-                .setUpdate(() -> getResources().getConfiguration().locale.getLanguage())
+                .setUpdate(() -> getDisplayLanguage(this))
                 .setEnabledUpdate(false)
-                .setArray(() -> getLanguages(this))
+                .setArray(() -> getDisplayLanguages(this))
                 .setPosition(() -> getLanguageID(this))
                 .setAction(position -> {
                     setLanguage(this, getLanguageFromID(this, (Integer) position));
                     restart();
                 }).add(itemsView);
-
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language_converter)
-                .setUpdate(() -> getResources().getConfiguration().locale.getLanguage())
+                .setUpdate(() -> getDisplayLanguage(this))
                 .add(itemsView);
 
         new Item.Builder(this)

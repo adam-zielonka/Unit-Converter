@@ -1,13 +1,18 @@
 package pro.adamzielonka.converter.models.concrete;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
+import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.tools.LanguageMap;
+
+import static pro.adamzielonka.converter.tools.Language.getLanguage;
 
 public class CMeasure {
-    private final Map<String, String> name;
+    private final LanguageMap name;
     public final String global;
     public final Integer displayFrom;
     public final Integer displayTo;
@@ -21,7 +26,7 @@ public class CMeasure {
     public String ownLang = "";
     public List<String> newLangs = new ArrayList<>();
 
-    public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages) {
+    public CMeasure(LanguageMap name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages) {
         this.name = name;
         this.global = global;
         this.displayFrom = displayFrom;
@@ -31,7 +36,7 @@ public class CMeasure {
         this.ownLang = global;
     }
 
-    public CMeasure(Map<String, String> name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages,
+    public CMeasure(LanguageMap name, String global, Integer displayFrom, Integer displayTo, List<CUnit> cUnits, Map<String, Integer> languages,
                     String concreteFileName, String userFileName, Boolean isOwnName, String ownName, Boolean isOwnLang, String ownLang, List<String> newLangs) {
         this.name = name;
         this.global = global;
@@ -62,18 +67,18 @@ public class CMeasure {
     }
 
     public String getName(String langCode) {
-        return getLanguageWords(name, langCode, global);
+        return name.get(langCode, global);
     }
 
-    public String getWords(Map<String, String> map, String langCode) {
-        return getLanguageWords(map, langCode, global);
+    public String getWords(LanguageMap map, String langCode) {
+        return map.get(langCode, global);
     }
 
     public String[] getGlobalLangs() {
         String[] langs = new String[languages.size()];
         int i = 0;
         for (Map.Entry<String, Integer> e : languages.entrySet()) {
-            langs[i] = e.getKey();
+            langs[i] = getLanguage(e.getKey());
             i++;
         }
         return langs;
@@ -112,5 +117,9 @@ public class CMeasure {
             symbols[i] = cUnits.get(i).name;
         }
         return symbols;
+    }
+
+    public String getOwnLang(Context context) {
+        return isOwnLang ? ownLang != null ? ownLang : global : Language.getLangCode(context);
     }
 }

@@ -4,7 +4,9 @@
     "pl": "Powierzchnia"
   },
   "version": 1,
-  "author": "root",
+  "author": [
+    "root"
+  ],
   "global": "en",
   "units": [
     {

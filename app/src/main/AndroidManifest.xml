@@ -33,7 +33,6 @@
             android:theme="@style/BlueTheme.Converter"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.edit.AddMeasureActivity" />
-        <activity android:name=".activities.edit.SetMeasureActivity" />
         <activity android:name=".activities.edit.EditMeasureActivity" />
         <activity android:name=".activities.edit.EditUnitActivity" />
         <activity android:name=".activities.edit.EditOrderUnitsActivity" />
@@ -45,6 +44,7 @@
         <activity android:name=".activities.database.CloudActivity" />
         <activity android:name=".activities.database.MeasureDetailActivity" />
         <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.edit.DetailMeasureActivity" />
 
         <service
             android:name=".services.MyDownloadService"

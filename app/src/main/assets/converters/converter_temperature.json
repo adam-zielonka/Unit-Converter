@@ -3,7 +3,9 @@
     "en": "Temperature"
   },
   "version": 1,
-  "author": "root",
+  "author": [
+    "root"
+  ],
   "units": [
     {
       "symbol": "°C",

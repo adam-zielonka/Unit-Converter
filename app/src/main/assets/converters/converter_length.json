@@ -3,7 +3,9 @@
     "en": "Length"
   },
   "version": 1,
-  "author": "root",
+  "author": [
+    "root"
+  ],
   "displayFrom": 5,
   "displayTo": 6,
   "units": [

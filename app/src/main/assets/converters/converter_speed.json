@@ -3,7 +3,9 @@
     "en": "Speed"
   },
   "version": 1,
-  "author": "root",
+  "author": [
+    "root"
+  ],
   "displayFrom": 1,
   "displayTo": 5,
   "units": [

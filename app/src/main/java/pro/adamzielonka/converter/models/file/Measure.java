@@ -11,13 +11,12 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
-
-import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
+import pro.adamzielonka.converter.tools.LanguageMap;
 
 public class Measure {
     public String global = "en";
-    private Map<String, String> name = new HashMap<>();
-    public String author = "";
+    public LanguageMap name = new LanguageMap();
+    public List<String> author = new ArrayList<>();
     public Long version = 0L;
     public String cloudID = "";
     public List<Unit> units = new ArrayList<>();
@@ -57,9 +56,9 @@ public class Measure {
         return cUnits;
     }
 
-    private Map<String, String> getCUnitName(Map<String, String> descriptionPrefix,
-                                             Map<String, String> description) {
-        Map<String, String> map = new HashMap<>();
+    private LanguageMap getCUnitName(LanguageMap descriptionPrefix,
+                                             LanguageMap description) {
+        LanguageMap map = new LanguageMap();
         for (Map.Entry<String, String> e : descriptionPrefix.entrySet())
             map.put(e.getKey(), e.getValue() + getValue(description, e.getKey()));
         for (Map.Entry<String, String> e : description.entrySet())
@@ -67,10 +66,10 @@ public class Measure {
         return map;
     }
 
-    private Map<String, String> getCPrefixName(Map<String, String> descriptionPrefix,
-                                               Map<String, String> prefixDescription,
-                                               Map<String, String> description) {
-        Map<String, String> map = new HashMap<>();
+    private LanguageMap getCPrefixName(LanguageMap descriptionPrefix,
+                                               LanguageMap prefixDescription,
+                                               LanguageMap description) {
+        LanguageMap map = new LanguageMap();
         for (Map.Entry<String, String> e : descriptionPrefix.entrySet())
             map.put(e.getKey(), e.getValue()
                     + getValue(prefixDescription, e.getKey())
@@ -86,7 +85,7 @@ public class Measure {
         return map;
     }
 
-    private String getValue(Map<String, String> map, String key) {
+    private String getValue(LanguageMap map, String key) {
         return map.containsKey(key) ? map.get(key) : (map.containsKey(global) ? map.get(global) : "");
     }
 
@@ -94,7 +93,7 @@ public class Measure {
         return map.containsKey(key) ? map.get(key) : 0;
     }
 
-    private Map<String, Integer> getLanguages(List<Unit> units, Map<String, String> name) {
+    private Map<String, Integer> getLanguages(List<Unit> units, LanguageMap name) {
         Map<String, Integer> map = new HashMap<>();
         for (Unit unit : units) {
             for (Map.Entry<String, String> e : unit.description.entrySet())
@@ -110,7 +109,7 @@ public class Measure {
         return map;
     }
 
-    private void getTranslation(Context context, ArrayList<String[]> list, Integer id, Map<String, String> map, String langCode) {
+    private void getTranslation(Context context, ArrayList<String[]> list, Integer id, LanguageMap map, String langCode) {
         String[] s = new String[3];
         s[0] = map.containsKey(global) ? map.get(global) : "";
         s[1] = map.containsKey(langCode) ? map.get(langCode) : context.getString(R.string.language_repeat_tag);
@@ -240,11 +239,11 @@ public class Measure {
     }
 
     public String getName(String langCode) {
-        return getLanguageWords(name, langCode, global);
+        return name.get(langCode, global);
     }
 
-    public String getWords(Map<String, String> map, String langCode) {
-        return getLanguageWords(map, langCode, global);
+    public String getWords(LanguageMap map, String langCode) {
+        return map.get(langCode, global);
     }
 
     public void setName(String langCode, String name) {

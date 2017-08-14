@@ -1,11 +1,10 @@
 package pro.adamzielonka.converter.models.file;
 
-import java.util.HashMap;
-import java.util.Map;
+import pro.adamzielonka.converter.tools.LanguageMap;
 
 public class Prefix {
     public String symbol = "";
-    public Map<String, String> description = new HashMap<>();
+    public LanguageMap description = new LanguageMap();
     public Double exp = 1.0;
     public Integer position = 0;
 

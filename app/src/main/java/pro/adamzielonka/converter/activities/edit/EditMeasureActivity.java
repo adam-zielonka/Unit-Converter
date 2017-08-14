@@ -36,12 +36,13 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.models.database.DataBaseMeasure;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
 import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
+import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.itemsview.Item;
 import pro.adamzielonka.itemsview.tools.Tests;
 
@@ -105,7 +106,7 @@ public class EditMeasureActivity extends EditActivity {
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_language_global)
-                .setUpdate(() -> cMeasure.global)
+                .setUpdate(() -> Language.getLanguage(cMeasure.global))
                 .setArray(() -> cMeasure.getGlobalLangs())
                 .setPosition(() -> cMeasure.getGlobalID())
                 .setAction(id -> measure.global = cMeasure.getGlobalFromID((Integer) id))
@@ -261,8 +262,8 @@ public class EditMeasureActivity extends EditActivity {
     private void updateMeasure(String userId, String username, String title, String body) {
         if (measure.cloudID.equals("")) {
             String key = mDatabase.child("measures").push().getKey();
-            DataBaseMeasure dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
-            doUpdateMeasure(key, dataBaseMeasure);
+            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
+            doUpdateMeasure(key, cloudMeasure);
         } else {
             Query query = mDatabase.child("measures");
 
@@ -270,22 +271,22 @@ public class EditMeasureActivity extends EditActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.hasChild(measure.cloudID)) {
-                        DataBaseMeasure dataBaseMeasure = snapshot.child(measure.cloudID).getValue(DataBaseMeasure.class);
-                        if (dataBaseMeasure.uid.equals(getUid())) {
-                            dataBaseMeasure.version++;
-                            dataBaseMeasure.title = title;
-                            dataBaseMeasure.units_symbols = body;
-                            dataBaseMeasure.units_names = body;
-                            doUpdateMeasure(measure.cloudID, dataBaseMeasure);
+                        CloudMeasure cloudMeasure = snapshot.child(measure.cloudID).getValue(CloudMeasure.class);
+                        if (cloudMeasure.uid.equals(getUid())) {
+                            cloudMeasure.version++;
+                            cloudMeasure.title = title;
+                            cloudMeasure.units_symbols = body;
+                            cloudMeasure.units_names = body;
+                            doUpdateMeasure(measure.cloudID, cloudMeasure);
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
-                            dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
-                            doUpdateMeasure(key, dataBaseMeasure);
+                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
+                            doUpdateMeasure(key, cloudMeasure);
                         }
                     } else {
                         String key = mDatabase.child("measures").push().getKey();
-                        DataBaseMeasure dataBaseMeasure = new DataBaseMeasure(userId, username, title, body, body, 1L);
-                        doUpdateMeasure(key, dataBaseMeasure);
+                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
+                        doUpdateMeasure(key, cloudMeasure);
                     }
                 }
 
@@ -299,13 +300,13 @@ public class EditMeasureActivity extends EditActivity {
 
     }
 
-    private void doUpdateMeasure(String key, DataBaseMeasure dataBaseMeasure) {
-        dataBaseMeasure.file = cMeasure.userFileName;
-        Map<String, Object> postValues = dataBaseMeasure.toMap();
+    private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
+        cloudMeasure.file = cMeasure.userFileName;
+        Map<String, Object> postValues = cloudMeasure.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/measures/" + key, postValues);
-        childUpdates.put("/user-measures/" + dataBaseMeasure.uid + "/" + key, postValues);
+        childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
         DatabaseReference ref = mDatabase.child("measures").child(key).child("version");

@@ -1,14 +1,14 @@
 package pro.adamzielonka.converter.models.file;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import pro.adamzielonka.converter.tools.LanguageMap;
 
 public class Unit {
     public String symbol = "";
-    public Map<String, String> descriptionPrefix = new HashMap<>();
-    public Map<String, String> description = new HashMap<>();
+    public LanguageMap descriptionPrefix = new LanguageMap();
+    public LanguageMap description = new LanguageMap();
     public Integer position = 0;
     public Double expBase = 10.0;
     public Double one = 1.0;
@@ -18,7 +18,7 @@ public class Unit {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof String)
+        if (obj instanceof String)
             return symbol.equals(obj);
         return super.equals(obj);
     }

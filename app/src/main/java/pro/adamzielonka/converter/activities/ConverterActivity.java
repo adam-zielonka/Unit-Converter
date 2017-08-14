@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
-import pro.adamzielonka.converter.activities.edit.SetMeasureActivity;
+import pro.adamzielonka.converter.activities.edit.DetailMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConverterAdapter;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
@@ -44,9 +44,8 @@ import static pro.adamzielonka.lib.Number.deleteLast;
 import static pro.adamzielonka.lib.Number.doubleToString;
 import static pro.adamzielonka.lib.Number.stringToDouble;
 
-public class ConverterActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnFocusChangeListener, AdapterView.OnItemSelectedListener {
+public class ConverterActivity extends AppCompatActivity implements View.OnFocusChangeListener,
+        AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -54,17 +53,14 @@ public class ConverterActivity extends AppCompatActivity
     private int converterID;
     private Theme theme;
 
-    private EditText textFrom;
-    private EditText textTo;
+    private EditText editTextFrom;
+    private EditText editTextTo;
     private TextView textViewFrom;
     private TextView textViewTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private ConverterAdapter adapter;
     private CMeasure cMeasure;
-
-    private ConstraintLayout converterLayout;
-    private ConstraintLayout emptyLayout;
 
     private boolean hideMenu = false;
 
@@ -90,20 +86,17 @@ public class ConverterActivity extends AppCompatActivity
 
         measureList = loadConverters(this);
 
-        converterLayout = findViewById(R.id.converter_content);
-        emptyLayout = findViewById(R.id.converter_content_empty);
-        TextView emptyText = findViewById(R.id.textEmpty);
-
         if (measureList.size() > 0) {
-            emptyText.setText(R.string.empty_units);
             setupConvertersMenu(navigationView.getMenu());
-            setupConverter(getIDFromFileName(getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME)));
+            setupConverter(getConverterID());
         } else {
-            setEmptyLayout();
-            emptyText.setText(R.string.empty_converters);
-            hideMenu = true;
-            invalidateOptionsMenu();
+            setEmptyLayout(R.string.empty_converters);
+            setHideOptionMenu();
         }
+    }
+
+    private int getConverterID() {
+        return getIDFromFileName(getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME));
     }
 
     private int getIDFromFileName(String fileName) {
@@ -123,8 +116,7 @@ public class ConverterActivity extends AppCompatActivity
         for (CMeasure measure : measureList) {
             menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0,
                     measure.getName(measure.isOwnLang ? measure.ownLang : Language.getLangCode(this))));
-            menuItems.get(i).setCheckable(true);
-            i++;
+            menuItems.get(i++).setCheckable(true);
         }
     }
 
@@ -147,10 +139,7 @@ public class ConverterActivity extends AppCompatActivity
 
                 onClear();
                 setConverterLayout();
-            } else {
-                setEmptyLayout();
-            }
-
+            } else setEmptyLayout(R.string.empty_units);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,37 +158,27 @@ public class ConverterActivity extends AppCompatActivity
         menuItems.get(converterID - DEFAULT_CONVERTER_ID).setTitle(title);
     }
 
-    void setConverterLayout() {
-        converterLayout.setVisibility(View.VISIBLE);
-        emptyLayout.setVisibility(View.GONE);
-    }
-
-    void setEmptyLayout() {
-        converterLayout.setVisibility(View.GONE);
-        emptyLayout.setVisibility(View.VISIBLE);
-    }
-
     void findConverterViews() {
         textViewFrom = findViewById(R.id.textViewFrom);
         textViewTo = findViewById(R.id.textViewTo);
 
-        textFrom = findViewById(R.id.textFrom);
-        textTo = findViewById(R.id.textTo);
+        editTextFrom = findViewById(R.id.textFrom);
+        editTextTo = findViewById(R.id.textTo);
 
         spinnerFrom = findViewById(R.id.spinnerFrom);
         spinnerTo = findViewById(R.id.spinnerTo);
     }
 
     void setTextFocus() {
-        textFrom.setTextColor(theme.getTextColor());
-        textTo.setTextColor(Color.BLACK);
+        editTextFrom.setTextColor(theme.getTextColor());
+        editTextTo.setTextColor(Color.BLACK);
 
-        textFrom.requestFocus();
+        editTextFrom.requestFocus();
     }
 
     void setConverterListeners() {
-        textFrom.setOnFocusChangeListener(this);
-        textTo.setOnFocusChangeListener(this);
+        editTextFrom.setOnFocusChangeListener(this);
+        editTextTo.setOnFocusChangeListener(this);
 
         spinnerFrom.setOnItemSelectedListener(this);
         spinnerTo.setOnItemSelectedListener(this);
@@ -227,11 +206,27 @@ public class ConverterActivity extends AppCompatActivity
     }
     //endregion
 
+    //region visibility
+    void setConverterLayout() {
+        setConverterVisibility(true);
+    }
+
+    void setEmptyLayout(@StringRes int text) {
+        ((TextView) findViewById(R.id.textEmpty)).setText(text);
+        setConverterVisibility(false);
+    }
+
+    void setConverterVisibility(boolean visibility) {
+        findViewById(R.id.converter_content).setVisibility(visibility ? View.VISIBLE : View.GONE);
+        findViewById(R.id.converter_content_empty).setVisibility(visibility ? View.GONE : View.VISIBLE);
+    }
+    //endregion
+
     //region events
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-        if (hasFocus && textTo.equals(view)) {
-            textFrom = (EditText) getItself(textTo, textTo = textFrom);
+        if (hasFocus && editTextTo.equals(view)) {
+            editTextFrom = (EditText) getItself(editTextTo, editTextTo = editTextFrom);
             spinnerFrom = (Spinner) getItself(spinnerTo, spinnerTo = spinnerFrom);
             textViewFrom = (TextView) getItself(textViewTo, textViewTo = textViewFrom);
             setTextFocus();
@@ -254,17 +249,17 @@ public class ConverterActivity extends AppCompatActivity
 
     private void onCalculate() {
         double result = doConversion(
-                stringToDouble(textFrom.getText().toString()),
+                stringToDouble(editTextFrom.getText().toString()),
                 adapter.getItem((int) spinnerFrom.getSelectedItemId()),
                 adapter.getItem((int) spinnerTo.getSelectedItemId())
         );
-        textTo.setText(doubleToString(result));
+        editTextTo.setText(doubleToString(result));
     }
     //endregion
 
     //region clicks
     public void onClickDigit(View v) {
-        textFrom.setText(appendDigit(textFrom.getText().toString(), v.getTag().toString()));
+        editTextFrom.setText(appendDigit(editTextFrom.getText().toString(), v.getTag().toString()));
         onCalculate();
     }
 
@@ -287,21 +282,21 @@ public class ConverterActivity extends AppCompatActivity
     }
 
     public void onAppendComma() {
-        textFrom.setText(appendComma(textFrom.getText().toString()));
+        editTextFrom.setText(appendComma(editTextFrom.getText().toString()));
     }
 
     public void onChangeSign() {
-        textFrom.setText(changeSign(textFrom.getText().toString()));
+        editTextFrom.setText(changeSign(editTextFrom.getText().toString()));
         onCalculate();
     }
 
     public void onClear() {
-        textFrom.setText("0");
+        editTextFrom.setText("0");
         onCalculate();
     }
 
     public void onClickDeleteLast() {
-        textFrom.setText(deleteLast(textFrom.getText().toString()));
+        editTextFrom.setText(deleteLast(editTextFrom.getText().toString()));
         onCalculate();
     }
     //endregion
@@ -338,6 +333,11 @@ public class ConverterActivity extends AppCompatActivity
         return true;
     }
 
+    private void setHideOptionMenu() {
+        hideMenu = true;
+        invalidateOptionsMenu();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_converter, menu);
@@ -354,7 +354,7 @@ public class ConverterActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.menu_set_converter:
-                Intent intent = new Intent(getApplicationContext(), SetMeasureActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailMeasureActivity.class);
                 intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;

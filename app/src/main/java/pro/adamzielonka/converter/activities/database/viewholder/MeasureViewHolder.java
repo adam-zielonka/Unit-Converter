@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.database.DataBaseMeasure;
+import pro.adamzielonka.converter.models.database.CloudMeasure;
 
 public class MeasureViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,12 +28,12 @@ public class MeasureViewHolder extends RecyclerView.ViewHolder {
         bodyView = itemView.findViewById(R.id.post_body);
     }
 
-    public void bindToPost(DataBaseMeasure dataBaseMeasure, View.OnClickListener starClickListener) {
-        titleView.setText(dataBaseMeasure.title);
-        versionView.setText(String.format("  v.%s", dataBaseMeasure.version));
-        numStarsView.setText(String.valueOf(dataBaseMeasure.starCount));
-        bodyView.setText(dataBaseMeasure.units_symbols);
-        authorView.setText(dataBaseMeasure.author);
+    public void bindToPost(CloudMeasure cloudMeasure, View.OnClickListener starClickListener) {
+        titleView.setText(cloudMeasure.title);
+        versionView.setText(String.format("  v.%s", cloudMeasure.version));
+        numStarsView.setText(String.valueOf(cloudMeasure.starCount));
+        bodyView.setText(cloudMeasure.units_symbols);
+        authorView.setText(cloudMeasure.author);
         if (starClickListener != null)
             starView.setOnClickListener(starClickListener);
     }
