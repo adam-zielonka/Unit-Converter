@@ -6,6 +6,7 @@ public class Number {
     private static final int MAX_DIGIT_COUNT = 15;
     private static final String SEPARATOR_DECIMAL = ".";
     private static final String NO_SEPARATOR_DECIMAL = ",";
+    private static final String INFINITY = "\u221E";
 
     public static String doubleToString(Double number) {
         DecimalFormat exponentNotation = new DecimalFormat("0.#################E0");
@@ -25,9 +26,9 @@ public class Number {
             switch (number) {
                 case "":
                     return 0.0;
-                case "∞":
+                case INFINITY:
                     return Double.POSITIVE_INFINITY;
-                case "-∞":
+                case "-" + INFINITY:
                     return Double.NEGATIVE_INFINITY;
                 default:
                     return Double.NaN;
@@ -40,14 +41,14 @@ public class Number {
     }
 
     public static String appendDigit(String number, String digit) {
-        if (number.contains("∞") || number.equals("NaN") || digitCount(number) >= MAX_DIGIT_COUNT)
+        if (number.contains(INFINITY) || number.equals("NaN") || digitCount(number) >= MAX_DIGIT_COUNT)
             return number;
 
         return !number.equals("-0") ? !number.equals("0") ? number + digit : digit : "-" + digit;
     }
 
     public static String appendComma(String number) {
-        if (number.contains("∞") || number.equals("NaN")) return number;
+        if (number.contains(INFINITY) || number.equals("NaN")) return number;
         return number.contains(SEPARATOR_DECIMAL) ? number : number + SEPARATOR_DECIMAL;
     }
 
@@ -56,7 +57,7 @@ public class Number {
     }
 
     public static String deleteLast(String number) {
-        if (number.contains("∞") || number.equals("NaN") || number.isEmpty()) return "0";
+        if (number.contains(INFINITY) || number.equals("NaN") || number.isEmpty()) return "0";
         String result = number.substring(0, number.length() - 1);
         return result.isEmpty() ? "0" : result;
     }

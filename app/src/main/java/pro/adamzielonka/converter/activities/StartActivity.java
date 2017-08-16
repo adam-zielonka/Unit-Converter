@@ -29,7 +29,7 @@ import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 public class StartActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
-    private final static String prefFirsRun = "v1.1.18-alpha";
+    private final static String prefFirsRun = "v1.1.23-alpha";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

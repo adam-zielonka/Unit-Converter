@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Length"
+    "en": "Length",
+    "pl": "Długość"
   },
   "version": 1,
   "author": [
@@ -12,7 +13,8 @@
     {
       "symbol": "m",
       "description": {
-        "en": "meter"
+        "en": "meter",
+        "pl": "metr"
       },
       "position": -5,
       "one": 1,
@@ -27,28 +29,32 @@
         {
           "symbol": "μ",
           "description": {
-            "en": "micro"
+            "en": "micro",
+            "pl": "mikro"
           },
           "exp": -6
         },
         {
           "symbol": "m",
           "description": {
-            "en": "milli"
+            "en": "milli",
+            "pl": "mili"
           },
           "exp": -3
         },
         {
           "symbol": "c",
           "description": {
-            "en": "centi"
+            "en": "centi",
+            "pl": "centy"
           },
           "exp": -2
         },
         {
           "symbol": "d",
           "description": {
-            "en": "deci"
+            "en": "deci",
+            "pl": "decy"
           },
           "exp": -1
         },
@@ -64,35 +70,40 @@
     {
       "symbol": "mi",
       "description": {
-        "en": "mile"
+        "en": "mile",
+        "pl": "mila"
       },
       "one": 1609.344
     },
     {
       "symbol": "nmi",
       "description": {
-        "en": "nautical mile"
+        "en": "nautical mile",
+        "pl": "mila morska"
       },
       "one": 1852
     },
     {
       "symbol": "yd",
       "description": {
-        "en": "yard"
+        "en": "yard",
+        "pl": "jard"
       },
       "one": 0.9144
     },
     {
       "symbol": "ft",
       "description": {
-        "en": "foot"
+        "en": "foot",
+        "pl": "stopa"
       },
       "one": 0.3048
     },
     {
       "symbol": "in",
       "description": {
-        "en": "inch"
+        "en": "inch",
+        "pl": "cal"
       },
       "one": 0.0254
     }

@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Mass"
+    "en": "Mass",
+    "pl": "Masa"
   },
   "version": 1,
   "author": [
@@ -10,7 +11,8 @@
     {
       "symbol": "t",
       "description": {
-        "en": "tonne"
+        "en": "tonne",
+        "pl": "tona"
       },
       "one": 1000000
     },
@@ -32,14 +34,16 @@
         {
           "symbol": "da",
           "description": {
-            "en": "deca"
+            "en": "deca",
+            "pl": "deka"
           },
           "exp": 1
         },
         {
           "symbol": "m",
           "description": {
-            "en": "milli"
+            "en": "milli",
+            "pl": "mili"
           },
           "exp": -3
         }
@@ -48,21 +52,24 @@
     {
       "symbol": "ct",
       "description": {
-        "en": "carat"
+        "en": "carat",
+        "pl": "karat"
       },
       "one": 0.2
     },
     {
       "symbol": "oz",
       "description": {
-        "en": "ounce"
+        "en": "ounce",
+        "pl": "uncja"
       },
       "one": 28.34952981
     },
     {
       "symbol": "lb",
       "description": {
-        "en": "pound"
+        "en": "pound",
+        "pl": "funt"
       },
       "one": 453.59237
     }

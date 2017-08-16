@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 22
+def versionPatch = 23
 
 android {
     compileSdkVersion 26
@@ -23,8 +23,7 @@ android {
     buildTypes {
         debug {
             versionNameSuffix "-debug"
-            resValue "string", "app_version",
-                    "${defaultConfig.versionName}${versionNameSuffix}"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
         }
         release {
             versionNameSuffix "-alpha"
@@ -35,14 +34,13 @@ android {
     }
     productFlavors {
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.0.1'
     implementation 'com.android.support:design:26.0.1'
     implementation 'com.android.support:support-v4:26.0.1'
@@ -62,6 +60,9 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:1.2.0'
     implementation project(':itemsview')
     implementation project(':lib')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

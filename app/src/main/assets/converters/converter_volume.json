@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Volume"
+    "en": "Volume",
+    "pl": "Objętość"
   },
   "version": 1,
   "author": [
@@ -10,31 +11,36 @@
     {
       "symbol": "m³",
       "descriptionPrefix": {
-        "en": "cubic "
+        "en": "cubic ",
+        "pl": ""
       },
       "description": {
-        "en": "meter"
+        "en": "meter",
+        "pl": "metr sześcienny"
       },
       "one": 1,
       "prefixes": [
         {
           "symbol": "d",
           "description": {
-            "en": "deci"
+            "en": "deci",
+            "pl": "decy"
           },
           "exp": -3
         },
         {
           "symbol": "c",
           "description": {
-            "en": "centi"
+            "en": "centi",
+            "pl": "centy"
           },
           "exp": -6
         },
         {
           "symbol": "m",
           "description": {
-            "en": "milli"
+            "en": "milli",
+            "pl": "mili"
           },
           "exp": -9
         }
@@ -43,7 +49,8 @@
     {
       "symbol": "l",
       "description": {
-        "en": "liter"
+        "en": "liter",
+        "pl": "litr"
       },
       "one": 0.001,
       "position": -1,
@@ -51,14 +58,16 @@
         {
           "symbol": "h",
           "description": {
-            "en": "hecto"
+            "en": "hecto",
+            "pl": "hekto"
           },
           "exp": 2
         },
         {
           "symbol": "m",
           "description": {
-            "en": "milli"
+            "en": "milli",
+            "pl": "mili"
           },
           "exp": -3
         }
@@ -66,31 +75,25 @@
     },
     {
       "symbol": "yd³",
-      "descriptionPrefix": {
-        "en": "cubic "
-      },
       "description": {
-        "en": "yard"
+        "en": "cubic yard",
+        "pl": "jard sześcienny"
       },
       "one": 0.764554857984
     },
     {
       "symbol": "ft³",
-      "descriptionPrefix": {
-        "en": "cubic "
-      },
       "description": {
-        "en": "foot"
+        "en": "cubic foot",
+        "pl": "stopa sześcienny"
       },
       "one": 0.028316846592
     },
     {
       "symbol": "in³",
-      "descriptionPrefix": {
-        "en": "cubic "
-      },
       "description": {
-        "en": "inch"
+        "en": "cubic inch",
+        "pl": "cal sześcienny"
       },
       "one": 0.000016387064
     }

@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Speed"
+    "en": "Speed",
+    "pl": "Prędkość"
   },
   "version": 1,
   "author": [
@@ -12,7 +13,8 @@
     {
       "symbol": "m/s",
       "description": {
-        "en": "meter per second"
+        "en": "meter per second",
+        "pl": "metry na sekundę"
       },
       "one": 1,
       "position": -1,
@@ -20,7 +22,8 @@
         {
           "symbol": "c",
           "description": {
-            "en": "centi"
+            "en": "centi",
+            "pl": "centy"
           },
           "exp": -2
         },
@@ -36,7 +39,8 @@
     {
       "symbol": "m/h",
       "description": {
-        "en": "meter per hour"
+        "en": "meter per hour",
+        "pl": "metry na godzinę"
       },
       "one": 0.000277777777777777777777777777777,
       "position": -1,
@@ -44,7 +48,8 @@
         {
           "symbol": "c",
           "description": {
-            "en": "centi"
+            "en": "centi",
+            "pl": "centy"
           },
           "exp": -2
         },
@@ -60,28 +65,32 @@
     {
       "symbol": "mi",
       "description": {
-        "en": "mile per hour"
+        "en": "mile per hour",
+        "pl": "mile na godzinę"
       },
       "one": 0.44704
     },
     {
       "symbol": "fps",
       "description": {
-        "en": "foot per second"
+        "en": "foot per second",
+        "pl": "stopy na sekundę"
       },
       "one": 0.3048
     },
     {
       "symbol": "ips",
       "description": {
-        "en": "inch per second"
+        "en": "inch per second",
+        "pl": "cale na sekundę"
       },
       "one": 0.0254
     },
     {
       "symbol": "kn",
       "description": {
-        "en": "knot"
+        "en": "knot",
+        "pl": "węzeł"
       },
       "one": 5.1444444444444444444444444444444
     },
@@ -95,7 +104,8 @@
     {
       "symbol": "c",
       "description": {
-        "en": "light speed"
+        "en": "light speed",
+        "pl": "prędkość światła"
       },
       "one": 299792458
     }

@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Byte"
+    "en": "Bits and Bytes",
+    "pl": "Bity i Bajty"
   },
   "version": 1,
   "author": [
@@ -43,7 +44,8 @@
     {
       "symbol": "B",
       "description": {
-        "en": "byte"
+        "en": "byte",
+        "pl": "bajt"
       },
       "one": 1,
       "prefixes": [

@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Temperature"
+    "en": "Temperature",
+    "pl": "Temperatura"
   },
   "version": 1,
   "author": [
