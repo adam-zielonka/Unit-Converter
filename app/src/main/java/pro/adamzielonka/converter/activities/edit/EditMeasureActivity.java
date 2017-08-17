@@ -197,9 +197,9 @@ public class EditMeasureActivity extends EditActivity {
                 ActivityCompat.requestPermissions(this,
                         getReadAndWritePermissionsStorage(), REQUEST_SAVE_TO_DOWNLOAD);
                 return true;
-//            case R.id.menu_upload_converter:
-//                submitMeasure();
-//                return true;
+            case R.id.menu_upload_converter:
+                submitMeasure();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

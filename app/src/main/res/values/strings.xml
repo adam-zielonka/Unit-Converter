@@ -30,7 +30,8 @@
     <!-- [END] Settings -->
 
     <!-- [START] Converter -->
-
+    <string name="empty_converters">Add converters to use them</string>
+    <string name="empty_units">Add units to use them</string>
     <!-- [END] Converter -->
 
     <!-- [START] Edit -->
@@ -46,7 +47,7 @@
     <string name="delete_measure_title">Delete measure</string>
     <string name="dialog_delete">Delete</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="empty_converters">Add converters to use them</string>
+
     <string name="save_converter">Save to downloads</string>
     <string name="success_save_to_downloads">Saved to downloads</string>
     <string name="error_create_file">Unable to save file</string>
@@ -108,7 +109,6 @@
     <string name="dialog_formula_shift2">Shift 2</string>
     <string name="dialog_unit_description_base">Description base</string>
     <string name="dialog_unit_description_global_prefix">Description global prefix</string>
-    <string name="empty_units">Add units to use them</string>
     <string name="list_item_measure_default_1">Default 1</string>
     <string name="list_item_measure_default_2">Default 2</string>
     <string name="dialog_measure_default_1">Default 1</string>

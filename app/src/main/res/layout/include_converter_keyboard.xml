@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="7"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="7"
                 app:srcCompat="@drawable/ic_7_seven_white_24dp"
                 tools:ignore="HardcodedText" />
@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="8"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="8"
                 app:srcCompat="@drawable/ic_8_eight_white_24dp"
                 tools:ignore="HardcodedText" />
@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="9"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="9"
                 app:srcCompat="@drawable/ic_9_nine_white_24dp"
                 tools:ignore="HardcodedText" />
@@ -56,12 +56,23 @@
             android:layout_weight="1">
 
             <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="4"
+                android:onClick="onClick"
+                android:tag="4"
+                app:srcCompat="@drawable/ic_4_four_white_24dp"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
                 android:id="@+id/button5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="5"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="5"
                 app:srcCompat="@drawable/ic_5_five_white_24dp"
                 tools:ignore="HardcodedText" />
@@ -72,20 +83,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="6"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="6"
                 app:srcCompat="@drawable/ic_6_six_white_24dp"
-                tools:ignore="HardcodedText" />
-
-            <ImageButton
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="4"
-                android:onClick="onClickDigit"
-                android:tag="4"
-                app:srcCompat="@drawable/ic_4_four_white_24dp"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
@@ -100,20 +100,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="1"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="1"
                 app:srcCompat="@drawable/ic_1_one_white_24dp"
-                tools:ignore="HardcodedText" />
-
-            <ImageButton
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="3"
-                android:onClick="onClickDigit"
-                android:tag="3"
-                app:srcCompat="@drawable/ic_3_three_white_24dp"
                 tools:ignore="HardcodedText" />
 
             <ImageButton
@@ -122,9 +111,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="2"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="2"
                 app:srcCompat="@drawable/ic_2_two_white_24dp"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="3"
+                android:onClick="onClick"
+                android:tag="3"
+                app:srcCompat="@drawable/ic_3_three_white_24dp"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
@@ -149,7 +149,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="0"
-                android:onClick="onClickDigit"
+                android:onClick="onClick"
                 android:tag="0"
                 app:srcCompat="@drawable/ic_0_zero_white_24dp"
                 tools:ignore="HardcodedText" />

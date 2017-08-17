@@ -48,12 +48,12 @@ public class DetailMeasureActivity extends EditActivity {
                 .setPosition(() -> cMeasure.getOwnLangID())
                 .setAction(position -> cMeasure.ownLang = cMeasure.getGlobalFromID((Integer) position))
                 .add(itemsView);
-//        new Item.Builder(this)
-//                .setTitle(R.string.list_item_version)
-//                .setIf(() -> !measure.cloudID.equals(""))
-//                .setUpdate(this::getVersionInfo)
-//                .setAction(this::versionAction)
-//                .add(itemsView);
+        new Item.Builder(this)
+                .setTitle(R.string.list_item_version)
+                .setIf(() -> !measure.cloudID.equals(""))
+                .setUpdate(this::getVersionInfo)
+                .setAction(this::versionAction)
+                .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.measure_details)

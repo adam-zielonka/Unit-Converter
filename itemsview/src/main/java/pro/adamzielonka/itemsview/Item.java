@@ -157,7 +157,7 @@ public class Item {
             return this;
         }
 
-        public Builder setEnabledUpdate(boolean enabled){
+        public Builder setEnabledUpdate(boolean enabled) {
             this.enabledUpdate = enabled;
             return this;
         }
@@ -223,6 +223,10 @@ public class Item {
             return this;
         }
 
+        public Builder addValidator(TestInterface.ObjectTest validator, @StringRes int error) {
+            return addValidator(validator, activity.getString(error));
+        }
+
         public Builder setAdapter(ArrayAdapter adapter) {
             this.adapter = adapter;
             return this;
@@ -274,7 +278,7 @@ public class Item {
                     .addValidator(validators)
                     .setAction(newValue -> {
                         action.onAction(newValue);
-                        if(enabledUpdate) itemsView.onSave();
+                        if (enabledUpdate) itemsView.onSave();
                     }).setTitle(getAlertTitle())
                     .create().show();
         }
@@ -285,7 +289,7 @@ public class Item {
                         int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                         action.onAction(selectedPosition);
                         dialogInterface.dismiss();
-                        if(enabledUpdate) itemsView.onSave();
+                        if (enabledUpdate) itemsView.onSave();
                     }).show();
         }
         //endregion
@@ -302,7 +306,7 @@ public class Item {
             if (switcherAction != null) {
                 ((Switch) view.findViewById(R.id.switcher)).setOnCheckedChangeListener((compoundButton, b) -> {
                     switcherAction.onAction(getSwitchState(view));
-                    if(enabledUpdate) itemsView.onSave();
+                    if (enabledUpdate) itemsView.onSave();
                 });
             } else
                 view.findViewById(R.id.switcher).setVisibility(View.GONE);

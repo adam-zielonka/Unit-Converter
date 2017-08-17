@@ -68,13 +68,11 @@ public class EditUnitActivity extends EditActivity {
                     prefix = adapter.getItem((int) position);
                     startEditActivity(EditPrefixActivity.class);
                 }).add(itemsView);
-
         new Item.Builder(this)
                 .setTitle(R.string.list_item_add_prefix)
                 .setAction(this::newPrefix)
-                .addValidator(symbol -> Tests.isUnique(symbol, unit.prefixes),
-                        getString(R.string.error_symbol_prefix_already_exist))
-                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
+                .addValidator(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)
+                .addValidator(symbol -> !symbol.equals(""), R.string.error_symbol_empty)
                 .add(itemsView);
     }
 

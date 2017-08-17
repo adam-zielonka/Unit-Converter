@@ -47,25 +47,25 @@ import static pro.adamzielonka.lib.Number.stringToDouble;
 public class ConverterActivity extends AppCompatActivity implements View.OnFocusChangeListener,
         AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
-    private List<CMeasure> measureList;
-    private int converterID;
     private Theme theme;
 
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     private EditText editTextFrom;
     private EditText editTextTo;
     private TextView textViewFrom;
     private TextView textViewTo;
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
-    private ConverterAdapter adapter;
+
+    private List<CMeasure> measureList;
     private CMeasure cMeasure;
+    private int measureID;
+    private ConverterAdapter adapter;
 
-    private boolean hideMenu = false;
-
-    private static final int DEFAULT_CONVERTER_ID = 1000;
+    private static final int DEFAULT_MEASURE_ID = 1000;
     private List<MenuItem> menuItems = new ArrayList<>();
+    private boolean menuVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +84,23 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        loadMeasures();
+    }
+
+    private void loadMeasures() {
         measureList = loadConverters(this);
 
         if (measureList.size() > 0) {
             setupConvertersMenu(navigationView.getMenu());
-            setupConverter(getConverterID());
+            setupConverter(getMeasureID());
+            setVisibleOptionMenu(true);
         } else {
             setEmptyLayout(R.string.empty_converters);
-            setHideOptionMenu();
+            setVisibleOptionMenu(false);
         }
     }
 
-    private int getConverterID() {
+    private int getMeasureID() {
         return getIDFromFileName(getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME));
     }
 
@@ -103,10 +108,10 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         int i = 0;
         for (CMeasure cMeasure : measureList) {
             if (cMeasure.concreteFileName.equals(fileName))
-                return i + DEFAULT_CONVERTER_ID;
+                return i + DEFAULT_MEASURE_ID;
             i++;
         }
-        return DEFAULT_CONVERTER_ID;
+        return DEFAULT_MEASURE_ID;
     }
 
     private void setupConvertersMenu(Menu menu) {
@@ -114,20 +119,20 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         menuItems.clear();
         int i = 0;
         for (CMeasure measure : measureList) {
-            menuItems.add(convertersMenu.add(0, i + DEFAULT_CONVERTER_ID, 0,
+            menuItems.add(convertersMenu.add(0, i + DEFAULT_MEASURE_ID, 0,
                     measure.getName(measure.isOwnLang ? measure.ownLang : Language.getLangCode(this))));
             menuItems.get(i++).setCheckable(true);
         }
     }
 
     //region setup converter
-    private void setupConverter(int converterID) {
+    private void setupConverter(int measureID) {
         try {
-            this.converterID = converterID;
+            this.measureID = measureID;
             measureList = loadConverters(this);
-            cMeasure = measureList.get(this.converterID - DEFAULT_CONVERTER_ID);
+            cMeasure = measureList.get(this.measureID - DEFAULT_MEASURE_ID);
             setConverterTitle();
-            navigationView.setCheckedItem(converterID);
+            navigationView.setCheckedItem(measureID);
 
             if (cMeasure.cUnits.size() > 0) {
 
@@ -143,7 +148,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
 
         } catch (Exception e) {
             e.printStackTrace();
-            if (DEFAULT_CONVERTER_ID != converterID) setupConverter(DEFAULT_CONVERTER_ID);
+            if (DEFAULT_MEASURE_ID != measureID) setupConverter(DEFAULT_MEASURE_ID);
             else finish();
         }
     }
@@ -155,7 +160,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     void setConverterTitle() {
         String title = cMeasure.isOwnName ? cMeasure.ownName : cMeasure.getName(getLangCode());
         setTitle(title);
-        menuItems.get(converterID - DEFAULT_CONVERTER_ID).setTitle(title);
+        menuItems.get(measureID - DEFAULT_MEASURE_ID).setTitle(title);
     }
 
     void findConverterViews() {
@@ -186,7 +191,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
 
     void setAdapter() {
         adapter = new ConverterAdapter(getApplicationContext(),
-                measureList.get(converterID - DEFAULT_CONVERTER_ID).cUnits,
+                measureList.get(measureID - DEFAULT_MEASURE_ID).cUnits,
                 getLangCode(),
                 cMeasure.global
         );
@@ -257,12 +262,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     }
     //endregion
 
-    //region clicks
-    public void onClickDigit(View v) {
-        editTextFrom.setText(appendDigit(editTextFrom.getText().toString(), v.getTag().toString()));
-        onCalculate();
-    }
-
+    //region keyboard
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
@@ -278,7 +278,24 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
             case R.id.buttonDeleteLast:
                 onClickDeleteLast();
                 break;
+            case R.id.button0:
+            case R.id.button1:
+            case R.id.button2:
+            case R.id.button3:
+            case R.id.button4:
+            case R.id.button5:
+            case R.id.button6:
+            case R.id.button7:
+            case R.id.button8:
+            case R.id.button9:
+                onAppendDigit(v.getTag().toString());
+                break;
         }
+    }
+
+    public void onAppendDigit(String tag) {
+        editTextFrom.setText(appendDigit(editTextFrom.getText().toString(), tag));
+        onCalculate();
     }
 
     public void onAppendComma() {
@@ -315,7 +332,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
 
         drawer.closeDrawer(GravityCompat.START);
 
-        if (id != converterID) {
+        if (id != measureID) {
             switch (id) {
                 case R.id.nav_settings:
                     Intent set = new Intent(this.getBaseContext(), SettingsActivity.class);
@@ -333,18 +350,16 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         return true;
     }
 
-    private void setHideOptionMenu() {
-        hideMenu = true;
+    private void setVisibleOptionMenu(boolean visible) {
+        menuVisible = visible;
         invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_converter, menu);
-        if (hideMenu) {
-            for (int i = 0; i < menu.size(); i++)
-                menu.getItem(i).setVisible(false);
-        }
+        for (int i = 0; i < menu.size(); i++)
+            menu.getItem(i).setVisible(menuVisible);
         return true;
     }
 
@@ -366,7 +381,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == REQUEST_EDIT_ACTIVITY && resultCode == RESULT_OK) {
-            setupConverter(converterID);
+            setupConverter(measureID);
         }
     }
     //endregion
