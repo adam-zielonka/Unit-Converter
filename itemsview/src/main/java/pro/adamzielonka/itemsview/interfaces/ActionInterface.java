@@ -16,8 +16,4 @@ public interface ActionInterface {
     interface VoidAction {
         Void onAction();
     }
-
-    interface ListAction {
-        void onAction(Integer position);
-    }
 }

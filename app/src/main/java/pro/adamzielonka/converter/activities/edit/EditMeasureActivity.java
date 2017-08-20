@@ -272,12 +272,18 @@ public class EditMeasureActivity extends EditActivity {
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.hasChild(measure.cloudID)) {
                         CloudMeasure cloudMeasure = snapshot.child(measure.cloudID).getValue(CloudMeasure.class);
-                        if (cloudMeasure.uid.equals(getUid())) {
-                            cloudMeasure.version++;
-                            cloudMeasure.title = title;
-                            cloudMeasure.units_symbols = body;
-                            cloudMeasure.units_names = body;
-                            doUpdateMeasure(measure.cloudID, cloudMeasure);
+                        if (cloudMeasure != null) {
+                            if (cloudMeasure.uid.equals(getUid())) {
+                                cloudMeasure.version++;
+                                cloudMeasure.title = title;
+                                cloudMeasure.units_symbols = body;
+                                cloudMeasure.units_names = body;
+                                doUpdateMeasure(measure.cloudID, cloudMeasure);
+                            } else {
+                                String key = mDatabase.child("measures").push().getKey();
+                                cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
+                                doUpdateMeasure(key, cloudMeasure);
+                            }
                         } else {
                             String key = mDatabase.child("measures").push().getKey();
                             cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);

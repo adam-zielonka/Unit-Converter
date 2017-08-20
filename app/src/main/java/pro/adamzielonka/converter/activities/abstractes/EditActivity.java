@@ -1,7 +1,6 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -34,11 +33,6 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
     private String measureFileName;
     protected String unitName;
     protected String prefixName;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onSave() {

@@ -76,11 +76,12 @@ public class MyUploadService extends MyBaseTaskService {
                         taskSnapshot.getBytesTransferred(), taskSnapshot.getTotalByteCount())
                 )
                 .addOnSuccessListener(taskSnapshot -> {
-                    Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                    if (taskSnapshot.getMetadata() != null) {
+                        Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
 
-                    broadcastUploadFinished(downloadUri, fileUri);
-                    showUploadFinishedNotification(downloadUri, fileUri);
-
+                        broadcastUploadFinished(downloadUri, fileUri);
+                        showUploadFinishedNotification(downloadUri, fileUri);
+                    }
                     taskCompleted();
                 })
                 .addOnFailureListener(exception -> {

@@ -91,18 +91,15 @@ public class Item {
 
         //region Title
         public Builder setTitle(@StringRes int title) {
-            setTitle(activity.getString(title));
-            return this;
+            return setTitle(activity.getString(title));
         }
 
         public Builder setTitle(String title) {
-            setTitle(() -> title);
-            return this;
+            return setTitle(() -> title);
         }
 
         public Builder setTitle(UpdateInterface.StringResUpdate title) {
-            setTitle(() -> activity.getString(title.onUpdate()));
-            return this;
+            return setTitle(() -> activity.getString(title.onUpdate()));
         }
 
         public Builder setTitle(UpdateInterface.ObjectUpdate title) {
@@ -111,8 +108,7 @@ public class Item {
         }
 
         public Builder setAlertTitle(@StringRes int alertTitle) {
-            setAlertTitle(activity.getString(alertTitle));
-            return this;
+            return setAlertTitle(activity.getString(alertTitle));
         }
 
         public Builder setAlertTitle(String alertTitle) {
@@ -131,8 +127,7 @@ public class Item {
 
         //region Title Header
         public Builder setTitleHeader(@StringRes int title) {
-            setTitleHeader(activity.getString(title));
-            return this;
+            return setTitleHeader(activity.getString(title));
         }
 
         public Builder setTitleHeader(String title) {

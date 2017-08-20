@@ -49,7 +49,7 @@ public abstract class MyBaseTaskService extends Service {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        manager.notify(PROGRESS_NOTIFICATION_ID, builder.build());
+        if (manager != null) manager.notify(PROGRESS_NOTIFICATION_ID, builder.build());
     }
 
     protected void showFinishedNotification(String caption, Intent intent, boolean success) {
@@ -69,13 +69,13 @@ public abstract class MyBaseTaskService extends Service {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        manager.notify(FINISHED_NOTIFICATION_ID, builder.build());
+        if (manager != null) manager.notify(FINISHED_NOTIFICATION_ID, builder.build());
     }
 
     protected void dismissProgressNotification() {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        manager.cancel(PROGRESS_NOTIFICATION_ID);
+        if (manager != null) manager.cancel(PROGRESS_NOTIFICATION_ID);
     }
 }

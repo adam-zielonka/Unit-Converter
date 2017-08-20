@@ -54,7 +54,7 @@ public class MeasureDetailActivity extends BaseActivity {
             public void onReceive(Context context, Intent intent) {
                 hideProgressDialog();
 
-                switch (intent.getAction()) {
+                switch (intent.getAction() != null ? intent.getAction() : "") {
                     case MyDownloadService.DOWNLOAD_COMPLETED:
                         long numBytes = intent.getLongExtra(MyDownloadService.EXTRA_BYTES_DOWNLOADED, 0);
                         showMessageDialog(getString(R.string.success), String.format(Locale.getDefault(),
@@ -93,11 +93,12 @@ public class MeasureDetailActivity extends BaseActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cloudMeasure = dataSnapshot.getValue(CloudMeasure.class);
-
-                mAuthorView.setText(cloudMeasure.author);
-                mTitleView.setText(cloudMeasure.title);
-                mVersionView.setText(String.format("  v.%s", cloudMeasure.version));
-                mBodyView.setText(cloudMeasure.units_symbols);
+                if (cloudMeasure != null) {
+                    mAuthorView.setText(cloudMeasure.author);
+                    mTitleView.setText(cloudMeasure.title);
+                    mVersionView.setText(String.format("  v.%s", cloudMeasure.version));
+                    mBodyView.setText(cloudMeasure.units_symbols);
+                }
             }
 
             @Override

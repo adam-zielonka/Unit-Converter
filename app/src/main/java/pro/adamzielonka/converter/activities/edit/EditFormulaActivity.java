@@ -10,7 +10,7 @@ public class EditFormulaActivity extends EditActivity {
 
     @Override
     public void addItems() {
-        setTitle(R.string.title_activity_formula_description);
+        setTitle(R.string.title_activity_formula);
         super.addItems();
 
         new Item.Builder(this)

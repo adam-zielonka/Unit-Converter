@@ -38,6 +38,20 @@
 
     <!-- [END] Edit -->
 
+    <!-- [START] Edit Formula -->
+    <string name="title_activity_formula">Edit formula</string>
+    <string name="list_title_formula">Formula</string>
+    <string name="list_item_formula_description">ONE * ( BASE + SHIFT1) + SHIFT2</string>
+    <string name="list_item_formula_one">One</string>
+    <string name="list_item_formula_shift1">Shift 1</string>
+    <string name="list_item_formula_shift2">Shift 2</string>
+    <!-- [END] Edit Formula-->
+
+    <!-- [START] Edit Order Units -->
+    <string name="title_activity_edit_order_units">Edit order of units</string>
+    <!-- [END] Edit -->
+
+
     <string name="error_no_units">No units in this file</string>
     <string name="error_no_file">File not found</string>
     <string name="error_no_json_file">Only json file</string>
@@ -67,7 +81,6 @@
     <string name="list_item_units_order">Order of units</string>
     <string name="dialog_measure_name">Measure name</string>
     <string name="dialog_save">Save</string>
-    <string name="title_activity_edit_order_units">Edit order of units</string>
     <string name="set_unit_up">Set unit up</string>
     <string name="set_unit_down">Set unit down</string>
     <string name="title_activity_edit_prefix">Edit prefix</string>
@@ -82,12 +95,7 @@
     <string name="list_title_description">Description</string>
     <string name="list_item_description_base">Base</string>
     <string name="list_item_description_global_prefix">Global prefix</string>
-    <string name="title_activity_formula_description">Edit formula</string>
-    <string name="list_item_formula_one">One</string>
-    <string name="list_item_formula_shift1">Shift 1</string>
-    <string name="list_item_formula_shift2">Shift 2</string>
-    <string name="list_title_formula">Formula</string>
-    <string name="list_item_formula_description">ONE * ( BASE + SHIFT1) + SHIFT2</string>
+
     <string name="error_symbol_prefix_already_exist">Symbol prefix already exist</string>
     <string name="error_symbol_unit_already_exist">Symbol unit already exist</string>
     <string name="dialog_prefix_symbol">Prefix symbol</string>
