@@ -21,10 +21,11 @@ public class Number {
 
     public static Double stringToDouble(String number) {
         try {
-            return Double.parseDouble(number.replaceAll("\\s+", "").replaceAll(NO_SEPARATOR_DECIMAL, SEPARATOR_DECIMAL));
+            return Double.parseDouble(number.replaceAll("\\s+", "").replaceAll(",", "."));
         } catch (NumberFormatException e) {
             switch (number) {
                 case "":
+                case "-":
                     return 0.0;
                 case INFINITY:
                     return Double.POSITIVE_INFINITY;
@@ -40,25 +41,34 @@ public class Number {
         return number.replace("-", "").replace(SEPARATOR_DECIMAL, "").length();
     }
 
-    public static String appendDigit(String number, String digit) {
-        if (number.contains(INFINITY) || number.equals("NaN") || digitCount(number) >= MAX_DIGIT_COUNT)
-            return number;
+    private static boolean containsNaN(String number) {
+        return number.contains(INFINITY) || number.equals("NaN");
+    }
 
-        return !number.equals("-0") ? !number.equals("0") ? number + digit : digit : "-" + digit;
+    private static String getNumberWithZero(String number) {
+        return number.isEmpty() ? "0" : number.equals("-") ? "-0" : number;
+    }
+
+    private static String getNumberWithOutZero(String number) {
+        return number.equals("0") ? "" : number.equals("-0") ? "-" : number;
+    }
+
+    public static String appendDigit(String number, String digit) {
+        if (containsNaN(number) || digitCount(number) >= MAX_DIGIT_COUNT) return number;
+        return getNumberWithOutZero(number) + digit;
     }
 
     public static String appendComma(String number) {
-        if (number.contains(INFINITY) || number.equals("NaN")) return number;
-        return number.contains(SEPARATOR_DECIMAL) ? number : number + SEPARATOR_DECIMAL;
+        if (containsNaN(number) || number.contains(SEPARATOR_DECIMAL)) return number;
+        return getNumberWithZero(number) + SEPARATOR_DECIMAL;
     }
 
     public static String changeSign(String number) {
-        return number.equals("NaN") ? number : doubleToString((-1.0) * stringToDouble(number));
+        return doubleToString(-1.0 * stringToDouble(number));
     }
 
     public static String deleteLast(String number) {
-        if (number.contains(INFINITY) || number.equals("NaN") || number.isEmpty()) return "0";
-        String result = number.substring(0, number.length() - 1);
-        return result.isEmpty() ? "0" : result;
+        if (containsNaN(number) || number.length() <= 1) return "0";
+        return number.substring(0, number.length() - 1);
     }
 }
