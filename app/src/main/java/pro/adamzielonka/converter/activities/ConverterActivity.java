@@ -36,6 +36,7 @@ import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
+import static pro.adamzielonka.converter.tools.Menus.getMenuItems;
 import static pro.adamzielonka.lib.Common.getItself;
 import static pro.adamzielonka.lib.Number.doubleToString;
 import static pro.adamzielonka.lib.Number.stringToDouble;
@@ -338,8 +339,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_converter, menu);
-        for (int i = 0; i < menu.size(); i++)
-            menu.getItem(i).setVisible(menuVisible);
+        getMenuItems(menu).myForEach(menuItem -> menuItem.setVisible(menuVisible));
         return true;
     }
 
