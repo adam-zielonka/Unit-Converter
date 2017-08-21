@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,6 +27,7 @@ import pro.adamzielonka.converter.activities.edit.DetailMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConverterAdapter;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
+import pro.adamzielonka.converter.tools.EditNumber;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.theme.Theme;
@@ -37,10 +37,6 @@ import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.lib.Common.getItself;
-import static pro.adamzielonka.lib.Number.appendComma;
-import static pro.adamzielonka.lib.Number.appendDigit;
-import static pro.adamzielonka.lib.Number.changeSign;
-import static pro.adamzielonka.lib.Number.deleteLast;
 import static pro.adamzielonka.lib.Number.doubleToString;
 import static pro.adamzielonka.lib.Number.stringToDouble;
 
@@ -51,8 +47,8 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private EditText editTextFrom;
-    private EditText editTextTo;
+    private EditNumber editNumberFrom;
+    private EditNumber editNumberTo;
     private TextView textViewFrom;
     private TextView textViewTo;
     private Spinner spinnerFrom;
@@ -142,7 +138,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
                 setAdapter();
                 setSelection();
 
-                onClear();
+                clearScreen();
                 setConverterLayout();
             } else setEmptyLayout(R.string.empty_units);
 
@@ -167,23 +163,23 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         textViewFrom = findViewById(R.id.textViewFrom);
         textViewTo = findViewById(R.id.textViewTo);
 
-        editTextFrom = findViewById(R.id.textFrom);
-        editTextTo = findViewById(R.id.textTo);
+        editNumberFrom = findViewById(R.id.textFrom);
+        editNumberTo = findViewById(R.id.textTo);
 
         spinnerFrom = findViewById(R.id.spinnerFrom);
         spinnerTo = findViewById(R.id.spinnerTo);
     }
 
     void setTextFocus() {
-        editTextFrom.setTextColor(theme.getTextColor());
-        editTextTo.setTextColor(Color.BLACK);
+        editNumberFrom.setTextColor(theme.getTextColor());
+        editNumberTo.setTextColor(Color.BLACK);
 
-        editTextFrom.requestFocus();
+        editNumberFrom.requestFocus();
     }
 
     void setConverterListeners() {
-        editTextFrom.setOnFocusChangeListener(this);
-        editTextTo.setOnFocusChangeListener(this);
+        editNumberFrom.setOnFocusChangeListener(this);
+        editNumberTo.setOnFocusChangeListener(this);
 
         spinnerFrom.setOnItemSelectedListener(this);
         spinnerTo.setOnItemSelectedListener(this);
@@ -230,8 +226,8 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     //region events
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-        if (hasFocus && editTextTo.equals(view)) {
-            editTextFrom = (EditText) getItself(editTextTo, editTextTo = editTextFrom);
+        if (hasFocus && editNumberTo.equals(view)) {
+            editNumberFrom = (EditNumber) getItself(editNumberTo, editNumberTo = editNumberFrom);
             spinnerFrom = (Spinner) getItself(spinnerTo, spinnerTo = spinnerFrom);
             textViewFrom = (TextView) getItself(textViewTo, textViewTo = textViewFrom);
             setTextFocus();
@@ -254,29 +250,32 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
 
     private void onCalculate() {
         double result = doConversion(
-                stringToDouble(editTextFrom.getText().toString()),
+                stringToDouble(editNumberFrom.getText().toString()),
                 adapter.getItem((int) spinnerFrom.getSelectedItemId()),
                 adapter.getItem((int) spinnerTo.getSelectedItemId())
         );
-        editTextTo.setText(doubleToString(result));
+        editNumberTo.setText(doubleToString(result));
     }
     //endregion
 
     //region keyboard
     public void onClick(View v) {
-        int id = v.getId();
+        keyboardAction(v.getId(), v.getTag() != null ? v.getTag().toString() : null);
+    }
+
+    public void keyboardAction(int id, String tag) {
         switch (id) {
             case R.id.buttonComa:
-                onAppendComma();
-                break;
+                editNumberFrom.appendComma();
+                return;
             case R.id.buttonPlusMinus:
-                onChangeSign();
+                editNumberFrom.changeSign();
                 break;
             case R.id.buttonClearOutput:
-                onClear();
+                editNumberFrom.setText("0");
                 break;
             case R.id.buttonDeleteLast:
-                onClickDeleteLast();
+                editNumberFrom.deleteLast();
                 break;
             case R.id.button0:
             case R.id.button1:
@@ -288,33 +287,14 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
             case R.id.button7:
             case R.id.button8:
             case R.id.button9:
-                onAppendDigit(v.getTag().toString());
+                editNumberFrom.appendDigit(tag);
                 break;
         }
-    }
-
-    public void onAppendDigit(String tag) {
-        editTextFrom.setText(appendDigit(editTextFrom.getText().toString(), tag));
         onCalculate();
     }
 
-    public void onAppendComma() {
-        editTextFrom.setText(appendComma(editTextFrom.getText().toString()));
-    }
-
-    public void onChangeSign() {
-        editTextFrom.setText(changeSign(editTextFrom.getText().toString()));
-        onCalculate();
-    }
-
-    public void onClear() {
-        editTextFrom.setText("0");
-        onCalculate();
-    }
-
-    public void onClickDeleteLast() {
-        editTextFrom.setText(deleteLast(editTextFrom.getText().toString()));
-        onCalculate();
+    public void clearScreen() {
+        keyboardAction(R.id.buttonClearOutput, null);
     }
     //endregion
 
