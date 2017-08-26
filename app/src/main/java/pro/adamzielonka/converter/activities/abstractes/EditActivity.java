@@ -21,7 +21,8 @@ import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
-public abstract class EditActivity extends ListActivity implements ItemsView.OnItemsSave {
+public abstract class EditActivity extends ListActivity
+        implements ItemsView.OnItemsSave, ItemsView.OnItemsUpdate {
 
     protected Measure measure;
     protected CMeasure cMeasure;
@@ -47,6 +48,7 @@ public abstract class EditActivity extends ListActivity implements ItemsView.OnI
 
     @Override
     public void addItems() {
+        itemsView.setOnItemsUpdate(this);
         itemsView.setOnItemsSave(this);
         Intent intent = getIntent();
         measureFileName = intent.getStringExtra(EXTRA_MEASURE_FILE_NAME);

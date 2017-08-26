@@ -89,12 +89,10 @@ public class UserAuth {
         return null;
     }
 
-    public boolean isSuccess(Intent data) {
+    public void getSignInResultFromIntent(Intent data) {
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        if (result.isSuccess()) {
-            firebaseAuthWithGoogle(result.getSignInAccount());
-            return true;
-        } else return false;
+        if (result.isSuccess()) firebaseAuthWithGoogle(result.getSignInAccount());
+        else onAuthResult.onAuthResult();
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -139,7 +137,11 @@ public class UserAuth {
                 });
     }
 
-    public void createUser(boolean changeName, String name, String error) {
+    public void changeUserName() {
+        createUser(true, getUserName(), "");
+    }
+
+    private void createUser(boolean changeName, String name, String error) {
         myProgressDialog.show();
         new EditDialogBuilder(activity)
                 .setError(error)
@@ -151,7 +153,9 @@ public class UserAuth {
                     myProgressDialog.hide();
                 })
                 .setTitle(R.string.dialog_set_user_name)
-                .create().show();
+                .create()
+                .setCancelable(changeName)
+                .show();
     }
 
     private void createUserName(String name) {

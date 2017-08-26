@@ -22,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     public void addItems() {
         setTitle(R.string.title_activity_settings);
-        userAuth = new UserAuth(this, this::onUpdate);
+        userAuth = new UserAuth(this, () -> itemsView.onUpdate());
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.pref_header_appearance)
@@ -41,7 +41,7 @@ public class SettingsActivity extends PreferenceActivity {
                 .setPosition(() -> getLanguageID(this))
                 .setAction(position -> {
                     setLanguage(this, getLanguageFromID(this, (Integer) position));
-                    restart();
+                    reloadActivity(this);
                 }).add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language_converter)
@@ -59,7 +59,8 @@ public class SettingsActivity extends PreferenceActivity {
                 .setIf(() -> getUser() != null)
                 .setUpdate(() -> userAuth.getUserName())
                 .setElseUpdate(() -> "")
-                .setAction(() -> userAuth.createUser(true, userAuth.getUserName(), "")).add(itemsView);
+                .setAction(() -> userAuth.changeUserName())
+                .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.pref_header_about)
@@ -75,30 +76,12 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equals("theme")) {
-            restart();
-        }
-    }
-
-    protected void restart() {
-        Intent settings = new Intent(getBaseContext(), SettingsActivity.class);
-        startActivity(settings);
-        overridePendingTransition(0, 0);
-        finish();
+        if (s.equals("theme")) reloadActivity(this);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            if (!userAuth.isSuccess(data)) onUpdate();
-        }
+        if (requestCode == RC_SIGN_IN) userAuth.getSignInResultFromIntent(data);
     }
-
-    @Override
-    public void onUpdate() {
-        itemsView.onUpdate();
-    }
-
 }

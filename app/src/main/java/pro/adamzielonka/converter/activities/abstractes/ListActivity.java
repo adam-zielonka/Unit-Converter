@@ -7,7 +7,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.interfaces.AddItemsInterface;
 import pro.adamzielonka.itemsview.ItemsView;
 
-public abstract class ListActivity extends BaseActivity implements AddItemsInterface, ItemsView.OnItemsUpdate {
+public abstract class ListActivity extends BaseActivity implements AddItemsInterface {
     public ItemsView itemsView;
 
     @Override
@@ -19,7 +19,6 @@ public abstract class ListActivity extends BaseActivity implements AddItemsInter
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         itemsView = findViewById(R.id.ListView);
-        itemsView.setOnItemsUpdate(this);
         itemsView.setEmptyAdapter();
 
         addItems();
