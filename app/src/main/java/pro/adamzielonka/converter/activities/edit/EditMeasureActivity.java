@@ -43,8 +43,8 @@ import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.itemsview.Item;
-import pro.adamzielonka.itemsview.tools.Tests;
+import pro.adamzielonka.items.Item;
+import pro.adamzielonka.items.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.FileTools.getFileUri;
@@ -109,14 +109,14 @@ public class EditMeasureActivity extends EditActivity {
                 .setUpdate(() -> Language.getLanguage(cMeasure.global))
                 .setArray(() -> cMeasure.getGlobalLangs())
                 .setPosition(() -> cMeasure.getGlobalID())
-                .setAction(id -> measure.global = cMeasure.getGlobalFromID((Integer) id))
+                .setAction((Integer id) -> measure.global = cMeasure.getGlobalFromID(id))
                 .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_Measure)
                 .setTitle(R.string.list_item_name)
                 .setUpdate(() -> measure.getName(measure.global))
-                .setAction(name -> measure.setName(cMeasure.global, (String) name))
+                .setAction((String name) -> measure.setName(cMeasure.global, name))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_units_order)
@@ -131,7 +131,7 @@ public class EditMeasureActivity extends EditActivity {
                 .setElseUpdate(() -> "")
                 .setArray(() -> cMeasure.getUnitsSymbol())
                 .setPosition(() -> measure.displayFrom)
-                .setAction(id -> measure.displayFrom = (Integer) id)
+                .setAction((Integer id) -> measure.displayFrom = id)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_measure_default_2)
@@ -140,15 +140,15 @@ public class EditMeasureActivity extends EditActivity {
                 .setElseUpdate(() -> "")
                 .setArray(() -> cMeasure.getUnitsSymbol())
                 .setPosition(() -> measure.displayTo)
-                .setAction(id -> measure.displayTo = (Integer) id)
+                .setAction((Integer id) -> measure.displayTo = id)
                 .add(itemsView);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_units)
                 .setAdapter(adapter)
                 .setUpdate(() -> measure.units)
-                .setAction(position -> {
-                    unit = adapter.getItem((Integer) position);
+                .setAction((Integer position) -> {
+                    unit = adapter.getItem(position);
                     startEditActivity(EditUnitActivity.class);
                 }).add(itemsView);
         new Item.Builder(this)
@@ -159,9 +159,9 @@ public class EditMeasureActivity extends EditActivity {
                 .add(itemsView);
     }
 
-    private void addUnit(Object symbol) {
+    private void addUnit(String symbol) {
         Unit unitTemp = unit = new Unit();
-        unit.symbol = (String) symbol;
+        unit.symbol = symbol;
         measure.units.add(unit);
         itemsView.onSave();
         unit = unitTemp;

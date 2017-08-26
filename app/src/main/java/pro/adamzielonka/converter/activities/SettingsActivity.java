@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
-import pro.adamzielonka.itemsview.Item;
+import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
 import static pro.adamzielonka.converter.tools.Language.getDisplayLanguage;
@@ -31,7 +31,7 @@ public class SettingsActivity extends PreferenceActivity {
                 .setEnabledUpdate(false)
                 .setArray(() -> theme.getArray())
                 .setPosition(() -> theme.getID())
-                .setAction(id -> theme.setID((Integer) id))
+                .setAction((Integer id) -> theme.setID(id))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
@@ -39,8 +39,8 @@ public class SettingsActivity extends PreferenceActivity {
                 .setEnabledUpdate(false)
                 .setArray(() -> getDisplayLanguages(this))
                 .setPosition(() -> getLanguageID(this))
-                .setAction(position -> {
-                    setLanguage(this, getLanguageFromID(this, (Integer) position));
+                .setAction((Integer position) -> {
+                    setLanguage(this, getLanguageFromID(this, position));
                     reloadActivity(this);
                 }).add(itemsView);
         new Item.Builder(this)

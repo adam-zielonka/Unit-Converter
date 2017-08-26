@@ -6,8 +6,8 @@ import android.view.MenuItem;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.itemsview.Item;
-import pro.adamzielonka.itemsview.tools.Tests;
+import pro.adamzielonka.items.Item;
+import pro.adamzielonka.items.tools.Tests;
 
 public class EditPrefixActivity extends EditActivity {
 
@@ -20,18 +20,18 @@ public class EditPrefixActivity extends EditActivity {
                 .setTitleHeader(R.string.list_title_prefix)
                 .setTitle(R.string.list_item_symbol)
                 .setUpdate(() -> prefix.symbol)
-                .setAction(symbol -> prefix.symbol = prefixName = (String) symbol)
+                .setAction((String symbol) -> prefix.symbol = prefixName = symbol)
                 .addValidator(symbol -> Tests.isUnique(symbol, unit.prefixes), getString(R.string.error_symbol_prefix_already_exist))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_description)
                 .setUpdate(() -> measure.getWords(prefix.description, measure.global))
-                .setAction(text -> prefix.description.put(measure.global, (String) text))
+                .setAction((String text) -> prefix.description.put(measure.global, text))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_exponent)
                 .setUpdate(() -> prefix.exp)
-                .setAction(exp -> prefix.exp = (Double) exp)
+                .setAction((Double exp) -> prefix.exp = exp)
                 .add(itemsView);
     }
 

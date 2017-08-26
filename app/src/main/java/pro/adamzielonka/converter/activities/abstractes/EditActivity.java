@@ -14,7 +14,7 @@ import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.tools.FileTools;
-import pro.adamzielonka.itemsview.ItemsView;
+import pro.adamzielonka.items.ItemsView;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;

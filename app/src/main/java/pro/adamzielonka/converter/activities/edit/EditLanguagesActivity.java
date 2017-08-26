@@ -10,7 +10,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.itemsview.Item;
+import pro.adamzielonka.items.Item;
 
 public class EditLanguagesActivity extends EditActivity {
 
@@ -36,17 +36,17 @@ public class EditLanguagesActivity extends EditActivity {
                 .setTitleHeader(R.string.list_title_translations)
                 .setAdapter(adapter)
                 .setUpdate(this::getArrayList)
-                .setAction(position -> {
-                    String[] strings = adapter.getItem((int) position);
+                .setAction((Integer position) -> {
+                    String[] strings = adapter.getItem(position);
                     language = strings != null ? strings[0] : "en";
                     startEditActivity(EditTranslationActivity.class);
                 }).add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_add_translation)
                 .setAlertTitle(R.string.lang_put_code)
-                .setAction(code -> {
-                    cMeasure.newLangs.add((String) code);
-                    language = (String) code;
+                .setAction((String code) -> {
+                    cMeasure.newLangs.add(code);
+                    language = code;
                     startEditActivity(EditTranslationActivity.class);
                 })
                 .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_lang_code_empty))

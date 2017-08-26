@@ -15,7 +15,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.itemsview.Item;
+import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 
@@ -37,7 +37,7 @@ public class DetailMeasureActivity extends EditActivity {
                 .setSwitcherUpdate(() -> cMeasure.isOwnName)
                 .setSwitcherAction(isOwnName -> cMeasure.isOwnName = (Boolean) isOwnName)
                 .setUpdate(() -> cMeasure.ownName)
-                .setAction(ownName -> cMeasure.ownName = (String) ownName)
+                .setAction((String ownName) -> cMeasure.ownName = ownName)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_own_lang_measure)
@@ -46,7 +46,7 @@ public class DetailMeasureActivity extends EditActivity {
                 .setUpdate(() -> Language.getLanguage(cMeasure.ownLang))
                 .setArray(() -> cMeasure.getGlobalLangs())
                 .setPosition(() -> cMeasure.getOwnLangID())
-                .setAction(position -> cMeasure.ownLang = cMeasure.getGlobalFromID((Integer) position))
+                .setAction((Integer position) -> cMeasure.ownLang = cMeasure.getGlobalFromID(position))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_version)

@@ -20,7 +20,7 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
-import pro.adamzielonka.itemsview.Item;
+import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
@@ -67,9 +67,9 @@ public class AddMeasureActivity extends EditActivity {
 
     }
 
-    private void createByEditor(Object object) {
+    private void createByEditor(String name) {
         measure = new Measure();
-        measure.setName(getLangCode(this), (String) object);
+        measure.setName(getLangCode(this), name);
         measure.global = getLangCode(this);
         cMeasure = measure.getConcreteMeasure();
 

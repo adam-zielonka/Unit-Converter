@@ -5,7 +5,7 @@ import android.support.v7.widget.Toolbar;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.interfaces.AddItemsInterface;
-import pro.adamzielonka.itemsview.ItemsView;
+import pro.adamzielonka.items.ItemsView;
 
 public abstract class ListActivity extends BaseActivity implements AddItemsInterface {
     public ItemsView itemsView;
