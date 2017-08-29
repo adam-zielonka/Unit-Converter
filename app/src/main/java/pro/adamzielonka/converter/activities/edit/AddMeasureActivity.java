@@ -57,12 +57,12 @@ public class AddMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitle(R.string.list_item_json_repo)
                 .setUpdate(() -> getString(R.string.list_item_json_repo_description))
-                .setAction(() -> startWebsite("https://bitbucket.org/adam-zielonka-pro/converters/src"))
+                .setAction(() -> startWebsite(R.string.uri_measures))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_load_form_cloud)
                 .setUpdate(() -> getString(R.string.list_item_load_form_cloud_description))
-                .setAction(() -> startActivity(new Intent(getApplicationContext(), CloudActivity.class)))
+                .setAction(() -> startActivity(CloudActivity.class))
                 .add(itemsView);
 
     }

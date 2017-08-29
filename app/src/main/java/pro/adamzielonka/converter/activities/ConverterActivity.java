@@ -186,13 +186,16 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         spinnerTo.setOnItemSelectedListener(this);
     }
 
-    void setAdapter() {
-        adapter = new ConverterAdapter(getApplicationContext(),
+    ConverterAdapter getAdapter() {
+        return new ConverterAdapter(getApplicationContext(),
                 measureList.get(measureID - DEFAULT_MEASURE_ID).cUnits,
                 getLangCode(),
                 cMeasure.global
         );
+    }
 
+    void setAdapter() {
+        adapter = getAdapter();
         spinnerFrom.setAdapter(adapter);
         spinnerTo.setAdapter(adapter);
     }

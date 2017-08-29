@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -81,8 +82,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    public void startWebsite(String website) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(website)));
+    public void startWebsite(@StringRes int url) {
+        startWebsite(getString(url));
+    }
+
+    public void startWebsite(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    }
+
+    public void startActivity(Class<?> cls) {
+        startActivity(new Intent(getApplicationContext(), cls));
     }
 
 }

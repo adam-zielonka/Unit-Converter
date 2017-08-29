@@ -70,7 +70,7 @@ public class SettingsActivity extends PreferenceActivity {
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_website)
                 .setUpdate(() -> getString(R.string.website))
-                .setAction(() -> startWebsite("https://adamzielonka.pro/"))
+                .setAction(() -> startWebsite(R.string.uri_my_website))
                 .add(itemsView);
     }
 
