@@ -23,6 +23,7 @@
     <!-- [START] Settings -->
     <string name="pref_header_appearance">Appearance</string>
     <string name="pref_title_theme">Theme</string>
+    <string name="pref_title_decimal_separator">Decimal separator</string>
     <string name="pref_title_language">Interface language</string>
 
     <string name="pref_header_user">User</string>

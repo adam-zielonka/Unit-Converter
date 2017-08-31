@@ -1,6 +1,8 @@
 package pro.adamzielonka.items.dialog;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,8 +45,9 @@ public class EditTextBuilder {
     }
 
     private EditText getEditText(Double number, String error) {
-        EditText editText = getEditText(doubleToString(number), error);
+        EditText editText = getEditText(doubleToString(number).replaceAll(",", "."), error);
         editText.setInputType(TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL | TYPE_NUMBER_FLAG_SIGNED);
+        editText.addTextChangedListener(onTextChangedListener(editText));
         return editText;
     }
 
@@ -59,5 +62,31 @@ public class EditTextBuilder {
         editText.setText(text);
         editText.setSelection(editText.length());
         return editText;
+    }
+
+
+    private TextWatcher onTextChangedListener(EditText editText) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editText.removeTextChangedListener(this);
+
+                editText.setText(s.toString().contains(",")
+                        ? s.toString().replaceAll(",", ".") : s.toString());
+                editText.setSelection(editText.getText().length());
+
+                editText.addTextChangedListener(this);
+            }
+        };
     }
 }
