@@ -1,7 +1,7 @@
-package pro.adamzielonka.lib;
+package pro.adamzielonka.java;
 
-import static pro.adamzielonka.lib.Symbols.COMMA;
-import static pro.adamzielonka.lib.Symbols.DOT;
+import static pro.adamzielonka.java.Symbols.COMMA;
+import static pro.adamzielonka.java.Symbols.DOT;
 
 class Separator {
     private static final Separator ourInstance = new Separator();

@@ -12,7 +12,7 @@ import pro.adamzielonka.items.R;
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
 import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
-import static pro.adamzielonka.lib.Number.doubleToString;
+import static pro.adamzielonka.java.Number.doubleToString;
 
 public class EditTextBuilder {
     private Activity activity;

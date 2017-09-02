@@ -37,9 +37,9 @@ import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.converter.tools.Menus.getMenuItems;
-import static pro.adamzielonka.lib.Common.getItself;
-import static pro.adamzielonka.lib.Number.doubleToString;
-import static pro.adamzielonka.lib.Number.stringToDouble;
+import static pro.adamzielonka.java.Common.getItself;
+import static pro.adamzielonka.java.Number.doubleToString;
+import static pro.adamzielonka.java.Number.stringToDouble;
 
 public class ConverterActivity extends AppCompatActivity implements View.OnFocusChangeListener,
         AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {

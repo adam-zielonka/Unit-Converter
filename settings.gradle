@@ -1,1 +1,1 @@
-include ':lib', ':items', ':app'
+include ':java', ':items', ':app'

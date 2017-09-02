@@ -1,4 +1,4 @@
-package pro.adamzielonka.lib;
+package pro.adamzielonka.java;
 
 public class Common {
     @SuppressWarnings("UnusedParameters")

@@ -18,7 +18,7 @@ import pro.adamzielonka.items.interfaces.TestInterface;
 import pro.adamzielonka.items.interfaces.UpdateInterface;
 import pro.adamzielonka.items.tools.Test;
 
-import static pro.adamzielonka.lib.Number.doubleToString;
+import static pro.adamzielonka.java.Number.doubleToString;
 
 public class Item {
 

@@ -7,7 +7,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
 import pro.adamzielonka.items.Item;
-import pro.adamzielonka.lib.Number;
+import pro.adamzielonka.java.Number;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
 import static pro.adamzielonka.converter.tools.Language.getDisplayLanguage;

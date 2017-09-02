@@ -15,7 +15,7 @@ import pro.adamzielonka.items.interfaces.ActionInterface;
 import pro.adamzielonka.items.interfaces.TestInterface;
 import pro.adamzielonka.items.tools.Test;
 
-import static pro.adamzielonka.lib.Number.stringToDouble;
+import static pro.adamzielonka.java.Number.stringToDouble;
 
 public class EditDialogBuilder extends DialogBuilder {
     private Object value;

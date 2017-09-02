@@ -1,17 +1,17 @@
-package pro.adamzielonka.lib;
+package pro.adamzielonka.java;
 
 import java.text.DecimalFormat;
 
-import static pro.adamzielonka.lib.Number.getDecimalSeparator;
-import static pro.adamzielonka.lib.Symbols.COMMA;
-import static pro.adamzielonka.lib.Symbols.DOT;
-import static pro.adamzielonka.lib.Symbols.EMPTY;
-import static pro.adamzielonka.lib.Symbols.EXP;
-import static pro.adamzielonka.lib.Symbols.INFINITY;
-import static pro.adamzielonka.lib.Symbols.MINUS;
-import static pro.adamzielonka.lib.Symbols.MINUS_ZERO;
-import static pro.adamzielonka.lib.Symbols.NaN;
-import static pro.adamzielonka.lib.Symbols.ZERO;
+import static pro.adamzielonka.java.Number.getDecimalSeparator;
+import static pro.adamzielonka.java.Symbols.COMMA;
+import static pro.adamzielonka.java.Symbols.DOT;
+import static pro.adamzielonka.java.Symbols.EMPTY;
+import static pro.adamzielonka.java.Symbols.EXP;
+import static pro.adamzielonka.java.Symbols.INFINITY;
+import static pro.adamzielonka.java.Symbols.MINUS;
+import static pro.adamzielonka.java.Symbols.MINUS_ZERO;
+import static pro.adamzielonka.java.Symbols.NaN;
+import static pro.adamzielonka.java.Symbols.ZERO;
 
 class NumberFunctions {
 

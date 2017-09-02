@@ -1,15 +1,15 @@
-package pro.adamzielonka.lib;
+package pro.adamzielonka.java;
 
-import static pro.adamzielonka.lib.NumberFunctions.MAX_DIGITS;
-import static pro.adamzielonka.lib.NumberFunctions.containsNaN;
-import static pro.adamzielonka.lib.NumberFunctions.digitCount;
-import static pro.adamzielonka.lib.NumberFunctions.formatNumber;
-import static pro.adamzielonka.lib.NumberFunctions.getNumberWithOutZero;
-import static pro.adamzielonka.lib.NumberFunctions.getNumberWithZero;
-import static pro.adamzielonka.lib.NumberFunctions.prepareStringIn;
-import static pro.adamzielonka.lib.NumberFunctions.prepareStringOut;
-import static pro.adamzielonka.lib.NumberFunctions.returnNaN;
-import static pro.adamzielonka.lib.Symbols.ZERO;
+import static pro.adamzielonka.java.NumberFunctions.MAX_DIGITS;
+import static pro.adamzielonka.java.NumberFunctions.containsNaN;
+import static pro.adamzielonka.java.NumberFunctions.digitCount;
+import static pro.adamzielonka.java.NumberFunctions.formatNumber;
+import static pro.adamzielonka.java.NumberFunctions.getNumberWithOutZero;
+import static pro.adamzielonka.java.NumberFunctions.getNumberWithZero;
+import static pro.adamzielonka.java.NumberFunctions.prepareStringIn;
+import static pro.adamzielonka.java.NumberFunctions.prepareStringOut;
+import static pro.adamzielonka.java.NumberFunctions.returnNaN;
+import static pro.adamzielonka.java.Symbols.ZERO;
 
 public class Number {
 

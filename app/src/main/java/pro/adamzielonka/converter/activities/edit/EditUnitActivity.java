@@ -15,7 +15,7 @@ import pro.adamzielonka.items.tools.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
-import static pro.adamzielonka.lib.Number.doubleToString;
+import static pro.adamzielonka.java.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity {
 

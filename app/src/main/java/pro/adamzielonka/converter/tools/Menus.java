@@ -3,7 +3,7 @@ package pro.adamzielonka.converter.tools;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import pro.adamzielonka.lib.MyList;
+import pro.adamzielonka.java.MyList;
 
 public class Menus {
     public static MyList<MenuItem> getMenuItems(Menu menu) {

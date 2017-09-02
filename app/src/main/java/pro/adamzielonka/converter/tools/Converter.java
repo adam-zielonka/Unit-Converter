@@ -2,7 +2,7 @@ package pro.adamzielonka.converter.tools;
 
 import pro.adamzielonka.converter.models.concrete.CUnit;
 
-import static pro.adamzielonka.lib.Number.doubleToString;
+import static pro.adamzielonka.java.Number.doubleToString;
 
 public class Converter {
     public static double doConversion(double number, CUnit from, CUnit to) {
