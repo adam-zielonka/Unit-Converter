@@ -12,7 +12,7 @@ class Separator {
     }
 
     private Separator() {
-        decimalSeparator = DOT;
+        setDotDecimalSeparator();
     }
 
     void setCommaDecimalSeparator() {

@@ -9,6 +9,7 @@ import static pro.adamzielonka.java.Symbols.EMPTY;
 import static pro.adamzielonka.java.Symbols.EXP;
 import static pro.adamzielonka.java.Symbols.INFINITY;
 import static pro.adamzielonka.java.Symbols.MINUS;
+import static pro.adamzielonka.java.Symbols.MINUS_INFINITY;
 import static pro.adamzielonka.java.Symbols.MINUS_ZERO;
 import static pro.adamzielonka.java.Symbols.NaN;
 import static pro.adamzielonka.java.Symbols.ZERO;
@@ -20,23 +21,30 @@ class NumberFunctions {
     private static final String STANDARD_NOTATION = "#.#################";
 
     //region Parse
-    private static String getExponentString(Double number) {
-        String result = new DecimalFormat(EXPONENT_NOTATION).format(number);
-        if (result.contains(EXP))
-            return result.substring(result.indexOf(EXP) + 1, result.length());
+    private static String formatNumber(Double number, String notation) {
+        return new DecimalFormat(notation).format(number);
+    }
+
+    static String formatNumber(Double number) {
+        return formatNumber(number, getNotation(number));
+    }
+
+    private static String getExponent(String number) {
+        if (number.contains(EXP))
+            return number.substring(number.indexOf(EXP) + 1, number.length());
         else return ZERO;
     }
 
     private static int getExponent(Double number) {
-        return Integer.parseInt(getExponentString(number));
+        return Integer.parseInt(getExponent(formatNumber(number, EXPONENT_NOTATION)));
+    }
+
+    private static boolean isNeedExponent(Double number) {
+        return Math.abs(getExponent(number)) >= MAX_DIGITS;
     }
 
     private static String getNotation(Double number) {
-        return Math.abs(getExponent(number)) >= MAX_DIGITS ? EXPONENT_NOTATION : STANDARD_NOTATION;
-    }
-
-    static String formatNumber(Double number) {
-        return new DecimalFormat(getNotation(number)).format(number);
+        return isNeedExponent(number) ? EXPONENT_NOTATION : STANDARD_NOTATION;
     }
 
     static String prepareStringIn(String number) {
@@ -47,20 +55,19 @@ class NumberFunctions {
         return number.replaceAll(COMMA, getDecimalSeparator());
     }
 
-    static Double returnNaN(String number){
+    static Double returnNaN(String number) {
         switch (number) {
             case EMPTY:
             case MINUS:
                 return 0.0;
             case INFINITY:
                 return Double.POSITIVE_INFINITY;
-            case MINUS + INFINITY:
+            case MINUS_INFINITY:
                 return Double.NEGATIVE_INFINITY;
             default:
                 return Double.NaN;
         }
     }
-
     //endregion
 
     //region Edit number
