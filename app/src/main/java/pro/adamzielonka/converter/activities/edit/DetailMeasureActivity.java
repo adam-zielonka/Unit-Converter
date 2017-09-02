@@ -128,7 +128,7 @@ public class DetailMeasureActivity extends EditActivity {
     }
 
     private void checkOnlineVersion() {
-        versionInfo = String.format(getString(R.string.checking_version), measure.version.toString());
+        versionInfo = getString(R.string.checking_version, measure.version.toString());
         itemsView.onSave();
 
         DatabaseReference ref = mDatabase.child("measures").child(measure.cloudID).child("version");
@@ -138,10 +138,9 @@ public class DetailMeasureActivity extends EditActivity {
                 Long versionOnline = dataSnapshot.getValue(Long.class);
                 if (versionOnline != null) {
                     if (versionOnline > measure.version)
-                        versionInfo = String.format(getString(R.string.new_version),
-                                measure.version.toString(), versionOnline);
-                    else versionInfo = String.format(getString(R.string.current_version),
-                            measure.version.toString());
+                        versionInfo = getString(R.string.new_version, measure.version.toString(), versionOnline);
+                    else
+                        versionInfo = getString(R.string.current_version, measure.version.toString());
                 } else versionInfo = getString(R.string.local_measure);
                 version = versionOnline;
                 itemsView.onSave();
