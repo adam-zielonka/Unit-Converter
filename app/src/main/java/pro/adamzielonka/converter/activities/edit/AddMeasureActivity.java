@@ -22,15 +22,14 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.items.Item;
 
+import static pro.adamzielonka.converter.file.FileTools.getGson;
+import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
-import static pro.adamzielonka.converter.tools.FileTools.getGson;
-import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
-import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
-import static pro.adamzielonka.converter.tools.FileTools.saveMeasure;
-import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
+import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
@@ -81,7 +80,7 @@ public class AddMeasureActivity extends EditActivity {
         cMeasure.concreteFileName = concreteFileName;
         cMeasure.userFileName = userFileName;
         try {
-            saveMeasure(this, cMeasure, measure);
+            saveMeasure();
             setResultCode(RESULT_OK);
             startEditActivity(EditMeasureActivity.class);
         } catch (Exception e) {
@@ -148,8 +147,8 @@ public class AddMeasureActivity extends EditActivity {
             cMeasure.concreteFileName = concreteFileName;
             cMeasure.userFileName = userFileName;
 
-            saveToInternal(this, concreteFileName, gson.toJson(cMeasure));
-            saveToInternal(this, userFileName, gson.toJson(measure));
+            saveJSON(this, concreteFileName, cMeasure);
+            saveJSON(this, userFileName, measure);
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);

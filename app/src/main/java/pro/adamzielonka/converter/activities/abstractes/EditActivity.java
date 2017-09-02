@@ -1,24 +1,24 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.IOException;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.file.Open;
+import pro.adamzielonka.converter.file.Save;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.converter.tools.FileTools;
 import pro.adamzielonka.items.ItemsView;
 
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
-import static pro.adamzielonka.converter.tools.FileTools.getGson;
 import static pro.adamzielonka.converter.tools.Message.showError;
 
 public abstract class EditActivity extends ListActivity
@@ -38,7 +38,7 @@ public abstract class EditActivity extends ListActivity
     @Override
     public void onSave() {
         try {
-            FileTools.saveMeasure(this, cMeasure, measure);
+            saveMeasure();
             setResultCode(RESULT_OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,15 +90,11 @@ public abstract class EditActivity extends ListActivity
 
     //region open and save
     private CMeasure openConcreteMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        return getGson().fromJson(reader, CMeasure.class);
+        return Open.openJSON(this, fileName, CMeasure.class);
     }
 
     private Measure openMeasure(String fileName) throws FileNotFoundException {
-        FileInputStream in = openFileInput(fileName);
-        Reader reader = new BufferedReader(new InputStreamReader(in));
-        return getGson().fromJson(reader, Measure.class);
+        return Open.openJSON(this, fileName, Measure.class);
     }
 
     private Unit openUnit(String unitName, Measure measure) {
@@ -115,6 +111,28 @@ public abstract class EditActivity extends ListActivity
                 return prefix;
         }
         return null;
+    }
+
+    public void saveMeasure() throws IOException {
+        cMeasure = measure.getConcreteMeasure(
+                cMeasure.concreteFileName, cMeasure.userFileName,
+                cMeasure.isOwnName, cMeasure.ownName,
+                cMeasure.isOwnLang, cMeasure.ownLang, cMeasure.newLangs
+        );
+        Save.saveJSON(this, cMeasure.concreteFileName, cMeasure);
+        Save.saveJSON(this, cMeasure.userFileName, measure);
+    }
+
+    public Uri getFileUri(String name) {
+        String fileName = "converter_" + name.toLowerCase() + ".json";
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS), fileName);
+        for (int i = 1; file.exists(); i++) {
+            fileName = "converter_" + name.toLowerCase() + "_" + i + ".json";
+            file = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS), fileName);
+        }
+        return Uri.parse(file.toURI().toString());
     }
     //endregion
 

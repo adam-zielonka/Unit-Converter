@@ -21,12 +21,12 @@ import pro.adamzielonka.converter.activities.SplashActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 
+import static pro.adamzielonka.converter.file.FileTools.getGson;
+import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
-import static pro.adamzielonka.converter.tools.FileTools.getNewFileInternalName;
-import static pro.adamzielonka.converter.tools.FileTools.getGson;
-import static pro.adamzielonka.converter.tools.FileTools.openFileToInputStream;
-import static pro.adamzielonka.converter.tools.FileTools.saveToInternal;
 
 public class MyDownloadService extends MyBaseTaskService {
 
@@ -90,8 +90,8 @@ public class MyDownloadService extends MyBaseTaskService {
                             cMeasure.concreteFileName = concreteFileName;
                             cMeasure.userFileName = userFileName;
 
-                            saveToInternal(this, concreteFileName, gson.toJson(cMeasure));
-                            saveToInternal(this, userFileName, gson.toJson(measure));
+                            saveJSON(this, concreteFileName, cMeasure);
+                            saveJSON(this, userFileName, measure);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

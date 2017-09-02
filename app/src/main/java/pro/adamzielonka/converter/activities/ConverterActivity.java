@@ -32,10 +32,10 @@ import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.tools.theme.ConverterTheme;
 import pro.adamzielonka.converter.tools.theme.Theme;
 
+import static pro.adamzielonka.converter.file.Open.openJSONs;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
-import static pro.adamzielonka.converter.tools.FileTools.loadConverters;
 import static pro.adamzielonka.converter.tools.Menus.getMenuItems;
 import static pro.adamzielonka.java.Common.getItself;
 import static pro.adamzielonka.java.Number.doubleToString;
@@ -85,7 +85,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     }
 
     private void loadMeasures() {
-        measureList = loadConverters(this);
+        measureList = openJSONs(this, "concrete_", CMeasure.class);
 
         if (measureList.size() > 0) {
             setupConvertersMenu(navigationView.getMenu());
@@ -126,7 +126,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     private void setupConverter(int measureID) {
         try {
             this.measureID = measureID;
-            measureList = loadConverters(this);
+            measureList = openJSONs(this, "concrete_", CMeasure.class);
             cMeasure = measureList.get(this.measureID - DEFAULT_MEASURE_ID);
             setConverterTitle();
             navigationView.setCheckedItem(measureID);
