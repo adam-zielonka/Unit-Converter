@@ -1,31 +1,12 @@
 package pro.adamzielonka.items.interfaces;
 
 public interface ActionInterface {
-    interface Action {
+
+    interface VoidAction {
         void onAction();
     }
 
-    interface ObjectAction {
-        void onAction(Object object);
-    }
-
-    interface LogicAction {
-        boolean onAction();
-    }
-
-    interface VoidAction {
-        Void onAction();
-    }
-
-    interface IntegerAction {
-        void onAction(Integer integer);
-    }
-
-    interface StringAction {
-        void onAction(String text);
-    }
-
-    interface DoubleAction {
-        void onAction(Double number);
+    interface Action<T> {
+        void onAction(T t);
     }
 }

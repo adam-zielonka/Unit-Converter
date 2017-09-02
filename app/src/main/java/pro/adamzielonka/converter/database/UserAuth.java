@@ -77,16 +77,14 @@ public class UserAuth {
     }
     //endregion
 
-    public Void signIn() {
+    public void signIn() {
         activity.startActivityForResult(com.google.android.gms.auth.api.Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), RC_SIGN_IN);
-        return null;
     }
 
-    public Void signOut() {
+    public void signOut() {
         setUserName("");
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> onAuthResult.onAuthResult());
-        return null;
     }
 
     public void getSignInResultFromIntent(Intent data) {

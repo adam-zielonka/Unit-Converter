@@ -21,7 +21,7 @@ public class EditDialogBuilder extends DialogBuilder {
     private Object value;
     private String error;
     private EditText editText;
-    private ActionInterface.ObjectAction action;
+    private ActionInterface.Action action;
     private DialogInterface.OnClickListener negativeAction;
     private DialogInterface.OnClickListener neutralAction;
     private List<Test> validators;
@@ -37,12 +37,12 @@ public class EditDialogBuilder extends DialogBuilder {
         return this;
     }
 
-    public EditDialogBuilder setAction(ActionInterface.ObjectAction action) {
+    public EditDialogBuilder setAction(ActionInterface.Action action) {
         this.action = action;
         return this;
     }
 
-    private ActionInterface.ObjectAction getAction() {
+    private ActionInterface.Action getAction() {
         return action != null ? action : object -> {
         };
     }

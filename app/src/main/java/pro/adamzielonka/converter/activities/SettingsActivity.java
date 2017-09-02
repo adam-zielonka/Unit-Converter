@@ -63,10 +63,13 @@ public class SettingsActivity extends PreferenceActivity {
                 .setTitleHeader(R.string.pref_header_user)
                 .setTitle(() -> getUser() != null ? R.string.pref_title_sign_out : R.string.pref_title_sign_in)
                 .setUpdate(() -> getUser() != null ? getUser().getEmail() : "")
-                .setAction(() -> getUser() != null ? userAuth.signOut() : userAuth.signIn())
+                .setAction(() -> {
+                    if (getUser() != null) userAuth.signOut();
+                    else userAuth.signIn();
+                })
                 .add(itemsView);
         new Item.Builder(this)
-                .setTitle(getString(R.string.pref_title_user_name))
+                .setTitle(R.string.pref_title_user_name)
                 .setIf(() -> getUser() != null)
                 .setUpdate(() -> userAuth.getUserName())
                 .setElseUpdate(() -> "")

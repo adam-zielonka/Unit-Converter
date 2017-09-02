@@ -19,8 +19,8 @@ public class ItemsView extends ListView {
 
     List<Item> items = new ArrayList<>();
     ArrayAdapter adapter;
-    ActionInterface.ObjectAction listAction;
-    UpdateInterface.ListUpdate listUpdate;
+    ActionInterface.Action<Integer> listAction;
+    UpdateInterface.Update<List> listUpdate;
     OnItemsUpdate onItemsUpdate;
     OnItemsSave onItemsSave;
     public boolean isUpdateProcess;
@@ -93,8 +93,8 @@ public class ItemsView extends ListView {
         });
     }
 
-    public void setAdapter(ArrayAdapter adapter, UpdateInterface.ListUpdate listUpdate,
-                           ActionInterface.ObjectAction listAction) {
+    public void setAdapter(ArrayAdapter adapter, UpdateInterface.Update<List> listUpdate,
+                           ActionInterface.Action<Integer> listAction) {
         super.setAdapter(adapter);
         this.adapter = adapter;
         this.listAction = listAction;

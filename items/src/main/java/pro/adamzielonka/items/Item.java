@@ -23,8 +23,8 @@ import static pro.adamzielonka.java.Number.doubleToString;
 public class Item {
 
     public View view;
-    private ActionInterface.Action update;
-    private ActionInterface.Action action;
+    private ActionInterface.VoidAction update;
+    private ActionInterface.VoidAction action;
     final public boolean isEnabled;
 
     public void onUpdate() {
@@ -35,7 +35,7 @@ public class Item {
         if (action != null) action.onAction();
     }
 
-    private Item(View view, ActionInterface.Action update, ActionInterface.Action action) {
+    private Item(View view, ActionInterface.VoidAction update, ActionInterface.VoidAction action) {
         this.view = view;
         this.update = update;
         this.action = action;
@@ -51,26 +51,26 @@ public class Item {
         private Activity activity;
 
         //Title
-        private UpdateInterface.ObjectUpdate title;
+        private UpdateInterface.Update title;
         private String titleHeader;
         private String alertTitle;
 
         //Value
-        private UpdateInterface.ObjectUpdate update;
-        private UpdateInterface.ObjectUpdate elseUpdate;
+        private UpdateInterface.Update update;
+        private UpdateInterface.Update elseUpdate;
         private boolean enabledUpdate;
 
-        //Action
-        private ActionInterface.ObjectAction action;
-        private ActionInterface.Action voidAction;
+        //VoidAction
+        private ActionInterface.Action action;
+        private ActionInterface.VoidAction voidAction;
 
         //Switcher
-        private UpdateInterface.ObjectUpdate switcherUpdate;
-        private ActionInterface.ObjectAction switcherAction;
+        private UpdateInterface.Update<Boolean> switcherUpdate;
+        private ActionInterface.Action<Boolean> switcherAction;
 
         //Check list
-        private UpdateInterface.ObjectsUpdate objectsUpdate;
-        private UpdateInterface.PositionUpdate positionUpdate;
+        private UpdateInterface.Update<Object[]> objectsUpdate;
+        private UpdateInterface.Update<Integer> positionUpdate;
 
         //Tests
         private TestInterface.Test actionEnabled;
@@ -78,7 +78,6 @@ public class Item {
 
         //Adapter
         private ArrayAdapter adapter;
-        private UpdateInterface.ListUpdate listUpdate;
 
         public Builder(Activity activity) {
             this.activity = activity;
@@ -102,7 +101,7 @@ public class Item {
             return setTitle(() -> activity.getString(title.onUpdate()));
         }
 
-        public Builder setTitle(UpdateInterface.ObjectUpdate title) {
+        public <T> Builder setTitle(UpdateInterface.Update<T> title) {
             this.title = title;
             return this;
         }
@@ -137,17 +136,12 @@ public class Item {
         //endregion
 
         //region Update
-        public Builder setUpdate(UpdateInterface.ObjectUpdate update) {
+        public <T> Builder setUpdate(UpdateInterface.Update<T> update) {
             this.update = update;
             return this;
         }
 
-        public Builder setUpdate(UpdateInterface.ListUpdate update) {
-            this.listUpdate = update;
-            return this;
-        }
-
-        public Builder setElseUpdate(UpdateInterface.ObjectUpdate update) {
+        public <T> Builder setElseUpdate(UpdateInterface.Update<T> update) {
             this.elseUpdate = update;
             return this;
         }
@@ -163,58 +157,36 @@ public class Item {
         //endregion
 
         //region Action
-        private Builder setAction(ActionInterface.ObjectAction action) {
+        public <T> Builder setAction(ActionInterface.Action<T> action) {
             this.action = action;
             return this;
         }
 
-        public Builder setAction(ActionInterface.IntegerAction action) {
-            return setAction((Object object) -> action.onAction((Integer) object));
-        }
-
-        public Builder setAction(ActionInterface.DoubleAction action) {
-            return setAction((Object object) -> action.onAction((Double) object));
-        }
-
-        public Builder setAction(ActionInterface.StringAction action) {
-            return setAction((Object object) -> action.onAction((String) object));
-        }
-
-        public Builder setAction(ActionInterface.Action action) {
-            this.voidAction = action;
-            return this;
-        }
-
-        public Builder setAction(ActionInterface.LogicAction action) {
-            this.voidAction = action::onAction;
-            return this;
-        }
-
         public Builder setAction(ActionInterface.VoidAction action) {
-            this.voidAction = action::onAction;
+            this.voidAction = action;
             return this;
         }
         //endregion
 
         //region Switcher
-        public Builder setSwitcherUpdate(UpdateInterface.ObjectUpdate switcherUpdate) {
+        public Builder setSwitcherUpdate(UpdateInterface.Update<Boolean> switcherUpdate) {
             this.switcherUpdate = switcherUpdate;
             return this;
         }
 
-        public Builder setSwitcherAction(ActionInterface.ObjectAction switcherAction) {
+        public Builder setSwitcherAction(ActionInterface.Action<Boolean> switcherAction) {
             this.switcherAction = switcherAction;
             return this;
         }
         //endregion
 
         //region Array
-        public Builder setArray(UpdateInterface.ObjectsUpdate objectsUpdate) {
+        public Builder setArray(UpdateInterface.Update<Object[]> objectsUpdate) {
             this.objectsUpdate = objectsUpdate;
             return this;
         }
 
-        public Builder setPosition(UpdateInterface.PositionUpdate positionUpdate) {
+        public Builder setPosition(UpdateInterface.Update<Integer> positionUpdate) {
             this.positionUpdate = positionUpdate;
             return this;
         }
@@ -241,14 +213,16 @@ public class Item {
 
         public void add(ItemsView itemsView) {
             if (titleHeader != null) createItemHeader(itemsView);
-            if (adapter != null && listUpdate != null) {
+            if (adapter != null && update != null) {
                 createItemAdapter(itemsView);
             } else if (getTitle() != null) {
                 if (objectsUpdate != null)
                     createItem(itemsView, action != null ? () -> newListDialog(itemsView,
                             (String[]) objectsUpdate.onUpdate(), positionUpdate.onUpdate()) : null);
-                else createItem(itemsView, action != null ? () -> newEditDialog(itemsView,
-                        getUpdate()) : null);
+                else {
+                    createItem(itemsView, action != null ? () -> newEditDialog(itemsView,
+                            getUpdate()) : null);
+                }
             }
         }
 
@@ -266,7 +240,7 @@ public class Item {
             itemsView.addItem(new Item(view));
         }
 
-        private void createItem(ItemsView itemsView, ActionInterface.Action action) {
+        private void createItem(ItemsView itemsView, ActionInterface.VoidAction action) {
             View view = addItem(itemsView);
             itemsView.addItem(new Item(view, () -> updateView(view),
                     voidAction != null ? () -> voidAction.onAction() : action
@@ -274,7 +248,7 @@ public class Item {
         }
 
         private void createItemAdapter(ItemsView itemsView) {
-            itemsView.setAdapter(adapter, listUpdate, action);
+            itemsView.setAdapter(adapter, update, action);
         }
         //endregion
 
@@ -327,7 +301,7 @@ public class Item {
             ((TextView) view.findViewById(R.id.textSecondary)).setText(getValue());
             view.findViewById(R.id.textSecondary).setVisibility(
                     getValue().equals("") ? View.GONE : View.VISIBLE);
-            if (switcherAction != null) setSwitchState(view, (Boolean) switcherUpdate.onUpdate());
+            if (switcherAction != null) setSwitchState(view, switcherUpdate.onUpdate());
             if (isEnabled()) enabledView(view);
             else disableView(view);
         }
