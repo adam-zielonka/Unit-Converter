@@ -29,8 +29,8 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.tools.EditNumber;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.converter.tools.theme.ConverterTheme;
-import pro.adamzielonka.converter.tools.theme.Theme;
+import pro.adamzielonka.converter.components.theme.ConverterTheme;
+import pro.adamzielonka.converter.components.theme.Theme;
 
 import static pro.adamzielonka.converter.file.Open.openJSONs;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;

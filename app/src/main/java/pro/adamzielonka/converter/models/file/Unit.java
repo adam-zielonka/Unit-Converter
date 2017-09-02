@@ -3,7 +3,7 @@ package pro.adamzielonka.converter.models.file;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.adamzielonka.converter.tools.LanguageMap;
+import pro.adamzielonka.converter.components.LanguageMap;
 
 public class Unit {
     public String symbol = "";

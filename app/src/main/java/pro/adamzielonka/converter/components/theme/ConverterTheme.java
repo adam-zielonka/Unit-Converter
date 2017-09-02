@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.tools.theme;
+package pro.adamzielonka.converter.components.theme;
 
 import android.app.Activity;
 

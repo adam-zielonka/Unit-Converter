@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.converter.tools.LanguageMap;
+import pro.adamzielonka.converter.components.LanguageMap;
 
 import static pro.adamzielonka.converter.tools.Language.getLanguage;
 

@@ -42,8 +42,7 @@ public class SettingsActivity extends PreferenceActivity {
                 .setAction((Integer id) -> {
                     if (id == 0) Number.setDotDecimalSeparator();
                     else Number.setCommaDecimalSeparator();
-                })
-                .add(itemsView);
+                }).add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
                 .setUpdate(() -> getDisplayLanguage(this))
@@ -66,8 +65,7 @@ public class SettingsActivity extends PreferenceActivity {
                 .setAction(() -> {
                     if (getUser() != null) userAuth.signOut();
                     else userAuth.signIn();
-                })
-                .add(itemsView);
+                }).add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_user_name)
                 .setIf(() -> getUser() != null)

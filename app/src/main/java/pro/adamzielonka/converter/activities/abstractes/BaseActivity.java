@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import pro.adamzielonka.converter.tools.theme.Theme;
+import pro.adamzielonka.converter.components.theme.Theme;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

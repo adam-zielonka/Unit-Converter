@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
-import pro.adamzielonka.converter.tools.LanguageMap;
+import pro.adamzielonka.converter.components.LanguageMap;
 
 abstract class MyAdapter<T> extends ArrayAdapter<T> {
 

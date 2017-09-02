@@ -1,6 +1,6 @@
 package pro.adamzielonka.converter.models.file;
 
-import pro.adamzielonka.converter.tools.LanguageMap;
+import pro.adamzielonka.converter.components.LanguageMap;
 
 public class Prefix {
     public String symbol = "";

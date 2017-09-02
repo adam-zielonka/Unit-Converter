@@ -1,6 +1,6 @@
 package pro.adamzielonka.converter.models.concrete;
 
-import pro.adamzielonka.converter.tools.LanguageMap;
+import pro.adamzielonka.converter.components.LanguageMap;
 
 public class CUnit {
     public final Double one;

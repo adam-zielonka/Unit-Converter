@@ -5,7 +5,7 @@ import static pro.adamzielonka.java.Symbols.DOT;
 
 class Separator {
     private static final Separator ourInstance = new Separator();
-    private String decimalSeparator;
+    private String separator;
 
     static Separator getInstance() {
         return ourInstance;
@@ -16,14 +16,14 @@ class Separator {
     }
 
     void setCommaDecimalSeparator() {
-        decimalSeparator = COMMA;
+        separator = COMMA;
     }
 
     void setDotDecimalSeparator() {
-        decimalSeparator = DOT;
+        separator = DOT;
     }
 
     String getDecimalSeparator() {
-        return decimalSeparator;
+        return separator;
     }
 }

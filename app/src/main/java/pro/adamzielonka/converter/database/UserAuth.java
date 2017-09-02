@@ -26,7 +26,7 @@ import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.models.database.User;
-import pro.adamzielonka.converter.tools.MyProgressDialog;
+import pro.adamzielonka.converter.components.MyProgressDialog;
 import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
 import static pro.adamzielonka.converter.tools.Preferences.getPreferences;
