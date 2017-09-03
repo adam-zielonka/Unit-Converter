@@ -231,9 +231,9 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus && editNumberTo.equals(view)) {
-            editNumberFrom = (EditNumber) getItself(editNumberTo, editNumberTo = editNumberFrom);
-            spinnerFrom = (Spinner) getItself(spinnerTo, spinnerTo = spinnerFrom);
-            textViewFrom = (TextView) getItself(textViewTo, textViewTo = textViewFrom);
+            editNumberFrom = getItself(editNumberTo, editNumberTo = editNumberFrom);
+            spinnerFrom = getItself(spinnerTo, spinnerTo = spinnerFrom);
+            textViewFrom = getItself(textViewTo, textViewTo = textViewFrom);
             setTextFocus();
         }
     }

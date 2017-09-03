@@ -3,8 +3,8 @@ package pro.adamzielonka.items.tools;
 import java.util.List;
 
 public class Tests {
-    public static boolean isUnique(Object o, List list) {
-        for (Object l : list) if (l.equals(o)) return false;
+    public static <T> boolean isUnique(Object o, List<T> list) {
+        for (T t : list) if (t.equals(o)) return false;
         return true;
     }
 }

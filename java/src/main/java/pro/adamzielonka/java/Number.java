@@ -8,7 +8,10 @@ import static pro.adamzielonka.java.NumberFunctions.getNumberWithOutZero;
 import static pro.adamzielonka.java.NumberFunctions.getNumberWithZero;
 import static pro.adamzielonka.java.NumberFunctions.prepareStringIn;
 import static pro.adamzielonka.java.NumberFunctions.prepareStringOut;
-import static pro.adamzielonka.java.NumberFunctions.returnNaN;
+import static pro.adamzielonka.java.Symbols.EMPTY;
+import static pro.adamzielonka.java.Symbols.INFINITY;
+import static pro.adamzielonka.java.Symbols.MINUS;
+import static pro.adamzielonka.java.Symbols.MINUS_INFINITY;
 import static pro.adamzielonka.java.Symbols.ZERO;
 
 public class Number {
@@ -19,10 +22,20 @@ public class Number {
     }
 
     public static Double stringToDouble(String number) {
-        try {
-            return Double.parseDouble(prepareStringIn(number));
-        } catch (NumberFormatException e) {
-            return returnNaN(number);
+        switch (number) {
+            case EMPTY:
+            case MINUS:
+                return 0.0;
+            case INFINITY:
+                return Double.POSITIVE_INFINITY;
+            case MINUS_INFINITY:
+                return Double.NEGATIVE_INFINITY;
+            default:
+                try {
+                    return Double.parseDouble(prepareStringIn(number));
+                } catch (NumberFormatException e) {
+                    return Double.NaN;
+                }
         }
     }
     //endregion

@@ -20,6 +20,7 @@ import pro.adamzielonka.items.ItemsView;
 import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Message.showError;
+import static pro.adamzielonka.java.Common.findElement;
 
 public abstract class EditActivity extends ListActivity
         implements ItemsView.OnItemsSave, ItemsView.OnItemsUpdate {
@@ -98,19 +99,11 @@ public abstract class EditActivity extends ListActivity
     }
 
     private Unit openUnit(String unitName, Measure measure) {
-        for (Unit unit : measure.units) {
-            if (unit.symbol.equals(unitName))
-                return unit;
-        }
-        return null;
+        return findElement(unitName, measure.units);
     }
 
     private Prefix openPrefix(String prefixName, Unit unit) {
-        for (Prefix prefix : unit.prefixes) {
-            if (prefix.symbol.equals(prefixName))
-                return prefix;
-        }
-        return null;
+        return findElement(prefixName, unit.prefixes);
     }
 
     public void saveMeasure() throws IOException {

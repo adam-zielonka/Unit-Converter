@@ -9,7 +9,6 @@ import static pro.adamzielonka.java.Symbols.EMPTY;
 import static pro.adamzielonka.java.Symbols.EXP;
 import static pro.adamzielonka.java.Symbols.INFINITY;
 import static pro.adamzielonka.java.Symbols.MINUS;
-import static pro.adamzielonka.java.Symbols.MINUS_INFINITY;
 import static pro.adamzielonka.java.Symbols.MINUS_ZERO;
 import static pro.adamzielonka.java.Symbols.NaN;
 import static pro.adamzielonka.java.Symbols.ZERO;
@@ -53,20 +52,6 @@ class NumberFunctions {
 
     static String prepareStringOut(String number) {
         return number.replaceAll(COMMA, getDecimalSeparator());
-    }
-
-    static Double returnNaN(String number) {
-        switch (number) {
-            case EMPTY:
-            case MINUS:
-                return 0.0;
-            case INFINITY:
-                return Double.POSITIVE_INFINITY;
-            case MINUS_INFINITY:
-                return Double.NEGATIVE_INFINITY;
-            default:
-                return Double.NaN;
-        }
     }
     //endregion
 
