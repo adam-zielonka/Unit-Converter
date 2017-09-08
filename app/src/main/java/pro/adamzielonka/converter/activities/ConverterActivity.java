@@ -27,7 +27,7 @@ import pro.adamzielonka.converter.activities.edit.DetailMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConverterAdapter;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
-import pro.adamzielonka.converter.tools.EditNumber;
+import pro.adamzielonka.converter.components.EditNumber;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.components.theme.ConverterTheme;
 import pro.adamzielonka.converter.components.theme.Theme;

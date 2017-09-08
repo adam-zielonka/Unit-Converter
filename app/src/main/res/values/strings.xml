@@ -198,6 +198,7 @@
     <string name="title_activity_detail_measure">Detail measure</string>
     <string name="list_item_units">Units</string>
     <string name="list_item_languages">Languages</string>
+    <string name="loading">Loading...</string>
     <!-- -->
 
 </resources>

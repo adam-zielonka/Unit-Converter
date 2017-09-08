@@ -1,6 +1,5 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,21 +7,23 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import pro.adamzielonka.converter.components.MyProgressDialog;
 import pro.adamzielonka.converter.components.theme.Theme;
+import pro.adamzielonka.converter.database.UserAuth;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private int resultCode;
-    private ProgressDialog mProgressDialog;
+    private MyProgressDialog myProgressDialog;
     protected Theme theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         theme = new Theme(this);
         super.onCreate(savedInstanceState);
+        myProgressDialog = new MyProgressDialog(this);
 
         resultCode = RESULT_CANCELED;
     }
@@ -48,40 +49,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //region progress dialog
     public void showProgressDialog(String caption) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.setMessage(caption);
-        mProgressDialog.show();
-    }
-
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage("Loading...");
-        }
-
-        mProgressDialog.show();
+        myProgressDialog.show(caption);
     }
 
     public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
+        myProgressDialog.hide();
     }
     //endregion
 
+    //region user
     public static String getUid() {
-        return getUser() != null ? getUser().getUid() : null;
+        return UserAuth.getUid();
     }
 
     public static FirebaseUser getUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
+        return UserAuth.getUser();
     }
+    //endregion
 
+    //region start activity
     public void startWebsite(@StringRes int url) {
         startWebsite(getString(url));
     }
@@ -93,5 +79,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void startActivity(Class<?> cls) {
         startActivity(new Intent(getApplicationContext(), cls));
     }
+    //endregion
 
 }

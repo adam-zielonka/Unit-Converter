@@ -3,6 +3,8 @@ package pro.adamzielonka.converter.components;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
+import pro.adamzielonka.converter.R;
+
 public class MyProgressDialog {
 
     private ProgressDialog mProgressDialog;
@@ -14,22 +16,16 @@ public class MyProgressDialog {
 
     public void show(String caption) {
         if (mProgressDialog == null) {
-            mProgressDialog = new android.app.ProgressDialog(activity);
+            mProgressDialog = new ProgressDialog(activity);
             mProgressDialog.setIndeterminate(true);
         }
 
-        mProgressDialog.setMessage(caption);
+        mProgressDialog.setMessage(caption != null ? caption : activity.getString(R.string.loading));
         mProgressDialog.show();
     }
 
     public void show() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new android.app.ProgressDialog(activity);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage("Loading...");
-        }
-
-        mProgressDialog.show();
+        show(null);
     }
 
     public void hide() {

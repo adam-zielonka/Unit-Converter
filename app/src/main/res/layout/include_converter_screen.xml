@@ -33,7 +33,7 @@
             android:orientation="vertical"
             android:weightSum="100">
 
-            <pro.adamzielonka.converter.tools.EditNumber
+            <pro.adamzielonka.converter.components.EditNumber
                 android:id="@+id/textFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:orientation="vertical"
             android:weightSum="100">
 
-            <pro.adamzielonka.converter.tools.EditNumber
+            <pro.adamzielonka.converter.components.EditNumber
                 android:id="@+id/textTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

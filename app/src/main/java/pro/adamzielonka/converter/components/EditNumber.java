@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.tools;
+package pro.adamzielonka.converter.components;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
