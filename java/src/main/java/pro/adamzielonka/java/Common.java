@@ -3,8 +3,8 @@ package pro.adamzielonka.java;
 import java.util.List;
 
 public class Common {
-    @SuppressWarnings("UnusedParameters")
-    public static <T> T getItself(T itself, T dummy) {
+
+    public static <T> T getItself(T itself, @SuppressWarnings("UnusedParameters") T dummy) {
         return itself;
     }
 

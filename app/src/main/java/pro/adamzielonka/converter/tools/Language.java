@@ -9,10 +9,6 @@ import java.util.Map;
 import pro.adamzielonka.converter.R;
 
 public class Language {
-//    public static String getLanguageWords(Map<String, String> map, String langCode, String globalCode) {
-//        return map.containsKey(langCode) ? map.get(langCode) : (map.containsKey(globalCode) ? map.get(globalCode) : "");
-//    }
-
     public static String getLanguageWords(Map<String, String> map, String globalCode) {
         return (map.containsKey(globalCode) ? map.get(globalCode) : "");
     }

@@ -7,11 +7,8 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import pro.adamzielonka.converter.components.MyProgressDialog;
 import pro.adamzielonka.converter.components.theme.Theme;
-import pro.adamzielonka.converter.database.UserAuth;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -54,16 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void hideProgressDialog() {
         myProgressDialog.hide();
-    }
-    //endregion
-
-    //region user
-    public static String getUid() {
-        return UserAuth.getUid();
-    }
-
-    public static FirebaseUser getUser() {
-        return UserAuth.getUser();
     }
     //endregion
 

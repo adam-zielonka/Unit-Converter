@@ -10,6 +10,7 @@ import pro.adamzielonka.items.Item;
 import pro.adamzielonka.java.Number;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
+import static pro.adamzielonka.converter.database.UserAuth.getUser;
 import static pro.adamzielonka.converter.tools.Language.getDisplayLanguage;
 import static pro.adamzielonka.converter.tools.Language.getDisplayLanguages;
 import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
