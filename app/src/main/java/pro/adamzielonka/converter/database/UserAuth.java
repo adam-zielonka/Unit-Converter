@@ -29,6 +29,8 @@ import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.converter.components.MyProgressDialog;
 import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
+import static pro.adamzielonka.converter.database.FireBaseNames.USERS;
+import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAMES;
 import static pro.adamzielonka.converter.tools.Preferences.getPreferences;
 import static pro.adamzielonka.converter.tools.Preferences.setPreferences;
 
@@ -113,7 +115,7 @@ public class UserAuth {
         String userId = getUid();
         if (userId == null) return;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+        mDatabase.child(USERS).child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -159,12 +161,12 @@ public class UserAuth {
     private void createUserName(String name) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, getUid());
-        mDatabase.child("usernames").updateChildren(map);
+        mDatabase.child(USERS_NAMES).updateChildren(map);
     }
 
     private void writeNewUser(boolean changeName, String userId, String name) {
         User user = new User(name);
-        mDatabase.child("users").child(userId).setValue(user)
+        mDatabase.child(USERS).child(userId).setValue(user)
                 .addOnSuccessListener(aVoid -> finishCreateUser(name))
                 .addOnFailureListener(e -> createUser(changeName, name, activity.getString(R.string.error_name_already_exist)));
     }
@@ -177,11 +179,11 @@ public class UserAuth {
     }
 
     private void setUserName(String name) {
-        setPreferences(activity, "username", name);
+        setPreferences(activity, USERS_NAMES, name);
     }
 
     public String getUserName() {
-        return getPreferences(activity).getString("username", "");
+        return getPreferences(activity).getString(USERS_NAMES, "");
     }
 
     //region user

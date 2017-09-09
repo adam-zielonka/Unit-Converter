@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,31 +12,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.models.database.CloudMeasure;
-import pro.adamzielonka.converter.models.database.User;
+import pro.adamzielonka.converter.database.UploadMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
@@ -46,10 +34,9 @@ import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.items.Item;
 import pro.adamzielonka.items.tools.Tests;
 
-import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.file.FileTools.getGson;
 import static pro.adamzielonka.converter.file.Save.isExternalStorageWritable;
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
+import static pro.adamzielonka.converter.tools.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
@@ -57,13 +44,11 @@ import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermis
 
 public class EditMeasureActivity extends EditActivity {
 
-    private DatabaseReference mDatabase;
     private BroadcastReceiver mBroadcastReceiver;
 
     @Override
     public void addItems() {
         setTitle(R.string.title_activity_edit_measure);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -197,7 +182,8 @@ public class EditMeasureActivity extends EditActivity {
                         getReadAndWritePermissionsStorage(), REQUEST_SAVE_TO_DOWNLOAD);
                 return true;
             case R.id.menu_upload_converter:
-                submitMeasure();
+                UploadMeasure uploadMeasure = new UploadMeasure(this, () -> itemsView.onUpdate());
+                uploadMeasure.submitMeasure(measure,cMeasure);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -231,116 +217,6 @@ public class EditMeasureActivity extends EditActivity {
             e.printStackTrace();
             showError(this, R.string.error_create_file);
         }
-    }
-
-    private void submitMeasure() {
-        String userId = getUid();
-        if (userId == null) return;
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-
-                        if (user == null) {
-                            Toast.makeText(EditMeasureActivity.this,
-                                    "Error: could not fetch user.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            updateMeasure(userId, user.username, measure.getName(getLangCode(EditMeasureActivity.this)), cMeasure.getUnitsOrder());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
-
-    private void updateMeasure(String userId, String username, String title, String body) {
-        if (measure.cloudID.equals("")) {
-            String key = mDatabase.child("measures").push().getKey();
-            CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-            doUpdateMeasure(key, cloudMeasure);
-        } else {
-            Query query = mDatabase.child("measures");
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.hasChild(measure.cloudID)) {
-                        CloudMeasure cloudMeasure = snapshot.child(measure.cloudID).getValue(CloudMeasure.class);
-                        if (cloudMeasure != null) {
-                            if (cloudMeasure.uid.equals(getUid())) {
-                                cloudMeasure.version++;
-                                cloudMeasure.title = title;
-                                cloudMeasure.units_symbols = body;
-                                cloudMeasure.units_names = body;
-                                doUpdateMeasure(measure.cloudID, cloudMeasure);
-                            } else {
-                                String key = mDatabase.child("measures").push().getKey();
-                                cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-                                doUpdateMeasure(key, cloudMeasure);
-                            }
-                        } else {
-                            String key = mDatabase.child("measures").push().getKey();
-                            cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-                            doUpdateMeasure(key, cloudMeasure);
-                        }
-                    } else {
-                        String key = mDatabase.child("measures").push().getKey();
-                        CloudMeasure cloudMeasure = new CloudMeasure(userId, username, title, body, body, 1L);
-                        doUpdateMeasure(key, cloudMeasure);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-
-    }
-
-    private void doUpdateMeasure(String key, CloudMeasure cloudMeasure) {
-        cloudMeasure.file = cMeasure.userFileName;
-        Map<String, Object> postValues = cloudMeasure.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/measures/" + key, postValues);
-        childUpdates.put("/user-measures/" + cloudMeasure.uid + "/" + key, postValues);
-
-        mDatabase.updateChildren(childUpdates);
-        DatabaseReference ref = mDatabase.child("measures").child(key).child("version");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Long version = dataSnapshot.getValue(Long.class);
-                measure.cloudID = key;
-                measure.version = version;
-                itemsView.onSave();
-                File file = new File(getFilesDir() + "/" + cMeasure.userFileName);
-                uploadFromUri(Uri.parse(file.toURI().toString()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void uploadFromUri(Uri fileUri) {
-        startService(new Intent(this, MyUploadService.class)
-                .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)
-                .putExtra(MyUploadService.EXTRA_FILE_USER, getUid())
-                .putExtra(MyUploadService.EXTRA_FILE_CONCRETE, cMeasure.concreteFileName)
-                .setAction(MyUploadService.ACTION_UPLOAD));
-
-        showProgressDialog(getString(R.string.progress_uploading));
     }
 
     @Override
