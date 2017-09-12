@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import pro.adamzielonka.converter.tools.Extra;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         startActivity(new Intent(this, StartActivity.class)
-                .putExtra(EXTRA_MEASURE_FILE_NAME, getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME)));
+                .putExtra(Extra.MEASURE_FILE_NAME, getIntent().getStringExtra(Extra.MEASURE_FILE_NAME)));
         finish();
     }
 }

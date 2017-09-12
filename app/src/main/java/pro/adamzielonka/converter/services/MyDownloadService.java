@@ -20,12 +20,12 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
+import pro.adamzielonka.converter.tools.Extra;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Save.saveJSON;
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
-import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
 import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
+import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 
 public class MyDownloadService extends MyBaseTaskService {
@@ -127,7 +127,7 @@ public class MyDownloadService extends MyBaseTaskService {
         Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_PATH, downloadPath)
                 .putExtra(EXTRA_BYTES_DOWNLOADED, bytesDownloaded)
-                .putExtra(EXTRA_MEASURE_FILE_NAME, concreteFileName)
+                .putExtra(Extra.MEASURE_FILE_NAME, concreteFileName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         boolean success = bytesDownloaded != -1;

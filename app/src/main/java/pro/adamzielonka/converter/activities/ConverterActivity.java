@@ -25,15 +25,15 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.DetailMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConverterAdapter;
-import pro.adamzielonka.converter.models.concrete.CMeasure;
-import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.components.EditNumber;
-import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.components.theme.ConverterTheme;
 import pro.adamzielonka.converter.components.theme.Theme;
+import pro.adamzielonka.converter.models.concrete.CMeasure;
+import pro.adamzielonka.converter.models.concrete.CUnit;
+import pro.adamzielonka.converter.tools.Extra;
+import pro.adamzielonka.converter.tools.Language;
 
 import static pro.adamzielonka.converter.file.Open.openJSONs;
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.Menus.getMenuItems;
@@ -98,7 +98,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     }
 
     private int getMeasureID() {
-        return getIDFromFileName(getIntent().getStringExtra(EXTRA_MEASURE_FILE_NAME));
+        return getIDFromFileName(getIntent().getStringExtra(Extra.MEASURE_FILE_NAME));
     }
 
     private int getIDFromFileName(String fileName) {
@@ -353,7 +353,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         switch (id) {
             case R.id.menu_set_converter:
                 Intent intent = new Intent(getApplicationContext(), DetailMeasureActivity.class);
-                intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
+                intent.putExtra(Extra.MEASURE_FILE_NAME, cMeasure.concreteFileName);
                 startActivityForResult(intent, REQUEST_EDIT_ACTIVITY);
                 return true;
         }

@@ -20,16 +20,16 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
+import pro.adamzielonka.converter.tools.Extra;
 import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
+import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
+import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
 import static pro.adamzielonka.converter.file.Save.saveJSON;
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Code.RESULT_ADD_FROM_FILE;
-import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
-import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
@@ -151,7 +151,7 @@ public class AddMeasureActivity extends EditActivity {
             saveJSON(this, userFileName, measure);
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
+            intent.putExtra(Extra.MEASURE_FILE_NAME, cMeasure.concreteFileName);
             startActivity(intent);
             finish();
         } catch (FileNotFoundException e) {

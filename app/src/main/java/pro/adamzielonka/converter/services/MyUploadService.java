@@ -14,8 +14,7 @@ import com.google.firebase.storage.StorageReference;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
-
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
+import pro.adamzielonka.converter.tools.Extra;
 
 public class MyUploadService extends MyBaseTaskService {
 
@@ -110,7 +109,7 @@ public class MyUploadService extends MyBaseTaskService {
         Intent intent = new Intent(this, SplashActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_URL, downloadUrl)
                 .putExtra(EXTRA_FILE_URI, fileUri)
-                .putExtra(EXTRA_MEASURE_FILE_NAME, concreteFileName)
+                .putExtra(Extra.MEASURE_FILE_NAME, concreteFileName)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         boolean success = downloadUrl != null;

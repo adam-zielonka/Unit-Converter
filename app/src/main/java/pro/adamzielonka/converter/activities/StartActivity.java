@@ -19,11 +19,11 @@ import java.util.List;
 
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
+import pro.adamzielonka.converter.tools.Extra;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Save.saveJSON;
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 
 public class StartActivity extends AppCompatActivity {
@@ -45,7 +45,7 @@ public class StartActivity extends AppCompatActivity {
         Intent oldIntent = getIntent();
         Intent intent = new Intent(this.getBaseContext(), ConverterActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(EXTRA_MEASURE_FILE_NAME, oldIntent.getStringExtra(EXTRA_MEASURE_FILE_NAME));
+        intent.putExtra(Extra.MEASURE_FILE_NAME, oldIntent.getStringExtra(Extra.MEASURE_FILE_NAME));
         startActivity(intent);
 
         finish();

@@ -15,9 +15,9 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
+import pro.adamzielonka.converter.tools.Extra;
 import pro.adamzielonka.items.ItemsView;
 
-import static pro.adamzielonka.converter.tools.Code.EXTRA_MEASURE_FILE_NAME;
 import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.java.Common.findElement;
@@ -52,11 +52,11 @@ public abstract class EditActivity extends ListActivity
         itemsView.setOnItemsUpdate(this);
         itemsView.setOnItemsSave(this);
         Intent intent = getIntent();
-        measureFileName = intent.getStringExtra(EXTRA_MEASURE_FILE_NAME);
-        unitName = intent.getStringExtra("unitName");
-        prefixName = intent.getStringExtra("prefixName");
-        language = intent.getStringExtra("language");
-        translation = intent.getStringExtra("translation");
+        measureFileName = intent.getStringExtra(Extra.MEASURE_FILE_NAME);
+        unitName = intent.getStringExtra(Extra.UNIT_NAME);
+        prefixName = intent.getStringExtra(Extra.PREFIX_NAME);
+        language = intent.getStringExtra(Extra.LANGUAGE);
+        translation = intent.getStringExtra(Extra.TRANSLATION);
         onUpdate();
     }
 
@@ -135,10 +135,10 @@ public abstract class EditActivity extends ListActivity
 
     protected Intent setEditIntent(Class<?> cls) {
         Intent intent = new Intent(getApplicationContext(), cls);
-        intent.putExtra(EXTRA_MEASURE_FILE_NAME, cMeasure.concreteFileName);
-        intent.putExtra("unitName", unit != null ? unit.symbol : "");
-        intent.putExtra("prefixName", prefix != null ? prefix.symbol : "");
-        intent.putExtra("language", language != null ? language : "en");
+        intent.putExtra(Extra.MEASURE_FILE_NAME, cMeasure.concreteFileName);
+        intent.putExtra(Extra.UNIT_NAME, unit != null ? unit.symbol : "");
+        intent.putExtra(Extra.PREFIX_NAME, prefix != null ? prefix.symbol : "");
+        intent.putExtra(Extra.LANGUAGE, language != null ? language : "en");
         return intent;
     }
 }
