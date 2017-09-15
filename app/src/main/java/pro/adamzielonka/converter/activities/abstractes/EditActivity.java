@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.file.Extension;
 import pro.adamzielonka.converter.file.Open;
 import pro.adamzielonka.converter.file.Save;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
@@ -117,11 +118,11 @@ public abstract class EditActivity extends ListActivity
     }
 
     public Uri getFileUri(String name) {
-        String fileName = "converter_" + name.toLowerCase() + ".json";
+        String fileName = "converter_" + name.toLowerCase() + Extension.JSON;
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS), fileName);
         for (int i = 1; file.exists(); i++) {
-            fileName = "converter_" + name.toLowerCase() + "_" + i + ".json";
+            fileName = "converter_" + name.toLowerCase() + "_" + i + Extension.JSON;
             file = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOWNLOADS), fileName);
         }
