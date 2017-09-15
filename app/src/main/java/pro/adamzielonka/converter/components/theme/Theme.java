@@ -2,34 +2,36 @@ package pro.adamzielonka.converter.components.theme;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.names.Property;
 
 public class Theme {
-    private Activity activity;
+    private Resources resources;
     private SharedPreferences preferences;
 
     public Theme(Activity activity) {
         preferences = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
-        this.activity = activity;
+        resources = activity.getResources();
         activity.setTheme(getStyleID());
     }
 
     public void setID(int position) {
-        preferences.edit().putInt("theme", position).apply();
-    }
-
-    public int getTextColor() {
-        return activity.getResources().getColor(getTextColorID());
+        preferences.edit().putInt(Property.THEME, position).apply();
     }
 
     public int getID() {
-        return preferences.getInt("theme", 0);
+        return preferences.getInt(Property.THEME, 0);
+    }
+
+    public int getTextColor() {
+        return resources.getColor(getTextColorID());
     }
 
     public String[] getArray() {
-        return activity.getResources().getStringArray(R.array.pref_theme_list_titles);
+        return resources.getStringArray(R.array.pref_list_themes);
     }
 
     public String getName() {

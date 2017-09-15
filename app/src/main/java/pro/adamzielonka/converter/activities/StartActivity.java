@@ -19,7 +19,7 @@ import java.util.List;
 
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
-import pro.adamzielonka.converter.tools.Extra;
+import pro.adamzielonka.converter.names.Extra;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
 import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;

@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.tools;
+package pro.adamzielonka.converter.names;
 
 public class Code {
     public static final int RESULT_ADD_FROM_FILE = 101;

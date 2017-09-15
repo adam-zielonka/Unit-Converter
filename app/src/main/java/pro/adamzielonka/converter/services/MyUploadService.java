@@ -14,7 +14,7 @@ import com.google.firebase.storage.StorageReference;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
-import pro.adamzielonka.converter.tools.Extra;
+import pro.adamzielonka.converter.names.Extra;
 
 public class MyUploadService extends MyBaseTaskService {
 

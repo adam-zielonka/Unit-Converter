@@ -16,10 +16,10 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.converter.tools.Extra;
+import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.items.ItemsView;
 
-import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
+import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.java.Common.findElement;
 

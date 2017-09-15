@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
+import pro.adamzielonka.converter.names.Property;
 import pro.adamzielonka.items.Item;
 import pro.adamzielonka.java.Number;
 
@@ -89,7 +90,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equals("theme")) reloadActivity(this);
+        if (s.equals(Property.THEME)) reloadActivity(this);
     }
 
     @Override

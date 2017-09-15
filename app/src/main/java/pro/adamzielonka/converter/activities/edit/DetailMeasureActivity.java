@@ -17,7 +17,7 @@ import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.items.Item;
 
-import static pro.adamzielonka.converter.tools.Code.REQUEST_EDIT_ACTIVITY;
+import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 
 public class DetailMeasureActivity extends EditActivity {
 

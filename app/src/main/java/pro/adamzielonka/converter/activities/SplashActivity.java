@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import pro.adamzielonka.converter.tools.Extra;
+import pro.adamzielonka.converter.names.Extra;
 
 public class SplashActivity extends AppCompatActivity {
 

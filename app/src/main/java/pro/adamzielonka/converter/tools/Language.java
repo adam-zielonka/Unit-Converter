@@ -28,7 +28,7 @@ public class Language {
     }
 
     private static String[] getLanguages(Context context) {
-        return context.getResources().getStringArray(R.array.pref_theme_list_languages);
+        return context.getResources().getStringArray(R.array.pref_list_languages);
     }
 
     public static String[] getDisplayLanguages(Context context) {
