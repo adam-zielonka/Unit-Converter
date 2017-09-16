@@ -1,0 +1,15 @@
+image: java:8
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - gradle
+        script:
+          - wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
+          - unzip sdk-tools-linux-3859397.zip -d AndroidSDK
+          - yes | AndroidSDK/tools/bin/sdkmanager --licenses
+          - AndroidSDK/tools/bin/sdkmanager --update
+          - echo sdk.dir=AndroidSDK/ > local.properties
+          - chmod +x gradlew
+          - ./gradlew assemble
