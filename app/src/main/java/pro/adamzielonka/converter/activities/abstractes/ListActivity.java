@@ -19,7 +19,6 @@ public abstract class ListActivity extends BaseActivity implements AddItemsInter
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         itemsView = findViewById(R.id.ListView);
-        itemsView.setEmptyAdapter();
 
         addItems();
 

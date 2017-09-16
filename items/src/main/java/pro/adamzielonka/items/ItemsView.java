@@ -9,15 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pro.adamzielonka.items.interfaces.ActionInterface;
 import pro.adamzielonka.items.interfaces.UpdateInterface;
+import pro.adamzielonka.java.MyList;
 
 public class ItemsView extends ListView {
 
-    List<Item> items = new ArrayList<>();
+    MyList<Item> items;
     ArrayAdapter adapter;
     ActionInterface.Action<Integer> listAction;
     UpdateInterface.Update<List> listUpdate;
@@ -25,6 +25,7 @@ public class ItemsView extends ListView {
     OnItemsSave onItemsSave;
     public boolean isUpdateProcess;
 
+    //region interface
     public interface OnItemsUpdate {
         void onUpdate();
     }
@@ -32,7 +33,27 @@ public class ItemsView extends ListView {
     public interface OnItemsSave {
         void onSave();
     }
+    //endregion
 
+    //region constructors
+    public ItemsView(Context context) {
+        this(context, null);
+    }
+
+    public ItemsView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public ItemsView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        isUpdateProcess = false;
+        items = new MyList<>();
+        setOnItemClickListener(null);
+        setEmptyAdapter();
+    }
+    //endregion
+
+    //region sets
     public void setOnItemsUpdate(OnItemsUpdate onItemsUpdate) {
         this.onItemsUpdate = onItemsUpdate;
     }
@@ -49,27 +70,7 @@ public class ItemsView extends ListView {
         });
     }
 
-    private void onCreate() {
-        isUpdateProcess = false;
-        setOnItemClickListener(null);
-    }
-
-    public ItemsView(Context context) {
-        super(context);
-        onCreate();
-    }
-
-    public ItemsView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        onCreate();
-    }
-
-    public ItemsView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        onCreate();
-    }
-
-    public void setEmptyAdapter() {
+    private void setEmptyAdapter() {
         setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -100,6 +101,7 @@ public class ItemsView extends ListView {
         this.listAction = listAction;
         this.listUpdate = listUpdate;
     }
+    //endregion
 
     public void addItem(Item item) {
         if (adapter == null) addHeaderView(item.view, false, item.isEnabled);
@@ -122,24 +124,30 @@ public class ItemsView extends ListView {
     public void onUpdate() {
         if (isUpdateProcess) return;
         isUpdateProcess = true;
+
         if (onItemsUpdate != null) onItemsUpdate.onUpdate();
-        for (Item item : items) item.onUpdate();
+        items.myForEach(Item::onUpdate);
         if (listUpdate != null && adapter != null) {
             adapter.clear();
             adapter.addAll(listUpdate.onUpdate());
             adapter.notifyDataSetChanged();
         }
+
         isUpdateProcess = false;
     }
 
     //region adapter position
-    protected boolean isAdapterItemClick(int position) {
-        return (position - getHeaderViewsCount() >= 0 && position - getHeaderViewsCount()
-                < getCount() - getHeaderViewsCount() - getFooterViewsCount());
+    private boolean isAdapterItemClick(int position) {
+        int adapterPosition = getAdapterPosition(position);
+        return (adapterPosition >= 0 && adapterPosition < getAdapterItemsCount());
     }
 
-    protected int getAdapterPosition(int position) {
+    private int getAdapterPosition(int position) {
         return position - getHeaderViewsCount();
+    }
+
+    private int getAdapterItemsCount() {
+        return getCount() - getHeaderViewsCount() - getFooterViewsCount();
     }
     //endregion
 }
