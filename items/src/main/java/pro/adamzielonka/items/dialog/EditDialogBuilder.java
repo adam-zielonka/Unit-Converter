@@ -12,8 +12,7 @@ import java.util.List;
 
 import pro.adamzielonka.items.R;
 import pro.adamzielonka.items.interfaces.ActionInterface;
-import pro.adamzielonka.items.interfaces.TestInterface;
-import pro.adamzielonka.items.tools.Test;
+import pro.adamzielonka.verification.Test;
 
 import static pro.adamzielonka.java.Number.stringToDouble;
 
@@ -68,8 +67,8 @@ public class EditDialogBuilder extends DialogBuilder {
         return this;
     }
 
-    public EditDialogBuilder addValidator(TestInterface.ObjectTest test, String error) {
-        this.validators.add(new Test(test, error));
+    public <T> EditDialogBuilder addValidator(Test.ObjectTest<T> test, String error) {
+        this.validators.add(new Test<>(test, error));
         return this;
     }
 

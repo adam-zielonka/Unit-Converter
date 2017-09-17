@@ -11,7 +11,7 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.items.Item;
-import pro.adamzielonka.items.tools.Tests;
+import pro.adamzielonka.verification.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;

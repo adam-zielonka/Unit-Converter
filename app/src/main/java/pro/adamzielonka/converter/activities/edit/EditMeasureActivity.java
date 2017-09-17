@@ -32,7 +32,7 @@ import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.items.Item;
-import pro.adamzielonka.items.tools.Tests;
+import pro.adamzielonka.verification.Tests;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
 import static pro.adamzielonka.converter.file.Save.isExternalStorageWritable;

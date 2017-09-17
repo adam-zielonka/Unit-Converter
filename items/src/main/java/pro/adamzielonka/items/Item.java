@@ -14,9 +14,8 @@ import java.util.List;
 import pro.adamzielonka.items.dialog.DialogBuilder;
 import pro.adamzielonka.items.dialog.EditDialogBuilder;
 import pro.adamzielonka.items.interfaces.ActionInterface;
-import pro.adamzielonka.items.interfaces.TestInterface;
 import pro.adamzielonka.items.interfaces.UpdateInterface;
-import pro.adamzielonka.items.tools.Test;
+import pro.adamzielonka.verification.Test;
 
 import static pro.adamzielonka.java.Number.doubleToString;
 
@@ -73,7 +72,7 @@ public class Item {
         private UpdateInterface.Update<Integer> positionUpdate;
 
         //Tests
-        private TestInterface.Test actionEnabled;
+        private Test.VoidTest actionEnabled;
         private List<Test> validators;
 
         //Adapter
@@ -192,17 +191,17 @@ public class Item {
         }
         //endregion
 
-        public Builder setIf(TestInterface.Test test) {
+        public Builder setIf(Test.VoidTest test) {
             this.actionEnabled = test;
             return this;
         }
 
-        public Builder addValidator(TestInterface.ObjectTest validator, String error) {
-            this.validators.add(new Test(validator, error));
+        public <T> Builder addValidator(Test.ObjectTest<T> validator, String error) {
+            this.validators.add(new Test<>(validator, error));
             return this;
         }
 
-        public Builder addValidator(TestInterface.ObjectTest validator, @StringRes int error) {
+        public <T> Builder addValidator(Test.ObjectTest<T> validator, @StringRes int error) {
             return addValidator(validator, activity.getString(error));
         }
 
