@@ -10,7 +10,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.file.Prefix;
-import pro.adamzielonka.items.Item;
+import pro.adamzielonka.items.Builder;
+import pro.adamzielonka.items.HeaderItemBuilder;
 import pro.adamzielonka.verification.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
@@ -35,40 +36,40 @@ public class EditUnitActivity extends EditActivity {
             }
         };
 
-        new Item.Builder(this)
-                .setTitleHeader(R.string.list_title_unit)
+        new HeaderItemBuilder(this).setTitle(R.string.list_title_unit).add(itemsView);
+        new Builder(this)
                 .setTitle(R.string.list_item_symbol)
                 .setUpdate(() -> unit.symbol)
                 .setAction((String symbol) -> unit.symbol = unitName = symbol)
                 .addValidator(symbol -> Tests.isUnique(symbol, measure.units),
                         getString(R.string.error_symbol_unit_already_exist))
                 .add(itemsView);
-        new Item.Builder(this)
+        new Builder(this)
                 .setTitle(R.string.list_item_description)
                 .setUpdate(() -> measure.getWords(unit.descriptionPrefix, measure.global)
                         + measure.getWords(unit.description, measure.global))
                 .setAction(() -> startEditActivity(EditDescriptionActivity.class))
                 .add(itemsView);
-        new Item.Builder(this)
+        new Builder(this)
                 .setTitle(R.string.list_item_formula)
                 .setUpdate(() -> getFormula(unit.one, unit.shift, unit.shift2, unit.symbol))
                 .setAction(() -> startEditActivity(EditFormulaActivity.class))
                 .add(itemsView);
-        new Item.Builder(this)
+        new Builder(this)
                 .setTitle(R.string.list_title_exponentiation_base)
                 .setUpdate(() -> unit.expBase)
                 .setAction((Double number) -> unit.expBase = number)
                 .add(itemsView);
 
-        new Item.Builder(this)
-                .setTitleHeader(R.string.list_title_prefixes)
+        new HeaderItemBuilder(this).setTitle(R.string.list_title_prefixes).add(itemsView);
+        new Builder(this)
                 .setAdapter(adapter)
                 .setUpdate(() -> unit.prefixes)
                 .setAction((Integer position) -> {
                     prefix = adapter.getItem(position);
                     startEditActivity(EditPrefixActivity.class);
                 }).add(itemsView);
-        new Item.Builder(this)
+        new Builder(this)
                 .setTitle(R.string.list_item_add_prefix)
                 .setAction(this::newPrefix)
                 .addValidator(symbol -> Tests.isUnique(symbol, unit.prefixes), R.string.error_symbol_prefix_already_exist)

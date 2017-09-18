@@ -10,7 +10,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.items.Item;
+import pro.adamzielonka.items.Builder;
+import pro.adamzielonka.items.HeaderItemBuilder;
 
 public class EditLanguagesActivity extends EditActivity {
 
@@ -27,13 +28,14 @@ public class EditLanguagesActivity extends EditActivity {
             }
         };
 
-        new Item.Builder(this)
-                .setTitleHeader(R.string.list_item_language_global)
+        new HeaderItemBuilder(this).setTitle(R.string.list_item_language_global).add(itemsView);
+        new Builder(this)
                 .setTitle(Language.getLanguage(cMeasure.global))
                 .setUpdate(() -> cMeasure.languages.get(cMeasure.global).toString())
                 .add(itemsView);
-        new Item.Builder(this)
-                .setTitleHeader(R.string.list_title_translations)
+
+        new HeaderItemBuilder(this).setTitle(R.string.list_title_translations).add(itemsView);
+        new Builder(this)
                 .setAdapter(adapter)
                 .setUpdate(this::getArrayList)
                 .setAction((Integer position) -> {
@@ -41,7 +43,7 @@ public class EditLanguagesActivity extends EditActivity {
                     language = strings != null ? strings[0] : "en";
                     startEditActivity(EditTranslationActivity.class);
                 }).add(itemsView);
-        new Item.Builder(this)
+        new Builder(this)
                 .setTitle(R.string.list_item_add_translation)
                 .setAlertTitle(R.string.lang_put_code)
                 .setAction((String code) -> {
