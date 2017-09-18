@@ -21,8 +21,7 @@ import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
-import pro.adamzielonka.items.Builder;
-import pro.adamzielonka.items.HeaderItemBuilder;
+import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
 import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
@@ -42,24 +41,24 @@ public class AddMeasureActivity extends EditActivity {
         setTitle(R.string.title_activity_add_measure);
         super.addItems();
 
-        new HeaderItemBuilder(this).setTitle(R.string.list_add_measure).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.list_add_measure)
                 .setTitle(R.string.list_item_create_description)
                 .setAction(this::createByEditor)
                 .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_load_from_json)
                 .setUpdate(() -> getString(R.string.list_item_load_from_json_description))
                 .setAction(() -> ActivityCompat.requestPermissions(this,
                         getReadAndWritePermissionsStorage(), REQUEST_ADD_FROM_FILE))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_json_repo)
                 .setUpdate(() -> getString(R.string.list_item_json_repo_description))
                 .setAction(() -> startWebsite(R.string.uri_measures))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_load_form_cloud)
                 .setUpdate(() -> getString(R.string.list_item_load_form_cloud_description))
                 .setAction(() -> startActivity(CloudActivity.class))

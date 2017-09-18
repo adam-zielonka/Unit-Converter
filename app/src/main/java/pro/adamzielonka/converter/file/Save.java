@@ -23,9 +23,9 @@ public class Save {
     }
 
     public static String getNewFileInternalName(Context context, String prefix, String name) {
-        String fileName = prefix + name.toUpperCase() + Extension.JSON;
+        String fileName = prefix + name.toUpperCase() + ".json";
         for (int i = 1; isFileInternalExist(context, fileName); i++) {
-            fileName = prefix + name.toUpperCase() + "_" + i + Extension.JSON;
+            fileName = prefix + name.toUpperCase() + "_" + i + ".json";
         }
         return fileName;
     }

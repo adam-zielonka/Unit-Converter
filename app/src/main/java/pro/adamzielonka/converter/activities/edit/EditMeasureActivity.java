@@ -31,8 +31,7 @@ import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
 import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.tools.Language;
-import pro.adamzielonka.items.Builder;
-import pro.adamzielonka.items.HeaderItemBuilder;
+import pro.adamzielonka.items.Item;
 import pro.adamzielonka.verification.Tests;
 
 import static pro.adamzielonka.converter.file.FileTools.getGson;
@@ -83,13 +82,13 @@ public class EditMeasureActivity extends EditActivity {
             }
         };
 
-        new HeaderItemBuilder(this).setTitle(R.string.list_title_language).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.list_title_language)
                 .setTitle(R.string.list_item_language_available)
                 .setUpdate(() -> cMeasure.languages.toString())
                 .setAction(() -> startEditActivity(EditLanguagesActivity.class))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_language_global)
                 .setUpdate(() -> Language.getLanguage(cMeasure.global))
                 .setArray(() -> cMeasure.getGlobalLangs())
@@ -97,19 +96,19 @@ public class EditMeasureActivity extends EditActivity {
                 .setAction((Integer id) -> measure.global = cMeasure.getGlobalFromID(id))
                 .add(itemsView);
 
-        new HeaderItemBuilder(this).setTitle(R.string.list_title_Measure).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.list_title_Measure)
                 .setTitle(R.string.list_item_name)
                 .setUpdate(() -> measure.getName(measure.global))
                 .setAction((String name) -> measure.setName(cMeasure.global, name))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_units_order)
                 .setIf(() -> measure.units.size() > 0)
                 .setUpdate(() -> cMeasure.getUnitsOrder())
                 .setAction(() -> startEditActivity(EditOrderUnitsActivity.class))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_measure_default_1)
                 .setIf(() -> measure.units.size() > 0)
                 .setUpdate(() -> cMeasure.cUnits.get(cMeasure.displayFrom).name)
@@ -118,7 +117,7 @@ public class EditMeasureActivity extends EditActivity {
                 .setPosition(() -> measure.displayFrom)
                 .setAction((Integer id) -> measure.displayFrom = id)
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_measure_default_2)
                 .setIf(() -> measure.units.size() > 0)
                 .setUpdate(() -> cMeasure.cUnits.get(cMeasure.displayTo).name)
@@ -128,15 +127,15 @@ public class EditMeasureActivity extends EditActivity {
                 .setAction((Integer id) -> measure.displayTo = id)
                 .add(itemsView);
 
-        new HeaderItemBuilder(this).setTitle(R.string.list_title_units).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.list_title_units)
                 .setAdapter(adapter)
                 .setUpdate(() -> measure.units)
                 .setAction((Integer position) -> {
                     unit = adapter.getItem(position);
                     startEditActivity(EditUnitActivity.class);
                 }).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.list_item_add_unit)
                 .setAction(this::addUnit)
                 .addValidator(symbol -> Tests.isUnique(symbol, measure.units), getString(R.string.error_symbol_unit_already_exist))

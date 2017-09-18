@@ -7,8 +7,7 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
 import pro.adamzielonka.converter.names.Property;
-import pro.adamzielonka.items.Builder;
-import pro.adamzielonka.items.HeaderItemBuilder;
+import pro.adamzielonka.items.Item;
 import pro.adamzielonka.java.Number;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
@@ -28,8 +27,8 @@ public class SettingsActivity extends PreferenceActivity {
         setTitle(R.string.title_activity_settings);
         userAuth = new UserAuth(this, () -> itemsView.onUpdate());
 
-        new HeaderItemBuilder(this).setTitle(R.string.pref_header_appearance).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_appearance)
                 .setTitle(R.string.pref_title_theme)
                 .setUpdate(() -> theme.getName())
                 .setEnabledUpdate(false)
@@ -37,7 +36,7 @@ public class SettingsActivity extends PreferenceActivity {
                 .setPosition(() -> theme.getID())
                 .setAction((Integer id) -> theme.setID(id))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.pref_title_decimal_separator)
                 .setUpdate(Number::getDecimalSeparator)
                 .setArray(() -> new String[]{".", ","})
@@ -46,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity {
                     if (id == 0) Number.setDotDecimalSeparator();
                     else Number.setCommaDecimalSeparator();
                 }).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
                 .setUpdate(() -> getDisplayLanguage(this))
                 .setEnabledUpdate(false)
@@ -56,20 +55,20 @@ public class SettingsActivity extends PreferenceActivity {
                     setLanguage(this, getLanguageFromID(this, position));
                     reloadActivity(this);
                 }).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.pref_title_language_converter)
                 .setUpdate(() -> getDisplayLanguage(this))
                 .add(itemsView);
 
-        new HeaderItemBuilder(this).setTitle(R.string.pref_header_user).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_user)
                 .setTitle(() -> getUser() != null ? R.string.pref_title_sign_out : R.string.pref_title_sign_in)
                 .setUpdate(() -> getUser() != null ? getUser().getEmail() : "")
                 .setAction(() -> {
                     if (getUser() != null) userAuth.signOut();
                     else userAuth.signIn();
                 }).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.pref_title_user_name)
                 .setIf(() -> getUser() != null)
                 .setUpdate(() -> userAuth.getUserName())
@@ -77,12 +76,12 @@ public class SettingsActivity extends PreferenceActivity {
                 .setAction(() -> userAuth.changeUserName())
                 .add(itemsView);
 
-        new HeaderItemBuilder(this).setTitle(R.string.pref_header_about).add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
+                .setTitleHeader(R.string.pref_header_about)
                 .setTitle(R.string.pref_title_version)
                 .setUpdate(() -> getString(R.string.app_version))
                 .add(itemsView);
-        new Builder(this)
+        new Item.Builder(this)
                 .setTitle(R.string.pref_title_website)
                 .setUpdate(() -> getString(R.string.website))
                 .setAction(() -> startWebsite(R.string.uri_my_website))

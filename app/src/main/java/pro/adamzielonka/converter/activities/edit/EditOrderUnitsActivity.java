@@ -8,7 +8,7 @@ import pro.adamzielonka.converter.adapters.OrderAdapter;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.items.Builder;
+import pro.adamzielonka.items.Item;
 
 public class EditOrderUnitsActivity extends EditActivity {
 
@@ -19,7 +19,7 @@ public class EditOrderUnitsActivity extends EditActivity {
         setTitle(R.string.title_activity_edit_order_units);
         super.addItems();
         orderAdapter = new OrderAdapter(getApplicationContext(), cMeasure.cUnits, measure.global, cMeasure.global);
-        new Builder(this)
+        new Item.Builder(this)
                 .setAdapter(orderAdapter)
                 .setUpdate(() -> cMeasure.cUnits)
                 .add(itemsView);

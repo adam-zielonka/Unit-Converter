@@ -9,7 +9,7 @@ import android.widget.TextView;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.items.Builder;
+import pro.adamzielonka.items.Item;
 import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
 public class EditTranslationActivity extends EditActivity {
@@ -28,7 +28,7 @@ public class EditTranslationActivity extends EditActivity {
             }
         };
 
-        new Builder(this)
+        new Item.Builder(this)
                 .setAdapter(adapter)
                 .setUpdate(() -> measure.getLanguagesStr(this, language))
                 .setAction((Integer position) -> {
