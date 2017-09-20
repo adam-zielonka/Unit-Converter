@@ -30,8 +30,8 @@ public class EditTranslationActivity extends EditActivity {
 
         new Item.Builder(this)
                 .setAdapter(adapter)
-                .setUpdate(() -> measure.getLanguagesStr(this, language))
-                .setAction((Integer position) -> {
+                .setUpdateAdapter(() -> measure.getLanguagesStr(this, language))
+                .setActionAdapter((Integer position) -> {
                     String[] item = adapter.getItem(position);
                     if (item != null) editTranslation(item);
                 })

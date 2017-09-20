@@ -15,12 +15,14 @@ import pro.adamzielonka.items.interfaces.ActionInterface;
 import pro.adamzielonka.items.interfaces.UpdateInterface;
 import pro.adamzielonka.java.MyList;
 
-public class ItemsView extends ListView {
+public class ItemsView<T> extends ListView {
 
     MyList<Item> items;
-    ArrayAdapter adapter;
+
+    ArrayAdapter<T> adapter;
     ActionInterface.Action<Integer> listAction;
-    UpdateInterface.Update<List> listUpdate;
+    UpdateInterface.Update<List<T>> listUpdate;
+
     OnItemsUpdate onItemsUpdate;
     OnItemsSave onItemsSave;
     public boolean isUpdateProcess;
@@ -94,7 +96,7 @@ public class ItemsView extends ListView {
         });
     }
 
-    public void setAdapter(ArrayAdapter adapter, UpdateInterface.Update<List> listUpdate,
+    public void setAdapter(ArrayAdapter<T> adapter, UpdateInterface.Update<List<T>> listUpdate,
                            ActionInterface.Action<Integer> listAction) {
         super.setAdapter(adapter);
         this.adapter = adapter;

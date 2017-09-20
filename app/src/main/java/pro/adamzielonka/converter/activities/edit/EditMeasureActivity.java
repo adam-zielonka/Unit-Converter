@@ -130,8 +130,8 @@ public class EditMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_units)
                 .setAdapter(adapter)
-                .setUpdate(() -> measure.units)
-                .setAction((Integer position) -> {
+                .setUpdateAdapter(() -> measure.units)
+                .setActionAdapter((Integer position) -> {
                     unit = adapter.getItem(position);
                     startEditActivity(EditUnitActivity.class);
                 }).add(itemsView);

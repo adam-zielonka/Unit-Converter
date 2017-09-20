@@ -35,8 +35,8 @@ public class EditLanguagesActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_translations)
                 .setAdapter(adapter)
-                .setUpdate(this::getArrayList)
-                .setAction((Integer position) -> {
+                .setUpdateAdapter(this::getArrayList)
+                .setActionAdapter((Integer position) -> {
                     String[] strings = adapter.getItem(position);
                     language = strings != null ? strings[0] : "en";
                     startEditActivity(EditTranslationActivity.class);

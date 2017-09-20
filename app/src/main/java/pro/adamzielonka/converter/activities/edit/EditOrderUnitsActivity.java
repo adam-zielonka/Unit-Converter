@@ -21,7 +21,7 @@ public class EditOrderUnitsActivity extends EditActivity {
         orderAdapter = new OrderAdapter(getApplicationContext(), cMeasure.cUnits, measure.global, cMeasure.global);
         new Item.Builder(this)
                 .setAdapter(orderAdapter)
-                .setUpdate(() -> cMeasure.cUnits)
+                .setUpdateAdapter(() -> cMeasure.cUnits)
                 .add(itemsView);
     }
 

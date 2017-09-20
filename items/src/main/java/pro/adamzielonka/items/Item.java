@@ -77,6 +77,8 @@ public class Item {
 
         //Adapter
         private ArrayAdapter adapter;
+        private ActionInterface.Action<Integer> actionAdapter;
+        private UpdateInterface.Update<List> updateAdapter;
 
         public Builder(Activity activity) {
             this.activity = activity;
@@ -119,7 +121,7 @@ public class Item {
         }
 
         public String getTitle() {
-            return title != null ? title.onUpdate().toString() : "";
+            return title != null ? title.onUpdate().toString() : null;
         }
         //endregion
 
@@ -205,16 +207,27 @@ public class Item {
             return addValidator(validator, activity.getString(error));
         }
 
+        //region Adapter
         public Builder setAdapter(ArrayAdapter adapter) {
             this.adapter = adapter;
             return this;
         }
 
+        public Builder setActionAdapter(ActionInterface.Action<Integer> actionAdapter) {
+            this.actionAdapter = actionAdapter;
+            return this;
+        }
+
+        public Builder setUpdateAdapter(UpdateInterface.Update<List> updateAdapter) {
+            this.updateAdapter = updateAdapter;
+            return this;
+        }
+        //endregion
+
         public void add(ItemsView itemsView) {
             if (titleHeader != null) createItemHeader(itemsView);
-            if (adapter != null && update != null) {
-                createItemAdapter(itemsView);
-            } else if (getTitle() != null) {
+            if (adapter != null && updateAdapter != null) createItemAdapter(itemsView);
+            if (getTitle() != null) {
                 if (objectsUpdate != null)
                     createItem(itemsView, action != null ? () -> newListDialog(itemsView,
                             (String[]) objectsUpdate.onUpdate(), positionUpdate.onUpdate()) : null);
@@ -247,7 +260,7 @@ public class Item {
         }
 
         private void createItemAdapter(ItemsView itemsView) {
-            itemsView.setAdapter(adapter, update, action);
+            itemsView.setAdapter(adapter, updateAdapter, actionAdapter);
         }
         //endregion
 

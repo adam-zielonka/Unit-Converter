@@ -63,8 +63,8 @@ public class EditUnitActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_title_prefixes)
                 .setAdapter(adapter)
-                .setUpdate(() -> unit.prefixes)
-                .setAction((Integer position) -> {
+                .setUpdateAdapter(() -> unit.prefixes)
+                .setActionAdapter((Integer position) -> {
                     prefix = adapter.getItem(position);
                     startEditActivity(EditPrefixActivity.class);
                 }).add(itemsView);
