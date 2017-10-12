@@ -1,8 +1,8 @@
 package pro.adamzielonka.verification;
 
 public class Test<T> {
-    public String error;
-    private ObjectTest<T> test;
+    public final String error;
+    private final ObjectTest<T> test;
 
     public Test(ObjectTest<T> test, String error) {
         this.error = error;

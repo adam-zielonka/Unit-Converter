@@ -6,7 +6,7 @@ def versionPatch = 23
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "pro.adamzielonka.converter"
         minSdkVersion 15
@@ -50,13 +50,13 @@ dependencies {
     implementation 'com.android.support:gridlayout-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.code.gson:gson:2.8.1'
-    implementation 'com.google.firebase:firebase-database:11.2.2'
-    implementation 'com.google.firebase:firebase-core:11.2.2'
-    implementation 'com.google.firebase:firebase-crash:11.2.2'
-    implementation 'com.google.firebase:firebase-storage:11.2.2'
-    implementation 'com.google.firebase:firebase-auth:11.2.2'
-    implementation 'com.google.firebase:firebase-perf:11.2.2'
-    implementation 'com.google.android.gms:play-services-auth:11.2.2'
+    implementation 'com.google.firebase:firebase-database:11.4.2'
+    implementation 'com.google.firebase:firebase-core:11.4.2'
+    implementation 'com.google.firebase:firebase-crash:11.4.2'
+    implementation 'com.google.firebase:firebase-storage:11.4.2'
+    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-perf:11.4.2'
+    implementation 'com.google.android.gms:play-services-auth:11.4.2'
     implementation 'com.firebaseui:firebase-ui-database:1.2.0'
     implementation project(':items')
     implementation project(':java')
