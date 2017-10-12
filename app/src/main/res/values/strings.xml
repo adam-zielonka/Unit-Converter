@@ -47,10 +47,10 @@
     <!-- [START] Edit Formula -->
     <string name="title_activity_formula">Edit formula</string>
     <string name="list_title_formula">Formula</string>
-    <string name="list_item_formula_description">ONE * ( BASE + SHIFT1) + SHIFT2</string>
-    <string name="list_item_formula_one">One</string>
-    <string name="list_item_formula_shift1">Shift 1</string>
-    <string name="list_item_formula_shift2">Shift 2</string>
+    <string name="list_item_formula_description" translatable="false">α * ( BASE + Δ1) + Δ2</string>
+    <string name="list_item_formula_one">Factor α</string>
+    <string name="list_item_formula_shift1">Shift Δ1</string>
+    <string name="list_item_formula_shift2">Shift Δ2</string>
     <!-- [END] Edit Formula-->
 
     <!-- [START] Edit Order Units -->
