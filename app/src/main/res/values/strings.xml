@@ -48,9 +48,9 @@
     <string name="title_activity_formula">Edit formula</string>
     <string name="list_title_formula">Formula</string>
     <string name="list_item_formula_description" translatable="false">α * ( BASE + Δ1) + Δ2</string>
-    <string name="list_item_formula_one">Factor α</string>
-    <string name="list_item_formula_shift1">Shift Δ1</string>
-    <string name="list_item_formula_shift2">Shift Δ2</string>
+    <string name="list_item_formula_one" translatable="false">α</string>
+    <string name="list_item_formula_shift1" translatable="false">Δ1</string>
+    <string name="list_item_formula_shift2" translatable="false">Δ2</string>
     <!-- [END] Edit Formula-->
 
     <!-- [START] Edit Order Units -->
@@ -85,8 +85,6 @@
     <string name="list_item_formula">Formula</string>
     <string name="list_title_exponentiation_base">Exponentiation base</string>
     <string name="list_item_units_order">Order of units</string>
-    <string name="dialog_measure_name">Measure name</string>
-    <string name="dialog_save">Save</string>
     <string name="set_unit_up">Set unit up</string>
     <string name="set_unit_down">Set unit down</string>
     <string name="title_activity_edit_prefix">Edit prefix</string>
@@ -95,7 +93,6 @@
     <string name="list_item_add_unit">Add unit</string>
     <string name="list_item_add_prefix">Add prefix</string>
     <string name="error_could_not_save_changes">Could not save changes</string>
-    <string name="dialog_unit_symbol">Unit symbol</string>
     <string name="delete_unit_title">Delete unit</string>
     <string name="title_activity_edit_description">Edit description</string>
     <string name="list_title_description">Description</string>
@@ -104,10 +101,6 @@
 
     <string name="error_symbol_prefix_already_exist">Symbol prefix already exist</string>
     <string name="error_symbol_unit_already_exist">Symbol unit already exist</string>
-    <string name="dialog_prefix_symbol">Prefix symbol</string>
-    <string name="dialog_prefix_description">Prefix description</string>
-    <string name="dialog_prefix_exponent">Prefix exponent</string>
-    <string name="dialog_unit_exponentiation_base">Unit exponentiation base</string>
     <string name="title_activity_add_measure">Add measure</string>
     <string name="list_add_measure">Measure</string>
     <string name="list_item_create">Create</string>
@@ -118,15 +111,8 @@
     <string name="list_item_load_from_json_description">Load a json file with a specific structure</string>
     <string name="list_item_json_repo_description">See the sample file on the website</string>
     <string name="list_item_load_form_cloud_description">Soon, maybe</string>
-    <string name="dialog_formula_one">One</string>
-    <string name="dialog_formula_shift1">Shift 1</string>
-    <string name="dialog_formula_shift2">Shift 2</string>
-    <string name="dialog_unit_description_base">Description base</string>
-    <string name="dialog_unit_description_global_prefix">Description global prefix</string>
     <string name="list_item_measure_default_1">Default 1</string>
     <string name="list_item_measure_default_2">Default 2</string>
-    <string name="dialog_measure_default_1">Default 1</string>
-    <string name="dialog_measure_default_2">Default 2</string>
 
 
     <!-- -->
@@ -179,8 +165,8 @@
     <string name="list_title_translations">Translations</string>
     <string name="list_item_add_translation">Add translation</string>
     <string name="title_activity_edit_translation">Edit translation</string>
-    <string name="language_repeat_tag"><![CDATA[<repeat>]]></string>
-    <string name="language_empty_tag"><![CDATA[<empty>]]></string>
+    <string name="language_repeat_tag" translatable="false"><![CDATA[<repeat>]]></string>
+    <string name="language_empty_tag" translatable="false"><![CDATA[<empty>]]></string>
     <string name="delete_prefix_title">Delete prefix</string>
     <string name="error_symbol_empty">Not allow empty symbol value</string>
     <string name="checking_version">%1$s (Checking version)</string>
@@ -198,7 +184,7 @@
     <string name="title_activity_detail_measure">Detail measure</string>
     <string name="list_item_units">Units</string>
     <string name="list_item_languages">Languages</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <!-- -->
 
 </resources>
