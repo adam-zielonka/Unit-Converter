@@ -38,20 +38,26 @@ public class ItemsView<T> extends ListView {
     //endregion
 
     //region constructors
-    public ItemsView(Context context) {
-        this(context, null);
-    }
-
-    public ItemsView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public ItemsView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    private void onCreate() {
         isUpdateProcess = false;
         items = new MyList<>();
         setOnItemClickListener(null);
         setEmptyAdapter();
+    }
+
+    public ItemsView(Context context) {
+        super(context);
+        onCreate();
+    }
+
+    public ItemsView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        onCreate();
+    }
+
+    public ItemsView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        onCreate();
     }
     //endregion
 
