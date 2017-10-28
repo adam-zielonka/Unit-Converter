@@ -145,7 +145,7 @@
     <string name="list_item_author">Author</string>
     <string name="list_item_version">Version</string>
     <string name="list_item_cloud">Cloud</string>
-    <string name="dialog_set_user_name">Set username</string>
+    <string name="dialog_set_user_name">Set name</string>
     <string name="dialog_create">Create</string>
     <string name="error_name_already_exist">Name already exist.</string>
     <string name="search">Search</string>
@@ -185,6 +185,7 @@
     <string name="list_item_units">Units</string>
     <string name="list_item_languages">Languages</string>
     <string name="loading">Loading…</string>
+    <string name="error_create_user">Error create user</string>
     <!-- -->
 
 </resources>

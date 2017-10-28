@@ -63,7 +63,7 @@ public class UploadMeasure {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            updateMeasure(userId, user.username, measure.getName(getLangCode(activity)), cMeasure.getUnitsOrder());
+                            updateMeasure(userId, user.name, measure.getName(getLangCode(activity)), cMeasure.getUnitsOrder());
                         }
                     }
 

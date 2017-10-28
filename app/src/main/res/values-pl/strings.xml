@@ -134,4 +134,5 @@
     <string name="heading_my_top_measure">Moje popularne miary</string>
     <string name="heading_my_measure">Moje miary</string>
     <string name="heading_recent">Popularne</string>
+    <string name="error_create_user">Błąd tworzenia użytkownika</string>
 </resources>

@@ -1,17 +1,12 @@
 package pro.adamzielonka.converter.models.database;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-@IgnoreExtraProperties
 public class User {
 
-    public String username;
+    public String name;
+    public String userId;
 
-    public User() {
-
-    }
-
-    public User(String username) {
-        this.username = username;
+    public User(String name, String userId) {
+        this.name = name;
+        this.userId = userId;
     }
 }

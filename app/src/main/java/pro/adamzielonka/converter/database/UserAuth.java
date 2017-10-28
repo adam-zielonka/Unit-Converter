@@ -3,6 +3,7 @@ package pro.adamzielonka.converter.database;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -15,22 +16,18 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.converter.components.MyProgressDialog;
+import pro.adamzielonka.converter.models.database.User;
 import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS;
+import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAME;
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAMES;
+import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Preferences.getPreferences;
 import static pro.adamzielonka.converter.tools.Preferences.setPreferences;
 
@@ -38,7 +35,7 @@ public class UserAuth {
     public static final int RC_SIGN_IN = 9001;
     private FragmentActivity activity;
 
-    private DatabaseReference mDatabase;
+    private FirebaseFirestore mFirestore;
     private FirebaseAuth mFirebaseAuth;
     private GoogleApiClient mGoogleApiClient;
     private MyProgressDialog myProgressDialog;
@@ -50,7 +47,7 @@ public class UserAuth {
         this.onAuthResult = onAuthResult;
         myProgressDialog = new MyProgressDialog(activity);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirestore = FirebaseFirestore.getInstance();
         mGoogleApiClient = newGoogleApiClient();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
@@ -114,27 +111,20 @@ public class UserAuth {
     private void onAuthSuccess() {
         String userId = getUid();
         if (userId == null) return;
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(USERS).child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        if (user == null) {
-                            createUser(false, "", "");
-                        } else {
-                            setUserName(user.username);
-                            onAuthResult.onAuthResult();
-                            myProgressDialog.hide();
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        onAuthResult.onAuthResult();
-                        myProgressDialog.hide();
-                    }
-                });
+        mFirestore.collection(USERS).document(userId).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Object name = documentSnapshot.getData().get(USERS_NAME);
+                setUserName(name.toString());
+                onAuthResult.onAuthResult();
+                myProgressDialog.hide();
+            } else
+                createUser(false, "", "");
+        }).addOnFailureListener(e -> {
+            onAuthResult.onAuthResult();
+            myProgressDialog.hide();
+            signOut();
+        });
     }
 
     public void changeUserName() {
@@ -158,24 +148,37 @@ public class UserAuth {
                 .show();
     }
 
-    private void createUserName(String name) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(name, getUid());
-        mDatabase.child(USERS_NAMES).updateChildren(map);
-    }
-
     private void writeNewUser(boolean changeName, String userId, String name) {
-        User user = new User(name);
-        mDatabase.child(USERS).child(userId).setValue(user)
-                .addOnSuccessListener(aVoid -> finishCreateUser(name))
-                .addOnFailureListener(e -> createUser(changeName, name, activity.getString(R.string.error_name_already_exist)));
+        User user = new User(name, userId);
+        mFirestore.collection(USERS).whereEqualTo(USERS_NAME, name).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Log.d(USERS, document.getId() + " => " + document.getData());
+                        }
+                        if (task.getResult().isEmpty())
+                            finishCreateUser(user);
+                        else
+                            createUser(changeName, name, activity.getString(R.string.error_name_already_exist));
+                    } else {
+                        showError(activity, R.string.error_create_user);
+                        Log.d(USERS, "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
-    private void finishCreateUser(String name) {
-        createUserName(name);
-        setUserName(name);
-        onAuthResult.onAuthResult();
-        myProgressDialog.hide();
+    private void finishCreateUser(User user) {
+        mFirestore.collection(USERS).document(user.userId).set(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        setUserName(user.name);
+                    } else {
+                        showError(activity, R.string.error_create_user);
+                        signOut();
+                    }
+                    onAuthResult.onAuthResult();
+                    myProgressDialog.hide();
+                });
     }
 
     private void setUserName(String name) {
