@@ -26,7 +26,6 @@ import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS;
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAME;
-import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAMES;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Preferences.getPreferences;
 import static pro.adamzielonka.converter.tools.Preferences.setPreferences;
@@ -182,11 +181,11 @@ public class UserAuth {
     }
 
     private void setUserName(String name) {
-        setPreferences(activity, USERS_NAMES, name);
+        setPreferences(activity, USERS_NAME, name);
     }
 
     public String getUserName() {
-        return getPreferences(activity).getString(USERS_NAMES, "");
+        return getPreferences(activity).getString(USERS_NAME, "");
     }
 
     //region user

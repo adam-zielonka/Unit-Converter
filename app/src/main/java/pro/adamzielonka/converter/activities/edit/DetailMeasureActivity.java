@@ -3,12 +3,6 @@ package pro.adamzielonka.converter.activities.edit;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.Map;
 
 import pro.adamzielonka.converter.R;
@@ -21,15 +15,9 @@ import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 
 public class DetailMeasureActivity extends EditActivity {
 
-    private DatabaseReference mDatabase;
-
-    private Long version;
-    private String versionInfo;
-
     @Override
     public void addItems() {
         setTitle(R.string.title_activity_detail_measure);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         super.addItems();
         new Item.Builder(this)
                 .setTitleHeader(R.string.local_settings)
@@ -47,12 +35,6 @@ public class DetailMeasureActivity extends EditActivity {
                 .setArray(() -> cMeasure.getGlobalLangs())
                 .setPosition(() -> cMeasure.getOwnLangID())
                 .setAction((Integer position) -> cMeasure.ownLang = cMeasure.getGlobalFromID(position))
-                .add(itemsView);
-        new Item.Builder(this)
-                .setTitle(R.string.list_item_version)
-                .setIf(() -> !measure.cloudID.equals(""))
-                .setUpdate(this::getVersionInfo)
-                .setAction(this::versionAction)
                 .add(itemsView);
 
         new Item.Builder(this)
@@ -106,53 +88,6 @@ public class DetailMeasureActivity extends EditActivity {
 
         return builder.toString();
     }
-
-    //region version
-    public String getVersionInfo() {
-        if (!measure.cloudID.equals("")) {
-            if (versionInfo == null) {
-                checkOnlineVersion();
-                versionInfo = measure.version.toString();
-            }
-        } else versionInfo = getString(R.string.local_measure);
-        return versionInfo;
-    }
-
-    public void versionAction() {
-        if (version != null && version > measure.version) {
-            //TODO: download update
-        } else if (!measure.cloudID.equals("")) {
-            version = measure.version;
-            checkOnlineVersion();
-        }
-    }
-
-    private void checkOnlineVersion() {
-        versionInfo = getString(R.string.checking_version, measure.version.toString());
-        itemsView.onSave();
-
-        DatabaseReference ref = mDatabase.child("measures").child(measure.cloudID).child("version");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Long versionOnline = dataSnapshot.getValue(Long.class);
-                if (versionOnline != null) {
-                    if (versionOnline > measure.version)
-                        versionInfo = getString(R.string.new_version, measure.version.toString(), versionOnline);
-                    else
-                        versionInfo = getString(R.string.current_version, measure.version.toString());
-                } else versionInfo = getString(R.string.local_measure);
-                version = versionOnline;
-                itemsView.onSave();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-    //endregion
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

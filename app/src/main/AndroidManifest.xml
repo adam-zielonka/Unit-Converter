@@ -41,17 +41,8 @@
         <activity android:name=".activities.edit.EditFormulaActivity" />
         <activity android:name=".activities.edit.EditLanguagesActivity" />
         <activity android:name=".activities.edit.EditTranslationActivity" />
-        <activity android:name=".activities.database.CloudActivity" />
-        <activity android:name=".activities.database.MeasureDetailActivity" />
-        <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.edit.DetailMeasureActivity" />
-
-        <service
-            android:name=".services.MyDownloadService"
-            android:exported="false" />
-        <service
-            android:name=".services.MyUploadService"
-            android:exported="false" />
+        <activity android:name=".activities.SettingsActivity" />
     </application>
 
 </manifest>

@@ -1,12 +1,9 @@
 package pro.adamzielonka.converter.activities.edit;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +16,9 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
-import pro.adamzielonka.converter.database.UploadMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.converter.services.MyUploadService;
 import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.items.Item;
 import pro.adamzielonka.verification.Tests;
@@ -39,26 +34,9 @@ import static pro.adamzielonka.file.Save.isExternalStorageWritable;
 
 public class EditMeasureActivity extends EditActivity {
 
-    private BroadcastReceiver mBroadcastReceiver;
-
     @Override
     public void addItems() {
         setTitle(R.string.title_activity_edit_measure);
-        mBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                hideProgressDialog();
-                if (intent.getAction() != null)
-                    switch (intent.getAction()) {
-                        case MyUploadService.UPLOAD_COMPLETED:
-                            showSuccess(EditMeasureActivity.this, R.string.success_upload);
-                            break;
-                        case MyUploadService.UPLOAD_ERROR:
-                            showError(EditMeasureActivity.this, R.string.msg_error_upload);
-                            break;
-                    }
-            }
-        };
         super.addItems();
         ArrayAdapter<Unit> adapter = new MyArrayAdapter<Unit>(getApplicationContext(), measure.units) {
             @Override
@@ -176,10 +154,6 @@ public class EditMeasureActivity extends EditActivity {
                 ActivityCompat.requestPermissions(this,
                         getReadAndWritePermissionsStorage(), REQUEST_SAVE_TO_DOWNLOAD);
                 return true;
-            case R.id.menu_upload_converter:
-                UploadMeasure uploadMeasure = new UploadMeasure(this, () -> itemsView.onUpdate());
-                uploadMeasure.submitMeasure(measure, cMeasure);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -209,19 +183,6 @@ public class EditMeasureActivity extends EditActivity {
             e.printStackTrace();
             showError(this, R.string.error_create_file);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 
 }

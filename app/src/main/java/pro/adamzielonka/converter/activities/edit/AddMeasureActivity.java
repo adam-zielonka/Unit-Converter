@@ -13,7 +13,6 @@ import java.io.IOException;
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
-import pro.adamzielonka.converter.activities.database.CloudActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
@@ -56,7 +55,6 @@ public class AddMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitle(R.string.list_item_load_form_cloud)
                 .setUpdate(() -> getString(R.string.list_item_load_form_cloud_description))
-                .setAction(() -> startActivity(CloudActivity.class))
                 .add(itemsView);
 
     }
