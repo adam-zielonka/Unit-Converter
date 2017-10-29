@@ -74,7 +74,7 @@ public class AddMeasureActivity extends EditActivity {
         cMeasure.userFileName = userFileName;
         try {
             saveMeasure();
-            setResultCode(RESULT_OK);
+            setResultOK();
             startEditActivity(EditMeasureActivity.class);
         } catch (Exception e) {
             showError(this, R.string.error_could_not_save_changes);

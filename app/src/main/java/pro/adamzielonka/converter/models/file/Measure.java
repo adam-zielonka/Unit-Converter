@@ -17,8 +17,6 @@ public class Measure {
     public String global = "en";
     public LanguageMap name = new LanguageMap();
     public List<String> author = new ArrayList<>();
-    public Long version = 0L;
-    public String cloudID = "";
     public List<Unit> units = new ArrayList<>();
     public Integer displayFrom = 0;
     public Integer displayTo = 1;

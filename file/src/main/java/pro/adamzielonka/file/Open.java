@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Open {
 
-    public static <T> T openJSON(InputStream in, Class<T> classOfT) throws FileNotFoundException {
+    public static <T> T openJSON(InputStream in, Class<T> classOfT) {
         Reader reader = new BufferedReader(new InputStreamReader(in));
         return FileTools.getGson().fromJson(reader, classOfT);
     }
@@ -34,7 +34,7 @@ public class Open {
         for (File file : files)
             if (file.getName().contains(filePrefix)) try {
                 arrayOfT.add(openJSON(context, file.getName(), classOfT));
-            } catch (Exception e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 

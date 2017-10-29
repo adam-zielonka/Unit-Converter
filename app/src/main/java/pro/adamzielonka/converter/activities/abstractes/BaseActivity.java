@@ -7,26 +7,23 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import pro.adamzielonka.converter.components.MyProgressDialog;
 import pro.adamzielonka.converter.components.theme.Theme;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private int resultCode;
-    private MyProgressDialog myProgressDialog;
     protected Theme theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         theme = new Theme(this);
         super.onCreate(savedInstanceState);
-        myProgressDialog = new MyProgressDialog(this);
 
         resultCode = RESULT_CANCELED;
     }
 
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
+    public void setResultOK() {
+        this.resultCode = RESULT_OK;
     }
 
     @Override
@@ -44,16 +41,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //region progress dialog
-    public void showProgressDialog(String caption) {
-        myProgressDialog.show(caption);
-    }
-
-    public void hideProgressDialog() {
-        myProgressDialog.hide();
-    }
-    //endregion
-
     //region start activity
     public void startWebsite(@StringRes int url) {
         startWebsite(getString(url));
@@ -61,10 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startWebsite(String url) {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-    }
-
-    public void startActivity(Class<?> cls) {
-        startActivity(new Intent(getApplicationContext(), cls));
     }
     //endregion
 

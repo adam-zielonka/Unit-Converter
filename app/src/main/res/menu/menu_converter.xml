@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_set_converter"
-        android:icon="@drawable/ic_settings_white_24dp"
+        android:icon="@drawable/ic_description_white_24dp"
         android:title="@string/set_converter"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

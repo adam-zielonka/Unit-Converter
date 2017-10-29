@@ -31,7 +31,6 @@ public abstract class EditActivity extends ListActivity
     protected Unit unit;
     protected Prefix prefix;
     protected String language;
-    protected String translation;
 
     private String measureFileName;
     protected String unitName;
@@ -41,7 +40,7 @@ public abstract class EditActivity extends ListActivity
     public void onSave() {
         try {
             saveMeasure();
-            setResultCode(RESULT_OK);
+            setResultOK();
         } catch (Exception e) {
             e.printStackTrace();
             showError(this, R.string.error_could_not_save_changes);
@@ -57,7 +56,6 @@ public abstract class EditActivity extends ListActivity
         unitName = intent.getStringExtra(Extra.UNIT_NAME);
         prefixName = intent.getStringExtra(Extra.PREFIX_NAME);
         language = intent.getStringExtra(Extra.LANGUAGE);
-        translation = intent.getStringExtra(Extra.TRANSLATION);
         onUpdate();
     }
 
@@ -82,7 +80,7 @@ public abstract class EditActivity extends ListActivity
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (resultCode == RESULT_OK) {
             try {
-                setResultCode(RESULT_OK);
+                setResultOK();
                 itemsView.onUpdate();
             } catch (Exception e) {
                 finish();
