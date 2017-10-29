@@ -1,1 +1,1 @@
-include ':java', ':items', ':app', ':verification'
+include ':java', ':items', ':app', ':verification', ':file'

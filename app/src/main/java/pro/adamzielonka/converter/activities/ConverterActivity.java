@@ -33,7 +33,7 @@ import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.converter.tools.Language;
 
-import static pro.adamzielonka.converter.file.Open.openJSONs;
+import static pro.adamzielonka.file.Open.openJSONs;
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.Menus.getMenuItems;

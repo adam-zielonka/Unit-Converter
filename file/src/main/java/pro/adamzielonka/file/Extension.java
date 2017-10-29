@@ -1,4 +1,4 @@
-package pro.adamzielonka.converter.file;
+package pro.adamzielonka.file;
 
 public class Extension {
     public static String JSON = ".json";

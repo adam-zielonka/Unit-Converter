@@ -9,9 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pro.adamzielonka.converter.R;
-import pro.adamzielonka.converter.file.Extension;
-import pro.adamzielonka.converter.file.Open;
-import pro.adamzielonka.converter.file.Save;
+import pro.adamzielonka.file.Extension;
+import pro.adamzielonka.file.Open;
+import pro.adamzielonka.file.Save;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.models.file.Prefix;

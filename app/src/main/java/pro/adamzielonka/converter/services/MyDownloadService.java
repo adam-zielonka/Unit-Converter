@@ -9,12 +9,9 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.SplashActivity;
@@ -22,11 +19,10 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
 
-import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
-import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
-import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
+import static pro.adamzielonka.file.Open.openJSON;
+import static pro.adamzielonka.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.file.Save.saveJSON;
 
 public class MyDownloadService extends MyBaseTaskService {
 
@@ -78,10 +74,7 @@ public class MyDownloadService extends MyBaseTaskService {
                         showDownloadFinishedNotification(downloadPath, (int) taskSnapshot.getTotalByteCount());
 
                         try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, Uri.parse(localFile.toURI().toString()))));
-
-                            Gson gson = getGson();
-                            Measure measure = gson.fromJson(reader, Measure.class);
+                            Measure measure = openJSON(this, Uri.parse(localFile.toURI().toString()), Measure.class);
                             CMeasure cMeasure = measure.getConcreteMeasure();
 
                             concreteFileName = getNewFileInternalName(this, "concrete_", cMeasure.getName(getLangCode(this)));

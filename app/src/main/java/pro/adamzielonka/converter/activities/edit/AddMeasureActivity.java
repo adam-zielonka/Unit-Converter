@@ -7,12 +7,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
@@ -23,16 +19,15 @@ import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.items.Item;
 
-import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Open.openFileToInputStream;
-import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
-import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.names.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.names.Code.RESULT_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
+import static pro.adamzielonka.file.Open.openJSON;
+import static pro.adamzielonka.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.file.Save.saveJSON;
 
 public class AddMeasureActivity extends EditActivity {
 
@@ -130,10 +125,7 @@ public class AddMeasureActivity extends EditActivity {
 
     private void addConverterFromFile(Uri uri) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileToInputStream(this, uri)));
-
-            Gson gson = getGson();
-            Measure measure = gson.fromJson(reader, Measure.class);
+            Measure measure = openJSON(this, uri, Measure.class);
             CMeasure cMeasure = measure.getConcreteMeasure();
 
             if (!cMeasure.isCorrect()) {

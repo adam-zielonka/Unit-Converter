@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/file" />
             <option value="$PROJECT_DIR$/items" />
             <option value="$PROJECT_DIR$/java" />
             <option value="$PROJECT_DIR$/verification" />

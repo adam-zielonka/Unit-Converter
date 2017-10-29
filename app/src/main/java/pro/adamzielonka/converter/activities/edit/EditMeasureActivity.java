@@ -13,13 +13,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.StartActivity;
@@ -34,13 +28,14 @@ import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.items.Item;
 import pro.adamzielonka.verification.Tests;
 
-import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Save.isExternalStorageWritable;
 import static pro.adamzielonka.converter.names.Code.REQUEST_SAVE_TO_DOWNLOAD;
 import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Message.showSuccess;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
+import static pro.adamzielonka.file.FileTools.toJSON;
+import static pro.adamzielonka.file.Open.openJSON;
+import static pro.adamzielonka.file.Save.isExternalStorageWritable;
 
 public class EditMeasureActivity extends EditActivity {
 
@@ -183,7 +178,7 @@ public class EditMeasureActivity extends EditActivity {
                 return true;
             case R.id.menu_upload_converter:
                 UploadMeasure uploadMeasure = new UploadMeasure(this, () -> itemsView.onUpdate());
-                uploadMeasure.submitMeasure(measure,cMeasure);
+                uploadMeasure.submitMeasure(measure, cMeasure);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -202,10 +197,7 @@ public class EditMeasureActivity extends EditActivity {
 
     private void saveToDownloads() {
         try {
-            FileInputStream in = openFileInput(cMeasure.userFileName);
-            Reader reader = new BufferedReader(new InputStreamReader(in));
-            Gson gson = getGson();
-            String json = gson.toJson(gson.fromJson(reader, Measure.class));
+            String json = toJSON(openJSON(this, cMeasure.userFileName, Measure.class));
 
             OutputStream out = getContentResolver().openOutputStream(getFileUri(cMeasure.getName(measure.global)));
             if (out != null) {

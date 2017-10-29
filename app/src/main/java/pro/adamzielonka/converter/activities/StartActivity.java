@@ -6,14 +6,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +16,10 @@ import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
 
-import static pro.adamzielonka.converter.file.FileTools.getGson;
-import static pro.adamzielonka.converter.file.Save.getNewFileInternalName;
-import static pro.adamzielonka.converter.file.Save.saveJSON;
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
+import static pro.adamzielonka.file.Open.openJSON;
+import static pro.adamzielonka.file.Save.getNewFileInternalName;
+import static pro.adamzielonka.file.Save.saveJSON;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -56,13 +51,11 @@ public class StartActivity extends AppCompatActivity {
 
         String[] strings = getAssets().list("converters");
         List<Measure> measureList = new ArrayList<>();
-        Gson gson = getGson();
 
         for (String name : strings) {
             if (name.contains("converter_")) {
                 InputStream raw = getAssets().open("converters/" + name);
-                Reader reader = new BufferedReader(new InputStreamReader(raw));
-                measureList.add(gson.fromJson(reader, Measure.class));
+                measureList.add(openJSON(raw, Measure.class));
             }
         }
 
