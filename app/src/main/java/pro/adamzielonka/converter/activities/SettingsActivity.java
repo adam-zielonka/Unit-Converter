@@ -7,8 +7,8 @@ import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
 import pro.adamzielonka.converter.names.Property;
+import pro.adamzielonka.converter.settings.DecimalSeparator;
 import pro.adamzielonka.items.Item;
-import pro.adamzielonka.java.Number;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
 import static pro.adamzielonka.converter.database.UserAuth.getUser;
@@ -26,25 +26,24 @@ public class SettingsActivity extends PreferenceActivity {
     public void addItems() {
         setTitle(R.string.title_activity_settings);
         userAuth = new UserAuth(this, () -> itemsView.onUpdate());
+        DecimalSeparator decimalSeparator = new DecimalSeparator(this);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.pref_header_appearance)
                 .setTitle(R.string.pref_title_theme)
-                .setUpdate(() -> theme.getName())
+                .setUpdate(theme::get)
                 .setEnabledUpdate(false)
-                .setArray(() -> theme.getArray())
-                .setPosition(() -> theme.getID())
-                .setAction((Integer id) -> theme.setID(id))
+                .setArray(theme::getArray)
+                .setPosition(theme::getID)
+                .setAction(theme::setID)
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_decimal_separator)
-                .setUpdate(Number::getDecimalSeparator)
-                .setArray(() -> new String[]{".", ","})
-                .setPosition(() -> Number.getDecimalSeparator().equals(".") ? 0 : 1)
-                .setAction((Integer id) -> {
-                    if (id == 0) Number.setDotDecimalSeparator();
-                    else Number.setCommaDecimalSeparator();
-                }).add(itemsView);
+                .setUpdate(decimalSeparator::get)
+                .setArray(decimalSeparator::getArray)
+                .setPosition(decimalSeparator::getID)
+                .setAction(decimalSeparator::setID)
+                .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
                 .setUpdate(() -> getDisplayLanguage(this))

@@ -25,8 +25,8 @@ import pro.adamzielonka.items.dialog.EditDialogBuilder;
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS;
 import static pro.adamzielonka.converter.database.FireBaseNames.USERS_NAME;
 import static pro.adamzielonka.converter.tools.Message.showError;
-import static pro.adamzielonka.converter.tools.Preferences.getPreferences;
-import static pro.adamzielonka.converter.tools.Preferences.setPreferences;
+import static pro.adamzielonka.converter.settings.Preferences.getPreferences;
+import static pro.adamzielonka.converter.settings.Preferences.setPreferences;
 
 public class UserAuth {
     public static final int RC_SIGN_IN = 9001;

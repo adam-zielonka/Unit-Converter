@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import pro.adamzielonka.converter.components.theme.Theme;
+import pro.adamzielonka.converter.settings.Theme;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

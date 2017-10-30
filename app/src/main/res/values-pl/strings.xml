@@ -13,7 +13,7 @@
     <string name="pref_title_version">Wersja</string>
     <string name="pref_title_website">Strona internetowa</string>
     <string name="title_activity_settings">Ustawienia</string>
-    <string name="pref_title_language_converter">Język convertera</string>
+    <string name="pref_title_language_converter">Język konwertera</string>
     <string name="spinner_title">Wybierz jednostkę</string>
     <string name="delete_last_digit">Usuń ostatnią cyfrę</string>
     <string name="mantra_convert_everything">Przelicz wszystko</string>
