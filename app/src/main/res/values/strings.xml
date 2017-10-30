@@ -123,20 +123,18 @@
     <string name="list_title_language">Language</string>
     <string name="list_item_language_global">Global</string>
     <string name="set_converter">Set converter</string>
-    <string name="list_own_name_measure">Local name</string>
-    <string name="list_own_lang_measure">Local language</string>
-    <string name="local_settings">Local settings</string>
+    <string name="list_own_name_measure">Name</string>
+    <string name="list_own_lang_measure">Language</string>
+    <string name="local_settings">Override settings</string>
     <string name="title_activity_edit_languages">Edit languages</string>
     <string name="list_title_translations">Translations</string>
     <string name="list_item_add_translation">Add translation</string>
-    <string name="title_activity_edit_translation">Edit translation</string>
-    <string name="language_repeat_tag" translatable="false"><![CDATA[<repeat>]]></string>
-    <string name="language_empty_tag" translatable="false"><![CDATA[<empty>]]></string>
+
     <string name="delete_prefix_title">Delete prefix</string>
     <string name="error_symbol_empty">Not allow empty symbol value</string>
     <string name="measure_details">Details</string>
     <string name="pref_title_language_converter">Converter language</string>
-    <string name="translation_set_repeat">Set repeat</string>
+
     <string name="error_not_allowed">Not allowed</string>
     <string name="lang_put_code">Put language code</string>
     <string name="error_lang_code_empty">Language code not allow empty</string>
@@ -147,6 +145,14 @@
     <string name="list_item_languages">Languages</string>
     <string name="loading">Loading…</string>
     <string name="error_create_user">Error create user</string>
+
+    <!-- [START] Edit Translation -->
+    <string name="title_activity_edit_translation">Edit translation</string>
+    <string name="language_repeat_tag" translatable="false"><![CDATA[<repeat>]]></string>
+    <string name="language_empty_tag" translatable="false"><![CDATA[<empty>]]></string>
+    <string name="translation_set_repeat">Set repeat</string>
+    <!-- [END] Edit Translation -->
+
     <!-- -->
 
 </resources>

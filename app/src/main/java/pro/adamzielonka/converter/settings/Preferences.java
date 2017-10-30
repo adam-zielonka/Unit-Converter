@@ -21,12 +21,4 @@ public class Preferences {
         editor.putInt(name, value);
         editor.apply();
     }
-
-    public static int getPreferences(Activity activity, String name, int defValue) {
-        return getPreferences(activity).getInt(name, defValue);
-    }
-
-    public static String getPreferences(Activity activity, String name, String defValue) {
-        return getPreferences(activity).getString(name, defValue);
-    }
 }

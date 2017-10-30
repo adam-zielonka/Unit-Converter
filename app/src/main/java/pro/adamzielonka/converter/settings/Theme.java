@@ -1,27 +1,29 @@
 package pro.adamzielonka.converter.settings;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.names.Property;
 
 public class Theme implements SettingInterface {
     private Resources resources;
-    private Activity activity;
+    private SharedPreferences preferences;
 
     public Theme(Activity activity) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
         resources = activity.getResources();
         activity.setTheme(getStyleID());
-        this.activity = activity;
     }
 
     public void setID(Integer position) {
-        Preferences.setPreferences(activity, Property.THEME, position);
+        preferences.edit().putInt(Property.THEME, position).apply();
     }
 
     public int getID() {
-        return Preferences.getPreferences(activity, Property.THEME, 0);
+        return preferences.getInt(Property.THEME, 0);
     }
 
     public int getTextColor() {

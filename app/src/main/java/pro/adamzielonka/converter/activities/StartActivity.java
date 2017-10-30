@@ -15,6 +15,7 @@ import java.util.List;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
 import pro.adamzielonka.converter.names.Extra;
+import pro.adamzielonka.converter.settings.DecimalSeparator;
 
 import static pro.adamzielonka.converter.tools.Language.getLangCode;
 import static pro.adamzielonka.file.Open.openJSON;
@@ -31,6 +32,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        checkPreferences();
+
         if (!preferences.getBoolean(prefFirsRun, false)) try {
             firstRun();
         } catch (IOException e) {
@@ -44,6 +47,10 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
 
         finish();
+    }
+
+    private void checkPreferences(){
+        new DecimalSeparator(this);
     }
 
     private void firstRun() throws IOException {

@@ -314,8 +314,6 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        drawer.closeDrawer(GravityCompat.START);
-
         if (id != measureID) {
             switch (id) {
                 case R.id.nav_settings:
@@ -330,6 +328,8 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
                     setupConverter(id);
             }
         }
+
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

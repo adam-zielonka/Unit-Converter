@@ -1,15 +1,25 @@
 package pro.adamzielonka.converter.settings;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import pro.adamzielonka.converter.names.Property;
 import pro.adamzielonka.java.Number;
 
 public class DecimalSeparator implements SettingInterface {
 
-    Activity activity;
+    private SharedPreferences preferences;
 
-    public DecimalSeparator(Activity activity){
-        this.activity = activity;
+    public DecimalSeparator(Activity activity) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+        check();
+    }
+
+    private void check() {
+        if (preferences.getString(Property.DECIMAL_SEPARATOR, ".").equals("."))
+            Number.setDotDecimalSeparator();
+        else Number.setCommaDecimalSeparator();
     }
 
     public String get() {
@@ -27,5 +37,6 @@ public class DecimalSeparator implements SettingInterface {
     public void setID(Integer id) {
         if (id == 0) Number.setDotDecimalSeparator();
         else Number.setCommaDecimalSeparator();
+        preferences.edit().putString(Property.DECIMAL_SEPARATOR, get()).apply();
     }
 }

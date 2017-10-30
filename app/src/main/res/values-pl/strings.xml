@@ -99,9 +99,9 @@
     <string name="list_item_json_repo_description">Przejdź do strony internetowej</string>
     <string name="list_item_measure_default_1">Domyślny 1</string>
     <string name="list_item_measure_default_2">Domyślny 2</string>
-    <string name="list_own_name_measure">Lokana nazwa</string>
-    <string name="list_own_lang_measure">Lokalny język</string>
-    <string name="local_settings">Lokalne ustawienia</string>
+    <string name="list_own_name_measure">Nazwa</string>
+    <string name="list_own_lang_measure">Język</string>
+    <string name="local_settings">Nadpisz ustawienia</string>
     <string name="title_activity_edit_languages">Edytuj języki</string>
     <string name="list_title_translations">Tłumaczenia</string>
     <string name="list_item_add_translation">Dodaj tłumaczenia</string>
