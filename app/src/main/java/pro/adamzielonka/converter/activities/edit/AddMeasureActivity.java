@@ -11,11 +11,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pro.adamzielonka.converter.R;
+import pro.adamzielonka.converter.activities.ConverterActivity;
 import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.file.Measure;
-import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.names.Code.REQUEST_ADD_FROM_FILE;
@@ -140,9 +140,8 @@ public class AddMeasureActivity extends EditActivity {
             saveJSON(this, concreteFileName, cMeasure);
             saveJSON(this, userFileName, measure);
 
-            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-            intent.putExtra(Extra.MEASURE_FILE_NAME, cMeasure.concreteFileName);
-            startActivity(intent);
+            ConverterActivity.setMeasure(this, cMeasure.concreteFileName);
+            startActivity(new Intent(getApplicationContext(), StartActivity.class));
             finish();
         } catch (FileNotFoundException e) {
             showError(this, R.string.error_no_file);

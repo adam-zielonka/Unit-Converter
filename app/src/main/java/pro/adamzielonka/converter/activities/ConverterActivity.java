@@ -1,8 +1,11 @@
 package pro.adamzielonka.converter.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -26,17 +29,18 @@ import pro.adamzielonka.converter.activities.edit.AddMeasureActivity;
 import pro.adamzielonka.converter.activities.edit.DetailMeasureActivity;
 import pro.adamzielonka.converter.adapters.ConverterAdapter;
 import pro.adamzielonka.converter.components.EditNumber;
-import pro.adamzielonka.converter.settings.ConverterTheme;
-import pro.adamzielonka.converter.settings.Theme;
 import pro.adamzielonka.converter.models.concrete.CMeasure;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.names.Extra;
+import pro.adamzielonka.converter.names.Property;
+import pro.adamzielonka.converter.settings.ConverterTheme;
+import pro.adamzielonka.converter.settings.Theme;
 import pro.adamzielonka.converter.tools.Language;
 
-import static pro.adamzielonka.file.Open.openJSONs;
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
 import static pro.adamzielonka.converter.tools.Menus.getMenuItems;
+import static pro.adamzielonka.file.Open.openJSONs;
 import static pro.adamzielonka.java.Common.getItself;
 import static pro.adamzielonka.java.Number.doubleToString;
 import static pro.adamzielonka.java.Number.stringToDouble;
@@ -97,8 +101,14 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         }
     }
 
+    public static void setMeasure(Activity activity, String fileName) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+        preferences.edit().putString(Property.CONVERTER, fileName).apply();
+    }
+
     private int getMeasureID() {
-        return getIDFromFileName(getIntent().getStringExtra(Extra.MEASURE_FILE_NAME));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        return getIDFromFileName(preferences.getString(Property.CONVERTER, ""));
     }
 
     private int getIDFromFileName(String fileName) {
@@ -128,6 +138,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
             this.measureID = measureID;
             measureList = openJSONs(this, "concrete_", CMeasure.class);
             cMeasure = measureList.get(this.measureID - DEFAULT_MEASURE_ID);
+            setMeasure(this, cMeasure.concreteFileName);
             setConverterTitle();
             navigationView.setCheckedItem(measureID);
 
