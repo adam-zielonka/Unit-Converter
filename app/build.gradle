@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 25
+def versionPatch = 26
 
 android {
     compileSdkVersion 26
@@ -26,13 +26,26 @@ android {
             resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
         }
         release {
-            versionNameSuffix "-alpha"
-            resValue 'string', 'app_version', "${defaultConfig.versionName}${versionNameSuffix}"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "mode"
     productFlavors {
+        alpha {
+            dimension "mode"
+            versionNameSuffix "-alpha"
+            resValue 'string', 'app_version', "${defaultConfig.versionName}${versionNameSuffix}"
+        }
+        beta {
+            dimension "mode"
+            versionNameSuffix "-beta"
+            resValue 'string', 'app_version', "${defaultConfig.versionName}${versionNameSuffix}"
+        }
+        noPrefix {
+            dimension "mode"
+            resValue 'string', 'app_version', "${defaultConfig.versionName}"
+        }
     }
 }
 
