@@ -8,15 +8,15 @@ import pro.adamzielonka.converter.activities.abstractes.PreferenceActivity;
 import pro.adamzielonka.converter.database.UserAuth;
 import pro.adamzielonka.converter.names.Property;
 import pro.adamzielonka.converter.settings.DecimalSeparator;
+import pro.adamzielonka.converter.settings.Language;
 import pro.adamzielonka.items.Item;
+import pro.adamzielonka.items.dialog.EditDialogBuilder;
 
 import static pro.adamzielonka.converter.database.UserAuth.RC_SIGN_IN;
 import static pro.adamzielonka.converter.database.UserAuth.getUser;
-import static pro.adamzielonka.converter.tools.Language.getDisplayLanguage;
-import static pro.adamzielonka.converter.tools.Language.getDisplayLanguages;
-import static pro.adamzielonka.converter.tools.Language.getLanguageFromID;
-import static pro.adamzielonka.converter.tools.Language.getLanguageID;
-import static pro.adamzielonka.converter.tools.Language.setLanguage;
+import static pro.adamzielonka.converter.settings.Language.getConverterLanguage;
+import static pro.adamzielonka.converter.settings.Language.getConverterLanguageCode;
+import static pro.adamzielonka.converter.settings.Language.setConverterLanguage;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -27,6 +27,7 @@ public class SettingsActivity extends PreferenceActivity {
         setTitle(R.string.title_activity_settings);
         userAuth = new UserAuth(this, () -> itemsView.onUpdate());
         DecimalSeparator decimalSeparator = new DecimalSeparator(this);
+        Language language = new Language(this);
 
         new Item.Builder(this)
                 .setTitleHeader(R.string.pref_header_appearance)
@@ -46,17 +47,27 @@ public class SettingsActivity extends PreferenceActivity {
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language)
-                .setUpdate(() -> getDisplayLanguage(this))
+                .setUpdate(language::get)
                 .setEnabledUpdate(false)
-                .setArray(() -> getDisplayLanguages(this))
-                .setPosition(() -> getLanguageID(this))
-                .setAction((Integer position) -> {
-                    setLanguage(this, getLanguageFromID(this, position));
-                    reloadActivity(this);
-                }).add(itemsView);
+                .setArray(language::getArray)
+                .setPosition(language::getID)
+                .setAction(language::setID)
+                .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.pref_title_language_converter)
-                .setUpdate(() -> getDisplayLanguage(this))
+                .setUpdate(() -> getConverterLanguage(this))
+                .setAction(() -> new EditDialogBuilder(this)
+                        .setValue(getConverterLanguageCode(this))
+                        .setAction(text -> {
+                            setConverterLanguage(this, text.toString());
+                            itemsView.onSave();
+                        })
+                        .setNeutralAction(R.string.language_os, (d, i) -> {
+                            setConverterLanguage(this, "");
+                            itemsView.onSave();
+                        })
+                        .setTitle(R.string.lang_put_code)
+                        .create().show())
                 .add(itemsView);
 
         new Item.Builder(this)
@@ -89,7 +100,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equals(Property.THEME)) reloadActivity(this);
+        if (s.equals(Property.THEME) || s.equals(Property.LANGUAGE)) reloadActivity(this);
     }
 
     @Override

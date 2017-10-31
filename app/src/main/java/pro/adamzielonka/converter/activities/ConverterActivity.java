@@ -35,7 +35,7 @@ import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.converter.names.Property;
 import pro.adamzielonka.converter.settings.ConverterTheme;
 import pro.adamzielonka.converter.settings.Theme;
-import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.settings.Language;
 
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;
@@ -71,6 +71,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         theme = new ConverterTheme(this);
+        new Language(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -127,7 +128,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
         int i = 0;
         for (CMeasure measure : measureList) {
             menuItems.add(convertersMenu.add(0, i + DEFAULT_MEASURE_ID, 0,
-                    measure.getName(measure.isOwnLang ? measure.ownLang : Language.getLangCode(this))));
+                    measure.getName(measure.isOwnLang ? measure.ownLang : Language.getConverterLanguageCode(this))));
             menuItems.get(i++).setCheckable(true);
         }
     }
@@ -162,7 +163,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnFocus
     }
 
     String getLangCode() {
-        return cMeasure.isOwnLang ? cMeasure.ownLang : Language.getLangCode(this);
+        return cMeasure.isOwnLang ? cMeasure.ownLang : Language.getConverterLanguageCode(this);
     }
 
     void setConverterTitle() {

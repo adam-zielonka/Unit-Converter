@@ -107,4 +107,5 @@
     <string name="list_item_add_translation">Dodaj tłumaczenia</string>
     <string name="title_activity_edit_translation">Edytuj tłumaczenie</string>
     <string name="error_create_user">Błąd tworzenia użytkownika</string>
+    <string name="language_os">Język systemowy</string>
 </resources>

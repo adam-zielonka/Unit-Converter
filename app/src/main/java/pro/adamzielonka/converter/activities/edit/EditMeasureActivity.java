@@ -8,11 +8,11 @@ import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.adapters.MyArrayAdapter;
 import pro.adamzielonka.converter.models.file.Prefix;
 import pro.adamzielonka.converter.models.file.Unit;
-import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.settings.Language;
 import pro.adamzielonka.items.Item;
 import pro.adamzielonka.verification.Tests;
 
-import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
+import static pro.adamzielonka.converter.settings.Language.getLanguageWords;
 
 public class EditMeasureActivity extends EditActivity {
 

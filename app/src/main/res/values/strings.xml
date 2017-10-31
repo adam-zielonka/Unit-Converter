@@ -151,6 +151,7 @@
     <string name="language_repeat_tag" translatable="false"><![CDATA[<repeat>]]></string>
     <string name="language_empty_tag" translatable="false"><![CDATA[<empty>]]></string>
     <string name="translation_set_repeat">Set repeat</string>
+    <string name="language_os">System language</string>
     <!-- [END] Edit Translation -->
 
     <!-- -->

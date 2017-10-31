@@ -21,7 +21,7 @@ import pro.adamzielonka.items.Item;
 import static pro.adamzielonka.converter.names.Code.REQUEST_ADD_FROM_FILE;
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.names.Code.RESULT_ADD_FROM_FILE;
-import static pro.adamzielonka.converter.tools.Language.getLangCode;
+import static pro.adamzielonka.converter.settings.Language.getLangCode;
 import static pro.adamzielonka.converter.tools.Message.showError;
 import static pro.adamzielonka.converter.tools.Permissions.getReadAndWritePermissionsStorage;
 import static pro.adamzielonka.file.Open.openJSON;

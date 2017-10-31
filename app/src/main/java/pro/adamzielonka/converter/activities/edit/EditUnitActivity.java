@@ -14,7 +14,7 @@ import pro.adamzielonka.items.Item;
 import pro.adamzielonka.verification.Tests;
 
 import static pro.adamzielonka.converter.tools.Converter.getFormula;
-import static pro.adamzielonka.converter.tools.Language.getLanguageWords;
+import static pro.adamzielonka.converter.settings.Language.getLanguageWords;
 import static pro.adamzielonka.java.Number.doubleToString;
 
 public class EditUnitActivity extends EditActivity {

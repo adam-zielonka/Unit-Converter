@@ -16,7 +16,7 @@ import pro.adamzielonka.converter.activities.StartActivity;
 import pro.adamzielonka.converter.activities.abstractes.EditActivity;
 import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.models.file.Measure;
-import pro.adamzielonka.converter.tools.Language;
+import pro.adamzielonka.converter.settings.Language;
 import pro.adamzielonka.items.Item;
 
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;

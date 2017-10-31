@@ -1,15 +1,15 @@
 package pro.adamzielonka.converter.models.concrete;
 
-import android.content.Context;
+import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import pro.adamzielonka.converter.tools.Language;
 import pro.adamzielonka.converter.components.LanguageMap;
+import pro.adamzielonka.converter.settings.Language;
 
-import static pro.adamzielonka.converter.tools.Language.getLanguage;
+import static pro.adamzielonka.converter.settings.Language.getLanguage;
 
 public class CMeasure {
     private final LanguageMap name;
@@ -119,7 +119,7 @@ public class CMeasure {
         return symbols;
     }
 
-    public String getOwnLang(Context context) {
-        return isOwnLang ? ownLang != null ? ownLang : global : Language.getLangCode(context);
+    public String getOwnLang(Activity activity) {
+        return isOwnLang ? ownLang != null ? ownLang : global : Language.getConverterLanguageCode(activity);
     }
 }
