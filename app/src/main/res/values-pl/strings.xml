@@ -108,4 +108,6 @@
     <string name="title_activity_edit_translation">Edytuj tłumaczenie</string>
     <string name="error_create_user">Błąd tworzenia użytkownika</string>
     <string name="language_os">Język systemowy</string>
+    <string name="error_name_empty">Nazwa nie może być pusta</string>
+    <string name="list_item_put_measure_name">Nazwa miary</string>
 </resources>

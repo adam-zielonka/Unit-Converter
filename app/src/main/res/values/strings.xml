@@ -131,7 +131,7 @@
     <string name="list_item_add_translation">Add translation</string>
 
     <string name="delete_prefix_title">Delete prefix</string>
-    <string name="error_symbol_empty">Not allow empty symbol value</string>
+    <string name="error_symbol_empty">Not allowed empty symbol value</string>
     <string name="measure_details">Details</string>
     <string name="pref_title_language_converter">Converter language</string>
 
@@ -152,6 +152,8 @@
     <string name="language_empty_tag" translatable="false"><![CDATA[<empty>]]></string>
     <string name="translation_set_repeat">Set repeat</string>
     <string name="language_os">System language</string>
+    <string name="error_name_empty">Not allowed empty name</string>
+    <string name="list_item_put_measure_name">Measure name</string>
     <!-- [END] Edit Translation -->
 
     <!-- -->

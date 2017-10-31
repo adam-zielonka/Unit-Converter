@@ -38,8 +38,9 @@ public class AddMeasureActivity extends EditActivity {
         new Item.Builder(this)
                 .setTitleHeader(R.string.list_add_measure)
                 .setTitle(R.string.list_item_create_description)
+                .setAlertTitle(R.string.list_item_put_measure_name)
                 .setAction(this::createByEditor)
-                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_symbol_empty))
+                .addValidator(symbol -> !symbol.equals(""), getString(R.string.error_name_empty))
                 .add(itemsView);
         new Item.Builder(this)
                 .setTitle(R.string.list_item_load_from_json)
@@ -72,6 +73,7 @@ public class AddMeasureActivity extends EditActivity {
 
         cMeasure.concreteFileName = concreteFileName;
         cMeasure.userFileName = userFileName;
+        ConverterActivity.setMeasure(this, cMeasure.concreteFileName);
         try {
             saveMeasure();
             setResultOK();
