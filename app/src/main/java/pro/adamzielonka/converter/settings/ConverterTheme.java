@@ -19,6 +19,8 @@ public class ConverterTheme extends Theme {
                 return R.style.GreenTheme_Converter;
             case 3:
                 return R.style.GreyTheme_Converter;
+            case 4:
+                return R.style.YellowTheme_Converter;
             default:
                 return R.style.BlueTheme_Converter;
         }

@@ -17,4 +17,8 @@
     <color name="colorGreyPrimary">#9e9e9e</color>
     <color name="colorGreyPrimaryDark">#616161</color>
     <color name="colorGreyAccent">#757575</color>
+
+    <color name="colorYellowPrimary">#fdd835</color>
+    <color name="colorYellowPrimaryDark">#f9a825</color>
+    <color name="colorYellowAccent">#fbc02d</color>
 </resources>

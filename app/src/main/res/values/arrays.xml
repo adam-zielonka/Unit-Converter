@@ -5,6 +5,7 @@
         <item>Red</item>
         <item>Green</item>
         <item>Grey</item>
+        <item>Yellow</item>
     </string-array>
     <string-array name="pref_list_languages" translatable="false">
         <item />

@@ -46,6 +46,13 @@
         <item name="background">@drawable/side_nav_bar_grey</item>
     </style>
 
+    <style name="YellowTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorYellowPrimary</item>
+        <item name="colorPrimaryDark">@color/colorYellowPrimaryDark</item>
+        <item name="colorAccent">@color/colorYellowAccent</item>
+        <item name="background">@drawable/side_nav_bar_yellow</item>
+    </style>
+
     <style name="BlueTheme.Converter" parent="BlueTheme" />
 
     <style name="RedTheme.Converter" parent="RedTheme" />
@@ -53,6 +60,8 @@
     <style name="GreenTheme.Converter" parent="GreenTheme" />
 
     <style name="GreyTheme.Converter" parent="GreyTheme" />
+
+    <style name="YellowTheme.Converter" parent="GreyTheme" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

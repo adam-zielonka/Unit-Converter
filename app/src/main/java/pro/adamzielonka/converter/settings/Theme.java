@@ -53,6 +53,8 @@ public class Theme implements SettingInterface {
                 return R.style.GreenTheme;
             case 3:
                 return R.style.GreyTheme;
+            case 4:
+                return R.style.YellowTheme;
             default:
                 return R.style.BlueTheme;
         }
@@ -66,6 +68,8 @@ public class Theme implements SettingInterface {
                 return R.color.colorGreenPrimaryDark;
             case 3:
                 return R.color.colorGreyPrimaryDark;
+            case 4:
+                return R.color.colorYellowPrimaryDark;
             default:
                 return R.color.colorPrimaryDark;
         }
