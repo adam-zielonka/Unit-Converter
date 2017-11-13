@@ -53,30 +53,15 @@
         <item name="background">@drawable/side_nav_bar_yellow</item>
     </style>
 
-    <style name="BlueTheme.Converter" parent="BlueTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="BlueTheme.Converter" parent="BlueTheme" />
 
-    <style name="RedTheme.Converter" parent="RedTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="RedTheme.Converter" parent="RedTheme" />
 
-    <style name="GreenTheme.Converter" parent="GreenTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="GreenTheme.Converter" parent="GreenTheme" />
 
-    <style name="GreyTheme.Converter" parent="GreyTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="GreyTheme.Converter" parent="GreyTheme" />
 
-    <style name="YellowTheme.Converter" parent="YellowTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="YellowTheme.Converter" parent="GreyTheme" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

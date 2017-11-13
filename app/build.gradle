@@ -9,7 +9,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "pro.adamzielonka.converter"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 26
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -59,13 +59,13 @@ dependencies {
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:gridlayout-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-database:11.6.0'
-    implementation 'com.google.firebase:firebase-core:11.6.0'
-    implementation 'com.google.firebase:firebase-crash:11.6.0'
-    implementation 'com.google.firebase:firebase-auth:11.6.0'
-    implementation 'com.google.firebase:firebase-perf:11.6.0'
-    implementation 'com.google.firebase:firebase-firestore:11.6.0'
-    implementation 'com.google.android.gms:play-services-auth:11.6.0'
+    implementation 'com.google.firebase:firebase-database:11.4.2'
+    implementation 'com.google.firebase:firebase-core:11.4.2'
+    implementation 'com.google.firebase:firebase-crash:11.4.2'
+    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-perf:11.4.2'
+    implementation 'com.google.firebase:firebase-firestore:11.4.2'
+    implementation 'com.google.android.gms:play-services-auth:11.4.2'
     implementation 'com.firebaseui:firebase-ui-database:1.2.0'
     implementation project(':items')
     implementation project(':java')
