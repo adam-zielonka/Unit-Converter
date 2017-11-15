@@ -1,15 +1,15 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import pro.adamzielonka.converter.settings.Theme;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends Activity {
 
     private int resultCode;
     protected Theme theme;

@@ -1,10 +1,10 @@
 package pro.adamzielonka.items.dialog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 import java.util.ArrayList;

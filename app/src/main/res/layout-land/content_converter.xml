@@ -17,10 +17,8 @@
             layout="@layout/include_converter_screen"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/include_converter_keyboard"
             android:layout_toStartOf="@+id/include_converter_keyboard" />
 
         <include
@@ -29,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" />
 
     </RelativeLayout>

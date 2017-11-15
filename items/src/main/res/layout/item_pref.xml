@@ -18,22 +18,18 @@
         android:textSize="18sp"
         tools:ignore="HardcodedText"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/switcher"
         android:layout_toStartOf="@+id/switcher" />
 
     <TextView
         android:id="@+id/textSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textPrimary"
         android:text="Secondary text"
         android:textColor="@color/secondaryColor"
         tools:ignore="HardcodedText"
-        android:layout_toLeftOf="@+id/switcher"
         android:layout_toStartOf="@+id/switcher" />
 
     <Switch
@@ -41,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:focusable="false" />
 </RelativeLayout>

@@ -34,8 +34,8 @@ import pro.adamzielonka.converter.models.concrete.CUnit;
 import pro.adamzielonka.converter.names.Extra;
 import pro.adamzielonka.converter.names.Property;
 import pro.adamzielonka.converter.settings.ConverterTheme;
-import pro.adamzielonka.converter.settings.Theme;
 import pro.adamzielonka.converter.settings.Language;
+import pro.adamzielonka.converter.settings.Theme;
 
 import static pro.adamzielonka.converter.names.Code.REQUEST_EDIT_ACTIVITY;
 import static pro.adamzielonka.converter.tools.Converter.doConversion;

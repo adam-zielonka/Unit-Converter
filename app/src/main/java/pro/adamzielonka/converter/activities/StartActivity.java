@@ -1,10 +1,10 @@
 package pro.adamzielonka.converter.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import static pro.adamzielonka.file.Open.openJSON;
 import static pro.adamzielonka.file.Save.getNewFileInternalName;
 import static pro.adamzielonka.file.Save.saveJSON;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends Activity {
 
     private SharedPreferences preferences;
     private final static String prefFirsRun = "v1.1.23-alpha";

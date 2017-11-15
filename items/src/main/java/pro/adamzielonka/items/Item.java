@@ -1,8 +1,8 @@
 package pro.adamzielonka.items;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;

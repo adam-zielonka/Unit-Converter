@@ -1,7 +1,7 @@
 package pro.adamzielonka.converter.activities.abstractes;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.widget.Toolbar;
 
 import pro.adamzielonka.converter.R;
 import pro.adamzielonka.converter.interfaces.AddItemsInterface;
@@ -15,8 +15,8 @@ public abstract class ListActivity extends BaseActivity implements AddItemsInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setActionBar(toolbar);
+        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
 
         itemsView = findViewById(R.id.ListView);
 

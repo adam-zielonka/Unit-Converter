@@ -17,7 +17,7 @@
         android:layout_weight="50"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/spinnerFrom"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -71,7 +71,7 @@
         android:layout_weight="50"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/spinnerTo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

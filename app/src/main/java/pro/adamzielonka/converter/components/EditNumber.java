@@ -1,12 +1,12 @@
 package pro.adamzielonka.converter.components;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
 import pro.adamzielonka.java.Number;
 
-public class EditNumber extends AppCompatEditText {
+public class EditNumber extends EditText {
 
     public EditNumber(Context context) {
         super(context);
