@@ -7,7 +7,7 @@
 
     <!-- [START] url -->
     <string name="uri_my_website" translatable="false">https://adamzielonka.pro/</string>
-    <string name="uri_measures" translatable="false">https://bitbucket.org/adam-zielonka-pro/converters/src</string>
+    <string name="uri_measures" translatable="false">https://gitlab.com/adam-zielonka-pro/converter/converters</string>
     <!-- [END] url -->
 
     <!-- [START] Drawer -->
