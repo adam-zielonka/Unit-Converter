@@ -1,1 +1,1 @@
-include ':java', ':items', ':app', ':verification', ':file', ':pancakedb'
+include ':java', ':items', ':app', ':verification', ':file'
