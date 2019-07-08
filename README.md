@@ -1,5 +1,7 @@
 # ![](./img/converter.svg) Unit Converter
 
+You can get this app from [Google Play](https://play.google.com/store/apps/details?id=pro.adamzielonka.converter).
+
 ## Measure File Format
 
 To add custom measures you can use editor build in app or you can prepare the json file:
@@ -16,25 +18,6 @@ To add custom measures you can use editor build in app or you can prepare the js
   ],
   "global": "en",
   "units": [
-    {
-      "symbol": "a",
-      "description": {
-        "en": "are",
-        "pl": "ar"
-      },
-      "position": -1,
-      "one": 100,
-      "prefixes": [
-        {
-          "symbol": "h",
-          "description": {
-            "en": "hect",
-            "pl": "hekt"
-          },
-          "exp": 2
-        }
-      ]
-    },
     {
       "symbol": "m²",
       "descriptionPrefix": {
@@ -96,7 +79,7 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 |`version`|integer|
 |`author`|`["`author name`"]`|
 |`global`|base country code name|
-|`units`|`[{symbol, descriptionPrefix, description, one, shift, shift2, prefixes}]`|
+|`units`|`[{symbol, descriptionPrefix, description, one, shift, shift2, expBase, prefixes}]`|
 |||
 |`symbol`|base unit symbol|
 |`descriptionPrefix`|`{"country_code" : "`description prefix`"}`|
@@ -104,11 +87,12 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 |`one`|number of multiples of base unit|
 |`shift`|number of shift to the basic unit|
 |`shift2`|number of shift to the basic unit|
+|`expBase`|exponent base for prefixes, default is `10`|
 |`prefixes`|`[{symbol, description, exp}]`|
 |||
 |`symbol`|prefix symbol|
 |`description`|`{"country_code" : "`prefix description`"}`|
-|`exp`|unit exponent|
+|`exp`|prefix exponent|
 
 ### Equation
 
