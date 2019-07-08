@@ -1,4 +1,4 @@
-# ![](./img/converter.svg) Unit Converter
+# ![](./img/readme-icon.png) Unit Converter
 
 You can get this app from [Google Play](https://play.google.com/store/apps/details?id=pro.adamzielonka.converter).
 
@@ -99,9 +99,9 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 ```math
 y = \alpha*(x + \Delta_1) + \Delta_2
 ```
-where is:
+
 |symbol|description|default|
-|-|-|-|
+|---|---|---|
 |x|source unit value||
 |y|target unit value||
 |$\alpha$|`one` - multiply of base value|`1`|
@@ -110,12 +110,12 @@ where is:
 
 ## Screens
 
-![](./img/en/converter-blue.png)
-![](./img/en/converter-units.png)
-![](./img/en/converter-measures.png)
-![](./img/en/converter-landscape.png)
-![](./img/en/converter-green.png)
-![](./img/en/converter-red.png)
+![](./img/readme/converter-blue.png)
+![](./img/readme/converter-units.png)
+![](./img/readme/converter-measures.png)
+![](./img/readme/converter-green.png)
+![](./img/readme/converter-red.png)
+![](./img/readme/converter-landscape.png)
 
 ## License
 MIT
