@@ -104,9 +104,9 @@ y = \alpha*(x + \Delta_1) + \Delta_2
 |---|---|---|
 |x|source unit value||
 |y|target unit value||
-|$\alpha$|`one` - multiply of base value|`1`|
-|$\Delta_1$|`shift_1` - shift base value before multiply|`0`|
-|$\Delta_2$|`shift_2` - shift base value after multiply|`0`|
+|$`\alpha`$|`one` - multiply of base value|`1`|
+|$`\Delta_1`$|`shift_1` - shift base value before multiply|`0`|
+|$`\Delta_2`$|`shift_2` - shift base value after multiply|`0`|
 
 ## Screens
 
