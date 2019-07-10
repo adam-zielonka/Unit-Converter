@@ -84,9 +84,9 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 |`symbol`|base unit symbol|
 |`descriptionPrefix`|`{"country_code" : "`description prefix`"}`|
 |`description`|`{"country_code" : "`description`"}`|
-|`one`|number of multiples of base unit|
-|`shift`|number of shift to the basic unit|
-|`shift2`|number of shift to the basic unit|
+|`one`|number of multiples of base unit, default is `1`|
+|`shift`|number of shift to the basic unit, default is `0`|
+|`shift2`|number of shift to the basic unit, default is `0`|
 |`expBase`|exponent base for prefixes, default is `10`|
 |`prefixes`|`[{symbol, description, exp}]`|
 |||
@@ -94,19 +94,44 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 |`description`|`{"country_code" : "`prefix description`"}`|
 |`exp`|prefix exponent|
 
-### Equation
+### Equations
 
+In the file you define paramiters for the equation that caluclate target unit value from base unit:
 ```math
 y = \alpha*(x + \Delta_1) + \Delta_2
 ```
 
-|symbol|description|default|
-|---|---|---|
-|x|source unit value||
-|y|target unit value||
-|$`\alpha`$|`one` - multiply of base value|`1`|
-|$`\Delta_1`$|`shift_1` - shift base value before multiply|`0`|
-|$`\Delta_2`$|`shift_2` - shift base value after multiply|`0`|
+where: 
+
+*  $`x`$ - value of base unit
+*  $`y`$ - value of target unit
+*  $`\alpha`$ - `one` - multiply of base value
+*  $`\Delta_1`$ - `shift_1` - shift base value before multiply
+*  $`\Delta_2`$ - `shift_2` - shift base value after multiply
+
+For calculate base unit value form target unit, the equation is:
+
+```math
+x = \frac{1}{\alpha}*(y - \Delta_2) - \Delta_1
+```
+
+To calculate from one unit to another, it used this formula:
+
+```math
+f(x) = \frac{1}{\alpha^T}*(\alpha^S*(x + \Delta_1^S) + \Delta_2^S - \Delta_2^T) - \Delta_1^T
+```
+
+where: 
+
+*  $`x`$ - value of source unit
+*  $`f(x)`$ - value of target unit
+*  $`\alpha^S`$ - `one` from source unit
+*  $`\Delta_1^S`$ - `shift_1` from source unit
+*  $`\Delta_2^S`$ - `shift_2` from source unit
+*  $`\alpha^T`$ - `one` from target unit
+*  $`\Delta_1^T`$ - `shift_1` from target unit
+*  $`\Delta_2^T`$ - `shift_2` from target unit
+
 
 ## Screens
 
