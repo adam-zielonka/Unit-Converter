@@ -1,6 +1,24 @@
-# ![](./img/readme-icon.png) Unit Converter
+# [![](./img/readme-icon.png)](https://play.google.com/store/apps/details?id=pro.adamzielonka.converter&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1) Unit Converter
 
 <a href='https://play.google.com/store/apps/details?id=pro.adamzielonka.converter&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width='200px' alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+
+## Table of contents
+
+- [Project structure](#project-structure)
+- [Measure File Format](#measure-file-format)
+  - [Properties](#properties)
+  - [Equations](#equations)
+- [Screens](#screens)
+- [License](#license)
+- [Legal attribution](#legal-attribution)
+
+## Project structure
+
+- `app` - contain base code
+- `file` - android library for internal/external file operations
+- `items` - android library that contain ItemsView
+- `java` - java library that contain supporting code
+- `verification` - java library that support code to make interface to verify objects
 
 ## Measure File Format
 
