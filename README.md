@@ -114,41 +114,42 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 
 ### Equations
 
-In the file you define paramiters for the equation that caluclate target unit value from base unit:
-```math
+In the file you define parameters for the equation that calculate target unit value from base unit:
+
+$$
 y = \alpha*(x + \Delta_1) + \Delta_2
-```
+$$
 
 where: 
 
-*  $`x`$ - value of base unit
-*  $`y`$ - value of target unit
-*  $`\alpha`$ - `one` - multiply of base value
-*  $`\Delta_1`$ - `shift_1` - shift base value before multiply
-*  $`\Delta_2`$ - `shift_2` - shift base value after multiply
+*  $x$ - value of base unit
+*  $y$ - value of target unit
+*  $\alpha$ - `one` - multiply of base value
+*  $\Delta_1$ - `shift_1` - shift base value before multiply
+*  $\Delta_2$ - `shift_2` - shift base value after multiply
 
 For calculate base unit value form target unit, the equation is:
 
-```math
+$$
 x = \frac{1}{\alpha}*(y - \Delta_2) - \Delta_1
-```
+$$
 
 To calculate from one unit to another, it used this formula:
 
-```math
+$$
 f(x) = \frac{1}{\alpha^T}*(\alpha^S*(x + \Delta_1^S) + \Delta_2^S - \Delta_2^T) - \Delta_1^T
-```
+$$
 
 where: 
 
-*  $`x`$ - value of source unit
-*  $`f(x)`$ - value of target unit
-*  $`\alpha^S`$ - `one` from source unit
-*  $`\Delta_1^S`$ - `shift_1` from source unit
-*  $`\Delta_2^S`$ - `shift_2` from source unit
-*  $`\alpha^T`$ - `one` from target unit
-*  $`\Delta_1^T`$ - `shift_1` from target unit
-*  $`\Delta_2^T`$ - `shift_2` from target unit
+*  $x$ - value of source unit
+*  $f(x)$ - value of target unit
+*  $\alpha^S$ - `one` from source unit
+*  $\Delta_1^S$ - `shift_1` from source unit
+*  $\Delta_2^S$ - `shift_2` from source unit
+*  $\alpha^T$ - `one` from target unit
+*  $\Delta_1^T$ - `shift_1` from target unit
+*  $\Delta_2^T$ - `shift_2` from target unit
 
 
 ## Screens
