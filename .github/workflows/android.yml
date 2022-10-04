@@ -12,14 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - uses: sparkfabrik/android-build-action@v1.0.0
+    - name: Build
+      uses: sparkfabrik/android-build-action@v1.0.0
       with:
         project-path: ./
         output-path: unit-converter.apk
-    - name: 'Upload Artifact'
+    - name: Upload apk
       uses: actions/upload-artifact@v3
       with:
+        name: unit-converter
         path: unit-converter.apk
