@@ -2,19 +2,25 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Converter.iml" filepath="$PROJECT_DIR$/Converter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/file/file.iml" filepath="$PROJECT_DIR$/file/file.iml" />
-      <module fileurl="file://$PROJECT_DIR$/file/file.iml" filepath="$PROJECT_DIR$/file/file.iml" />
-      <module fileurl="file://$PROJECT_DIR$/items/items.iml" filepath="$PROJECT_DIR$/items/items.iml" />
-      <module fileurl="file://$PROJECT_DIR$/items/items.iml" filepath="$PROJECT_DIR$/items/items.iml" />
-      <module fileurl="file://$PROJECT_DIR$/java/java.iml" filepath="$PROJECT_DIR$/java/java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/java/java.iml" filepath="$PROJECT_DIR$/java/java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pancakedb/pancakedb.iml" filepath="$PROJECT_DIR$/pancakedb/pancakedb.iml" />
-      <module fileurl="file://$PROJECT_DIR$/unit-converter.iml" filepath="$PROJECT_DIR$/unit-converter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/verification/verification.iml" filepath="$PROJECT_DIR$/verification/verification.iml" />
-      <module fileurl="file://$PROJECT_DIR$/verification/verification.iml" filepath="$PROJECT_DIR$/verification/verification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/unit-converter.iml" filepath="$PROJECT_DIR$/.idea/modules/unit-converter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/unit-converter.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/unit-converter.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/unit-converter.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/unit-converter.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/unit-converter.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/unit-converter.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/unit-converter.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/unit-converter.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/file/unit-converter.file.iml" filepath="$PROJECT_DIR$/.idea/modules/file/unit-converter.file.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/file/unit-converter.file.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/file/unit-converter.file.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/file/unit-converter.file.main.iml" filepath="$PROJECT_DIR$/.idea/modules/file/unit-converter.file.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/file/unit-converter.file.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/file/unit-converter.file.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/items/unit-converter.items.iml" filepath="$PROJECT_DIR$/.idea/modules/items/unit-converter.items.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/items/unit-converter.items.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/items/unit-converter.items.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/items/unit-converter.items.main.iml" filepath="$PROJECT_DIR$/.idea/modules/items/unit-converter.items.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/items/unit-converter.items.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/items/unit-converter.items.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java/unit-converter.java.iml" filepath="$PROJECT_DIR$/.idea/modules/java/unit-converter.java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java/unit-converter.java.main.iml" filepath="$PROJECT_DIR$/.idea/modules/java/unit-converter.java.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java/unit-converter.java.test.iml" filepath="$PROJECT_DIR$/.idea/modules/java/unit-converter.java.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.iml" filepath="$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.main.iml" filepath="$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.test.iml" filepath="$PROJECT_DIR$/.idea/modules/verification/unit-converter.verification.test.iml" />
     </modules>
   </component>
 </project>
