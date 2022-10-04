@@ -117,7 +117,7 @@ You can find more measures files on this folder: [./app/src/main/assets/converte
 In the file you define parameters for the equation that calculate target unit value from base unit:
 
 $$
-y = \alpha*(x + \Delta_1) + \Delta_2
+y = \alpha * (x + \Delta_1) + \Delta_2
 $$
 
 where: 
@@ -131,13 +131,13 @@ where:
 For calculate base unit value form target unit, the equation is:
 
 $$
-x = \frac{1}{\alpha}*(y - \Delta_2) - \Delta_1
+x = \frac{1}{\alpha} * (y - \Delta_2) - \Delta_1
 $$
 
 To calculate from one unit to another, it used this formula:
 
 $$
-f(x) = \frac{1}{\alpha^T}*(\alpha^S*(x + \Delta_1^S) + \Delta_2^S - \Delta_2^T) - \Delta_1^T
+f(x) = \frac{1}{\alpha^T} * (\alpha^S * (x + \Delta_1^S) + \Delta_2^S - \Delta_2^T) - \Delta_1^T
 $$
 
 where: 
