@@ -1,7 +1,5 @@
 # [![](./img/readme-icon.png)](https://play.google.com/store/apps/details?id=pro.adamzielonka.converter&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1) Unit Converter
 
-<a href='https://play.google.com/store/apps/details?id=pro.adamzielonka.converter&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width='200px' alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
-
 ## Table of contents
 
 - [Project structure](#project-structure)
@@ -10,7 +8,6 @@
   - [Equations](#equations)
 - [Screens](#screens)
 - [License](#license)
-- [Legal attribution](#legal-attribution)
 
 ## Project structure
 
@@ -163,7 +160,3 @@ where:
 
 ## License
 MIT
-
-## Legal attribution
-
-Google Play and the Google Play logo are trademarks of Google LLC.
